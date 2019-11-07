@@ -79,7 +79,9 @@ class CreateLeavesTable extends Migration
           $table->string('desc');
       });
 
-      /*Schema::create('approval_mast', function (Blueprint $table){
+
+
+      Schema::create('leave_approval_mast', function (Blueprint $table){
           $table->bigIncrements('id');
           $table->integer('act_id');
           $table->string('title');
@@ -89,7 +91,7 @@ class CreateLeavesTable extends Migration
           $table->string('hold');
           $table->string('skip');
           $table->string('desc');
-      });*/
+      });
 
       Schema::create('approval_detail', function (Blueprint $table){
           $table->bigIncrements('id');
@@ -117,8 +119,7 @@ class CreateLeavesTable extends Migration
           $table->integer('designations_id');
           $table->integer('activity_id');
           $table->text('actions_id');
-          $table->integer('ordering');
-
+          $table->integer('ordering')
       });
 
       Schema::create('approval_designation', function (Blueprint $table){
@@ -128,8 +129,6 @@ class CreateLeavesTable extends Migration
           $table->timestamps();
           $table->softDeletes();
       })
-
-
     }
     /**
      * Reverse the migrations.
@@ -143,7 +142,7 @@ class CreateLeavesTable extends Migration
       Schema::dropIfExists('emp_leave_applies');
       Schema::dropIfExists('emp_leave_allotment');
       Schema::dropIfExists('activity');
-      /*Schema::dropIfExists('approval_mast');*/
+      Schema::dropIfExists('leave_approval_mast');
       Schema::dropIfExists('approval_detail');
       Schema::dropIfExists('approval_actions_mast');
       Schema::dropIfExists('approval_setup_mast');
