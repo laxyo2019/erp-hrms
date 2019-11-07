@@ -22,4 +22,10 @@ class Designation extends Model
  	public function approvalmast(){
  		return $this->hasOne('App\Models\Master\ApprovalMast', 'id');
  	}
+
+ 	public function approvals(){
+ 		return $this->belongsToMany('App\Models\Master\ApprovalAction', 'approval_designation');
+ 	}
+
+
 }

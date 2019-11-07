@@ -30,29 +30,48 @@
 			<div class="row">
       <div class="col-md-12 col-xl-12">
         <div class="card shadow-xs">
-          
-          <div class="card-body table-responsive">
+          <div class="card-body table-responsive" style="text-align: center;">
+          	<h4>{{$desig->name}}</h4>
+          	<form action="{{route('permissions.update', [$desig->id])}}" method="POST">
+          	@csrf
+          	@method('PATCH')
             <table class="table table-striped table-hover">
               <thead>
                 <tr class="text-center">
-                  <th>ID</th>
-                  <th>ROLES</th>
-                  <th>ACTIONS</th>
+                  <th>PERMISSIONS</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-              @foreach($designations as $desig)
+              @foreach($actions as $action)
               <tr class="text-center">
-                <td>{{$desig->id}}</td>
-                <td>{{$desig->name}}</td>
-                <td><a class="btn btn-info" href="{{Route('permissions.edit', [$desig->id])}}" role="button">Set Permissions</a></td>
+                <td>{{$action->name}}</td>
+                <td>
+                	<input type="checkbox" class="form-check-input" id="actionCheck_{{$action->id}}" name="actionCheck[]" value="{{$action->id}}" >
+    				<label class="form-check-label" for="actionCheck_{{$action->id}}">ENABLE / DISABLE</label></td>
               </tr>
-              @endforeach
+             @endforeach
               </tbody>
             </table>
+	            <div class="col-12 form-group text-center">
+					<button class="btn btn-info btn-md ">Save</button>
+					<a class="btn btn-danger btn-md" href="javascript:location.reload()">Cancel</a>
+				</div>
+            </form>
           </div>
         </div>
       </div>
     </div>
 	</main>
+<script>
+	/*$(document).ready(function(){
+		$(#checkbox)
+		$('.enable').on('click',function(){
+			var id = $(this).attr('data-id');
+			console.log(id);
+			$('#myCheckbox').prop('checked', true);
+			$('.checkbox_'+id).attr('checked','true');
+		})
+	})*/
+</script>
 @endsection

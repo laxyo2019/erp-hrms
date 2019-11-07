@@ -10,7 +10,7 @@ use App\Models\Master\ActivityMast;
 use App\Models\Master\ApprovalSetup;
 use App\Models\Master\ApprovalAction;
 use App\Models\Master\Designation;
-use App\Models\Master\ApprovalMast;
+//use App\Models\Master\ApprovalMast;
 use Requests;
 
 class PermissionController extends Controller
@@ -22,19 +22,19 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        /*$department = DeptMast::all();
-        $employees = EmployeeMast::all();
-        $department = DeptMast::all();
-        $act = ActivityMast::all();
-        $actions = ApprovalAction::all();*/
-        //return $action;
 
-        $approval_index = ApprovalMast::with('designation')->get();
+        //$approval_index = ApprovalMast::with('designation')->get();
+        //$designations = Designation::all();
 
-        //dd($approval_index[0]->designation);
+        $designations = Designation::with('approvals')
+/*                    ->where('id', 3)*/
+                    ->get();
 
+        //return $desig;
 
-        return view('settings.permissions.index', compact('approval_index'));
+        //dd($desig[0]->pivot->approval_action_id);
+
+        return view('settings.permissions.index', compact('designations'));
     }
 
     /**
@@ -93,7 +93,12 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $desig = Designation::find($id);
+        $actions = ApprovalAction::all();
+
+        //return $actions[0]->name;
+
+        return view('settings.permissions.edit', compact('desig', 'actions'));
     }
 
     /**
@@ -105,7 +110,11 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $desig = Designation::find($id);
+
+        $desig->approvals()->sync($request->actionCheck);
+
+        return back()->with('success', 'Permission updated successfully.');
     }
 
     /**

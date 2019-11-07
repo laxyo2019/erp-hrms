@@ -1012,7 +1012,6 @@ class EmployeesController extends Controller
 
   }
 
-
   public function destroy($id)
   {
     $employee = EmployeeMast::find($id);
@@ -1042,7 +1041,6 @@ class EmployeesController extends Controller
    return view('HRD.employees.details.exp_table',compact('exp'));
     
   }
-
 
   public function array_data($data){
     return $data = [

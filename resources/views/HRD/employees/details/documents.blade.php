@@ -62,7 +62,6 @@
 					</span>
 				@enderror
 	    </div>
-
 	    <div class="col-12 form-group text-center">
 			<button class="btn btn-info btn-sm">Save</button>
 			<a class="btn btn-danger btn-sm" href="javascript:location.reload()">Cancel</a>

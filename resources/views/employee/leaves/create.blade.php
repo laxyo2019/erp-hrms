@@ -11,10 +11,10 @@
 		</div>
 	<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid grey;">
 		@if($message = Session::get('success'))
-		<div class="alert alert-success alert-block">
-		<button type="button" class="close" data-dismiss="alert">×</button>
-			{{$message}}
-		</div>
+			<div class="alert alert-success alert-block">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				{{$message}}
+			</div>
 		@endif 
 			<form action="{{url('employee/leaves')}}" method="POST" enctype="multipart/form-data">
 				@csrf
@@ -34,19 +34,15 @@
 							@enderror
 						</div>
 						<div class="col-6 form-group">
-							<label for="tlead">Team Leader</label>
-							<select name="teamlead" id="tlead" class="custom-select">
-								<option value="">Select </option>
-								@foreach($dept_name as $tlead)
-								<option value="{{$tlead->id}}">{{$tlead->emp_name}}</option>
-								@endforeach
-							</select>
-							@error('teamlead')
-							<span class="text-danger" role="alert">
-								<strong>* {{ $message }}</strong>
-							</span>
-							@enderror
-						</div>
+						<label for="team_lead">Team Lead</label>
+						<input type="text" id="team_lead" class="form-control" name="team_lead"	value="{{$team_lead->emp_name}}" disabled>
+						<input type="hidden" name="team_lead_id" value="{{$team_lead->id}}">
+						{{-- @error('team_lead')
+				          <span class="text-danger" role="alert">
+				            <strong>* {{ $message }}</strong>
+				          </span>
+				      	@enderror --}}
+					</div>
 						<div class="col-3 form-group">
 						<label for="start_date">Start Date</label>
 						<input type="text" class="form-control datepicker" name="start_date" autocomplete="off">
@@ -128,7 +124,7 @@
 					</div> --}}
 					<div class="col-12 form-group text-center">
 						<button class="btn btn-info btn-sm m-2">Save</button>
-						<a class="btn btn-danger btn-sm" href="javascript:location.reload()">Cancel</a>
+						<a class="btn btn-danger btn-sm" type="submit" href="javascript:location.reload()">Cancel</a>
 					</div>
 				</div>
 			</form>

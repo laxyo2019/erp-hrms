@@ -183,7 +183,7 @@
 						</div>
 						<div class="col form-group">
 							<label for="">Alternate Email</label>
-							<input type="email" name="alternate_email" class="form-control" value="{{old('alternate_email',$employee->alt_email)}}">
+							<input type="email" name="alternate_email" class="form-control" value="{{old('alternate_email',$employee->alt_email)}}" checked="">
 							@error('alternate_email')
                 <span class="text-danger" role="alert">
                   <strong>{{ $message }}</strong>

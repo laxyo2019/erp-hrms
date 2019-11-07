@@ -25,8 +25,10 @@ class LeavesController extends Controller
     	$leave_request = DB::table('emp_leave_applies')
     		->join('emp_mast', 'emp_leave_applies.emp_id', '=', 'emp_mast.id')
     		->join('leave_type_mast', 'emp_leave_applies.leave_type', '=', 'leave_type_mast.id')
-    		->select('emp_leave_applies.id', 'emp_name', 'leave_type_mast.name', 'emp_leave_applies.from', 'emp_leave_applies.from', 'emp_leave_applies.to', 'emp_leave_applies.count', 'emp_leave_applies.status', 'emp_leave_applies.approver_remark')
+            ->join('approval_actions_mast', 'emp_leave_applies.status', '=', 'approval_actions_mast.id')
+    		->select('emp_leave_applies.id', 'emp_name', 'leave_type_mast.name', 'emp_leave_applies.from', 'emp_leave_applies.from', 'emp_leave_applies.to', 'emp_leave_applies.count', 'emp_leave_applies.status', 'emp_leave_applies.approver_remark', 'approval_actions_mast.id as action_id', 'approval_actions_mast.name as action_name')
     		->get();
+            //return $leave_request;
 
     	return view('HRD.leaves.index', compact('leave_request', 'appr_sys', 'appr_action'));
     	

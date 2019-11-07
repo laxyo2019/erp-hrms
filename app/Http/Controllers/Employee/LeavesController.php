@@ -8,11 +8,13 @@ use App\Models\Master\LeaveTypeMast;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
+use File;
 use App\Models\Employees\EmpLeave;
 use App\Models\Master\LeaveMast;
 use App\Models\Employees\LeaveApply;
 use App\Models\Master\ApprovalAction;
 use App\Models\Master\Designation;
+use Illuminate\Support\Facades\Storage;
 
 
 class LeavesController extends Controller
@@ -26,8 +28,10 @@ class LeavesController extends Controller
     {
         //$appr_sys = ApprovalSetup::where('emp_id', Auth::id())->first();
         $action = ApprovalAction::all();
-
+        
         $employee = EmployeeMast::with(['leaveapplies'])->where('id', Auth::id())->first();
+
+        //return $employee;
 
         return view('employee.leaves.index', compact('employee', 'action'));
     }
@@ -40,15 +44,21 @@ class LeavesController extends Controller
     public function create()
     {
         
-        $depart = EmployeeMast::where('id', Auth::id())
-                        ->select('dept_id')
-                        ->first();
+        //Many2Many relationship
 
-        $dept_name = EmployeeMast::where('dept_id', $depart->department->id)
-                        ->get();
+        //$desig = Designation::find(3)->approvals;
+        
+        $parent_id = EmployeeMast::find(Auth::id())->parent_id;
+
+        //for logged in user's teamLead
+
+        $team_lead = EmployeeMast::where('id', $parent_id)
+                    ->select('id', 'emp_name')
+                    ->first();
+
         $leave_type = LeaveTypeMast::all();
 
-        return view('employee.leaves.create', compact('leave_type', 'dept_name'));
+        return view('employee.leaves.create', compact('leave_type', 'team_lead'));
     }
 
     /**
@@ -60,8 +70,7 @@ class LeavesController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-          'leave_type_id'   => 'required',
-          'teamlead'        => 'required'
+          'leave_type_id'   => 'required'
         ]);
 
         $id = Auth::id();
@@ -70,7 +79,7 @@ class LeavesController extends Controller
 
         if($request->hasFile('file_path')){
 
-          $dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
+          $dir      = 'hrms_uploads/'.date("Y").'/'.date("F").'/leave';
           $file_ext = $request->file('file_path')->extension();
           $filename = $id.'_'.time().'_leaves.'.$file_ext;
           $path     = $request->file('file_path')->storeAs($dir, $filename);
@@ -83,7 +92,7 @@ class LeavesController extends Controller
 
         $leaveapply = new LeaveApply;
         $leaveapply->emp_id            = $id;
-        $leaveapply->teamlead_id       = $data['teamlead'];
+        $leaveapply->teamlead_id       = $request->team_lead_id;
         $leaveapply->leave_type        = $data['leave_type_id'];
         $leaveapply->from              = $request->start_date;
         $leaveapply->to                = $request->end_date;
@@ -92,13 +101,13 @@ class LeavesController extends Controller
         $leaveapply->file_path         = $path;
         $leaveapply->addr_during_leave = $request->address_leave;
         $leaveapply->contact_no        = $request->contact_no;
-        $leaveapply->status            = 'Pending';
+        $leaveapply->status            = 3;
         $leaveapply->applicant_remark  = $request->applicant_remark;
         $leaveapply->approver_remark   = null;
         $leaveapply->hr_remark         = null;
         $leaveapply->save();
 
-       return back()->with('success','Successfully applied.');
+       return redirect('employee/leaves')->with('success','Applied successfully');
     }
 
     /**
@@ -133,7 +142,21 @@ class LeavesController extends Controller
      */
     public function edit($id)
     {
-        //
+        /*$parent_id = EmployeeMast::find(Auth::id())->parent_id;
+
+        //for logged in user's teamLead
+
+        $team_lead = EmployeeMast::where('id', $parent_id)
+                    ->select('id', 'emp_name')
+                    ->first();
+        */
+        $leave_type = LeaveTypeMast::all();
+
+        
+        $leaves = LeaveApply::findOrFail($id)->first();
+        //return $leaves;
+
+        return view('employee.leaves.edit', compact('leaves', 'leave_type')) ;
     }
 
     /**
@@ -145,7 +168,48 @@ class LeavesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = request()->validate([
+          'leave_type_id'   => 'required'
+        ]);
+
+        if($request->hasFile('file_path')){
+
+            //Delete file and save null in file_path column
+            $file = LeaveApply::find($id);
+            Storage::delete($file->file_path);
+            $file->file_path = null;
+            $file->save();
+
+            //Save new file
+            $dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
+            $file_ext = $request->file('file_path')->extension();
+            $filename = $id.'_'.time().'_leaves.'.$file_ext;
+            $path     = $request->file('file_path')->storeAs($dir, $filename);
+
+        }else{
+
+            $path = LeaveApply::find($id)->file_path;
+
+        }
+
+        $leaveapply = LeaveApply::findOrFail($id);
+        $leaveapply->emp_id            = Auth::id();
+        $leaveapply->teamlead_id       = $request->team_lead_id;
+        $leaveapply->leave_type        = $data['leave_type_id'];
+        $leaveapply->from              = $request->start_date;
+        $leaveapply->to                = $request->end_date;
+        $leaveapply->count             = 2;
+        $leaveapply->reason            = $request->reason;
+        $leaveapply->file_path         = $path;
+        $leaveapply->addr_during_leave = $request->address_leave;
+        $leaveapply->contact_no        = $request->contact_no;
+        $leaveapply->status            = 3;
+        $leaveapply->applicant_remark  = $request->applicant_remark;
+        $leaveapply->approver_remark   = null;
+        $leaveapply->hr_remark         = null;
+        $leaveapply->save();
+
+        return back()->with('success', 'Updated successfully');
     }
 
     /**
@@ -156,7 +220,10 @@ class LeavesController extends Controller
      */
     public function destroy($id)
     {
-        
+        $leave_app = LeaveApply::findOrFail($id);
+        Storage::delete($leave_app->file_path);
+        $leave_app->delete();
+        return back()->with('success', 'Record deleted successfully');
 
     }
 

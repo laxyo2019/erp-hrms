@@ -55,8 +55,7 @@
 									<td>{{$request->name}}</td>
 									<td>
 									<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}"><i class="fa fa-eye" style="font-size: 12px;"></i>
-																	</button></td>
-
+									</button></td>
 									<div class="modal fade" id="reqModal" role="dialog">
 									     <div class="modal-dialog modal-lg" >
 									    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
@@ -74,15 +73,8 @@
 									<td>{{$request->from}}</td>
 									<td>{{$request->to}}</td>
 									<td>{{$request->count}}</td>
-									@if($request->status == 1)
-									<td>Approved</td>
-									@elseif($request->status == 2)
-									<td>Declined</td>
-									@elseif($request->status == 3)
-									<td>Hold</td>
-									@else
-									<td>Pending</td>
-									@endif
+									<td>{{$request->action_name}}</td>
+									
 									@if(!($request->status == 1 || $request->status == 2 || $request->status == 3 ))
 										@if(!empty($appr_sys))
 											<td class='d-flex' style="border-bottom:none">
