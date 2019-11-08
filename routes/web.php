@@ -20,6 +20,7 @@ Route::resource('/expenses/tours','Expenses\ToursController');
 Route::resource('/hrd/approvals','HRD\ApprovalsController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
+Route::get('/leave-show/{id}', 'Employee\LeavesController@showrequest')->name('show.leave');
 
 Route::get('/employee/apply_leaves/{id}','Employee\LeavesController@apply_leaves')->name('employee.apply_leaves');
 

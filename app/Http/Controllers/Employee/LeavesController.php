@@ -75,6 +75,15 @@ class LeavesController extends Controller
 
         $id = Auth::id();
 
+        //duration of leaves
+
+        $first_date = date_create($request->start_date);
+        $last_date  = date_create($request->end_date);
+
+        $difference = date_diff($first_date, $last_date);
+
+        $count = $difference->format("%a");
+
         //Uploading documents to hrmsupload directory
 
         if($request->hasFile('file_path')){
@@ -96,7 +105,7 @@ class LeavesController extends Controller
         $leaveapply->leave_type        = $data['leave_type_id'];
         $leaveapply->from              = $request->start_date;
         $leaveapply->to                = $request->end_date;
-        $leaveapply->count             = 2;
+        $leaveapply->count             = $count;
         $leaveapply->reason            = $request->reason;
         $leaveapply->file_path         = $path;
         $leaveapply->addr_during_leave = $request->address_leave;
@@ -119,6 +128,13 @@ class LeavesController extends Controller
     public function show($id)
     {
         return view('employee.leaves.show');
+    }
+
+    public function showrequest(Request $request){
+
+        $leave_req = LeaveApply::findOrFail($request->id);
+
+        return view('employee.leaves.show', compact('leave_req'));
     }
 
     public function apply_leaves($id){
@@ -150,10 +166,11 @@ class LeavesController extends Controller
                     ->select('id', 'emp_name')
                     ->first();
         */
+
+        //return $id;
         $leave_type = LeaveTypeMast::all();
 
-        
-        $leaves = LeaveApply::findOrFail($id)->first();
+        $leaves = LeaveApply::findOrFail($id);
         //return $leaves;
 
         return view('employee.leaves.edit', compact('leaves', 'leave_type')) ;
@@ -171,6 +188,15 @@ class LeavesController extends Controller
         $data = request()->validate([
           'leave_type_id'   => 'required'
         ]);
+
+        //duration of leaves
+
+        $first_date = date_create($request->start_date);
+        $last_date  = date_create($request->end_date);
+
+        $difference = date_diff($first_date, $last_date);
+
+        $count = $difference->format("%a");
 
         if($request->hasFile('file_path')){
 
@@ -198,7 +224,7 @@ class LeavesController extends Controller
         $leaveapply->leave_type        = $data['leave_type_id'];
         $leaveapply->from              = $request->start_date;
         $leaveapply->to                = $request->end_date;
-        $leaveapply->count             = 2;
+        $leaveapply->count             = $count;
         $leaveapply->reason            = $request->reason;
         $leaveapply->file_path         = $path;
         $leaveapply->addr_during_leave = $request->address_leave;

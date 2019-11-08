@@ -6,7 +6,7 @@
 <main class="app-content">
 	<div class="row">
 			<div class="col-md-12 col-xl-12">
-				<h1 style="font-size: 24px">Leave Application</h1>
+				<h1 style="font-size: 24px">Edit Leave application here</h1>
 			</div>
 		</div>
 	<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid grey;">

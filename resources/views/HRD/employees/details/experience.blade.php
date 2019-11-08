@@ -155,21 +155,21 @@
 								<button class="btn btn-sm btn-success modalExp" data-id="{{$exp->id}}"><i class="fa fa-eye text-white" style="font-size: 12px;"></i>
 								</button>
 								{{-- Modal --}}
-<div class="modal fade" id="expModal" role="dialog">
-     <div class="modal-dialog modal-lg" >
-    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
-        	<div class="modal-header">
-        		<h4 class="modal-title">Experience</h4>
-        	</div>
-        	<div class="modal-body table-responsive" id="modalTable">
-        	</div>
-        	 <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
-        </div>
-    </div>
-</div>
-							</span>
+								<div class="modal fade" id="expModal" role="dialog">
+								     <div class="modal-dialog modal-lg" >
+								    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
+								        	<div class="modal-header">
+								        		<h4 class="modal-title">Experience</h4>
+								        	</div>
+								        	<div class="modal-body table-responsive" id="modalTable">
+								        	</div>
+								        	 <div class="modal-footer">
+								          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+								        </div>
+								        </div>
+								    </div>
+								</div>
+															</span>
 							<span>
 								<form action="{{route('employee.delete_row', ['db_table' => 'emp_exp', $exp->id])}}" method="GET" id="delform_{{$exp->id}}">
 									<a href="javascript:$('#delform_{{$exp->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white" style="font-size: 12px;"></i></a>

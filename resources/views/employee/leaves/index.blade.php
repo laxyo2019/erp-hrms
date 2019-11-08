@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('content')
+{{-- . /usr/bin/libreoffice --}}
 	<main class="app-content">
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
@@ -84,21 +85,52 @@
 								<td>{{$leaveapply['leavetype']->name}}</td>
 								<td>{{date('d M Y' , strtotime($leaveapply->from))}}</td>
 								<td>{{date('d M Y' , strtotime($leaveapply->to))}}</td>
-								<td>1 day</td>
+								<td>{{$leaveapply->count}}</td>
 								<td>{{$leaveapply['approvalaction']->name}}</td>
 								<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>							
 								<td class='d-flex' style="border-bottom:none">
 									<span>
-										<a href="{{url('employee/leaves/'.$employee->id.'/edit')}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
+										<a href="{{url('employee/leaves/'.$leaveapply->id.'/edit')}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 									</span>
+								
+									<button class="btn btn-sm btn-info modalLeave ml-2" data-id="{{$leaveapply->id}}">
+										<i class="fa fa-eye" style="font-size: 12px"></i>
+									</button>
+{{-- <div class="modal fade" id="leaveModal" role="dialog">
+     <div class="modal-dialog modal-lg" >
+    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
+        	<div class="modal-header">
+        		<h4 class="modal-title">Request Detail</h4>
+        	</div>
+        	<div class="modal-body table-responsive" id="detailTable">
+        		<input type="text" name="employee" id="u_id">
+        	</div>
+        	 <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div> --}}
+<div class="modal fade" id="expModal" role="dialog">
+     <div class="modal-dialog modal-lg" >
+    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
+        	<div class="modal-header">
+        		<h4 class="modal-title">Experience</h4>
+        	</div>
+        	<div class="modal-body table-responsive" id="modalTable1">
+        	</div>
+        	 <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div>
+					</div>	
 									<span class="ml-2">
-										<a href="{{url('employee/leaves/'.$employee->id)}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>
-									</span>
-									<span class="ml-2">
-										<form action="{{url('employee/leaves/'.$employee->id)}}" method="POST" id="delform_{{ $employee->id}}">
+										<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
 												@csrf
 												@method('DELETE')
-											<a href="javascript:$('#delform_{{$employee->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
+											<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
 										</form>
 									</span> 
 								</td>
@@ -112,7 +144,24 @@
 			</div>
 		</div>
 	</main>
-	<script type="text/javascript">
-	</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$('.modalLeave').on('click', function(e){
+			e.preventDefault();
+			var id = $(this).data('id');
+			$.ajax({
+				type:'get',
+				url: "/leave-show/"+id,
+				//headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				success:function(data){
+					//alert(data);
+					$('#expModal').modal('show');
+					$('#modalTable1').html(data);					
+				}
+			})
+		})
+	});
+</script>
 @endsection
 

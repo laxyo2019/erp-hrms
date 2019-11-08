@@ -58,7 +58,7 @@ class LeavesController extends Controller
         $data = LeaveApply::where('id', $request->leave_id)
                     ->first();
 
-        return view('employee.leaves.detail', compact('data'));
+        return view('HRD.leaves.detail', compact('data'));
 
     }
 
