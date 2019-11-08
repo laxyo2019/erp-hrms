@@ -67,4 +67,11 @@ class LeavesController extends Controller
 
     }
 
+    public function download($id){
+
+        $document = LeaveApply::findOrFail($id)->file_path;
+
+        return Storage::download($document);
+    }
+
 }

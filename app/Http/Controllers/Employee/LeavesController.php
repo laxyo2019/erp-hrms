@@ -28,10 +28,10 @@ class LeavesController extends Controller
     {
         $leave_type = LeaveTypeMast::all();
         $action     = ApprovalAction::all();
-        //return $action;
+        
         
         $employee   = EmployeeMast::with(['leaveapplies'])->where('id', Auth::id())->first();
-        //return $leave_type[0]->name;
+        //return $employee['leaveapplies'][0]->status;
         return view('employee.leaves.index', compact('leave_type', 'employee', 'action'));
     }
 
@@ -224,6 +224,13 @@ class LeavesController extends Controller
         $leaveapply->save();
 
         return back()->with('success', 'Updated successfully');
+    }
+
+    public function download($id){
+
+        $document = LeaveApply::findOrFail($id)->file_path;
+
+        return Storage::download($document);
     }
 
     /**

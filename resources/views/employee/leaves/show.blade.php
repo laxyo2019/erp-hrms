@@ -21,7 +21,9 @@
 			<td>{{$leave_req->count}}</td>
 			<td>{{$leave_req->status}}</td>
 			<td>{{$leave_req->reason}}</td>
-			<td>{{$leave_req->addr_during_leave}}</td>
+			@if($leave_req->file_path != null)
+				<td><a href="{{route('request.document', [$leave_req->id])}}"><i class="fa fa-arrow-down"></i>Download</a></td>
+			@endif
 			<td>{{$leave_req->contact_no}}</td>
 			<td>{{$leave_req->status}}</td>
 			<td>{{$leave_req->applicant_remark}}</td>

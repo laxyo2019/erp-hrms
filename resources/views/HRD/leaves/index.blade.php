@@ -4,22 +4,6 @@
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 24px">Leaves Request
-					{{-- <span class="ml-2">
-						<button  class="btn btn-sm btn-info"  data-toggle="modal" data-target="#import-modal" style="font-size:13px">
-							<span class="fa fa-upload"> </span>
-							<form action="{{route('employees.import')}}" method="POST" enctype="multipart/form-data">
-								@csrf
-								<input type="file" onchange="this.form.submit()" name="import" class="hidden">
-							</form>
-						</button>
-					</span>
-					<span class="ml-2">
-						<a href="{{route('employees.export')}}" class="btn btn-sm btn-primary" style="font-size:13px">
-							<span class="fa fa-download"></span> Export
-						</a>
-					</span> 
-				</h1>
-				<hr>--}}
 			</div>
 		</div>
 		@if($message = Session::get('success'))
@@ -42,9 +26,7 @@
 									<th>Leave ends</th>
 									<th>Duration</th>
 									<th>Status</th>
-									
-										<th style="text-align: center;">Actions</th>
-									
+									<th style="text-align: center;">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -74,7 +56,6 @@
 									<td>{{$request->to}}</td>
 									<td>{{$request->count}}</td>
 									<td>{{$request->action_name}}</td>
-
 										<td class='d-flex' style="border-bottom:none">
 										@foreach($actions as $action)
 										@if($action->name != 'Pending')
@@ -84,7 +65,6 @@
 										@endif
 										@endforeach
 										</td>
-									{{-- @endif --}}
 								</tr>
 							 @endforeach
 							</tbody>

@@ -21,10 +21,12 @@
 			<td>{{$data->from}}</td>
 			<td>{{$data->to}}</td>
 			<td>{{$data->count}}</td>
-			<td>{{$data->status}}</td>
+			<td>{{$data->status}}</td> 
 			<td>{{$data->reason}}</td>
 			<td>{{$data->contact_no}}</td>
-			<td></td>
+			@if($data->file_path != null)
+				<td><a href="{{route('request.document', [$data->id])}}"><i class="fa fa-arrow-down"></i>Download</a></td>
+			@endif
 			<td>{{$data->address}}</td>
 			<td>{{$data->applicant_remark}}</td>
 		</tr>

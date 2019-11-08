@@ -66,10 +66,6 @@
 								<td>{{$leaveapply['approvalaction']->name}}</td>
 								<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>							
 								<td class='d-flex' style="border-bottom:none">
-									<span>
-										<a href="{{url('employee/leaves/'.$leaveapply->id.'/edit')}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
-									</span>
-								
 									<button class="btn btn-sm btn-info modalLeave ml-2" data-id="{{$leaveapply->id}}">
 										<i class="fa fa-eye" style="font-size: 12px"></i>
 									</button>
@@ -88,14 +84,21 @@
 									        </div>
 									    </div>
 									</div>
-					</div>	
-						<span class="ml-2">
-							<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
-									@csrf
-									@method('DELETE')
-								<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
-							</form>
-						</span> 
+									@if($leaveapply->id != 3)
+									<span class="ml-2">
+										<a href="{{url('employee/leaves/'.$leaveapply->id.'/edit')}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
+									</span>
+								
+									
+								</div>	
+									<span class="ml-2">
+										<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
+												@csrf
+												@method('DELETE')
+											<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
+										</form>
+									</span> 
+									@endif
 					</td>
 					</tr>
 					</tr>

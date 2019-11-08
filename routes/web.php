@@ -21,6 +21,7 @@ Route::resource('/hrd/approvals','HRD\ApprovalsController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
 Route::get('/leave-show/{id}', 'Employee\LeavesController@showrequest')->name('show.leave');
+Route::get('leave-request/{id}/download', 'Employee\LeavesController@download')->name('request.document');
 
 Route::get('/employee/apply_leaves/{id}','Employee\LeavesController@apply_leaves')->name('employee.apply_leaves');
 
