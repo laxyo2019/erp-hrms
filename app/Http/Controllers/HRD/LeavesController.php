@@ -20,7 +20,7 @@ class LeavesController extends Controller
 
         $type = LeaveTypeMast::all();
 
-        $action = ApprovalAction::all();
+        $actions = ApprovalAction::all();
 
         //return $action;
 
@@ -35,7 +35,7 @@ class LeavesController extends Controller
     		->get();
             //return $leave_request;
 
-    	return view('HRD.leaves.index', compact('leave_request', 'appr_sys', 'appr_action'));
+    	return view('HRD.leaves.index', compact('leave_request', 'appr_sys', 'actions'));
     	
 	}
 

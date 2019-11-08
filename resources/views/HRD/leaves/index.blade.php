@@ -76,13 +76,15 @@
 									<td>{{$request->action_name}}</td>
 
 										<td class='d-flex' style="border-bottom:none">
-
+										@foreach($actions as $action)
+										@if($action->name != 'Pending')
 												<span class="ml-2">
-												<a href="{{route('leave.details', ['leave_id' => $request->id, 'approver_id' => Auth::id(), 'action' => $actions->id])}}" class="btn btn-sm btn-success">{{$actions->name}}</a>
+												<a href="{{route('leave.details', ['leave_id' => $request->id, 'approver_id' => Auth::id(), 'action' => $action->id])}}" class="btn btn-sm btn-success">{{$action->name}}</a>
 												</span>
-
+										@endif
+										@endforeach
 										</td>
-									@endif
+									{{-- @endif --}}
 								</tr>
 							 @endforeach
 							</tbody>
