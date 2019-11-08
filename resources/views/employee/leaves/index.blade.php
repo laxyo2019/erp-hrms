@@ -10,44 +10,21 @@
 						<span class="fa fa-plus "></span> Add New</a>
 					</span>
 					<div class="row d-flex justify-content-center ">
+						@foreach($leave_type as $leaves)
 						<div class="col-sm-3">
-						<div class="column card-body">
-						<center>
-							<div class="card " style="min-height:150px;background-image: linear-gradient(to bottom,#1D976C, #62fb9b	);color: white;">
-							<br>
-							<h3>Privilege  Leave</h3>
-							<h1></h1>
-							<br>
+							<div class="column card-body">
+								<center>
+									<div class="card " style="min-height:150px;background-image: linear-gradient(to bottom,#1D976C, #62fb9b	);color: white;">
+									<br>
+									<h3>{{$leaves->name}}</h3>
+									<h1></h1>
+									<br>
+									</div>
+								</center>
 							</div>
-						</center>
 						</div>
-						</div>
-						<div class="col-sm-3">
-						<div class="column card-body">
-						<center>
-							<div class="card " style="min-height:150px;background-image: linear-gradient(to bottom,#1D976C, #62fb9b	);color: white;">
-							<br>
-							<h3>Privilege  Leave</h3>
-							<h1></h1>
-							<br>
-							</div>
-						</center>
-						</div>
-						</div>
-						<div class="col-sm-3">
-						<div class="column card-body">
-						<center>
-							<div class="card " style="min-height:150px;background-image: linear-gradient(to bottom,#1D976C, #62fb9b	);color: white;">
-							<br>
-							<h3>Privilege  Leave</h3>
-							<h1></h1>
-							<br>
-							</div>
-						</center>
-						</div>
-						</div>
+						@endforeach
 						<div class="clearfix" style="margin-top:20px;margin-bottom:30px;"></div>
-
 					</div>
 				</h1>
 				<hr>
@@ -96,54 +73,40 @@
 									<button class="btn btn-sm btn-info modalLeave ml-2" data-id="{{$leaveapply->id}}">
 										<i class="fa fa-eye" style="font-size: 12px"></i>
 									</button>
-{{-- <div class="modal fade" id="leaveModal" role="dialog">
-     <div class="modal-dialog modal-lg" >
-    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
-        	<div class="modal-header">
-        		<h4 class="modal-title">Request Detail</h4>
-        	</div>
-        	<div class="modal-body table-responsive" id="detailTable">
-        		<input type="text" name="employee" id="u_id">
-        	</div>
-        	 <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
-        </div>
-    </div>
-</div> --}}
-<div class="modal fade" id="expModal" role="dialog">
-     <div class="modal-dialog modal-lg" >
-    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
-        	<div class="modal-header">
-        		<h4 class="modal-title">Experience</h4>
-        	</div>
-        	<div class="modal-body table-responsive" id="modalTable1">
-        	</div>
-        	 <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
-        </div>
-    </div>
-</div>
+
+									<div class="modal fade" id="expModal" role="dialog">
+									     <div class="modal-dialog modal-lg" >
+									    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
+									        	<div class="modal-header">
+									        		<h4 class="modal-title">Experience</h4>
+									        	</div>
+									        	<div class="modal-body table-responsive" id="modalTable1">
+									        	</div>
+									        	 <div class="modal-footer">
+									          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+									        </div>
+									        </div>
+									    </div>
+									</div>
 					</div>	
-									<span class="ml-2">
-										<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
-												@csrf
-												@method('DELETE')
-											<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
-										</form>
-									</span> 
-								</td>
-								</tr>
-								</tr>
-							@endforeach
-							</tbody>
-						</table>
-					</div>
+						<span class="ml-2">
+							<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
+									@csrf
+									@method('DELETE')
+								<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
+							</form>
+						</span> 
+					</td>
+					</tr>
+					</tr>
+				@endforeach
+				</tbody>
+			</table>
 				</div>
 			</div>
 		</div>
-	</main>
+	</div>
+</main>
 <script type="text/javascript">
 	$(document).ready(function(){
 

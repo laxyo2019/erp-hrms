@@ -34,7 +34,7 @@
 						<table class="table table-stripped table-bordered">
 							<thead>
 								<tr>
-									<th>#</th>
+									<th>####</th>
 									<th>Employee</th>
 									<th>Leave</th>
 									<th>Details</th>
@@ -42,9 +42,9 @@
 									<th>Leave ends</th>
 									<th>Duration</th>
 									<th>Status</th>
-									@if(!empty($appr_sys))
+									
 										<th style="text-align: center;">Actions</th>
-									@endif
+									
 								</tr>
 							</thead>
 							<tbody>
@@ -56,37 +56,32 @@
 									<td>
 									<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}"><i class="fa fa-eye" style="font-size: 12px;"></i>
 									</button></td>
-<div class="modal fade" id="reqModal" role="dialog">
-     <div class="modal-dialog modal-lg" >
-    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
-        	<div class="modal-header">
-        		<h4 class="modal-title">Request Detail</h4>
-        	</div>
-        	<div class="modal-body table-responsive" id="detailTable">
-        	</div>
-        	 <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
-        </div>
-    </div>
-</div>
+									<div class="modal fade" id="reqModal" role="dialog">
+									     <div class="modal-dialog modal-lg" >
+									    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
+									        	<div class="modal-header">
+									        		<h4 class="modal-title">Request Detail</h4>
+									        	</div>
+									        	<div class="modal-body table-responsive" id="detailTable">
+									        	</div>
+									        	 <div class="modal-footer">
+									          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+									        </div>
+									        </div>
+									    </div>
+									</div>
 									<td>{{$request->from}}</td>
 									<td>{{$request->to}}</td>
 									<td>{{$request->count}}</td>
 									<td>{{$request->action_name}}</td>
-									
-									@if(!($request->status == 1 || $request->status == 2 || $request->status == 3 ))
-										@if(!empty($appr_sys))
-											<td class='d-flex' style="border-bottom:none">
-											@foreach($appr_action as $actions)
-												@if(in_array($actions->id, json_decode($appr_sys->actions)))
-													<span class="ml-2">
-													<a href="{{route('leave.details', ['leave_id' => $request->id, 'approver_id' => Auth::id(), 'action' => $actions->id])}}" class="btn btn-sm btn-success">{{$actions->name}}</a>
-													</span>
-												@endif
-											@endforeach
-											</td>
-										@endif
+
+										<td class='d-flex' style="border-bottom:none">
+
+												<span class="ml-2">
+												<a href="{{route('leave.details', ['leave_id' => $request->id, 'approver_id' => Auth::id(), 'action' => $actions->id])}}" class="btn btn-sm btn-success">{{$actions->name}}</a>
+												</span>
+
+										</td>
 									@endif
 								</tr>
 							 @endforeach

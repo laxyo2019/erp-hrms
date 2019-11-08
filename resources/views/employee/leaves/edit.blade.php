@@ -66,8 +66,7 @@
 					
 					<div class="col-7 form-group">
 						<label for="reason">Reason</label>
-						<textarea  class="form-control" id="reason" name="reason" >
-							{{old('reason', $leaves->reason)}}
+						<textarea  class="form-control" id="reason" name="reason" >{{old('reason', $leaves->reason)}}
 						</textarea>
 						@error('reason')
 				          <span class="text-danger" role="alert">

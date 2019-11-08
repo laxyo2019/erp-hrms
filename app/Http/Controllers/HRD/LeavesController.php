@@ -18,11 +18,16 @@ class LeavesController extends Controller
     
     public function index(){
 
-        $appr_action = ApprovalAction::all();
+        $type = LeaveTypeMast::all();
+
+        $action = ApprovalAction::all();
+
+        //return $action;
 
         $appr_sys = ApprovalSetup::where('emp_id', Auth::id())->first();
 
     	$leave_request = DB::table('emp_leave_applies')
+            ->where('emp_leave_applies.deleted_at', null)
     		->join('emp_mast', 'emp_leave_applies.emp_id', '=', 'emp_mast.id')
     		->join('leave_type_mast', 'emp_leave_applies.leave_type', '=', 'leave_type_mast.id')
             ->join('approval_actions_mast', 'emp_leave_applies.status', '=', 'approval_actions_mast.id')

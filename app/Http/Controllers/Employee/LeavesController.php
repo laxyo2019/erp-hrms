@@ -26,14 +26,13 @@ class LeavesController extends Controller
      */
     public function index()
     {
-        //$appr_sys = ApprovalSetup::where('emp_id', Auth::id())->first();
-        $action = ApprovalAction::all();
+        $leave_type = LeaveTypeMast::all();
+        $action     = ApprovalAction::all();
+        //return $action;
         
-        $employee = EmployeeMast::with(['leaveapplies'])->where('id', Auth::id())->first();
-
-        //return $employee;
-
-        return view('employee.leaves.index', compact('employee', 'action'));
+        $employee   = EmployeeMast::with(['leaveapplies'])->where('id', Auth::id())->first();
+        //return $leave_type[0]->name;
+        return view('employee.leaves.index', compact('leave_type', 'employee', 'action'));
     }
 
     /**
@@ -158,21 +157,10 @@ class LeavesController extends Controller
      */
     public function edit($id)
     {
-        /*$parent_id = EmployeeMast::find(Auth::id())->parent_id;
-
-        //for logged in user's teamLead
-
-        $team_lead = EmployeeMast::where('id', $parent_id)
-                    ->select('id', 'emp_name')
-                    ->first();
-        */
-
-        //return $id;
         $leave_type = LeaveTypeMast::all();
 
         $leaves = LeaveApply::findOrFail($id);
-        //return $leaves;
-
+    
         return view('employee.leaves.edit', compact('leaves', 'leave_type')) ;
     }
 
