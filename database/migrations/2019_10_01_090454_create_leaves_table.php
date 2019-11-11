@@ -23,6 +23,7 @@ class CreateLeavesTable extends Migration
 
       Schema::create('leave_mast', function (Blueprint $table) {
           $table->bigIncrements('id');
+          $table->integer('leave_period_id');
       		$table->integer('leave_type');
       		$table->decimal('count',10,5);
       		$table->integer('generates_in');  // (days count)
@@ -34,6 +35,16 @@ class CreateLeavesTable extends Migration
 					$table->boolean('carry_forward');
           $table->timestamps();
           $table->softDeletes();
+      });
+
+      Schema::create('leave_period', function(Blueprint $table) {
+          $table->bigIncrements('id');
+          $table->string('name');
+          $table->string('start');
+          $table->string('end');
+          $table->timestamps();
+          $table->softDeletes();
+
       });
 
       Schema::create('emp_leave_applies', function (Blueprint $table) {
@@ -55,8 +66,10 @@ class CreateLeavesTable extends Migration
           $table->softDeletes();
       });
 
+
 			Schema::create('emp_leave_allotment', function (Blueprint $table) {
           $table->bigIncrements('id');
+          $table->integer('leave_mast_id');
           $table->date('start');
           $table->date('end');
       		$table->integer('emp_id');
@@ -73,13 +86,12 @@ class CreateLeavesTable extends Migration
           $table->softDeletes();
       });
 
+
       Schema::create('activity', function (Blueprint $table){
           $table->bigIncrements('id');
           $table->string('title');
           $table->string('desc');
       });
-
-
 
       Schema::create('leave_approval_mast', function (Blueprint $table){
           $table->bigIncrements('id');

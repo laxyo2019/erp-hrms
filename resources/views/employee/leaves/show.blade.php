@@ -19,7 +19,7 @@
 			<td>{{$leave_req->from}}</td>
 			<td>{{$leave_req->to}}</td>
 			<td>{{$leave_req->count}}</td>
-			<td>{{$leave_req->status}}</td>
+			<td>{{$leave_req['approvalaction']->name}}</td>
 			<td>{{$leave_req->reason}}</td>
 			@if($leave_req->file_path != null)
 				<td><a href="{{route('request.document', [$leave_req->id])}}"><i class="fa fa-arrow-down"></i>Download</a></td>

@@ -10,4 +10,5 @@ class ApprovalSetup extends Model
     use SoftDeletes;
 
     protected $table = 'approval_setup_mast';
+    
 }

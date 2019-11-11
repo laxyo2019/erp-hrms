@@ -15,6 +15,7 @@ use App\Models\Employees\LeaveApply;
 use App\Models\Master\ApprovalAction;
 use App\Models\Master\Designation;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Employees\LeaveAllotment;
 
 
 class LeavesController extends Controller
@@ -31,7 +32,7 @@ class LeavesController extends Controller
         
         
         $employee   = EmployeeMast::with(['leaveapplies'])->where('id', Auth::id())->first();
-        //return $employee['leaveapplies'][0]->status;
+        //return $employee['leaveapplies'][1]->id;
         return view('employee.leaves.index', compact('leave_type', 'employee', 'action'));
     }
 
@@ -42,7 +43,6 @@ class LeavesController extends Controller
      */
     public function create()
     {
-        
         //Many2Many relationship
 
         //$desig = Designation::find(3)->approvals;
@@ -58,6 +58,38 @@ class LeavesController extends Controller
         $leave_type = LeaveTypeMast::all();
 
         return view('employee.leaves.create', compact('leave_type', 'team_lead'));
+    }
+
+    public function balance(Request $request){
+       
+        $first_date = date_create($request->start_date);
+        $last_date  = date_create($request->end_date);
+
+        $difference = date_diff($first_date, $last_date);
+        $count      = $difference->format("%a")+1;
+
+        $allotment = LeaveAllotment::find(Auth::id())
+                        ->where('leave_mast_id', $request->leave_type)
+                        ->first();
+
+        if($count <= $allotment->current_bal){
+            $data = array(
+                'days' =>  $count,
+                'msg'  =>  1
+
+            );
+            return json_encode($data);
+
+        }else{
+
+            $data = [
+                        'days' => $count,
+                        'msg'  => 0
+                    ];
+            
+            return json_encode($data);
+        }
+
     }
 
     /**
@@ -131,7 +163,7 @@ class LeavesController extends Controller
 
     public function showrequest(Request $request){
 
-        $leave_req = LeaveApply::findOrFail($request->id);
+        $leave_req = LeaveApply::find($request->id);
 
         return view('employee.leaves.show', compact('leave_req'));
     }

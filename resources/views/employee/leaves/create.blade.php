@@ -45,7 +45,7 @@
 					</div>
 						<div class="col-3 form-group">
 						<label for="start_date">Start Date</label>
-						<input type="text" class="form-control datepicker" name="start_date" autocomplete="off">
+						<input type="text" class="form-control datepicker start" name="start_date" autocomplete="off" id="start_date">
 						@error('start_date')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
@@ -54,13 +54,22 @@
 					</div>
 					<div class="col-3 form-group">
 						<label for="end_date">End Date</label>
-						<input type="text" class="form-control datepicker" name="end_date"
-							value="" autocomplete="off">
+						<input type="text" class="form-control datepicker end" name="end_date"
+						autocomplete="off" id="end_date">
 						@error('end_date')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
 				          </span>
 				      	@enderror
+					</div>
+					<div class="col-3 form-group">
+						<label for="end_date">Duration</label>
+						<input type="text" class="form-control duration" name="end_date"
+						id="end_date" disabled="" value="">
+						{{-- @if() --}}
+				          <span class="text-danger duration_alert" style="display:none" role="alert" >
+				            <strong>You don't have adequate leave left.</strong> </span>
+				      	{{-- @endif --}}
 					</div>
 					
 					<div class="col-7 form-group">
@@ -97,31 +106,13 @@
 					</div>
 					<div class="col-6 form-group">
 						<label for="applicant_remark">Applicant's Remark</label>
-						<textarea class="form-control" id="applicant_remark" name="applicant_remark"	value=""></textarea>
+						<textarea class="form-control" id="applicant_remark" name="applicant_remark" value=""></textarea>
 						@error('applicant_remark')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
 				          </span>
 				      	@enderror
 					</div>
-					{{-- <div class="col-6 form-group">
-						<label for="approver_remark">Approver Remark</label>
-						<textarea class="form-control" id="approver_remark" name="approver_remark"	value=""></textarea> 
-						@error('approver_remark')
-				          <span class="text-danger" role="alert">
-				            <strong>* {{ $message }}</strong>
-				          </span>
-				      	@enderror
-					</div>
-					<div class="col-6 form-group">
-						<label for="hr_remark">HR Remark</label>
-						<textarea class="form-control" id="hr_remark" name="hr_remark"	value=""></textarea> 
-						@error('hr_remark')
-				          <span class="text-danger" role="alert">
-				            <strong>* {{ $message }}</strong>
-				          </span>
-				      	@enderror
-					</div> --}}
 					<div class="col-12 form-group text-center">
 						<button class="btn btn-info btn-sm m-2">Save</button>
 						<a class="btn btn-danger btn-sm" type="submit" href="javascript:location.reload()">Cancel</a>
@@ -131,13 +122,45 @@
 	</main>
 	<script>
 		$(document).ready(function(){
-			$('.experience').addClass('active');
+			
 			$('.datepicker').datepicker({
 				orientation: "bottom",
 				format: "yyyy-mm-dd",
 				autoclose: true,
 				todayHighlight: true
 			});
+
+			$(".end").on("change",function(){
+
+				var leave_type 	= $('select').children("option:selected").val();
+		        var start 		= $('.start').val();
+		        var end 		= $('.end').val();
+		        var id 			= '<?php echo auth()->user()->id; ?>';
+
+		        $.ajax({
+				type:'get',
+				url: '/balance/',
+				data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'id': id },
+				success:function(data){
+					console.log('env',data);
+					 var data = JSON.parse(data);
+					 console.log("after parse",data.msg);
+
+					$('.duration').val(data.days+' days');
+					if(data.msg == 0 ){
+						console.log('testing');
+						$(".duration_alert").show();
+						$('button').attr('disabled', 'true');
+					}else{
+						$(".duration_alert").hide();
+						$('button').removeAttr('disabled');
+					}
+					
+				}
+			});
+
+		    });
+		    
 		});
 	</script>
 @endsection

@@ -69,7 +69,6 @@
 									<button class="btn btn-sm btn-info modalLeave ml-2" data-id="{{$leaveapply->id}}">
 										<i class="fa fa-eye" style="font-size: 12px"></i>
 									</button>
-
 									<div class="modal fade" id="expModal" role="dialog">
 									     <div class="modal-dialog modal-lg" >
 									    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
@@ -87,9 +86,7 @@
 									@if($leaveapply->id != 3)
 									<span class="ml-2">
 										<a href="{{url('employee/leaves/'.$leaveapply->id.'/edit')}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
-									</span>
-								
-									
+									</span>									
 								</div>	
 									<span class="ml-2">
 										<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
@@ -99,13 +96,13 @@
 										</form>
 									</span> 
 									@endif
-					</td>
-					</tr>
-					</tr>
-				@endforeach
+								</td>
+							</tr>
+						</tr>
+					@endforeach
 				</tbody>
 			</table>
-				</div>
+			</div>
 			</div>
 		</div>
 	</div>
