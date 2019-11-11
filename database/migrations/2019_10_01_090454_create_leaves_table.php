@@ -24,7 +24,7 @@ class CreateLeavesTable extends Migration
       Schema::create('leave_mast', function (Blueprint $table) {
           $table->bigIncrements('id');
           $table->integer('leave_period_id');
-      		$table->integer('leave_type');
+      		$table->string('name');
       		$table->decimal('count',10,5);
       		$table->integer('generates_in');  // (days count)
 					$table->decimal('max_apply_once',10,5);

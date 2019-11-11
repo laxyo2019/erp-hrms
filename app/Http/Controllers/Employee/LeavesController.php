@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employees\EmployeeMast;
-use App\Models\Master\LeaveTypeMast;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
@@ -27,7 +26,7 @@ class LeavesController extends Controller
      */
     public function index()
     {
-        $leave_type = LeaveTypeMast::all();
+        $leave_type = LeaveMast::all();
         $action     = ApprovalAction::all();
         
         
@@ -55,7 +54,7 @@ class LeavesController extends Controller
                     ->select('id', 'emp_name')
                     ->first();
 
-        $leave_type = LeaveTypeMast::all();
+        $leave_type = LeaveMast::all();
 
         return view('employee.leaves.create', compact('leave_type', 'team_lead'));
     }
@@ -176,7 +175,7 @@ class LeavesController extends Controller
 
     public function applyform(){
 
-        $leave_type = LeaveTypeMast::all();
+        $leave_type = LeaveMast::all();
         return $leave_type;
 
         return view('employee.leaves.create');
@@ -189,7 +188,7 @@ class LeavesController extends Controller
      */
     public function edit($id)
     {
-        $leave_type = LeaveTypeMast::all();
+        $leave_type = LeaveMast::all();
 
         $leaves = LeaveApply::findOrFail($id);
     

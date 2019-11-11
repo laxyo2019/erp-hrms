@@ -10,12 +10,7 @@ class LeaveApply extends Model
     use SoftDeletes;
 
     protected $table = 'emp_leave_applies';
-    protected $with	 =	['leavetype', 'employees', 'approvalaction'];
-
-    public function leavetype(){
-    	
-    	return $this->belongsTo('App\Models\Master\LeaveTypeMast', 'leave_type');
-    }
+    protected $with	 =	['employees', 'approvalaction'];
 
     public function employees(){
 

@@ -9,5 +9,7 @@ class LeaveMast extends Model
 {
     use SoftDeletes;
     protected $table = 'leave_mast';
+
+    
     
 }
