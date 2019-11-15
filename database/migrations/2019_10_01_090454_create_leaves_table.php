@@ -86,6 +86,13 @@ class CreateLeavesTable extends Migration
           $table->softDeletes();
       });
 
+      Schema::create('holidays', function (Blueprint $table){
+          $table->bigIncrements('id');
+          $table->string('title');
+          $table->string('desc');
+          $table->timestamps();
+          $table->softDeletes();
+      });
 
       Schema::create('activity', function (Blueprint $table){
           $table->bigIncrements('id');
@@ -153,6 +160,7 @@ class CreateLeavesTable extends Migration
       Schema::dropIfExists('leave_mast');
       Schema::dropIfExists('emp_leave_applies');
       Schema::dropIfExists('emp_leave_allotment');
+      Schema::dropIfExists('holidays');
       Schema::dropIfExists('activity');
       Schema::dropIfExists('leave_approval_mast');
       Schema::dropIfExists('approval_detail');

@@ -43,7 +43,7 @@
 				          </span>
 				      	@enderror --}}
 					</div>
-						<div class="col-3 form-group">
+						<div class="col-4 form-group">
 						<label for="start_date">Start Date</label>
 						<input type="text" class="form-control datepicker start" name="start_date" autocomplete="off" id="start_date">
 						@error('start_date')
@@ -52,7 +52,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-3 form-group">
+					<div class="col-4 form-group">
 						<label for="end_date">End Date</label>
 						<input type="text" class="form-control datepicker end" name="end_date"
 						autocomplete="off" id="end_date">
@@ -62,16 +62,17 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-3 form-group">
+					<div class="col-4 form-group">
 						<label for="end_date">Duration</label>
 						<input type="text" class="form-control duration" name="end_date"
 						id="end_date" disabled="" value="">
-						{{-- @if() --}}
-				          <span class="text-danger duration_alert" style="display:none" role="alert" >
-				            <strong>You don't have adequate leave left.</strong> </span>
-				      	{{-- @endif --}}
+				          
 					</div>
-					
+						<span class="text-danger duration_alert" style="display:none" role="alert" >
+				    		<strong> &nbsp;&nbsp;&nbsp; You don't have adequate leaves left.</strong> </span>
+		    	</div>
+		    	<div class="row"  style="padding-top: 5%">
+
 					<div class="col-7 form-group">
 						<label for="reason">Reason</label>
 						<textarea  class="form-control" id="reason" name="reason" value=""></textarea>
@@ -115,7 +116,7 @@
 					</div>
 					<div class="col-12 form-group text-center">
 						<button class="btn btn-info btn-sm m-2">Save</button>
-						<a class="btn btn-danger btn-sm" type="submit" href="javascript:location.reload()">Cancel</a>
+						<a class="btn btn-danger btn-sm" type="submit" href="javascript:location.reload()">Clear</a>
 					</div>
 				</div>
 			</form>
@@ -150,7 +151,7 @@
 					if(data.msg == 0 ){
 						console.log('testing');
 						$(".duration_alert").show();
-						$('button').attr('disabled', 'true');
+						//$('button').attr('disabled', 'true');
 					}else{
 						$(".duration_alert").hide();
 						$('button').removeAttr('disabled');

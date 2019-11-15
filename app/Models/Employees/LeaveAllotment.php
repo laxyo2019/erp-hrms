@@ -10,4 +10,12 @@ class LeaveAllotment extends Model
     use SoftDeletes;
     
     protected $table = 'emp_leave_allotment';
+
+    public function employees(){
+    	return $this->belongsTo('App\Models\Employees\EmployeeMast','emp_id');
+    }
+
+    public function leaves(){
+    	return $this->belongsTo('App\Models\Master\LeaveMast','leave_mast_id');
+    }
 }

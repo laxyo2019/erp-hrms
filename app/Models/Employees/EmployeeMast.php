@@ -67,4 +67,8 @@ class EmployeeMast extends Model
  	public function department(){
  		return $this->belongsTo('App\Models\Master\DeptMast', 'dept_id');
  	}
+
+ 	public function allotments(){
+ 		return $this->hasMany('App\Models\Employees\LeaveAllotment', 'emp_id');
+ 	}
 }

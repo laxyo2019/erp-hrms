@@ -64,9 +64,10 @@
 					
 					<div class="col-5 form-group">
 						<div class="form-check" >
-						<label class="form-check-label">
-						  <input class="form-check-input" type="checkbox" >Check me out
-						</label>
+						<label for="">have existing account</label>
+						<br>
+						  Check me out:&nbsp;&nbsp;&nbsp; <input type="checkbox" name="is_primary" value="1">
+						
 						</div>
 					</div>
 
@@ -118,7 +119,12 @@
 					<td>{{ $bank_details->ifsc }}</td>
 					<td>{{ $bank_details->branch_name }}</td>
 					<td>{{ $bank_details->is_primary }}</td>
-					<td><a href="{{ route('employees.download', ['db_table'=>'emp_bank_details', $bank_details->id]) }}" ><i class="fa fa-arrow-down"></i>download</a></td>
+					<td>@if(!empty($bank_details->file_path))
+						<a href="{{ route('employees.download', ['db_table'=>'emp_bank_details', $bank_details->id]) }}" ><i class="fa fa-arrow-down"></i>download</a>
+						@else
+							Not uploaded
+						@endif
+					</td>
 					<td>{{ $bank_details->note }}</td>
 					<td>
 			<form action="{{ route('employee.delete_row', ['db_table' => 'emp_bank_details', $bank_details->id]) }}" method="GET" id="delform_{{$bank_details->id}}">

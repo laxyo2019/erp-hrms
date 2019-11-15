@@ -115,7 +115,7 @@
 										<label for="name"><b>Is eligible <span class="text-danger">*</span></b> </label>
 											<div class="toggle-flip">
 			                  <label>
-			                    <input type="checkbox" name="is_eligible" value="1" {{old('is_eligible',$tender->is_eligible) == '1' ? 'checked' : ''}}>
+<input type="checkbox" name="is_eligible" value="1" {{old('is_eligible',$tender->is_eligible) == '1' ? 'checked' : ''}}>
 			                    <span class="flip-indecator" data-toggle-on="YES" data-toggle-off="NO"></span>
 			                  </label>
 			                </div>

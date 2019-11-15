@@ -61,14 +61,22 @@
         <li><a class="treeview-item" href=""><i class="icon fa fa-angle-double-right"></i> Payment Method</a></li>
         <li class={{call_user_func_array('Request::is', (array)['settings/designations*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('designations.index')}}"><i class="icon fa fa-angle-double-right"></i> Designation </a></li>
         <li class={{call_user_func_array('Request::is', (array)['settings/statuses*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('statuses.index')}}"><i class="icon fa fa-angle-double-right"></i> Statuses </a></li>
-        <li class={{call_user_func_array('Request::is', (array)['settings/permissions*']) ? 'active_subtab' : ''}}>
-          <a class="treeview-item" href="{{route('permissions.index')}}">
-            <i class="icon fa fa-angle-double-right"></i> Permissions </a>
-        </li>
+        
         <li class={{call_user_func_array('Request::is', (array)['settings/grades*']) ? 'active_subtab' : ''}}>
           <a class="treeview-item" href="{{route('grades.index')}}">
             <i class="icon fa fa-angle-double-right"></i> Grades </a>
         </li>
+      </ul>
+    </li>
+     <li class="treeview {{call_user_func_array('Request::is', (array)['leave*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">Leave Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+      <ul class="treeview-menu">
+       <li class={{call_user_func_array('Request::is', (array)['leave-management/permissions*']) ? 'active_subtab' : ''}}>
+          <a class="treeview-item" href="{{route('permissions.index')}}">
+            <i class="icon fa fa-angle-double-right"></i> Permissions </a>
+        </li>
+        <li class={{call_user_func_array('Request::is', (array)['leave-management/type*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('types.index')}}"><i class="icon fa fa-angle-double-right"></i>Leave Type</a></li>
+        <li class={{call_user_func_array('Request::is', (array)['leave-management/allotment*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('allotments.index')}}"><i class="icon fa fa-angle-double-right"></i>Leave Allotment</a></li>
+        <li class={{call_user_func_array('Request::is', (array)['leave-management/holidays*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('holidays.index')}}"><i class="icon fa fa-angle-double-right"></i>Holidays</a></li>
       </ul>
     </li>
   </ul>

@@ -23,6 +23,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\EmployeesImport;
 use App\Exports\EmployeesExport;
 use App\Exports\ErrorEmployeeExport;
+use App\Models\Employees\LeaveAllotment;
 
 class EmployeesController extends Controller
 {
@@ -280,9 +281,9 @@ class EmployeesController extends Controller
   */
   public function show_page($id, $tab)
   {
-  	$meta = array();
-    $employee = EmployeeMast::findOrFail($id);
-    $path     = "HRD.employees.details.".$tab;
+  	$meta      = array();
+    $employee  = EmployeeMast::findOrFail($id);
+    $path      = "HRD.employees.details.".$tab;
 
     if($tab == 'official'){
     	$meta['emp_types']     = EmpType::where('deleted_at', null)->get();
@@ -292,9 +293,6 @@ class EmployeesController extends Controller
       $meta['grade_mast']    = Grade::all();
       $meta['designation']   = Designation::where('deleted_at', null)->get();
       $meta['emp_mast']      = EmployeeMast::where('deleted_at', null)->get();
-
-      //return $meta['designation'];
-
     }
 
     if($tab == 'academics'){
@@ -410,9 +408,13 @@ class EmployeesController extends Controller
           'branch.required'     => 'Branch name is required',
         ]);
 
-      if(empty($request->is_primary)){
+      //User input
+      $is_primary = $request->is_primary; 
+
+      if(empty($is_primary)){
 
         $is_primary = 0;
+
       }
 
       if($request->file('file_path')){
@@ -575,15 +577,12 @@ class EmployeesController extends Controller
             $status = FALSE;
 
           }else{
-
             
             $status = TRUE;
 
           }
 
         }
-
-
         if($status == TRUE){
 
           if($data['parent_id'] == '' ){

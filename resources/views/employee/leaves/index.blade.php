@@ -56,7 +56,7 @@
 							</thead>
 							<tbody>
 								@php $count = 0;@endphp
-							@foreach($employee->leaveapplies as $leaveapply)
+							@foreach($employee['leaveapplies'] as $leaveapply)
 							<tr>
 								<td>{{++$count}}</td>
 								<td>{{$leaveapply['leavetype']->name}}</td>
@@ -69,20 +69,20 @@
 									<button class="btn btn-sm btn-info modalLeave ml-2" data-id="{{$leaveapply->id}}">
 										<i class="fa fa-eye" style="font-size: 12px"></i>
 									</button>
-									<div class="modal fade" id="expModal" role="dialog">
-									     <div class="modal-dialog modal-lg" >
-									    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
-									        	<div class="modal-header">
-									        		<h4 class="modal-title">Experience</h4>
-									        	</div>
-									        	<div class="modal-body table-responsive" id="modalTable1">
-									        	</div>
-									        	 <div class="modal-footer">
-									          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-									        </div>
-									        </div>
-									    </div>
-									</div>
+<div class="modal fade" id="expModal" role="dialog">
+     <div class="modal-dialog modal-lg" >
+    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
+        	<div class="modal-header">
+        		<h4 class="modal-title">Experience</h4>
+        	</div>
+        	<div class="modal-body table-responsive" id="modalTable">
+        	</div>
+        	 <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div>
 									@if($leaveapply->id != 3)
 									<span class="ml-2">
 										<a href="{{url('employee/leaves/'.$leaveapply->id.'/edit')}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
@@ -120,7 +120,7 @@
 				success:function(data){
 					//alert(data);
 					$('#expModal').modal('show');
-					$('#modalTable1').html(data);					
+					$('#modalTable').html(data);					
 				}
 			})
 		})

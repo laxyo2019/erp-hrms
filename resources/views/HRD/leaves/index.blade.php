@@ -7,7 +7,8 @@
 			</div>
 		</div>
 		@if($message = Session::get('success'))
-			<div class="alert alert-success">
+			<div class="alert alert-success alert-block">
+				<button type="button" class="close" data-dismiss="alert">×</button>
 				{{$message}}
 			</div>
 		@endif 
@@ -36,22 +37,23 @@
 									<td>{{$request->emp_name}}</td>
 									<td>{{$request->name}}</td>
 									<td>
-									<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}"><i class="fa fa-eye" style="font-size: 12px;"></i>
-									</button></td>
-									<div class="modal fade" id="reqModal" role="dialog">
-									     <div class="modal-dialog modal-lg" >
-									    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
-									        	<div class="modal-header">
-									        		<h4 class="modal-title">Request Detail</h4>
-									        	</div>
-									        	<div class="modal-body table-responsive" id="detailTable">
-									        	</div>
-									        	 <div class="modal-footer">
-									          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-									        </div>
-									        </div>
-									    </div>
-									</div>
+<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}">
+	<i class="fa fa-eye" style="font-size: 12px;"></i>
+</button></td>
+<div class="modal fade" id="reqModal" role="dialog">
+     <div class="modal-dialog modal-lg" >
+    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
+        	<div class="modal-header">
+        		<h4 class="modal-title">Request Detail</h4>
+        	</div>
+        	<div class="modal-body table-responsive" id="detailTable">
+        	</div>
+        	 <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div>
 									<td>{{$request->from}}</td>
 									<td>{{$request->to}}</td>
 									<td>{{$request->count}}</td>

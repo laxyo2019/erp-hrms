@@ -29,9 +29,8 @@ class LeavesController extends Controller
         $leave_type = LeaveMast::all();
         $action     = ApprovalAction::all();
         
-        
         $employee   = EmployeeMast::with(['leaveapplies'])->where('id', Auth::id())->first();
-        //return $employee['leaveapplies'][1]->id;
+
         return view('employee.leaves.index', compact('leave_type', 'employee', 'action'));
     }
 
@@ -132,7 +131,7 @@ class LeavesController extends Controller
         $leaveapply = new LeaveApply;
         $leaveapply->emp_id            = $id;
         $leaveapply->teamlead_id       = $request->team_lead_id;
-        $leaveapply->leave_type        = $data['leave_type_id'];
+        $leaveapply->leave_type_id     = $data['leave_type_id'];
         $leaveapply->from              = $request->start_date;
         $leaveapply->to                = $request->end_date;
         $leaveapply->count             = $count;
@@ -191,6 +190,8 @@ class LeavesController extends Controller
         $leave_type = LeaveMast::all();
 
         $leaves = LeaveApply::findOrFail($id);
+
+        //return $leaves;
     
         return view('employee.leaves.edit', compact('leaves', 'leave_type')) ;
     }
@@ -240,7 +241,7 @@ class LeavesController extends Controller
         $leaveapply = LeaveApply::findOrFail($id);
         $leaveapply->emp_id            = Auth::id();
         $leaveapply->teamlead_id       = $request->team_lead_id;
-        $leaveapply->leave_type        = $data['leave_type_id'];
+        $leaveapply->leave_type_id     = $data['leave_type_id'];
         $leaveapply->from              = $request->start_date;
         $leaveapply->to                = $request->end_date;
         $leaveapply->count             = $count;

@@ -5,8 +5,7 @@
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 24px">Employees
 					<span class="ml-2">
-						<button  class="btn btn-sm btn-info"  data-toggle="modal" data-target="#import-modal" style="font-size:13px">
-							{{-- <span class="fa fa-upload"> --}}</span>
+						<button class="btn btn-sm btn-info"  data-toggle="modal" data-target="#import-modal" style="font-size:13px">
 							<form action="{{route('employees.import')}}" method="POST" enctype="multipart/form-data">
 								@csrf
 								<input type="file" onchange="this.form.submit()" name="import" class="hidden">
@@ -44,13 +43,13 @@
 						<table class="table table-stripped table-bordered">
 							<thead>
 								<tr>
-									<th>Employee ID</th>
+									<th>ID</th>
 									<th>Employee Name</th>
 									<th>Employee Code</th>									
-									<th>Company Name</th>
+									<th>Company</th>
 									<th>Grade Code</th>
 									<th>Gender</th>
-									<th>DOB</th>
+									{{-- <th>DOB</th> --}}
 									<th>Designation</th>
 									<th>Status</th>
 									<th>Action</th>
@@ -65,7 +64,7 @@
 									<td>@if($employee->company!=null) {{$employee->company->comp_name}} @endif</td>
 									<td>@if($employee->grade!=null) {{$employee->grade->name}} @endif</td>
 									<td>{{$employee->emp_gender}}</td>
-									<td>{{$employee->dobFormated($employee->emp_dob)}}</td>
+									{{-- <td>{{$employee->dobFormated($employee->emp_dob)}}</td> --}}
 									<td>{{$employee->designation['desg_name']}}</td>
 									<td>{{$employee->active ==1 ? 'Active' : 'Inactive'}}</td>
 									<td class='d-flex' style="border-bottom:none">

@@ -25,7 +25,7 @@
 							<select name="leave_type_id" id="leave_type" class="custom-select">
 								<option value="">Select</option>
 								@foreach($leave_type as $types)
-								<option value="{{$types->id }}" {{old('leave_type_id', $leaves->leave_type) == $types->id ? 'selected' : ''}}>{{$types->name}}</option>
+									<option value="{{ $types->id }}" {{old('leave_type_id', $leaves->leave_type_id) == $types->id ? 'selected' : ''}}>{{$types->name}}</option>
 								@endforeach
 							</select>
 							@error('leave_type_id')
@@ -38,11 +38,6 @@
 						<label for="team_lead">Team Lead</label>
 						<input type="text" id="team_lead" class="form-control" name="team_lead"	value="{{$leaves['employees']->emp_name}}" disabled>
 						<input type="hidden" name="team_lead_id" value="{{$leaves['employees']->id}}">
-						{{-- @error('team_lead')
-				          <span class="text-danger" role="alert">
-				            <strong>* {{ $message }}</strong>
-				          </span>
-				      	@enderror --}}
 					</div>
 						<div class="col-3 form-group">
 						<label for="start_date">Start Date</label>
@@ -105,27 +100,9 @@
 				          </span>
 				      	@enderror
 					</div>
-					{{-- <div class="col-6 form-group">
-						<label for="approver_remark">Approver Remark</label>
-						<textarea class="form-control" id="approver_remark" name="approver_remark"	value=""></textarea> 
-						@error('approver_remark')
-				          <span class="text-danger" role="alert">
-				            <strong>* {{ $message }}</strong>
-				          </span>
-				      	@enderror
-					</div>
-					<div class="col-6 form-group">
-						<label for="hr_remark">HR Remark</label>
-						<textarea class="form-control" id="hr_remark" name="hr_remark"	value=""></textarea> 
-						@error('hr_remark')
-				          <span class="text-danger" role="alert">
-				            <strong>* {{ $message }}</strong>
-				          </span>
-				      	@enderror
-					</div> --}}
 					<div class="col-12 form-group text-center">
 						<button type="submit" class="btn btn-info btn-sm m-2">Save</button>
-						<a class="btn btn-danger btn-sm" type="submit" href="javascript:location.reload()">Cancel</a>
+						<a class="btn btn-danger btn-sm" type="submit" href="javascript:location.reload()">Clear</a>
 					</div>
 				</div>
 			</form>

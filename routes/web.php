@@ -20,13 +20,20 @@ Route::resource('/expenses/tours','Expenses\ToursController');
 Route::resource('/hrd/approvals','HRD\ApprovalsController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
-Route::get('/leave-show/{id}', 'Employee\LeavesController@showrequest')->name('show.leave');
-Route::get('leave-request/{id}/download', 'Employee\LeavesController@download')->name('request.document');
-Route::get('balance', 'Employee\LeavesController@balance');
+Route::resource('/leave-settings/permissions','Settings\PermissionController');
+Route::resource('/leave-management/types', 'Leave\LeaveTypeController');
+Route::resource('/leave-management/allotments', 'Leave\AllotmentController');
+Route::resource('/leave-management/holidays', 'Leave\HolidayController');
 
-Route::get('/employee/apply_leaves/{id}','Employee\LeavesController@apply_leaves')->name('employee.apply_leaves');
+
+//Export Import holidays
+
+Route::post('holidays/import', 'Leave\HolidayController@import')->name('import.holidays');
+Route::get('holidays/export', 'Leave\HolidayController@export')->name('export.holidays');
+
 
 Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_page')->name('employee.show_page');
+Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
 
 //HRD LEAVES
 
@@ -48,7 +55,15 @@ Route::post('emp_leave_store','Employee\LeavesController@store')->name('emp_leav
 Route::get('employee/leaves/{id}/create', 'Employee\LeavesController@applyform')->name('apply.leave');
 
 
-Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
+Route::get('/leave-show/{id}', 'Employee\LeavesController@showrequest')->name('show.leave');
+Route::get('leave-request/{id}/download', 'Employee\LeavesController@download')->name('request.document');
+Route::get('balance', 'Employee\LeavesController@balance');
+
+Route::get('/employee/apply_leaves/{id}','Employee\LeavesController@apply_leaves')->name('employee.apply_leaves');
+Route::post('/hrd/employees/leave-allotment/{id}', 'Leave\AllotmentController@store')->name('alloting.leave');
+
+
+
 
 //Delete Employees Info
 
@@ -93,7 +108,7 @@ Route::resource('/settings/categories','Settings\CategoryController');
 Route::resource('/settings/designations','Settings\DesignationController');
 Route::resource('/settings/statuses','Settings\StatusController');
 Route::resource('/settings/grades','Settings\GradesController');
-Route::resource('/settings/permissions','Settings\PermissionController');
+
 
 //start Tendar section routing
 

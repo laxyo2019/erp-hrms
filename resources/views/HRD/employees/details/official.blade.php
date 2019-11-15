@@ -20,7 +20,7 @@
 					<div class="row">
 						<div class="col-4 form-group">
 							<label for="">Employee Code</label>
-<input type="text" class="form-control" name="emp_code" value="{{old('emp_code',$employee->emp_code)}}" />
+							<input type="text" class="form-control" name="emp_code" value="{{old('emp_code',$employee->emp_code)}}" />
 							@error('emp_code')
 							<span class="text-danger" role="alert">
 								<strong>* {{ $message }}</strong>
@@ -56,9 +56,6 @@
 							</span>
 							@enderror
 						</div>
-
-						{{-- <div class="W-100"></div> --}}
-
 						<div class="col-4 form-group">
 							<label for="">Joining Date</label>
 							<input type="text" class="form-control datepicker" name="join_date" value="{{old('join_date', $employee->join_dt) }}" autocomplete="off"/>
@@ -179,14 +176,15 @@
 						</div>
 
 						<div class="col-4 form-group">
-							<label for="">Parent Employee</label>
+							<label for="">Team Lead</label>
 							<select name="parent_id" class="select2 form-control">
-								<option value="">Select Parent</option>
+								<option value="">Select </option>
 								@foreach($meta['emp_mast'] as $employeeM)
 									<option value="{{$employeeM->id}}" {{old('parent_id', $employee->parent_id) == $employeeM->id ? 'selected': ''}} {{ $employee->id == $employeeM->id ? 'disabled' :''}}>{{$employeeM->emp_name}}</option>
 								@endforeach
 							</select>
 						</div>
+						
 						<div class="col-12 form-group text-center">
 							<button class="btn btn-info btn-sm">Update</button>
 							<a class="btn btn-danger btn-sm" href="javascript:location.reload()">Cancel</a>
@@ -196,11 +194,23 @@
 				<input type="hidden" name="form_type" id="form_type" value="official">
 			</form>
 		</div>
+		
+		<hr>
+		<div class="col-4 form-group">
+			<h4>Allot leaves to this employee</h4>
+			@if($employee->leave_allotted == null)
+				<button type="button" class="btn btn-info allot" id="allot">Allot Leave</button>
+			@else
+				<h5>LEAVE ALLOTTED</h5>
+			@endif
+		</div>
+		
 	</div>
+
+
 	<div class="img_parent d-none">
 		<img src="{{asset('images/loading1.gif')}}" alt="">
 	</div>
-
 </main>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -211,6 +221,23 @@
 			autoclose: true,
 			todayHighlight: true
 			});
+
+		$('#allot').on('click', function(e){
+            e.preventDefault();
+			$.ajax({
+				type: 'POST',
+				url: '{{route('alloting.leave', $employee->id)}}',
+				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				success: function(data){
+
+					alert(data);
+
+				}
+			});
+
+			
+		});
+
 		$(":input").each(function(){
 		 var input = $(this); // This is the jquery object of the input, do what you will
 		 console.log();
