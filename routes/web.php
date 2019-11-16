@@ -40,7 +40,7 @@ Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
 
 Route::resource('/hrd/leaves', 'HRD\LeavesController');
 Route::resource('/hrd/rules', 'HRD\LeavesController');
-Route::get('hrd/settings/leaves/{leave_id}/{approver_id}/{action}', 'HRD\LeavesController@leavepermission')->name('leave.details');
+Route::get('hrd/settings/leaves/{req_employee}/{leave_id}/{count}/{action}', 'HRD\LeavesController@leavepermission')->name('leave.details');
 Route::get('leave-detail', 'HRD\LeavesController@requestDetail')->name('request.detail');
 
 
@@ -63,12 +63,9 @@ Route::get('/employee/apply_leaves/{id}','Employee\LeavesController@apply_leaves
 Route::post('/hrd/employees/leave-allotment/{id}', 'Leave\AllotmentController@store')->name('alloting.leave');
 
 
-
-
 //Delete Employees Info
 
 Route::get('/hrd/employees/delete_row/{db_table}/{id}', 'HRD\EmployeesController@delete_row')->name('employee.delete_row');
-
 
 
 Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_designation')->name('employees.fetch_designation');

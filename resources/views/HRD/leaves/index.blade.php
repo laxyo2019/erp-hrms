@@ -37,36 +37,36 @@
 									<td>{{$request->emp_name}}</td>
 									<td>{{$request->name}}</td>
 									<td>
-<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}">
-	<i class="fa fa-eye" style="font-size: 12px;"></i>
-</button></td>
-<div class="modal fade" id="reqModal" role="dialog">
-     <div class="modal-dialog modal-lg" >
-    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
-        	<div class="modal-header">
-        		<h4 class="modal-title">Request Detail</h4>
-        	</div>
-        	<div class="modal-body table-responsive" id="detailTable">
-        	</div>
-        	 <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
-        </div>
-    </div>
-</div>
+									<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}">
+										<i class="fa fa-eye" style="font-size: 12px;"></i>
+									</button></td>
+									<div class="modal fade" id="reqModal" role="dialog">
+									    <div class="modal-dialog modal-lg" >
+									    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
+									        	<div class="modal-header">
+									        		<h4 class="modal-title">Request Detail</h4>
+									        	</div>
+									        	<div class="modal-body table-responsive" id="detailTable">
+									        	</div>
+									        	 <div class="modal-footer">
+									          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+									        </div>
+									        </div>
+									    </div>
+									</div>
 									<td>{{$request->from}}</td>
 									<td>{{$request->to}}</td>
 									<td>{{$request->count}}</td>
 									<td>{{$request->action_name}}</td>
-										<td class='d-flex' style="border-bottom:none">
+									<td class='d-flex' style="border-bottom:none">
 										@foreach($actions as $action)
-										@if($action->name != 'Pending')
-												<span class="ml-2">
-												<a href="{{route('leave.details', ['leave_id' => $request->id, 'approver_id' => Auth::id(), 'action' => $action->id])}}" class="btn btn-sm btn-success">{{$action->name}}</a>
-												</span>
-										@endif
+											@if($request->action_name == 'Pending')
+													<span class="ml-2">
+											<a href="{{route('leave.details', ['req_employee'=> $request->employee_id, 'leave_id' => $request->id, 'count' => $request->count, 'action' => $action->id])}}" class="btn btn-sm btn-success">{{$action->name}}</a>
+													</span>
+											@endif
 										@endforeach
-										</td>
+									</td>
 								</tr>
 							 @endforeach
 							</tbody>

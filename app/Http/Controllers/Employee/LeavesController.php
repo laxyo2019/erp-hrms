@@ -26,12 +26,13 @@ class LeavesController extends Controller
      */
     public function index()
     {
-        $leave_type = LeaveMast::all();
-        $action     = ApprovalAction::all();
+        $action   = ApprovalAction::all();
         
-        $employee   = EmployeeMast::with(['leaveapplies'])->where('id', Auth::id())->first();
+        $employee = EmployeeMast::with(['leaveapplies'])->where('id', Auth::id())->first();
 
-        return view('employee.leaves.index', compact('leave_type', 'employee', 'action'));
+        $balance  = EmployeeMast::with('allotments.leaves')->where('id', Auth::id())->first();
+
+        return view('employee.leaves.index', compact('employee', 'action', 'balance'));
     }
 
     /**
@@ -60,13 +61,21 @@ class LeavesController extends Controller
 
     public function balance(Request $request){
        
-        $first_date = date_create($request->start_date);
-        $last_date  = date_create($request->end_date);
+       //return $request->all();
+        if($request->day == 'multi'){
+          $first_date = date_create($request->start_date);
+          $last_date  = date_create($request->end_date);
 
-        $difference = date_diff($first_date, $last_date);
-        $count      = $difference->format("%a")+1;
+          $difference = date_diff($first_date, $last_date);
+          $count      = $difference->format("%a")+1;
 
-        $allotment = LeaveAllotment::find(Auth::id())
+        }elseif ($request->day == 'full') {
+          $count = 1;
+        }else{
+          $count = 0.5;
+        }
+
+        $allotment  = LeaveAllotment::find(Auth::id())
                         ->where('leave_mast_id', $request->leave_type)
                         ->first();
 
@@ -74,16 +83,14 @@ class LeavesController extends Controller
             $data = array(
                 'days' =>  $count,
                 'msg'  =>  1
-
             );
             return json_encode($data);
 
         }else{
 
             $data = [
-                        'days' => $count,
-                        'msg'  => 0
-                    ];
+                      'days' => $count,
+                      'msg'  => 0 ];
             
             return json_encode($data);
         }
@@ -98,6 +105,8 @@ class LeavesController extends Controller
      */
     public function store(Request $request)
     {
+
+      //dd($request->all());
         $data = request()->validate([
           'leave_type_id'   => 'required'
         ]);
@@ -106,12 +115,29 @@ class LeavesController extends Controller
 
         //duration of leaves
 
-        $first_date = date_create($request->start_date);
-        $last_date  = date_create($request->end_date);
+        if($request->half_day == 1){
+          $request->first_half = 1;
+        }else{
+          $request->second_half = 1;
+        }
 
-        $difference = date_diff($first_date, $last_date);
+        /*if($request->end_date != null){
 
-        $count = $difference->format("%a");
+          $first_date = date_create($request->start_date);
+          $last_date  = date_create($request->end_date);
+
+          $difference = date_diff($first_date, $last_date);
+
+          $count = $difference->format("%a");
+        }else{
+
+          if($request->full_day == 1){
+
+            $count = 1;
+          }else{
+            $count = 0.5;
+          }
+        }*/     
 
         //Uploading documents to hrmsupload directory
 
@@ -132,9 +158,12 @@ class LeavesController extends Controller
         $leaveapply->emp_id            = $id;
         $leaveapply->teamlead_id       = $request->team_lead_id;
         $leaveapply->leave_type_id     = $data['leave_type_id'];
+        $leaveapply->first_half        = $request->first_half;
+        $leaveapply->second_half       = $request->second_half;
+        $leaveapply->full_day          = $request->full_day;
         $leaveapply->from              = $request->start_date;
         $leaveapply->to                = $request->end_date;
-        $leaveapply->count             = $count;
+        $leaveapply->count             = $request->count;
         $leaveapply->reason            = $request->reason;
         $leaveapply->file_path         = $path;
         $leaveapply->addr_during_leave = $request->address_leave;

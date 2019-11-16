@@ -7,17 +7,17 @@
 				<h1 style="font-size: 24px">Leaves
 					<span class="ml-2">
 						<a href="{{url('employee/leaves/create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
-						<span class="fa fa-plus "></span> Add New</a>
+						<span class="fa fa-plus "></span> Apply for Leave</a>
 					</span>
 					<div class="row d-flex justify-content-center ">
-						@foreach($leave_type as $leaves)
+						@foreach($balance['allotments'] as $index)					
 						<div class="col-sm-3">
 							<div class="column card-body">
 								<center>
-									<div class="card " style="min-height:150px;background-image: linear-gradient(to bottom,#1D976C, #62fb9b	);color: white;">
+									<div class="card " style="min-height:150px;background-image: linear-gradient(to bottom,#31c54a, #6fb183);color: white;">
 									<br>
-									<h3>{{$leaves->name}}</h3>
-									<h1></h1>
+									<h3>{{$index['leaves']->name}}</h3>
+									<h1>{{$index->current_bal}}</h1>
 									<br>
 									</div>
 								</center>
@@ -51,7 +51,7 @@
 									<th>Status</th>
 									<th>Posted on</th>
 									{{-- <th>Approver Remark</th> --}}
-									<th>Actions</th>
+									<th class="text-center">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -60,8 +60,8 @@
 							<tr>
 								<td>{{++$count}}</td>
 								<td>{{$leaveapply['leavetype']->name}}</td>
-								<td>{{date('d M Y' , strtotime($leaveapply->from))}}</td>
-								<td>{{date('d M Y' , strtotime($leaveapply->to))}}</td>
+								<td>{{$leaveapply->from}}</td>
+								<td>{{$leaveapply->to}}</td>
 								<td>{{$leaveapply->count}}</td>
 								<td>{{$leaveapply['approvalaction']->name}}</td>
 								<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>							
@@ -69,21 +69,21 @@
 									<button class="btn btn-sm btn-info modalLeave ml-2" data-id="{{$leaveapply->id}}">
 										<i class="fa fa-eye" style="font-size: 12px"></i>
 									</button>
-<div class="modal fade" id="expModal" role="dialog">
-     <div class="modal-dialog modal-lg" >
-    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
-        	<div class="modal-header">
-        		<h4 class="modal-title">Experience</h4>
-        	</div>
-        	<div class="modal-body table-responsive" id="modalTable">
-        	</div>
-        	 <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
-        </div>
-    </div>
-</div>
-									@if($leaveapply->id != 3)
+									<div class="modal fade" id="expModal" role="dialog">
+									     <div class="modal-dialog modal-lg" >
+									    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
+									        	<div class="modal-header">
+									        		<h4 class="modal-title">Experience</h4>
+									        	</div>
+									        	<div class="modal-body table-responsive" id="modalTable">
+									        	</div>
+									        	 <div class="modal-footer">
+									          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+									        </div>
+									        </div>
+									    </div>
+									</div>
+									@if($leaveapply['approvalaction']->name == 'Pending')
 									<span class="ml-2">
 										<a href="{{url('employee/leaves/'.$leaveapply->id.'/edit')}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 									</span>									

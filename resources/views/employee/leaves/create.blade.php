@@ -37,13 +37,22 @@
 						<label for="team_lead">Team Lead</label>
 						<input type="text" id="team_lead" class="form-control" name="team_lead"	value="{{$team_lead->emp_name}}" disabled>
 						<input type="hidden" name="team_lead_id" value="{{$team_lead->id}}">
-						{{-- @error('team_lead')
-				          <span class="text-danger" role="alert">
-				            <strong>* {{ $message }}</strong>
-				          </span>
-				      	@enderror --}}
 					</div>
-						<div class="col-4 form-group">
+		    	</div>
+		    	<div class="row"   style="padding-top: 1%">
+					<div class="col-1 form-group">
+						<button type="button" id="multi" class="btn btn-primary active">Multiple</button>
+						
+					</div>
+					<div class="col-1 form-group">
+							<button type="button" id="full" class="btn btn-primary ">Full Day</button>
+					</div>
+					<div class="col-1 form-group">
+						<button type="button" id="half" class="btn btn-primary ">Half Day</button>
+					</div>
+		    	</div>
+		    	<div class="row">
+					<div class="col-4">
 						<label for="start_date">Start Date</label>
 						<input type="text" class="form-control datepicker start" name="start_date" autocomplete="off" id="start_date">
 						@error('start_date')
@@ -51,28 +60,36 @@
 				            <strong>* {{ $message }}</strong>
 				          </span>
 				      	@enderror
-					</div>
+				      	<input type="hidden" name="full_day" id="full_day">
+				    </div>
 					<div class="col-4 form-group">
-						<label for="end_date">End Date</label>
-						<input type="text" class="form-control datepicker end" name="end_date"
-						autocomplete="off" id="end_date">
+						<span id="end_date"><label for="end_date">End Date</label>
+						<input type="text" class="form-control datepicker end" name="end_date" autocomplete="off" id="end_date">
 						@error('end_date')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
 				          </span>
 				      	@enderror
+				      	</span>
+				      	<span id="checkday" style="display: none;">
+					      	<label class="">
+							    <input type="radio" name="half_day" value="1" autocomplete="off"> First Half
+							</label>
+							<label class="">
+							    <input type="radio"  name="half_day" value="2" autocomplete="off"> Second Half
+							</label>
+						</span>
 					</div>
 					<div class="col-4 form-group">
-						<label for="end_date">Duration</label>
-						<input type="text" class="form-control duration" name="end_date"
-						id="end_date" disabled="" value="">
-				          
-					</div>
+						<label for="duration">Duration ( In days )</label>
+						<input type="text" class="form-control duration" name="duration" id="duration" disabled="" value="">
+						<input type="hidden" name="count" id="count">
 						<span class="text-danger duration_alert" style="display:none" role="alert" >
-				    		<strong> &nbsp;&nbsp;&nbsp; You don't have adequate leaves left.</strong> </span>
+			    		<strong> &nbsp;&nbsp;&nbsp; You don't have adequate leaves left.</strong>
+			    	</span>
+					</div>
 		    	</div>
-		    	<div class="row"  style="padding-top: 5%">
-
+		    	<div class="row">
 					<div class="col-7 form-group">
 						<label for="reason">Reason</label>
 						<textarea  class="form-control" id="reason" name="reason" value=""></textarea>
@@ -115,8 +132,8 @@
 				      	@enderror
 					</div>
 					<div class="col-12 form-group text-center">
-						<button class="btn btn-info btn-sm m-2">Save</button>
-						<a class="btn btn-danger btn-sm" type="submit" href="javascript:location.reload()">Clear</a>
+						<button class="btn btn-info btn-sm m-2" style="width: 30%">Save</button>
+						<a class="btn btn-danger btn-sm" type="submit" href="javascript:location.reload()" style="width: 30%">Clear</a>
 					</div>
 				</div>
 			</form>
@@ -131,37 +148,119 @@
 				todayHighlight: true
 			});
 
-			$(".end").on("change",function(){
+			$('#multi').on('click', function(e){
+		    	e.preventDefault();
+		    	$(this).addClass('active');
+		    	$('#end_date').show();
+		    	$('#half, #full').removeClass('active');
+		    	$('#checkday').hide();
+
+		    });
+
+		    $(".end").on("change",function(){
 
 				var leave_type 	= $('select').children("option:selected").val();
 		        var start 		= $('.start').val();
 		        var end 		= $('.end').val();
-		        var id 			= '<?php echo auth()->user()->id; ?>';
+		        var id 			= "{{Auth::id()}}";
+		        var day 		= $('#multi').attr('id');
 
 		        $.ajax({
-				type:'get',
-				url: '/balance/',
-				data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'id': id },
-				success:function(data){
-					console.log('env',data);
-					 var data = JSON.parse(data);
-					 console.log("after parse",data.msg);
+					type:'get',
+					url: '/balance/',
+					data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'id': id, 'day': day},
+					success:function(data){
+						 var data = JSON.parse(data);
 
-					$('.duration').val(data.days+' days');
-					if(data.msg == 0 ){
-						console.log('testing');
-						$(".duration_alert").show();
-						//$('button').attr('disabled', 'true');
-					}else{
-						$(".duration_alert").hide();
-						$('button').removeAttr('disabled');
+						$('.duration').val(data.days+' days');
+						$('#count').val(data.days);
+						if(data.msg == 0 ){
+							$(".duration_alert").show();
+						}else{
+							$(".duration_alert").hide();
+							$('button').removeAttr('disabled');
+						}
 					}
-					
-				}
-			});
+				});
+		    });
+
+		    $('#full').on('click', function(e){
+		    	e.preventDefault();
+		    	$(this).addClass('active');
+		    	$('#half, #multi').removeClass('active');
+		    	$('#checkday').hide();
+		    	$('#end_date').hide();
+		    	$('#full_day').val(1);
+
+		    	$('#start_date').on('change', function(){
+		    		var leave_type 	= $('select').children("option:selected").val();
+			        var start 		= $('.start').val();
+			        var end 		= $('.end').val();
+			        var emp_id 		= "{{Auth::id()}}";
+			        var day 		= 'full';
+
+			        $.ajax({
+					type:'get',
+					url: '/balance/',
+					data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'emp_id': emp_id, 'day': day },
+					success:function(data){
+						 var data = JSON.parse(data);
+
+						$('.duration').val(data.days+' days');
+						$('#count').val(data.days);
+						if(data.msg == 0 ){
+							$(".duration_alert").show();
+						}else{
+							$(".duration_alert").hide();
+							$('button').removeAttr('disabled');
+						}
+					}
+				});
+		    	})
+
+
+		    	
+		    });
+
+		    $('#half').on('click', function(e){
+		    	e.preventDefault();
+		    	$(this).addClass('active');
+		    	$('#end_date').hide();
+		    	$('#full, #multi').removeClass('active');
+		    	$('#checkday').show();
+
+		    	$('#start_date').on('change', function(){
+		    		var leave_type 	= $('select').children("option:selected").val();
+			        var start 		= $('.start').val();
+			        var end 		= $('.end').val();
+			        var emp_id 		= "{{Auth::id()}}";
+			        var day 		= 'half';
+
+			        $.ajax({
+					type:'get',
+					url: '/balance/',
+					data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'emp_id': emp_id, 'day': day },
+					success:function(data){
+						 var data = JSON.parse(data);
+
+						$('.duration').val(data.days+' days');
+						$('#count').val(data.days);
+						if(data.msg == 0 ){
+							$(".duration_alert").show();
+						}else{
+							$(".duration_alert").hide();
+							$('button').removeAttr('disabled');
+						}
+					}
+				});
+		    	})
+
 
 		    });
 		    
 		});
+
+		
+
 	</script>
 @endsection

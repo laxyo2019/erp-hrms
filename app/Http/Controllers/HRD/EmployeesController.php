@@ -549,12 +549,9 @@ class EmployeesController extends Controller
       
     }
 
-
   //Employees Import
 
   public function import(Request $request){
-
-    //return 68475;
 
     $this->validate($request, [
           'import' => 'required|mimes:xlsx,xls'
@@ -568,7 +565,6 @@ class EmployeesController extends Controller
     foreach( $records as $record ){
 
       foreach( $record as $data ){
-
 
         if($status == TRUE){
 
@@ -645,7 +641,6 @@ class EmployeesController extends Controller
           }else{
 
             $status = TRUE;
-        
           }
         }
 
@@ -878,7 +873,6 @@ class EmployeesController extends Controller
           }
         }
 
-
         if($status == TRUE){
 
           if($data['curr_uan'] == ''){
@@ -989,7 +983,6 @@ class EmployeesController extends Controller
          }else{
             EmployeeMast::create($data);
          }
-
 
         }else if($status == FALSE){
           

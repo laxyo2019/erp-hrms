@@ -89,6 +89,7 @@ class CreateLeavesTable extends Migration
       Schema::create('holidays', function (Blueprint $table){
           $table->bigIncrements('id');
           $table->string('title');
+          $table->date('date');
           $table->string('desc');
           $table->timestamps();
           $table->softDeletes();

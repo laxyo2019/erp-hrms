@@ -70,5 +70,5 @@ class EmployeeMast extends Model
 
  	public function allotments(){
  		return $this->hasMany('App\Models\Employees\LeaveAllotment', 'emp_id');
- 	}
+ 	}	
 }
