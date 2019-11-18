@@ -70,6 +70,12 @@ class AllotmentController extends Controller
 
     public function update(Request $request,$id){
 
+    	$this->validate($request, [
+	    	'start'		=>	'required',
+	    	'ends'		=>	'required',
+	    	'leave.*'	=>	'required|numeric|between:0,99.99'
+    	]);
+
 		$count	= count($request->id);
 		$x		= 0;
 		$data	= '';

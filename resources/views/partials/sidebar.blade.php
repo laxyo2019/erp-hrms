@@ -15,7 +15,6 @@
         <li><a class="treeview-item" href="#" target="_blank" rel="noopener"><i class="icon fa fa-angle-double-right"></i> Revenues</a></li>
 
         <li><a class="treeview-item" href="#"><i class="icon fa fa-angle-double-right"></i> Customers</a></li>
-      
       </ul>
     </li>
     
@@ -25,7 +24,6 @@
         <li><a class="treeview-item" href="{{route('payments.index')}}"><i class="icon fa fa-angle-double-right"></i> Payments</a></li>
         <li><a class="treeview-item" href="{{route('vendors.index')}}"><i class="icon fa fa-angle-double-right"></i> Vendors</a></li>
           <li class="{{call_user_func_array('Request::is', (array)['expenses/tours*']) ? 'active_subtab' : ''}}"><a class="treeview-item" href="{{route('tours.index')}}"><i class="icon fa fa-angle-double-right"></i> Tours</a></li>
-      
       </ul>
     </li>
     {{-- Hr Module to handle employees --}}
@@ -35,12 +33,11 @@
           {{-- <li class={{call_user_func_array('Request::is', (array)['hrd/approvals*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('approvals.index')}}"><i class="icon fa fa-angle-double-right"></i>Approvals</a></li> --}}
           <li class={{call_user_func_array('Request::is', (array)['hrd/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('leaves.index')}}"><i class="icon fa fa-angle-double-right"></i>Leaves Request</a></li>
           {{-- <li class={{call_user_func_array('Request::is', (array)['hrd/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('rules.index')}}"><i class="icon fa fa-angle-double-right"></i>Leaves Rules</a></li> --}}
-      
       </ul>
     {{-- Employees tab --}}
       <li class="treeview {{call_user_func_array('Request::is', (array)['employee*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">Employee</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
-<li class={{call_user_func_array('Request::is', (array)['employee/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{url('employee/leaves')}}"><i class="icon fa fa-angle-double-right"></i>Leaves</a></li>
+      <li class={{call_user_func_array('Request::is', (array)['employee/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{url('employee/leaves')}}"><i class="icon fa fa-angle-double-right"></i>Apply Leave</a></li>
       </ul>
     </li>
     {{-- end of module --}}
@@ -51,6 +48,7 @@
         <li class={{call_user_func_array('Request::is', (array)['tender_master*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('tender_master.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Mast</a></li>
       </ul>
     </li>
+    {{-- Settings Tab --}}
     <li class="treeview {{call_user_func_array('Request::is', (array)['settings*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-cog "></i><span class="app-menu__label">Settings</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
       	<li class={{call_user_func_array('Request::is', (array)['settings/mast_entity*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('mast_entity.home')}}"><i class="icon fa fa-angle-double-right"></i> Master Entities</a></li>
@@ -61,13 +59,13 @@
         <li><a class="treeview-item" href=""><i class="icon fa fa-angle-double-right"></i> Payment Method</a></li>
         <li class={{call_user_func_array('Request::is', (array)['settings/designations*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('designations.index')}}"><i class="icon fa fa-angle-double-right"></i> Designation </a></li>
         <li class={{call_user_func_array('Request::is', (array)['settings/statuses*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('statuses.index')}}"><i class="icon fa fa-angle-double-right"></i> Statuses </a></li>
-        
         <li class={{call_user_func_array('Request::is', (array)['settings/grades*']) ? 'active_subtab' : ''}}>
           <a class="treeview-item" href="{{route('grades.index')}}">
             <i class="icon fa fa-angle-double-right"></i> Grades </a>
         </li>
       </ul>
     </li>
+    {{-- Leave Management Tab --}}
      <li class="treeview {{call_user_func_array('Request::is', (array)['leave*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">Leave Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
        <li class={{call_user_func_array('Request::is', (array)['leave-management/permissions*']) ? 'active_subtab' : ''}}>

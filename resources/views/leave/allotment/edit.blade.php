@@ -41,10 +41,10 @@
 				</div>
 				@foreach($employee as $user)
 					<div class="col-4 form-group">
-<label for="leave_{{$user->leave_mast_id}}">{{$user->leaves->name}} ( in days )</label>
-<input type="text" class="form-control" name="leave[]"
-autocomplete="off" id="leave_{{$user->leave_mast_id}}" value="{{$user->current_bal}}">
-<input type="hidden" name="id[]" value="{{$user->leave_mast_id}}">
+						<label for="leave_{{$user->leave_mast_id}}">{{$user->leaves->name}} ( in days )</label>
+						<input type="text" class="form-control" name="leave[]"
+						autocomplete="off" id="leave_{{$user->leave_mast_id}}" value="{{$user->current_bal}}">
+						<input type="hidden" name="id[]" value="{{$user->leave_mast_id}}">
 
 						@error('leave_{{$user->leave_mast_id}}')
 				          <span class="text-danger" role="alert">
@@ -55,8 +55,8 @@ autocomplete="off" id="leave_{{$user->leave_mast_id}}" value="{{$user->current_b
 				@endforeach
 			</div>
     		<div class="col-12 form-group text-center">
-				<button class="btn btn-info btn-sm m-2" style="width: 30%">Save</button>
-				<a class="btn btn-danger btn-sm" type="submit" href="javascript:location.reload()" style="width: 30%">Clear</a>
+				<button class="btn btn-info btn-sm m-2" style="width: 40%">Save</button>
+				{{-- <a class="btn btn-danger btn-sm" type="submit" href="javascript:location.reload()" style="width: 30%">Clear</a> --}}
 			</div>
 		</form>
 	</div>

@@ -15,6 +15,7 @@ use App\Models\Master\ApprovalAction;
 use App\Models\Master\Designation;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Employees\LeaveAllotment;
+use App\Models\Master\Holiday;
 
 
 class LeavesController extends Controller
@@ -24,6 +25,13 @@ class LeavesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct(){
+
+      $this->middleware('auth');
+      
+    }
+
     public function index()
     {
         $action   = ApprovalAction::all();
@@ -63,11 +71,16 @@ class LeavesController extends Controller
        
        //return $request->all();
         if($request->day == 'multi'){
-          $first_date = date_create($request->start_date);
-          $last_date  = date_create($request->end_date);
 
-          $difference = date_diff($first_date, $last_date);
-          $count      = $difference->format("%a")+1;
+          $first_date   = date_create($request->start_date);
+          $last_date    = date_create($request->end_date);
+
+          $difference   = date_diff($first_date, $last_date);
+          $count        = $difference->format("%a")+1;
+
+          $sandwichRule = Holiday::select('id', 'title')
+          ->whereBetween('date', [$request->start_date, $request->end_date])
+          ->count();
 
         }elseif ($request->day == 'full') {
           $count = 1;
@@ -80,21 +93,18 @@ class LeavesController extends Controller
                         ->first();
 
         if($count <= $allotment->current_bal){
-            $data = array(
-                'days' =>  $count,
-                'msg'  =>  1
-            );
-            return json_encode($data);
-
+            $data = [
+              'days' =>  $count,
+              'rule' =>  $sandwichRule,
+              'msg'  =>  0 ];
         }else{
 
             $data = [
-                      'days' => $count,
-                      'msg'  => 0 ];
-            
-            return json_encode($data);
+              'days' => $count,
+              'rule' =>  $sandwichRule,
+              'msg'  => 1 ];           
         }
-
+        return json_encode($data);
     }
 
     /**

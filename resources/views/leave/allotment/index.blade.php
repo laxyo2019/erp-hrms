@@ -4,19 +4,19 @@
 	<div class="row">
 		<div class="col-md-12 col-xl-12">
 			<h1 style="font-size: 24px">Leave Allotments
-                <span class="ml-2">
+                {{-- <span class="ml-2">
                     <a href="{{route('types.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
                     <span class="fa fa-plus "></span> Add New</a>
-                </span>
+                </span> --}}
 			</h1>
 			<hr>
 		</div>
 	</div>
 	@if($message = Session::get('success'))
 		<div class="alert alert-success alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                {{$message}}
-            </div>
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            {{$message}}
+        </div>
 	@endif
 	<div class="row">
         <div class="col-md-12 col-xl-12">

@@ -1,34 +1,60 @@
-<table class="table table-striped table-hover table-bordered">
-	<thead class="thead-dark">
-		<tr>
-			<th>Employee</th>
-			<th>Type</th>
-			<th>Leave Start</th>
-			<th>Leave Ends</th>
-			<th>Duration</th>
-			<th>Status</th>
-			<th>Reason</th>
-			<th>Document</th>
-			<th>Contact No</th>
-			<th>Address</th>
-			<th>Applicant's Remark</th>
-		</tr>
-	</thead>
-	<tbody id="experiencesTbody">
-		<tr>
-			<td>{{$data['employees']->emp_name}}</td>
-			<td>{{$data['leavetype']->name}}</td>
-			<td>{{$data->from}}</td>
-			<td>{{$data->to}}</td>
-			<td>{{$data->count}}</td>
-			<td>{{$data->status}}</td> 
-			<td>{{$data->reason}}</td>
-			<td>{{$data->contact_no}}</td>
-			@if($data->file_path != null)
-				<td><a href="{{route('request.document', [$data->id])}}"><i class="fa fa-arrow-down"></i>Download</a></td>
-			@endif
-			<td>{{$data->address}}</td>
-			<td>{{$data->applicant_remark}}</td>
-		</tr>
-	</tbody>
-</table>
+<div class="row card-body text-center">
+	<div class="col-6" >
+		<h4>Employee</h4>
+		<div>{{$data['employees']->emp_name}}</div>
+	</div>
+	<div class="col-6" >
+		<h4>Type</h4>
+		<div>{{$data['leavetype']->name}}</div>
+	</div>
+</div>
+<div class="row card-body text-center">
+	<div class="col-6" >
+		<h4>Leave Start</h4>
+		<div>{{$data->from}}</div>
+	</div>
+	<div class="col-6" >
+		<h4>Leave Ends</h4>
+		<div>{{$data->to}}</div>
+	</div>
+</div>
+<div class="row card-body text-center">
+	<div class="col-6" >
+		<h4>Duration</h4>
+		<div>{{$data->count}}</div>
+	</div>
+	<div class="col-6" >
+		<h4>Status</h4>
+		<div>{{$data->status}}</div>
+	</div>
+</div>
+<div class="row card-body text-center">
+	<div class="col-6" >
+		<h4>Reason</h4>
+		<div>{{$data->reason}}</div>
+	</div>
+	<div class="col-6" >
+		<h4>Contact No</h4>
+		<div>{{$data->contact_no}}</div>
+	</div>
+</div>
+<div class="row card-body text-center">
+	<div class="col-6" >
+		<h4>Address</h4>
+		<div>{{$data->address}}</div>
+	</div>
+	<div class="col-6" >
+		<h4>Applicant's Remark</h4>
+		<div>{{$data->applicant_remark}}</div>
+	</div>
+</div>
+<div class="row card-body text-center">
+	<div class="col-6">
+		<h4>Document</h4>
+		@if($data->file_path != null)
+			<td><a href="{{route('request.document', [$data->id])}}"><i class="fa fa-arrow-down"></i>Download</a></td>
+		@else
+			<td>Not Avalable</td>
+		@endif
+	</div>
+</div>

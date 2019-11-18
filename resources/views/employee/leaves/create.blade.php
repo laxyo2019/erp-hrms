@@ -42,7 +42,6 @@
 		    	<div class="row"   style="padding-top: 1%">
 					<div class="col-1 form-group">
 						<button type="button" id="multi" class="btn btn-primary active">Multiple</button>
-						
 					</div>
 					<div class="col-1 form-group">
 							<button type="button" id="full" class="btn btn-primary ">Full Day</button>
@@ -84,9 +83,14 @@
 						<label for="duration">Duration ( In days )</label>
 						<input type="text" class="form-control duration" name="duration" id="duration" disabled="" value="">
 						<input type="hidden" name="count" id="count">
-						<span class="text-danger duration_alert" style="display:none" role="alert" >
-			    		<strong> &nbsp;&nbsp;&nbsp; You don't have adequate leaves left.</strong>
-			    	</span>
+						<span class="text-danger duration_alert" role="alert" style="display:none">
+			    			<strong> &nbsp;&nbsp;&nbsp; You don't have adequate leaves left.</strong>
+			    		</span>
+			    		<div>
+			    		<span class="text-danger rule_alert" role="alert" style="display:none">
+			    			<strong> &nbsp;&nbsp;&nbsp; Your leaves falling into sandwich rule.</strong>
+			    		</span>
+			    		</div>
 					</div>
 		    	</div>
 		    	<div class="row">
@@ -175,10 +179,17 @@
 						$('.duration').val(data.days+' days');
 						$('#count').val(data.days);
 						if(data.msg == 0 ){
-							$(".duration_alert").show();
-						}else{
 							$(".duration_alert").hide();
-							$('button').removeAttr('disabled');
+						}else{
+							$(".duration_alert").show();
+							//$('button').removeAttr('disabled');
+						}
+
+						if(data.rule == 0){
+							$(".rule_alert").hide();
+						}else{
+							$(".rule_alert").show();
+							//$('button').removeAttr('disabled');
 						}
 					}
 				});

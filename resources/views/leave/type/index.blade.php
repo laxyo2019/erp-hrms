@@ -4,12 +4,12 @@
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 24px">Leave Types
-                    <span class="ml-2">
-                        <a href="{{route('types.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
-                        <span class="fa fa-plus "></span> Add New</a>
-                    </span>
-				    </h1>
-				<hr>
+          <span class="ml-2">
+              <a href="{{route('types.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
+              <span class="fa fa-plus "></span> Add New</a>
+          </span>
+		    </h1>
+		    <hr>
 			</div>
 		</div>
 		@if($message = Session::get('success'))
@@ -56,7 +56,7 @@
                                                             <div class="modal-header">
                                                                 <h4 class="modal-title">Leave Type Detail</h4>
                                                             </div>
-                                                            <div class="modal-body table-responsive" id="typeTable" style="background-color: #e5e5e5;">
+<div class="modal-body table-responsive" id="typeTable" style="padding: 1.5rem; ">
                                                             </div>
                                                              <div class="modal-footer">
                                                           <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -75,7 +75,6 @@
                       <a href="javascript:$('#delform_{{$types->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
                     </form>
                   </span> 
-                 
                 </td>
               </tr>
               @endforeach

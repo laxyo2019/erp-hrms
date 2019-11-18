@@ -63,7 +63,7 @@
 								<td>{{$leaveapply->from}}</td>
 								<td>{{$leaveapply->to}}</td>
 								<td>{{$leaveapply->count}}</td>
-								<td>{{$leaveapply['approvalaction']->name}}</td>
+								<td><strong style="font-weight: 700">{{strtoupper($leaveapply['approvalaction']->name)}}</strong></td>
 								<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>							
 								<td class='d-flex' style="border-bottom:none">
 									<button class="btn btn-sm btn-info modalLeave ml-2" data-id="{{$leaveapply->id}}">

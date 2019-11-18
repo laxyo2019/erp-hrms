@@ -19,21 +19,22 @@
 						<table class="table table-stripped table-bordered">
 							<thead>
 								<tr>
-									<th>####</th>
-									<th>Employee</th>
-									<th>Leave</th>
-									<th>Details</th>
-									<th>Leave starts</th>
-									<th>Leave ends</th>
-									<th>Duration</th>
-									<th>Status</th>
-									<th style="text-align: center;">Actions</th>
+									<th>##</th>
+									<th>EMPLOYEE</th>
+									<th>LEAVE</th>
+									<th>DETAILS</th>
+									<th>LEAVE STARTS</th>
+									<th>LEAVE ENDS</th>
+									<th>DURATION</th>
+									<th>STATUS</th>
+									<th style="text-align: center;">ACTIONS</th>
 								</tr>
 							</thead>
 							<tbody>
+								@php $count = 0; @endphp
 							@foreach($leave_request as $request) 
 								<tr>
-									<td>{{$request->id}}</td>
+									<td>{{++$count}}</td>
 									<td>{{$request->emp_name}}</td>
 									<td>{{$request->name}}</td>
 									<td>
@@ -42,7 +43,7 @@
 									</button></td>
 									<div class="modal fade" id="reqModal" role="dialog">
 									    <div class="modal-dialog modal-lg" >
-									    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
+									    	<div class="modal-content" >
 									        	<div class="modal-header">
 									        		<h4 class="modal-title">Request Detail</h4>
 									        	</div>
@@ -60,10 +61,13 @@
 									<td>{{$request->action_name}}</td>
 									<td class='d-flex' style="border-bottom:none">
 										@foreach($actions as $action)
+										@if($action->name != 'Pending')
 											@if($request->action_name == 'Pending')
+												
 													<span class="ml-2">
 											<a href="{{route('leave.details', ['req_employee'=> $request->employee_id, 'leave_id' => $request->id, 'count' => $request->count, 'action' => $action->id])}}" class="btn btn-sm btn-success">{{$action->name}}</a>
 													</span>
+												@endif
 											@endif
 										@endforeach
 									</td>

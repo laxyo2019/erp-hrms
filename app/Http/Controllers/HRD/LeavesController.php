@@ -24,6 +24,8 @@ class LeavesController extends Controller
 
         $actions = ApprovalAction::all();
 
+        //return $actions;
+
         $appr_sys = ApprovalSetup::where('emp_id', Auth::id())->first();
 
     	$leave_request = DB::table('emp_leave_applies')
@@ -42,6 +44,10 @@ class LeavesController extends Controller
 
 	}
 
+    /*
+    * Approve/Decline Leaves goes here
+    */
+    
     public function leavepermission( $employee_id, $leave_id, $count, $action){
 
         $leave = LeaveApply::findOrFail($leave_id);

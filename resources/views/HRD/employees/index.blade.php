@@ -56,9 +56,10 @@
 								</tr>
 							</thead>
 							<tbody>
+							@php $count = 0; @endphp
 							@foreach($employees as $employee)
 								<tr>
-									<td>{{$employee->id}}</td>
+									<td>{{++$count}}</td>
 									<td>{{$employee->emp_name}}</td>
 									<td>{{$employee->emp_code}}</td>
 									<td>@if($employee->company!=null) {{$employee->company->comp_name}} @endif</td>

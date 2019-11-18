@@ -21,8 +21,7 @@
 				<div class="row">
 					<div class="col-6 form-group">
 						<label for="leave_name">Leave Name</label>
-						<input type="text" id="leave_name" class="form-control" name="leave_name"
-						value="">
+						<input type="text" id="leave_name" class="form-control" name="leave_name" value="{{old('leave_name')}}">
 						@error('leave_name')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
@@ -31,7 +30,7 @@
 					</div>
 					<div class="col-6 form-group">
 						<label for="total_leaves">Total leaves</label>
-						<input type="text" class="form-control" name="total_leaves" autocomplete="off" id="total_leaves">
+						<input type="text" class="form-control" name="total_leaves" id="total_leaves" value="{{old('total_leaves')}}">
 						@error('total_leaves')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
@@ -40,8 +39,7 @@
 					</div>
 					<div class="col-6 form-group">
 						<label for="generate_after">Generate after</label>
-						<input type="text" class="form-control" name="generate_after"
-						autocomplete="off" id="generate_after">
+						<input type="text" class="form-control" name="generate_after" id="generate_after" value="{{old('generate_after')}}">
 						@error('generate_after')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
@@ -50,8 +48,7 @@
 					</div>
 					<div class="col-6 form-group">
 						<label for="min_apply_once">Can be applied min once</label>
-						<input type="text" class="form-control" name="min_apply_once"
-						autocomplete="off" id="min_apply_once">
+						<input type="text" class="form-control" name="min_apply_once" id="min_apply_once" value="{{old('min_apply_once')}}">
 						@error('min_apply_once')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
@@ -60,8 +57,7 @@
 					</div>
 					<div class="col-6 form-group">
 						<label for="max_apply_once">Can be applied max once</label>
-						<input type="text" class="form-control" name="max_apply_once"
-						autocomplete="off" id="max_apply_once">
+						<input type="text" class="form-control" name="max_apply_once" id="max_apply_once" value="{{old('max_apply_once')}}">
 						@error('max_apply_once')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
@@ -70,8 +66,7 @@
 					</div>
 					<div class="col-6 form-group">
 						<label for="max_days_inmonth">Maximum days in a month</label>
-						<input type="text" class="form-control" name="max_days_inmonth"
-						autocomplete="off" id="max_days_inmonth">
+						<input type="text" class="form-control" name="max_days_inmonth" id="max_days_inmonth" value="{{old('max_days_inmonth')}}">
 						@error('max_days_inmonth')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
@@ -80,8 +75,7 @@
 					</div>
 					<div class="col-6 form-group">
 						<label for="max_apply_month">Can be applied max in month</label>
-						<input type="text" class="form-control" name="max_apply_month"
-						autocomplete="off" id="max_apply_month">
+						<input type="text" class="form-control" name="max_apply_month" id="max_apply_month" value="{{old('max_apply_month')}}">
 						@error('max_apply_month')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
@@ -90,8 +84,7 @@
 					</div>
 					<div class="col-6 form-group">
 						<label for="max_apply_year">Can be applied max in year</label>
-						<input type="text" class="form-control" name="max_apply_year"
-						autocomplete="off" id="max_apply_year">
+						<input type="text" class="form-control" name="max_apply_year" id="max_apply_year" value="{{old('max_apply_year')}}">
 						@error('max_apply_year')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
