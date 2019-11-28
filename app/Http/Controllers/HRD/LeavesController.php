@@ -12,6 +12,7 @@ use App\Models\Employees\ApprovalSetup;
 use App\Models\Master\ApprovalAction;
 use App\Models\Employees\LeaveApprovalDetail;
 use App\Models\Employees\LeaveAllotment;
+use App\Models\Spatie\Permission;
 use DB;
 use Auth;
 
@@ -23,8 +24,8 @@ class LeavesController extends Controller
         $type = LeaveMast::all();
 
         $actions = ApprovalAction::all();
-
-        //return $actions;
+        $permission = Permission::where('model_id',Auth::user()->id)->get();
+        //return $permission;
 
         $appr_sys = ApprovalSetup::where('emp_id', Auth::id())->first();
 
@@ -32,11 +33,13 @@ class LeavesController extends Controller
             ->where('emp_leave_applies.deleted_at', null)
             ->join('emp_mast', 'emp_leave_applies.emp_id', '=', 'emp_mast.id')
             ->join('leave_mast', 'emp_leave_applies.leave_type_id', '=', 'leave_mast.id')
-            ->join('approval_actions_mast', 'emp_leave_applies.status', '=', 'approval_actions_mast.id')
+            ->leftjoin('approval_actions_mast', 'emp_leave_applies.status', '=', 'approval_actions_mast.id')
             ->select('emp_leave_applies.id', 'emp_mast.id as employee_id','emp_name', 'leave_mast.name', 'emp_leave_applies.from', 'emp_leave_applies.from', 'emp_leave_applies.to', 'emp_leave_applies.count', 'emp_leave_applies.status', 'emp_leave_applies.approver_remark', 'approval_actions_mast.id as action_id', 'approval_actions_mast.name as action_name')
     		->get();
 
-    	return view('HRD.leaves.index', compact('leave_request', 'appr_sys', 'actions'));
+            //return $leave_request;
+
+    	return view('HRD.leaves.index', compact('leave_request', 'appr_sys', 'actions', 'permission'));
     	
 	}
 

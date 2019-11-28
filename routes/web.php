@@ -20,10 +20,26 @@ Route::resource('/expenses/tours','Expenses\ToursController');
 Route::resource('/hrd/approvals','HRD\ApprovalsController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
-Route::resource('/leave-settings/permissions','Settings\PermissionController');
+
 Route::resource('/leave-management/types', 'Leave\LeaveTypeController');
 Route::resource('/leave-management/allotments', 'Leave\AllotmentController');
 Route::resource('/leave-management/holidays', 'Leave\HolidayController');
+
+/*
+Spatie Roles & Permissions
+*/
+
+Route::group(['middleware' => ['permission:approve, decline']], function () {
+    
+	Route::resource('acl/permissions', 'acl\PermissionController');
+	Route::resource('acl/roles', 'acl\RoleController');
+	Route::resource('acl/users', 'acl\UserController');
+	Route::get('acl/user/create/{id}', 'acl\UserController@create')->name('assign.role');
+	Route::post('assign/{id}', 'acl\UserController@AssignUser')->name('assign.user');
+	
+});
+
+
 
 
 //Export Import holidays
@@ -51,7 +67,6 @@ Route::post('/hrd/leaves/{tab}/store', 'HRD\LeavesController@store')->name('hrd.
 //  Employee Leaves
 Route::get('emp_leave','Employee\LeavesController@emp_leave')->name('emp_leave');
 Route::post('emp_leave_store','Employee\LeavesController@store')->name('emp_leave_store');
-/*Route::get('employee/leaves', 'Employee\LeavesController@showindex')->name('employeeleave.index');*/
 Route::get('employee/leaves/{id}/create', 'Employee\LeavesController@applyform')->name('apply.leave');
 
 
@@ -138,6 +153,7 @@ Route::get('settings/mast_entity', 'MasterController@start_page')->name('mast_en
 Route::get('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@createOrEditOrShow')->name('mast_entity.get');
 Route::post('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@storeOrUpdate')->name('mast_entity.post');
 Route::delete('settings/mast_entity/{db_table}/{id}', 'MasterController@destroy')->name('mast_entity.delete');
+
 
 
 

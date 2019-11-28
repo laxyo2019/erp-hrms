@@ -33,7 +33,8 @@ class LeaveTypeController extends Controller
 
         $this->validate($request, 
         [
-            'leave_name' => 'required',
+            'leave_name'        => 'required',
+            'total_leaves'      => 'required',
             'generate_after'    => 'required|numeric',
             'min_apply_once'    => 'required|numeric|between:0,99.99',
             'max_apply_once'    => 'required|numeric|between:0,99.99',

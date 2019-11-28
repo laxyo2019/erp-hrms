@@ -178,7 +178,7 @@ class LeavesController extends Controller
         $leaveapply->file_path         = $path;
         $leaveapply->addr_during_leave = $request->address_leave;
         $leaveapply->contact_no        = $request->contact_no;
-        $leaveapply->status            = 3;
+        $leaveapply->status            = null;
         $leaveapply->applicant_remark  = $request->applicant_remark;
         $leaveapply->approver_remark   = null;
         $leaveapply->hr_remark         = null;
@@ -224,14 +224,11 @@ class LeavesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit( $id)
     {
-        $leave_type = LeaveMast::all();
+        $leave_type   = LeaveMast::all();
+        $leaves       = LeaveApply::findOrFail($id);
 
-        $leaves = LeaveApply::findOrFail($id);
-
-        //return $leaves;
-    
         return view('employee.leaves.edit', compact('leaves', 'leave_type')) ;
     }
 
@@ -316,13 +313,6 @@ class LeavesController extends Controller
         Storage::delete($leave_app->file_path);
         $leave_app->delete();
         return back()->with('success', 'Record deleted successfully');
-
-    }
-
-    public function showindex(){
-
-        $leaves = LeaveApply::findOrFail(Auth::id());
-        return view('employee.leaves.index', compact('leaves'));
     }
 
     public function emp_leave()

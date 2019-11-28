@@ -64,14 +64,14 @@
 								<td>{{$leaveapply->to}}</td>
 								<td>{{$leaveapply->count}}</td>
 								<td><strong style="font-weight: 700">{{strtoupper($leaveapply['approvalaction']->name)}}</strong></td>
-								<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>							
+								<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>
 								<td class='d-flex' style="border-bottom:none">
 									<button class="btn btn-sm btn-info modalLeave ml-2" data-id="{{$leaveapply->id}}">
 										<i class="fa fa-eye" style="font-size: 12px"></i>
 									</button>
 									<div class="modal fade" id="expModal" role="dialog">
 									     <div class="modal-dialog modal-lg" >
-									    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
+									    	<div class="modal-content" >
 									        	<div class="modal-header">
 									        		<h4 class="modal-title">Experience</h4>
 									        	</div>

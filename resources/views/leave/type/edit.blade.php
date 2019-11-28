@@ -98,12 +98,12 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-5 form-group">
-						<div class="form-check">
-							<input type="checkbox" class="form-check-input" id="exampleCheck1"  name="carry" value="1" {{old('carry', $leave_type->carry_forward	) == '1' ? 'checked' : ''}}>
-						    <label class="form-check-label" for="exampleCheck1">Can be carry forward ?</label>
-						  </div>
-					</div>
+<div class="col-5 form-group">
+	<div class="form-check">
+		<input type="checkbox" class="form-check-input" id="exampleCheck1"  name="carry" value="1" {{old('carry', $leave_type->carry_forward	) == '1' ? 'checked' : ''}}>
+	    <label class="form-check-label" for="exampleCheck1">Can be carry forward ?</label>
+	  </div>
+</div>
 		    	</div>
 		    		<div class="col-12 form-group text-center">
 						<button class="btn btn-info btn-sm m-2" style="width: 40%">Save</button>

@@ -18,6 +18,8 @@ class DesignationController extends Controller
     {
 
     	$designations = Designation::with('company')->get();
+
+        //return $designations;
       return view('settings.designations.index',compact('designations'));
     }
 
@@ -28,8 +30,9 @@ class DesignationController extends Controller
      */
     public function create()
     {
-        $designations = Designation::all();
-        return view('settings.designations.create',compact('designations'));
+        //$designations = Designation::all();
+
+        return view('settings.designations.create'/*,compact('designations')*/);
     }
 
     /**
@@ -40,6 +43,7 @@ class DesignationController extends Controller
      */
     public function store(Request $request)
     {
+
         $data = $request->validate([
 	   			'title'	=> 'required|string|max:100',
 	   			'description'	=> 'required',

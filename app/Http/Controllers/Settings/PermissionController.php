@@ -34,7 +34,7 @@ class PermissionController extends Controller
 
         //dd($desig[0]->pivot->approval_action_id);
 
-        return view('settings.permissions.index', compact('designations'));
+        return view('acl.permissions.index', compact('designations'));
     }
 
     /**
@@ -50,7 +50,7 @@ class PermissionController extends Controller
 
         //dd($approval[0]);
 
-        return view('settings.permissions.create', compact('designations', 'approval'));
+        return view('acl.permissions.create', compact('designations', 'approval'));
     }
 
     /**
@@ -70,7 +70,7 @@ class PermissionController extends Controller
             $permission->save();
         }
 
-        return view('settings.permissions.index')->with('success', 'Updated successfully');
+        return view('acl.permissions.index')->with('success', 'Updated successfully');
 
     }
 
@@ -98,7 +98,7 @@ class PermissionController extends Controller
 
         //return $actions[0]->name;
 
-        return view('settings.permissions.edit', compact('desig', 'actions'));
+        return view('acl.permissions.edit', compact('desig', 'actions'));
     }
 
     /**
