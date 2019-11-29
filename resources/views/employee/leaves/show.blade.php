@@ -21,7 +21,7 @@
 <div class="row card-body text-center">
 	<div class="col-6" style="border: 1px solid black;border-radius: 6px;">
 		<h4>Status</h4>
-		<div>{{$leave_req['approvalaction']->name}}</div>
+		<div>{{-- {{$leave_req['approvalaction']->name}} --}}</div>
 	</div>
 	<div class="col-6" style="border: 1px solid black;border-radius: 6px;">
 		<h4>Reason</h4>

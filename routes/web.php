@@ -29,7 +29,7 @@ Route::resource('/leave-management/holidays', 'Leave\HolidayController');
 Spatie Roles & Permissions
 */
 
-//Route::group(['middleware' => ['role:team lead']], function () {
+Route::group(['middleware' => ['role:manager']], function () {
     
 	Route::resource('acl/permissions', 'acl\PermissionController');
 	Route::resource('acl/roles', 'acl\RoleController');
@@ -37,7 +37,7 @@ Spatie Roles & Permissions
 	Route::get('acl/user/create/{id}', 'acl\UserController@create')->name('assign.role');
 	Route::post('assign/{id}', 'acl\UserController@AssignUser')->name('assign.user');
 	
-//});
+});
 
 
 
@@ -56,7 +56,7 @@ Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
 
 Route::resource('/hrd/leaves', 'HRD\LeavesController');
 Route::resource('/hrd/rules', 'HRD\LeavesController');
-Route::get('hrd/settings/leaves/{req_employee}/{leave_id}/{count}/{action}', 'HRD\LeavesController@leavepermission')->name('leave.details');
+Route::get('hrd/settings/leaves/{leave_id}/{action}', 'HRD\LeavesController@leavepermission')->name('leave.details');
 Route::get('leave-detail', 'HRD\LeavesController@requestDetail')->name('request.detail');
 
 

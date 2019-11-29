@@ -60,7 +60,7 @@
 									<td>{{$request->count}}</td>
 							<td>{{empty($request->status) ? 'Pending' : $request->action_name }}</td>
 									<td class='d-flex' style="border-bottom:none">
-										@foreach($permission as $action)
+										@foreach($permissions as $action)
 
 {{-- @if($action->name != 'Pending') --}}
 	{{-- @if($request->action_name == 'Pending') --}}
@@ -68,7 +68,7 @@
 		{{-- @if(auth()->user()->can('approve')) --}}
 		{{-- if(auth()->user()->can('approve') && auth()->user()->can('decline')) --}}
 		<span class="ml-2">
-			<a href="{{-- {{route('leave.details', ['req_employee'=> $request->employee_id, 'leave_id' => $request->id, 'count' => $request->count, 'action' => $action->id])}} --}}" class="btn btn-sm btn-success">{{$action->permission_id}}</a>
+			<a href="{{route('leave.details', [$request->id, $action->id])}}" class="btn btn-sm btn-success">{{$action->name}}</a>
 		</span>
 		{{-- @endcan --}}
 		{{-- @endif --}}

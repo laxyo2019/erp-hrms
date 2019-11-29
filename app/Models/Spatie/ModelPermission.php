@@ -5,11 +5,8 @@ namespace App\Models\Spatie;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
 
-class Permission extends Model
+class ModelPermission extends Model
 {
-	use HasRoles;
-
-	protected $table = 'permissions';
-    protected $guarded = [];
-    
+    use HasRoles;
+    protected $table = 'model_has_permissions';
 }

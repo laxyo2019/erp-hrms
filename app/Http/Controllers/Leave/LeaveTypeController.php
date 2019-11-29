@@ -35,12 +35,12 @@ class LeaveTypeController extends Controller
         [
             'leave_name'        => 'required',
             'total_leaves'      => 'required',
-            'generate_after'    => 'required|numeric',
-            'min_apply_once'    => 'required|numeric|between:0,99.99',
-            'max_apply_once'    => 'required|numeric|between:0,99.99',
-            'max_days_inmonth'  => 'required|numeric|between:0,99.99',
-            'max_apply_month'   => 'required|numeric',
-            'max_apply_year'    => 'required|numeric|between:0,99.99',
+            'generate_after'    => 'nullable|numeric',
+            'min_apply_once'    => 'nullable|numeric|between:0,99.99',
+            'max_apply_once'    => 'nullable|numeric|between:0,99.99',
+            'max_days_inmonth'  => 'nullable|numeric|between:0,99.99',
+            'max_apply_month'   => 'nullable|numeric',
+            'max_apply_year'    => 'nullable|numeric|between:0,99.99',
         ]);
 
     	$carry = $request->carry;
@@ -84,12 +84,12 @@ class LeaveTypeController extends Controller
         [
             'leave_name'        => 'required',
             'total_leaves'      => 'required|numeric|between:0,99.99',
-            'generate_after'    => 'required|numeric',
-            'min_apply_once'    => 'required|numeric|between:0,99.99',
-            'max_apply_once'    => 'required|numeric|between:0,99.99',
-            'max_days_inmonth'  => 'required|numeric|between:0,99.99',
-            'max_apply_month'   => 'required|numeric|between:0,99.99',
-            'max_apply_year'    => 'required|numeric|between:0,99.99',
+            'generate_after'    => 'nullable|numeric',
+            'min_apply_once'    => 'nullable|numeric|between:0,99.99',
+            'max_apply_once'    => 'nullable|numeric|between:0,99.99',
+            'max_days_inmonth'  => 'nullable|numeric|between:0,99.99',
+            'max_apply_month'   => 'nullable|numeric|between:0,99.99',
+            'max_apply_year'    => 'nullable|numeric|between:0,99.99',
             'carry'             => 'nullable'
         ]);
 

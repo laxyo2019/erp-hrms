@@ -12,7 +12,11 @@ use App\Models\Employees\ApprovalSetup;
 use App\Models\Master\ApprovalAction;
 use App\Models\Employees\LeaveApprovalDetail;
 use App\Models\Employees\LeaveAllotment;
-use App\Models\Spatie\Permission;
+use Spatie\Permission\Models\Permission;
+use App\Models\Spatie\ModelPermission;
+use Spatie\Permission\Models\Role;
+use App\Models\Spatie\ModelRole;
+use App\User;
 use DB;
 use Auth;
 
@@ -21,13 +25,12 @@ class LeavesController extends Controller
     
     public function index(){
 
-        $type = LeaveMast::all();
+        $user = User::find(Auth::user()->emp_id);
+        $permissions = $user->getDirectPermissions();
 
-        $actions = ApprovalAction::all();
-        $permission = Permission::where('model_id',Auth::user()->id)->get();
-        //return $permission;
-
-        $appr_sys = ApprovalSetup::where('emp_id', Auth::id())->first();
+        //$type = LeaveMast::all();
+        //$permissions = ModelPermission::where('model_id',Auth::user()->id)->get();
+        //$appr_sys = ApprovalSetup::where('emp_id', Auth::id())->first();
 
     	$leave_request = DB::table('emp_leave_applies')
             ->where('emp_leave_applies.deleted_at', null)
@@ -37,9 +40,7 @@ class LeavesController extends Controller
             ->select('emp_leave_applies.id', 'emp_mast.id as employee_id','emp_name', 'leave_mast.name', 'emp_leave_applies.from', 'emp_leave_applies.from', 'emp_leave_applies.to', 'emp_leave_applies.count', 'emp_leave_applies.status', 'emp_leave_applies.approver_remark', 'approval_actions_mast.id as action_id', 'approval_actions_mast.name as action_name')
     		->get();
 
-            //return $leave_request;
-
-    	return view('HRD.leaves.index', compact('leave_request', 'appr_sys', 'actions', 'permission'));
+    	return view('HRD.leaves.index', compact('leave_request', 'permissions'));
     	
 	}
 
@@ -51,21 +52,26 @@ class LeavesController extends Controller
     * Approve/Decline Leaves goes here
     */
     
-    public function leavepermission( $employee_id, $leave_id, $count, $action){
+    public function leavepermission( $leave_id, $action){
+
+        //return ([$leave_id, $action]);
+
+        //Update Leave application status
 
         $leave = LeaveApply::findOrFail($leave_id);
         $leave->status = $action;
         $leave->save();
 
-        if($action == 1){
+        //Update user leave balance from allotment table if APPROVED
+
+        if($action == 7){
             LeaveAllotment::where('leave_mast_id', $leave->leave_type_id)
-                    ->where('emp_id', $employee_id)
+                    ->where('emp_id', $leave->emp_id)
                     ->limit(1)
-                    ->decrement('current_bal', $count);
+                    ->increment('current_bal', $leave->count);
         }
 
-        LeaveAllotment::where('leave_mast_id', $leave->leave_type_id);
-
+        // Create log for approver's action
         $approval_detail = new LeaveApprovalDetail;
         $approval_detail->leave_apply_id = $leave_id;
         $approval_detail->approver_id    = Auth::id();

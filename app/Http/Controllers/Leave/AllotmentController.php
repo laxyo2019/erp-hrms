@@ -33,7 +33,9 @@ class AllotmentController extends Controller
 
     	if(count($exists) == 0){
 
-	    	$leave_type = LeaveMast::all(['id'])->toArray();
+	    	$leave_type = LeaveMast::all(['id', 'count'])->toArray();
+
+	    	//return $leave_type[0]['count'];
 
 	    	for($i=0; $i<count($leave_type); $i++){
 
@@ -43,7 +45,7 @@ class AllotmentController extends Controller
 	    		$allotted->emp_id		= $id;
 	    		$allotted->start 		= date("Y-m-d");
 	    		$allotted->end 			= date('Y-m-d', strtotime('Dec 31'));
-	    		$allotted->current_bal 	= 10;
+	    		$allotted->current_bal 	= $leave_type[$i]['count'];
 	    		$allotted->save();
 	    	}
 
@@ -57,11 +59,11 @@ class AllotmentController extends Controller
 
     public function edit( $id){
 
-    	$name = EmployeeMast::where('id', $id)
-    				->select('id', 'emp_name')
-    				->first();
+    		$name	= EmployeeMast::where('id', $id)
+    					->select('id', 'emp_name')
+    					->first();
 
-		$employee = LeaveAllotment::with('leaves')
+		$employee 	= LeaveAllotment::with('leaves')
 						->where('emp_id', '=', $id)
 						->get();
 

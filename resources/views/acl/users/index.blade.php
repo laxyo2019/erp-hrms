@@ -39,16 +39,17 @@
                       <td>{{$index->name}}</td>
                       <td>{{$index->email}}</td>
                       <td class="d-flex">
-
                         <span>
-                          <a href="{{route('users.edit',$index->id)}}" class="btn btn-sm btn-info">Assign Role</a>
+                          <a href="{{route('users.edit',$index->id)}}" class="btn btn-sm btn-info">EDIT</a>
                         </span>
+                        @if(empty($index->emp_id))
                           <span class="ml-2">
                           <form action="{{route('assign.user',$index->id)}}" method="POST" id="assign_{{ $index->id}}">
                             @csrf
                             <a href="javascript:$('#assign_{{ $index->id}}').submit();" class="btn btn-sm btn-info" onclick="return confirm('Are you sure?')">Add as Employee</a>
                           </form>
                           </span>
+                          @endif
                         <span class="ml-2">
                           <form  action="{{route('users.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
                             @csrf

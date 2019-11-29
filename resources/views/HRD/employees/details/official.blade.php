@@ -234,8 +234,6 @@
 
 				}
 			});
-
-			
 		});
 
 		$(":input").each(function(){

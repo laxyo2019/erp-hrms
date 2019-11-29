@@ -5,7 +5,9 @@ namespace App\Http\Controllers\acl;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
+use Models\Spatie\ModelRole;
 use Spatie\Permission\Models\Permission;
+use Models\Spatie\ModelPermission;
 use DB;
 use App\User;
 use Auth;
@@ -15,6 +17,7 @@ class UserController extends Controller
 {
     public function index(){
     	$users = User::all();
+        //return $users;
     	return view('acl.users.index', compact('users'));
     }
 
@@ -74,8 +77,10 @@ class UserController extends Controller
 
     public function update(Request $request, $id){
 
+        //return 54;
         $this->validate($request,
                 ['name' => 'required']);
+
         $user = User::find($id);
 
         $user->name = $request->name;
@@ -86,6 +91,33 @@ class UserController extends Controller
         //Save direct permissions to user
         $user->syncPermissions($request->perms);
 
+        //Add user as an employee if not exists
+        if(empty($user->emp_id)){
+            $user_id = EmployeeMast::create([
+                        'emp_name'  => $user->name])->id;
+
+            $user->emp_id = $user_id;
+            $user->save();
+
+            return redirect()->route('users.index')->with('success', 'User added as an Employee.');
+        }else{
+            return redirect()->route('users.index')->with('success', 'User already Added.');
+        }
+
+
+    return back()->with('success', 'User information updated.');
+    }
+
+    public function destroy( $id){
+        
+        User::findOrFail($id)->delete();
+        return redirect()->route('users.index')->with('success', 'User deleted.');
+    }
+
+    public function AssignUser($id){
+        
+        $user = User::findOrFail( $id);
+        
         //Add user as an employee if not exists
         if(empty($user->emp_id)){ 
             $user_id = EmployeeMast::create([
@@ -98,17 +130,6 @@ class UserController extends Controller
         }else{
             return redirect()->route('users.index')->with('success', 'User already Added.');
         }
-    }
-
-    public function destroy( $id){
-        User::findOrFail($id)->delete();
-
-        return redirect()->route('users.index')->with('success', 'User deleted.');
-    }
-
-    public function AssignUser($id){
-    	
-    	
 
     }
 }

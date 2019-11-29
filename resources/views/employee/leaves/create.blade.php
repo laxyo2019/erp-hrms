@@ -35,8 +35,13 @@
 						</div>
 						<div class="col-6 form-group">
 						<label for="team_lead">Team Lead</label>
-						<input type="text" id="team_lead" class="form-control" name="team_lead"	value="{{$team_lead->emp_name}}" disabled>
-						<input type="hidden" name="team_lead_id" value="{{$team_lead->id}}">
+						<input type="text" id="team_lead" class="form-control" name="team_lead"	value="{{!empty($team_lead) ? $team_lead->emp_name : null}}" disabled>
+						<input type="hidden" name="team_lead_id" value="{{!empty($team_lead) ?$team_lead->id : null}}">
+						@error('team_lead_id')
+				          <span class="text-danger" role="alert">
+				            <strong>* {{ $message }}</strong>
+				          </span>
+				      	@enderror
 					</div>
 		    	</div>
 		    	<div class="row"   style="padding-top: 1%">
@@ -219,10 +224,15 @@
 
 						$('.duration').val(data.days+' days');
 						$('#count').val(data.days);
-						if(data.msg == 0 ){
-							$(".duration_alert").show();
-						}else{
+
+						if(data.rule == null){
 							$(".duration_alert").hide();
+						}
+
+						if(data.msg == 0 ){
+							$(".duration_alert").hide();
+						}else{
+							$(".duration_alert").show();
 							$('button').removeAttr('disabled');
 						}
 					}
