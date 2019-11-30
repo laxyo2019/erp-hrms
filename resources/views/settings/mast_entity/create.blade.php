@@ -5,7 +5,10 @@
 		<div class="app-title">
 			<div class="div">
 				<h4><i class="fa fa-asterisk"></i> Entity :  {{ $table_name }}</h4>
+
 			</div>
+                <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+
 		</div>
 				<div class="row">
 			<div class="col-md-12 col-xl-12">

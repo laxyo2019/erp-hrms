@@ -5,10 +5,13 @@
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 24px">Leaves
+					
 					<span class="ml-2">
 						<a href="{{url('employee/leaves/create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
 						<span class="fa fa-plus "></span> Apply for Leave</a>
 					</span>
+						<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></h1>
+
 					<div class="row d-flex justify-content-center ">
 						@php if(!empty($balance['allotments'])){ @endphp
 						@foreach($balance['allotments'] as $index)					

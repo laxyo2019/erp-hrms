@@ -3,12 +3,14 @@
 	<main class="app-content">
 		<div class="app-title">
 			<div class="div">
-				<h1><i class="fa fa-laptop"></i> Tender Type</h1>
+				<h1><i class="fa fa-laptop"></i> Tender Type
+					<a href="{{route('tender_type.create')}}" class="btn btn-outline-success" style="font-size: 13px">
+					<span class="fa fa-plus"></span> Add New</a>
 			</div>
 			<ul class="app-breadcrumb breadcrumb">
 				<span class="ml-2">
-					<a href="{{route('tender_type.create')}}" class="btn btn-outline-success" style="font-size: 13px">
-					<span class="fa fa-plus"></span> Add New</a>
+				<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></h1>
+					
 				</span>
 			</ul>
 		</div>

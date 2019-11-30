@@ -3,7 +3,8 @@
 	<main class="app-content">
 		<div class="row">
 			<div class="col-md-12">
-				<h1 style="font-size: 20px;">Edit Payment</h1>
+				<h1 style="font-size: 20px;">Edit Payment
+				<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></h1>
 				<hr>
 			</div>
 		</div>

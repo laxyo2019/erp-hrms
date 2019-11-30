@@ -3,13 +3,17 @@
 	<main class="app-content">
 		<div class="app-title">
 			<div class="div">
-				<h1><i class="fa fa-laptop"></i> Tender Category</h1>
+				<h1><i class="fa fa-laptop"></i> Tender Category
+				<a href="{{route('tender_category.create')}}" class="btn btn-outline-success" style="font-size: 13px">
+					<span class="fa fa-plus"></span> Add New</a>
+				</h1>
 			</div>
 			<ul class="app-breadcrumb breadcrumb">
 				<span class="ml-2">
-					<a href="{{route('tender_category.create')}}" class="btn btn-outline-success" style="font-size: 13px">
-					<span class="fa fa-plus"></span> Add New</a>
-					</span>		
+				<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></h1>
+					
+					</span>
+
 			</ul>
 		</div>
 		@if($message = Session::get('success'))

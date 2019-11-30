@@ -7,6 +7,8 @@
 	<div class="row">
 		<div class="col-md-12 col-xl-12">
 			<h1 style="font-size: 24px">Edit Role
+              <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+				
 				<button class="btn btn-sm btn-info ml-2 employee">
                   <i class="fa fa-eye" style="font-size: 12px">&nbsp Add as Employee</i>
                 </button>

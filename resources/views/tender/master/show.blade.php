@@ -6,7 +6,9 @@
 				<span class="notify-sect"></span>
 			</div>
 		</div>
-		<h4 class='text-center'>Title</h4>
+		<h4 class='text-center'>Title
+				<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></h1>
+		</h4>
 		<hr>		
 		<div class="row">
 			<span class="">
