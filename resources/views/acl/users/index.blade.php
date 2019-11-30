@@ -3,7 +3,7 @@
 	<main class="app-content">
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
-				<h1 style="font-size: 24px">Users
+				<h1 style="font-size: 24px">Users permissions
               <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
           
           {{-- <span class="ml-2">
@@ -36,11 +36,11 @@
               <tbody>
                 @php $count = 0; @endphp
                 @foreach($users as $index)
-                    <tr class="text-center">
+                    <tr class="text-center" >
                       <td>{{++$count}}</td>
                       <td>{{$index->name}}</td>
                       <td>{{$index->email}}</td>
-                      <td class="d-flex">
+                      <td class="d-flex" >
                         <span>
                           <a href="{{route('users.edit',$index->id)}}" class="btn btn-sm btn-info">EDIT</a>
                         </span>

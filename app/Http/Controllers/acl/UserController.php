@@ -13,6 +13,7 @@ use App\User;
 use Auth;
 use App\Models\Employees\EmployeeMast;
 
+// test
 class UserController extends Controller
 {
     public function index(){
@@ -95,11 +96,10 @@ class UserController extends Controller
         if(empty($user->emp_id)){
             $user_id = EmployeeMast::create([
                         'emp_name'  => $user->name])->id;
-
             $user->emp_id = $user_id;
             $user->save();
 
-            return redirect()->route('users.index')->with('success', 'User added as an Employee.');
+            return redirect()->route('users.index')->with('success', 'User Added as an Employee.');
         }else{
             return redirect()->route('users.index')->with('success', 'User already Added.');
         }

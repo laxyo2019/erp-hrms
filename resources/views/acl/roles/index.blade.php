@@ -34,21 +34,20 @@
                 </tr>
               </thead>
               <tbody>
-                @php $count = 0; @endphp
+            @php $count = 0; @endphp
               @foreach($roles as $index)
               <tr class="text-center">
                 <td>{{++$count}}</td>
                 <td>{{$index->name}}</td>
-                <td class="d-flex">
-                    <span >
-                        <a href="{{route('roles.edit',$index->id)}}" class="btn btn-sm btn-info">Edit Permission</a>
-                    </span>
-                    <span class="ml-2">
-                      <form  action="{{route('roles.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
-                          @csrf
-                        @method('DELETE')
-                        <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
-                    
+                <td class="d-flex" >
+                  <span >
+                      <a href="{{route('roles.edit',$index->id)}}" class="btn btn-sm btn-info">Edit Permission</a>
+                  </span>
+                  <span class="ml-2">
+                    <form  action="{{route('roles.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
+                      @csrf
+                      @method('DELETE')
+                      <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
                       </form>
                     </span>
                   </td>

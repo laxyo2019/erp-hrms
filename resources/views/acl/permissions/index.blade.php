@@ -38,11 +38,11 @@
               <tr class="text-center">
                 <td>{{++$count}}</td>
                 <td>{{ucwords($index->name)}}</td>
-                <td class="d-flex text-center">
+                <td class="d-flex " >
                     <span>
                         <a href="{{route('permissions.edit',$index->id)}}" class="btn btn-sm btn-info">EDIT</a>
                     </span>
-                    <span class="ml-2 ">
+                    <span class="ml-2">
                       <form  action="{{route('permissions.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
                           @csrf
                         @method('DELETE')
