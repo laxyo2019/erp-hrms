@@ -157,15 +157,18 @@
 				todayHighlight: true
 			});
 
-			//For privilege leave
+			//Hide full & half day bu
 			$('#leave_type').on('change', function(){
-				
+				//var str = 'Privilege leave';
+				//alert(str.includes('leave'));
 
 				var value = $(this).children("option:selected").text();
-				alert(val)
-				if(value == 1 || stripos(value, 'privilege') !== false){
-					//alert(value)
+				var leave = value.trim()
+
+				if(leave.indexOf('Privilege') == false){
 					$('#full, #half').attr('hidden', true);
+				}else{
+					$('#full, #half').removeAttr('hidden');
 				}
 			});
 
