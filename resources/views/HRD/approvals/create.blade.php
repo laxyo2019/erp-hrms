@@ -3,7 +3,8 @@
 	<main class="app-content">
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
-				<h1 style="font-size: 20px">Add Stage For Approval</h1>
+				<h1 style="font-size: 20px">Add Stage For Approval
+				<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></h1>
 				<hr>
 			</div>
 		</div>

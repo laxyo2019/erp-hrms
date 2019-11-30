@@ -3,14 +3,13 @@
 	<main class="app-content">
 		<div class="app-title">
 			<div class="div">
-				<h4><i class="fa fa-asterisk"></i> Entity :  {{ $table_name }}</h4>
-			</div>
-			<ul class="app-breadcrumb breadcrumb">
-				<span class="ml-2">
-					<a href="{{ route('mast_entity.get', ['create', $db_table]) }}" class="btn btn-outline-success" style="font-size: 13px">
+				<h4><i class="fa fa-asterisk"></i> Entity :  {{ $table_name }}
+				<a href="{{ route('mast_entity.get', ['create', $db_table]) }}" class="btn btn-outline-success" style="font-size: 13px">
 					<span class="fa fa-plus"></span> Add New</a>
-				</span>
-			</ul>
+				</h4>
+
+			</div>
+			<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
 		</div>
 		@if($message = Session::get('success'))
 			<div class="alert alert-success alert-block">

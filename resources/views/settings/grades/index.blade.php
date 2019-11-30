@@ -4,6 +4,8 @@
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 20px">Grades
+                    <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+					
 					<span class="ml-2">
 						<a href="{{route('grades.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
 							<span class="fa fa-plus "></span> Add New</a>

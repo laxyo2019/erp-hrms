@@ -6,7 +6,9 @@
 <main class="app-content">
 	<div class="row">
 			<div class="col-md-12 col-xl-12">
-				<h1 style="font-size: 24px">Create Holiday here</h1>
+				<h1 style="font-size: 24px">Create Holiday here
+                    <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+				</h1>
 			</div>
 		</div>
 	<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid grey;">
@@ -20,7 +22,7 @@
 				@csrf
 				<div class="row">
 					<div class="col-6 form-group">
-						77<label for="title">Holiday Title</label>
+						<label for="title">Holiday Title</label>
 						<input type="text" id="title" class="form-control" name="title" value="{{old('title')}}">
 						@error('title')
 				          <span class="text-danger" role="alert">
