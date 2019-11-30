@@ -39,6 +39,7 @@ class LeavesController extends Controller
 
       $employee = EmployeeMast::with(['leaveapplies'])->where('id', Auth::user()->emp_id)->first();
       $balance  = EmployeeMast::with('allotments.leaves')->where('id', Auth::user()->emp_id)->first();
+      //return $employee['leaveapplies'][0]->status;
       
       return view('employee.leaves.index', compact('employee', 'balance'));
     }
@@ -103,7 +104,7 @@ class LeavesController extends Controller
                           ['leave_mast_id', $request->leave_type],
                         ])->first();
 
-        return $allotment;
+        //return $allotment;
 
         if($count <= $allotment->current_bal){
 
@@ -113,7 +114,7 @@ class LeavesController extends Controller
               'msg'  =>  0 ];
           
         }else{
-          
+
             $data = [
               'days' => $count,
               'rule' =>  $sandwichRule,

@@ -91,7 +91,7 @@
 										        </div>
 										    </div>
 										</div>
-										{{-- @if($leaveapply['approvalaction']->name == 'Pending') --}}
+										@if(empty($leaveapply->status))
 										<span class="ml-2">
 											<a href="{{url('employee/leaves/'.$leaveapply->id.'/edit')}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 										</span>										
@@ -102,7 +102,7 @@
 												<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
 											</form>
 										</span> 
-										{{-- @endif --}}
+										@endif
 									</td>
 								</tr>
 								@endforeach

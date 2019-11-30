@@ -25,8 +25,8 @@ class LeavesController extends Controller
     
     public function index(){
 
-        $user = User::find(Auth::user()->emp_id);
-        $permissions = $user->getDirectPermissions();
+        $user           = User::find(Auth::user()->emp_id);
+        $permissions    = $user->getDirectPermissions();
 
         //$type = LeaveMast::all();
         //$permissions = ModelPermission::where('model_id',Auth::user()->id)->get();
@@ -39,6 +39,8 @@ class LeavesController extends Controller
             ->leftjoin('approval_actions_mast', 'emp_leave_applies.status', '=', 'approval_actions_mast.id')
             ->select('emp_leave_applies.id', 'emp_mast.id as employee_id','emp_name', 'leave_mast.name', 'emp_leave_applies.from', 'emp_leave_applies.from', 'emp_leave_applies.to', 'emp_leave_applies.count', 'emp_leave_applies.status', 'emp_leave_applies.approver_remark', 'approval_actions_mast.id as action_id', 'approval_actions_mast.name as action_name')
     		->get();
+        //$leave_app = LeaveApply::findOrFail(Auth::user()->emp_id);
+        //return $leave_request;
 
     	return view('HRD.leaves.index', compact('leave_request', 'permissions'));
     	
@@ -59,6 +61,7 @@ class LeavesController extends Controller
         //Update Leave application status
 
         $leave = LeaveApply::findOrFail($leave_id);
+        return $leave->status;
         $leave->status = $action;
         $leave->save();
 

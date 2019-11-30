@@ -60,7 +60,7 @@
         </div>
     </div>
 </main>
-<script type="text/javascript">
+{{-- <script type="text/javascript">
     $(document).ready(function(){
 
         $('.modalType').on('click', function(e){
@@ -78,5 +78,5 @@
         });
 
     });
-</script>
+</script> --}}
 @endsection

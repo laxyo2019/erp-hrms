@@ -49,7 +49,7 @@
 						<button type="button" id="multi" class="btn btn-primary active">Multiple</button>
 					</div>
 					<div class="col-1 form-group">
-							<button type="button" id="full" class="btn btn-primary ">Full Day</button>
+							<button type="button" id="full" class="btn btn-primary " >Full Day</button>
 					</div>
 					<div class="col-1 form-group">
 						<button type="button" id="half" class="btn btn-primary ">Half Day</button>
@@ -155,6 +155,18 @@
 				format: "yyyy-mm-dd",
 				autoclose: true,
 				todayHighlight: true
+			});
+
+			//For privilege leave
+			$('#leave_type').on('change', function(){
+				
+
+				var value = $(this).children("option:selected").text();
+				alert(val)
+				if(value == 1 || stripos(value, 'privilege') !== false){
+					//alert(value)
+					$('#full, #half').attr('hidden', true);
+				}
 			});
 
 			$('#multi').on('click', function(e){
@@ -263,13 +275,14 @@
 					data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'emp_id': emp_id, 'day': day },
 					success:function(data){
 						 var data = JSON.parse(data);
+						 //alert(data)
 
 						$('.duration').val(data.days+' days');
 						$('#count').val(data.days);
 						if(data.msg == 0 ){
-							$(".duration_alert").show();
-						}else{
 							$(".duration_alert").hide();
+						}else{
+							$(".duration_alert").show();
 							$('button').removeAttr('disabled');
 						}
 					}

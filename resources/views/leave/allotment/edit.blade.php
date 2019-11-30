@@ -5,9 +5,9 @@
 @section('content')
 <main class="app-content">
 	<div class="row">
-			<div class="col-md-12 col-xl-12">
-				<h1 style="font-size: 24px">Edit Employee allotments here</h1>
-			</div>
+		<div class="col-md-12 col-xl-12">
+			<h1 style="font-size: 24px">Edit Employee allotments here</h1>
+		</div>
 	</div>
 	<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid grey;">
 		@if($message = Session::get('success'))
@@ -15,7 +15,7 @@
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				{{$message}}
 			</div>
-		@endif 
+		@endif
 		<div><h4>{{$name->emp_name}}</h4></div><hr>
 		<form action="{{route('allotments.update', $name->id)}}" method="POST" enctype="multipart/form-data">
 			@csrf
