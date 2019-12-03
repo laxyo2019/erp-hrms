@@ -6,12 +6,11 @@
 				<h1 style="font-size: 24px">Employees
 					<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></h1>
 					<span class="ml-2">
-						<button class="btn btn-sm btn-info"  data-toggle="modal" data-target="#import-modal" style="font-size:13px">
+						<button class="btn btn-sm btn-info"  data-toggle="modal" data-target="#import-modal" style="font-size:13px" >
 							<form action="{{route('employees.import')}}" method="POST" enctype="multipart/form-data">
 								@csrf
-								<input type="file" onchange="this.form.submit()" name="import" class="hidden" style="display:none">
-								<i class="fa fa-cloud-upload"></i> Upload Files</label>
-								
+								<input type="file" onchange="this.form.submit()" name="import" class="hidden" style="display:none" id="FileUpload">
+								<i class="fa fa-cloud-upload" id="btnFileUpload"></i> Upload Files</label>
 							</form>
 						</button>
 					</span>
@@ -24,6 +23,7 @@
 				<hr>
 			</div>
 		</div>
+
 		@if($message = Session::get('success'))
 			<div class="alert alert-success">
 				{{$message}}
@@ -95,4 +95,14 @@
 			</div>
 		</div>
 	</main>
+	<script type="text/javascript">
+    $(document).ready(function(){
+
+       $('#btnFileUpload').on('click', function(){
+            $('#FileUpload').trigger('click');
+
+        });
+
+    });
+</script>
 @endsection

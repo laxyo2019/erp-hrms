@@ -324,12 +324,15 @@ class EmployeesController extends Controller
 	  $data['parent_ids']   = EmployeeMast::where('comp_id',$data['employee']->comp_id)->where('id','!=',$data['employee']->id)->get();
 	   $data['grades']      = Grade::all();
 		$data['designations'] = Designation::all();
+    // dd($data);
 
     return view('HRD.employees.edit',$data);
   }
 
   public function update(Request $request, $id)
   {	
+    // dd($request);
+
   	$data =  $request->validate([
 			'name'       => 'required|string|max:50',
  			'emp_code'   => 'required|string|max:15',
@@ -342,6 +345,7 @@ class EmployeesController extends Controller
 				'join_dt.required'  => 'The Joining date is requred.',
 				'emp_desg.required' => 'The Designation is requred.',
 			]);
+    // dd($data);
 			$employee = EmployeeMast::findOrfail($id);
 			$employee->emp_name   = $vdata['emp_title']." ".$vdata['full_name'];
 			$employee->emp_gender = $request->emp_gender;

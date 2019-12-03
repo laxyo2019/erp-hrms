@@ -30,10 +30,10 @@
 										<input type="text" name="name" class="form-control" value="{{old('name',$employee->emp_name)}}">
 									</div>
 									@error('name')
-                    <span class="text-danger" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                	@enderror
+			                    <span class="text-danger" role="alert">
+			                        <strong>{{ $message }}</strong>
+			                    </span>
+			                	@enderror
 								</div>
 								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 									<label for="name"><b>Employee Code <span class="text-danger">*</span></b> </label>
@@ -46,10 +46,10 @@
 										<input type="text" name="emp_code" class="form-control" value="{{old('emp_code',$employee->emp_code)}}">
 									</div>
 									@error('emp_code')
-                    <span class="text-danger" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                	@enderror
+			                    <span class="text-danger" role="alert">
+			                        <strong>{{ $message }}</strong>
+			                    </span>
+			                	@enderror
 								</div>
 				{{-- 				<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 									<label for="name"><b>Company Code <span class="text-danger">*</span></b> </label>
@@ -89,11 +89,11 @@
 										</select>
 									</div>
 									@error('parent_id')
-                    <span class="text-danger" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                	@enderror
-								</div>
+	                    <span class="text-danger" role="alert">
+	                        <strong>{{ $message }}</strong>
+	                    </span>
+	                	@enderror
+									</div>
 								{{-- fetch all grades of company1  --}}
 								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 									<label for="name"><b>Grade<span class="text-danger">*</span></b> </label>
@@ -190,7 +190,7 @@
 											<select name="emp_desg" class="form-control" id="">
 												<option value="">Select designation</option>	
 												@foreach($designations as $designation)
-												<option value="{{$designation->id}}" {{old('emp_desg',$employee->desg_id) == $designation->id ? 'selected' : ''}}>{{$designation->desg_name}}</option>
+												<option value="{{$designation->id}}" {{old('emp_desg',$employee->desg_id) == $designation->id ? 'selected' : ''}}>{{$designation->name}}</option>
 												@endforeach
 											</select>
 										</div>
@@ -239,9 +239,7 @@
 		</div>
 	</main>
 
-
 <script type="text/javascript">
-
 		$(document).ready(function(){
 			$('.datepicker').datepicker({
 				orientation: "bottom",
@@ -261,6 +259,7 @@
     			 "comp_id":comp_id
     		},
     		success:function(data){
+    			alert(data)
     			console.log(data);
     			var designations = (data);
     			var html='<select name="emp_desg" class="form-control" id=""><option value="">Select designation</option>';

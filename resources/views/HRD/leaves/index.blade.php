@@ -17,7 +17,7 @@
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
 					<div class="card-body table-responsive">
-						<table class="table table-stripped table-bordered">
+						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
 									<th>##</th>
@@ -32,7 +32,9 @@
 								</tr>
 							</thead>
 							<tbody>
-								@php $count = 0; @endphp
+									{{-- {{$approverName->approve_name['emp_name']}}			 --}}
+
+							@php $count = 0; @endphp
 							@foreach($leave_request as $request) 
 								<tr>
 									<td>{{++$count}}</td>
@@ -59,24 +61,26 @@
 									<td>{{$request->from}}</td>
 									<td>{{$request->to}}</td>
 									<td>{{$request->count}}</td>
-							<td>{{empty($request->status) ? 'Pending' : $request->action_name }}</td>
+									<td>{{empty($request->status) ? 'Pending' : $request->action_name }}
+									</td>
 									<td class='d-flex' style="border-bottom:none">
-										@foreach($permissions as $action)
+									{{-- @can('HR- manager') --}}
+									@if($request->action_name =='Approved')
+										@else
+											@foreach($permissions as $action)
+												<span class="ml-2">
+													@if($action->name == 'decline')
+													<a href="{{route('leave.details', [$request->id, $action->id])}}" class="btn btn-sm btn-danger">{{$action->name}}</a>
+													@elseif($action->name == 'approve')
+													<a href="{{route('leave.details', [$request->id, $action->id])}}" class="btn btn-sm btn-success">{{$action->name}}</a>
+													{{-- @elseif($action->name == 'hold')
+													<a href="{{route('leave.details', [$request->id, $action->id])}}" class="btn btn-sm btn-warning">{{$action->name}}</a> --}}
+												</span>
 
-{{-- @if($action->name != 'Pending') --}}
-	{{-- @if($request->action_name == 'Pending') --}}
-	
-		{{-- @if(auth()->user()->can('approve')) --}}
-		{{-- if(auth()->user()->can('approve') && auth()->user()->can('decline')) --}}
-		<span class="ml-2">
-			<a href="{{route('leave.details', [$request->id, $action->id])}}" class="btn btn-sm btn-success">{{$action->name}}</a>
-		</span>
-		{{-- @endcan --}}
-		{{-- @endif --}}
-	
-	{{-- @endif --}}
-{{-- @endif --}}
-										@endforeach
+												@endif
+											@endforeach
+									@endif
+									{{-- @endcan --}}
 									</td>
 								</tr>
 							 @endforeach
@@ -87,9 +91,13 @@
 			</div>
 		</div>
 	</main>
+	    
 <script>
+	 $(document).ready(function(){
+		$('#ClientsTable').DataTable();
+	  });
 	$(document).ready(function(){
-
+		
 		$('.modalReq').on('click', function(e){
 			e.preventDefault();
 			var leave_id = $(this).data('id');
@@ -104,5 +112,4 @@
 		})
 	});
 </script>
-
 @endsection
