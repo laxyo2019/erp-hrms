@@ -45,7 +45,7 @@
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
 					<div class="card-body table-responsive">
-						<table class="table table-stripped table-bordered">
+						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
 									<th>#</th>
@@ -66,15 +66,23 @@
 								if(!empty($employee['leaveapplies'])){
 								@endphp
 								@foreach($employee['leaveapplies'] as $leaveapply)
-								<tr>
+								<tr>{{empty($leaveapply['approvalaction']->name)}}
 									<td>{{++$count}}</td>
 									<td>{{$leaveapply['leavetype']->name}}</td>
 									<td>{{$leaveapply->from}}</td>
 									<td>{{$leaveapply->to}}</td>
 									<td>{{$leaveapply->count}} days</td>
-									<td>{{empty($leaveapply['approvalaction']->name) ? 'PENDING' : strtoupper($leaveapply['approvalaction']->name)}}
+									<td> @if(empty($leaveapply['approvalaction']->name))
+										{{'Declined'}}
+										<strong style="font-weight: 700"> <u>By 	({{$leaveapply->approve_name['emp_name']}})
+										</strong>
+										@else
+										<strong style="font-weight: 700">{{strtoupper($leaveapply['approvalaction']->name)}}</strong>
+										
+										{{-- {{empty($leaveapply['approvalaction']->name) ? 'Decline'  : strtoupper($leaveapply['approvalaction']->name)}} --}}
+										@endif
 										<?php if($leaveapply['approvalaction']['name'] == 'Approved'){ ?>
-										<strong style="font-weight: 700"> <u>By ({{$leaveapply->approve_name['emp_name']}})</strong></u> 
+										 <u>By ({{$leaveapply->approve_name['emp_name']}})</u> 
 										<?php } ?>
 									</td>
 									<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>
@@ -120,6 +128,9 @@
 		</div>
 </main>
 <script type="text/javascript">
+	$(document).ready(function(){
+		$('#ClientsTable').DataTable();
+	 });
 	$(document).ready(function(){
 
 		$('.modalLeave').on('click', function(e){

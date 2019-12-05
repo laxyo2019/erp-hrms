@@ -32,8 +32,7 @@
 								</tr>
 							</thead>
 							<tbody>
-									{{-- {{$approverName->approve_name['emp_name']}}			 --}}
-
+									
 							@php $count = 0; @endphp
 							@foreach($leave_request as $request) 
 								<tr>
@@ -61,25 +60,38 @@
 									<td>{{$request->from}}</td>
 									<td>{{$request->to}}</td>
 									<td>{{$request->count}}</td>
-									<td>{{empty($request->status) ? 'Pending' : $request->action_name }}
+									<td> 
+										@if ($request->status =='7')
+											<span class="ml-1">{{'Declined'}} </span>
+											@else
+											{{'Approved'}}
+										@endif
+
 									</td>
+									{{-- <td>{{empty($request->status) ? 'Pending' : $request->action_name }}
+									</td> --}}
 									<td class='d-flex' style="border-bottom:none">
+								
 									{{-- @can('HR- manager') --}}
-									@if($request->action_name =='Approved')
-										@else
+									{{-- @if($request->action_name =='Approved') --}}
+									  {{--  {{empty($request->status) ? 'Pending' : $request->action_name }} --}}
+									   {{-- @else --}}
+									   
 											@foreach($permissions as $action)
 												<span class="ml-2">
 													@if($action->name == 'decline')
 													<a href="{{route('leave.details', [$request->id, $action->id])}}" class="btn btn-sm btn-danger">{{$action->name}}</a>
 													@elseif($action->name == 'approve')
-													<a href="{{route('leave.details', [$request->id, $action->id])}}" class="btn btn-sm btn-success">{{$action->name}}</a>
+													<a href="{{route('leave.details', [$request->id, $action->id])}}" class="btn btn-sm btn-success disable" id="disable">{{$action->name}}</a>
+													
 													{{-- @elseif($action->name == 'hold')
 													<a href="{{route('leave.details', [$request->id, $action->id])}}" class="btn btn-sm btn-warning">{{$action->name}}</a> --}}
 												</span>
 
 												@endif
 											@endforeach
-									@endif
+
+									{{-- @endif --}}
 									{{-- @endcan --}}
 									</td>
 								</tr>
@@ -93,9 +105,9 @@
 	</main>
 	    
 <script>
-	 $(document).ready(function(){
+	$(document).ready(function(){
 		$('#ClientsTable').DataTable();
-	  });
+	 });
 	$(document).ready(function(){
 		
 		$('.modalReq').on('click', function(e){

@@ -37,7 +37,7 @@ class LeavesController extends Controller
     {
       
       $emp = EmployeeMast::find(Auth::user()->emp_id)->first();
-      $employee = EmployeeMast::with(['leaveapplies.approve_name'])->where('id', Auth::user()->emp_id)->first();
+      $employee = EmployeeMast::orderBy('id', 'DESC')->with(['leaveapplies.approve_name'])->where('id', Auth::user()->emp_id)->first();
       $balance  = EmployeeMast::with('allotments.leaves')->where('id', Auth::user()->emp_id)->first();
       $parent_id = EmployeeMast::find(Auth::user()->emp_id)->parent_id;
       if(!empty($parent_id)){

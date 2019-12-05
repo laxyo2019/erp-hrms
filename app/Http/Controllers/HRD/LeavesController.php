@@ -25,17 +25,26 @@ class LeavesController extends Controller
     
     public function index(){
 
+
+        $emp = EmployeeMast::find(Auth::user()->emp_id)->first();
+      $employee = EmployeeMast::orderBy('id', 'DESC')->with(['leaveapplies.approve_name'])->where('id', Auth::user()->emp_id)->first();
+      // dd( $employee);
         $user           = User::find(Auth::user()->id);
-        $permissions    = $user->getPermissionsViaRoles();
+        $permissions    = $user->getDirectPermissions();
     	$leave_request = DB::table('emp_leave_applies')->orderBy('id', 'DESC')
             ->where('emp_leave_applies.deleted_at', null)
             ->join('emp_mast', 'emp_leave_applies.emp_id', '=', 'emp_mast.id')
             ->join('leave_mast', 'emp_leave_applies.leave_type_id', '=', 'leave_mast.id')
+            // ->join('users', 'emp_leave_applies.approver_id', '=', 'users.id')
             ->leftjoin('approval_actions_mast', 'emp_leave_applies.status', '=', 'approval_actions_mast.id')
-            ->select('emp_leave_applies.id', 'emp_mast.id as employee_id','emp_name', 'leave_mast.name', 'emp_leave_applies.from', 'emp_leave_applies.from', 'emp_leave_applies.to', 'emp_leave_applies.count', 'emp_leave_applies.status', 'emp_leave_applies.approver_remark', 'approval_actions_mast.id as action_id', 'approval_actions_mast.name as action_name')
+            ->select('emp_leave_applies.id', 'emp_mast.id as employee_id','emp_name', 'leave_mast.name', 'emp_leave_applies.from','emp_leave_applies.approver_id', 'emp_leave_applies.from', 'emp_leave_applies.to', 'emp_leave_applies.count', 'emp_leave_applies.status', 'emp_leave_applies.approver_remark', 'approval_actions_mast.id as action_id', 'approval_actions_mast.name as action_name')
     		->get();
+            // 'users.name as approver_name',
+            // dd($leave_request);
+       
+           return view('HRD.leaves.index', compact('leave_request', 'permissions'));
         
-    	return view('HRD.leaves.index', compact('leave_request', 'permissions'));
+
     	
 	}
 
@@ -52,7 +61,7 @@ class LeavesController extends Controller
         $leave->save();
         //Update user leave balance from allotment table if APPROVED
         $acd = Permission::find($action);
-
+        
         if($acd->name == 'decline'){
             LeaveAllotment::where('leave_mast_id', $leave->leave_type_id)
                     ->where('emp_id', $leave->emp_id)

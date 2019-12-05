@@ -43,7 +43,7 @@
 					</ul>
 				</div> --}}
 					<div class="card-body table-responsive">
-						<table class="table table-stripped table-bordered">
+						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
 									<th>ID</th>
@@ -96,6 +96,9 @@
 		</div>
 	</main>
 	<script type="text/javascript">
+	$(document).ready(function(){
+		$('#ClientsTable').DataTable();
+	 });
     $(document).ready(function(){
 
        $('#btnFileUpload').on('click', function(){

@@ -33,7 +33,7 @@ class EmployeesController extends Controller
 
   public function index()
   {		
-		$employees = EmployeeMast::with('company','grade','designation')->get();
+		$employees = EmployeeMast::with('company','grade','designation')->orderBy('id', 'DESC')->get();
     return view('HRD.employees.index',compact('employees'));
   }
 
