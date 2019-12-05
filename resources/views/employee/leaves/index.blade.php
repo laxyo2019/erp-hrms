@@ -60,9 +60,7 @@
 								</tr>
 							</thead>
 							<tbody>
-
 								@php $count = 0;
-
 								if(!empty($employee['leaveapplies'])){
 								@endphp
 								@foreach($employee['leaveapplies'] as $leaveapply)
@@ -72,6 +70,12 @@
 									<td>{{$leaveapply->from}}</td>
 									<td>{{$leaveapply->to}}</td>
 									<td>{{$leaveapply->count}} days</td>
+
+									<td>
+										<strong style="font-weight: 700">
+
+	{{-- {{empty($leaveapply['approvalaction']->name) ? 'PENDING' : strtoupper($leaveapply['approvalaction']->name)}}</strong>
+ --}}
 									<td> @if(empty($leaveapply['approvalaction']->name))
 										{{'Declined'}}
 										<strong style="font-weight: 700"> <u>By 	({{$leaveapply->approve_name['emp_name']}})
@@ -84,6 +88,7 @@
 										<?php if($leaveapply['approvalaction']['name'] == 'Approved'){ ?>
 										 <u>By ({{$leaveapply->approve_name['emp_name']}})</u> 
 										<?php } ?>
+
 									</td>
 									<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>
 									<td class='d-flex' style="border-bottom:none">

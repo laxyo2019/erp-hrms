@@ -22,12 +22,22 @@
 			@csrf
 			@method('PATCH')
 			<div class="row">
-				<div class="col-12" style="text-align: center;">
-					<input type="text" name="permission" value="{{old('start', $permission->name)}}" style="width:60%;">
-					@error('start')
-			          <span class="text-danger" role="alert">
-			            <strong>* {{ $message }}</strong>
-			          </span>
+				<div class="col-6" style="text-align: center;">
+					<label for="permission">Permission Name</label>
+					<input type="text" id="permission" class="form-control" name="permission" value="{{old('permission', $permission->name)}}" >
+					@error('permission')
+			          <small class="form-text text-danger" id="emailHelp">
+				          	*{{ $message }}
+				      </small>
+			      	@enderror
+				</div>	
+				<div class="col-6" style="text-align: center;">
+					<label for="permission_alias">Permission Alias</label>
+					<input type="text" id="permission_alias" class="form-control" name="permission_alias" value="{{$permission_alias->alias}}" >
+					@error('permission_alias')
+			          <small class="form-text text-danger" id="emailHelp">
+				          	*{{ $message }}
+				      </small>
 			      	@enderror
 				</div>			
 			</div>

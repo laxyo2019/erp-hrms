@@ -148,6 +148,13 @@ class CreateLeavesTable extends Migration
           $table->string('approval_id');
           $table->timestamps();
           $table->softDeletes();
+      });
+
+      Schema::create('permission_alias', function (Blueprint $table){
+        $table->bigIncrements('id');
+        $table->string('permission_id');
+        $table->string('alias');
+        $table->timestamps();
       })
     }
     /**
@@ -168,6 +175,7 @@ class CreateLeavesTable extends Migration
       Schema::dropIfExists('approval_actions_mast');
       Schema::dropIfExists('approval_setup_mast');
       Schema::dropIfExists('approval_designation');
+      Schema::dropIfExists('permission_alias');
 
     }
 }

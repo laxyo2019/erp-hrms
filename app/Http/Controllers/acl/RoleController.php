@@ -16,6 +16,7 @@ class RoleController extends Controller
     }
 
     public function create(){
+
         //return Role::find(1)->getDirectPermissions();
 
     	$permissions = Permission::all();
@@ -31,7 +32,7 @@ class RoleController extends Controller
     	]);
 
         $role = Role::create(['name' => $request->role]);
-        $role->syncPermissions($request->perms);
+        $role->syncPermissions($request->permissions);
     	return redirect()->route('roles.index')->with('success', 'Roles added successfully.');
     }
 

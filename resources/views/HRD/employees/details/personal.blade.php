@@ -37,17 +37,15 @@
 									@endforeach
 							</select>
 							@error('emp_title')
-                <span class="text-danger" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            	@enderror
+			                <span class="text-danger" role="alert">
+			                    <strong>{{ $message }}</strong>
+			                </span>
+			            	@enderror
 						</div> 
-
-						
 						<div class="col-5 form-group">
 
 							<label for="">Full Name</label>
-							<input type="text" class="form-control" name="full_name" value="{{old('full_name',(explode(' ', $employee->emp_name, 2))[1])}}" />
+							<input type="text" class="form-control" name="full_name" value="" />
 							@error('full_name')
 			                <span class="text-danger" role="alert">
 			                    <strong>{{ $message }}</strong>

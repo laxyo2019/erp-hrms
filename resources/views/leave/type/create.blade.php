@@ -30,6 +30,15 @@
 				      	@enderror
 					</div>
 					<div class="col-6 form-group">
+						<label for="leave_alias">Leave Alias</label>
+						<input type="text" id="leave_alias" class="form-control" name="leave_alias" value="{{old('leave_alias')}}">
+						@error('leave_alias')
+				          <span class="text-danger" role="alert">
+				            <strong>* {{ $message }}</strong>
+				          </span>
+				      	@enderror
+					</div>
+					<div class="col-6 form-group">
 						<label for="total_leaves">Total leaves</label>
 						<input type="text" class="form-control" name="total_leaves" id="total_leaves" value="{{old('total_leaves')}}">
 						@error('total_leaves')
@@ -65,7 +74,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-6 form-group">
+					<div class="col-4 form-group">
 						<label for="max_days_inmonth">Maximum days in a month</label>
 						<input type="text" class="form-control" name="max_days_inmonth" id="max_days_inmonth" value="{{old('max_days_inmonth')}}">
 						@error('max_days_inmonth')
@@ -74,8 +83,8 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-6 form-group">
-						<label for="max_apply_month">Can be applied max in month</label>
+					<div class="col-4 form-group">
+						<label for="max_apply_month">Maximum time can be appied in month</label>
 						<input type="text" class="form-control" name="max_apply_month" id="max_apply_month" value="{{old('max_apply_month')}}">
 						@error('max_apply_month')
 				          <span class="text-danger" role="alert">
@@ -83,7 +92,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-6 form-group">
+					<div class="col-4 form-group">
 						<label for="max_apply_year">Can be applied max in year</label>
 						<input type="text" class="form-control" name="max_apply_year" id="max_apply_year" value="{{old('max_apply_year')}}">
 						@error('max_apply_year')

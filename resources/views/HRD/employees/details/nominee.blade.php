@@ -63,17 +63,15 @@
 			      	@enderror
 						</div>
 					</div>
-					<div class="col-5">
-						<div class="col-5 form-group">
-							<label for="file_path">Upload Documents</label>
-	    	<input type="file" name="file_path" class="form-group-file" id="file_path" value="{{ old('file_path')}}">
-						</div>
+					<div class="col-4 form-group">
+						<label for="file_path">Upload Documents</label>
+    					<input type="file" name="file_path" class="form-group-file" id="file_path" value="{{ old('file_path')}}">
 					</div>
 					</div>
 					<div class="col-12 form-group ">
-	    	<label for="">Nominee's Permanent Address</label>
-	    	<textarea name="address" id="address" class="form-control" cols="5" rows="5" value="{{old('address')}}"></textarea>
-	    </div>
+				    	<label for="">Nominee's Permanent Address</label>
+				    	<textarea name="address" id="address" class="form-control" cols="5" rows="5" value="{{old('address')}}"></textarea>
+				    </div>
 					<div class="col-12 form-group text-center">
 						<button class="btn btn-info btn-sm">Save</button>
 						<a class="btn btn-danger btn-sm" href="javascript:location.reload()">Cancel</a>

@@ -15,7 +15,7 @@
 			<form action="{{ route('employees.bankdetails', ['id'=> $employee->id]) }}" method="POST" enctype="multipart/form-data" id="delbank_{{$employee->id}}">
 				@csrf
 				<div class="row">
-					<div class="col-5 form-group offset-1">
+					<div class="col-6 form-group">
 						<label for="">Account Holder</label>
 						<input type="text" class="form-control" name="acc_holder" value="{{old('acc_holder')}}">
 						@error('acc_holder')
@@ -24,7 +24,7 @@
 							</span>
 						@enderror
 					</div>
-					<div class="col-5 form-group">
+					<div class="col-6 form-group">
 						<label for="">Account Number</label>
 						<input type="text" class="form-control" name="acc_no" value="{{old('acc_no')}}">
 						@error('acc_no')
@@ -33,7 +33,7 @@
 							</span>
 						@enderror
 					</div>
-					<div class="col-5 form-group offset-1">
+					<div class="col-6 form-group ">
 						<label for="">Bank Name</label>
 						<input type="text" class="form-control" name="bank_name" value="{{old('bank_name')}}">
 						@error('bank_name')
@@ -42,7 +42,7 @@
 							</span>
 						@enderror
 					</div>
-					<div class="col-5 form-group">
+					<div class="col-6 form-group">
 						<label for="">IFSC Code </label>
 						<input type="text" class="form-control" name="ifsc" value="{{old('ifsc')}}">
 						@error('ifsc')
@@ -51,7 +51,7 @@
 							</span>
 						@enderror
 					</div>
-					<div class="col-5 form-group offset-1">
+					<div class="col-6 form-group ">
 						<label for="">Branch</label>
 						<input type="text" class="form-control" name="branch" value="{{old('branch')}}">
 						@error('branch')
@@ -60,32 +60,25 @@
 							</span>
 						@enderror
 					</div>
-					
-					
-					<div class="col-5 form-group">
-						<div class="form-check" >
-						<label for="">have existing account</label>
-						<br>
-						  Check me out:&nbsp;&nbsp;&nbsp; <input type="checkbox" name="is_primary" value="1">
-						
-						</div>
-					</div>
-
-					<div class="col-5 form-group offset-1" >
+					<div class="col-4 form-group">
 						<label for="file_path">Upload Documents</label>
-				    	<input type="file" name="file_path" id="file_path" value="{{ old('file_path') }}" >
-				    	@error('file_path')
+    						<input type="file" name="file_path" class="form-group-file" id="file_path" value="{{ old('file_path')}}">
+    						@error('file_path')
 							<span class="text-danger" role="alert">
-								<strong> {{ $message }}</strong>
+								<strong>* {{ $message }}</strong>
 							</span>
 						@enderror
 					</div>
-					<div class="col-10 offset-1">
-						<div class="col-12 form-group ">
-	    					<label for="">Note</label>
-	    					<textarea name="note" id="remark" class="form-control" cols="10" rows="5" value="old('note')"></textarea>
-	    				</div>
+					
+					<div class="col-5 form-group">
+						<label for="">Have existing account (HDFC Bank)</label>
+						<br>
+						Please check this:&nbsp;&nbsp;&nbsp; <input type="checkbox" name="is_primary" value="1">
 					</div>
+					<div class="col-12 form-group ">
+    					<label for="">Note</label>
+    					<textarea name="note" id="remark" class="form-control" cols="10" rows="5" value="old('note')"></textarea>
+    				</div>
 					<div class="col-12 form-group text-center">
 						<button class="btn btn-info btn-sm">Save</button>
 						<a class="btn btn-danger btn-sm" href="javascript:location.reload()">Cancel</a>

@@ -137,8 +137,8 @@ class EmployeesController extends Controller
   public function save_official(Request $request,$id){
 
 	  $vdata = request()->validate([
-			'emp_code'  => 'string|max:15',
-      'designation'=> 'nullable',
+			/*'emp_code'  => 'string|max:15',
+      'designation'=> 'nullable',*/
       'aadhar_no' => 'string|nullable|max:12',
       'pan_no'    => 'string|nullable|max:20',
       'voter_id'  => 'string|nullable|max:20',
@@ -152,14 +152,9 @@ class EmployeesController extends Controller
 		]);
 
     $employee = EmployeeMast::findOrfail($id);
-    $employee->emp_code   = $request->emp_code;
-    $employee->parent_id  = $request->parent_id;
     $employee->emp_status = $request->emp_status;
     $employee->emp_type   = $request->emp_type;
-    $employee->join_dt    = $request->join_date;
-    $employee->leave_dt   = $request->leave_date;
     $employee->leave_dt   = null;
-    $employee->desg_id    = $request->designation;
     $employee->aadhar_no  = $request->aadhar_no;
     $employee->pan_no     = $request->pan_no;
     $employee->voter_id   = $request->voter_id;
@@ -172,9 +167,13 @@ class EmployeesController extends Controller
     $employee->curr_esi   = $request->curr_esi;
     $employee->comp_id    = $request->comp_id;
     $employee->dept_id    = $request->dept_id;
-    $employee->grade_id   = $request->emp_grade;
     $employee->save();
-
+  /*$employee->emp_code   = $request->emp_code;
+    $employee->join_dt    = $request->join_date;
+    $employee->parent_id  = $request->parent_id;
+    $employee->desg_id    = $request->designation;
+    $employee->grade_id   = $request->emp_grade;
+  */
     
 		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'official'])->with('success','Updated successfully.');
   }
@@ -321,45 +320,59 @@ class EmployeesController extends Controller
   public function edit($id)
   {
     $data['employee']     = EmployeeMast::with('company','designation')->findOrFail($id);
-	  $data['parent_ids']   = EmployeeMast::where('comp_id',$data['employee']->comp_id)->where('id','!=',$data['employee']->id)->get();
-	   $data['grades']      = Grade::all();
+	  $data['parent_ids']   = EmployeeMast::where('desg_id', '3')->get();
+    $data['grades']       = Grade::all();
 		$data['designations'] = Designation::all();
-    // dd($data);
-
-    return view('HRD.employees.edit',$data);
+    
+    return view('HRD.employees.edit',compact('data'));
   }
 
   public function update(Request $request, $id)
   {	
-    // dd($request);
 
   	$data =  $request->validate([
 			'name'       => 'required|string|max:50',
- 			'emp_code'   => 'required|string|max:15',
- 			'emp_gender' => 'required',
+ 			'emp_code'   => 'nullable|string|max:15',
+ 			'emp_gender' => 'nullable',
  			'emp_dob'    => 'required',
  			'join_dt'    => 'required',
- 			'emp_desg'   => 'required',
+ 			'emp_desg'   => 'nullable',
 			],[
 				'emp_dob.required'  => 'The Date of Birth is requred.',
 				'join_dt.required'  => 'The Joining date is requred.',
-				'emp_desg.required' => 'The Designation is requred.',
+				/*'emp_desg.required' => 'The Designation is requred.',*/
 			]);
-    // dd($data);
-			$employee = EmployeeMast::findOrfail($id);
-			$employee->emp_name   = $vdata['emp_title']." ".$vdata['full_name'];
-			$employee->emp_gender = $request->emp_gender;
-			$employee->emp_dob    = $request->emp_dob;
-			$employee->blood_grp  = $request->blood_group;
-			$employee->curr_addr  = $request->curr_addr;
-			$employee->perm_addr  = $request->perm_addr;
-			$employee->contact    = $vdata['Contact_number'];
-			$employee->alt_contact= $vdata['alternate_contact_number'];
-			$employee->email      = $vdata['email'];
-			$employee->alt_email  = $vdata['alternate_email'];
-			$employee->save();
 
-			return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'personal'])->with('success','Updated successfully.');
+    $employee = EmployeeMast::findOrfail($id);
+    $employee->emp_name   = $vdata['name']/*." ".$vdata['full_name']*/;
+    $employee->emp_code   = $vdata['emp_code'];
+    $employee->parent_id  = $request->parent_id;
+    $employee->grade_id   = $request->grade_id;
+    $employee->emp_gender = $request->emp_gender;
+    $employee->emp_dob    = $request->emp_dob;
+    $employee->join_dt    = $request->join_dt;
+    $employee->desg_id    = $request->emp_desg;
+    $employee->save();
+
+      return back()->with('success','Updated successfully.');
+    
+			// $employee = EmployeeMast::findOrfail($id);
+			// $employee->emp_name   = $vdata['emp_title']." ".$vdata['full_name'];
+
+			// $employee->emp_gender = $request->emp_gender;
+			// $employee->emp_dob    = $request->emp_dob;
+			// $employee->blood_grp  = $request->blood_group;
+			// $employee->curr_addr  = $request->curr_addr;
+			// $employee->perm_addr  = $request->perm_addr;
+			// $employee->contact    = $vdata['Contact_number'];
+			// $employee->alt_contact= $vdata['alternate_contact_number'];
+			// $employee->email      = $vdata['email'];
+			// $employee->alt_email  = $vdata['alternate_email'];
+			// $employee->save();
+
+			// return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'personal'])->with('success','Updated successfully.');*/
+
+
     }
 
 
