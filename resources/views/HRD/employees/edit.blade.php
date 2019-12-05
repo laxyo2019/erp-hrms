@@ -34,6 +34,11 @@
 										</span>
 									</div>
 									<input type="text" name="name" class="form-control" value="{{old('name',$data['employee']->emp_name)}}">
+									@error('name')
+			                    <span class="text-danger" role="alert">
+			                        <strong>{{ $message }}</strong>
+			                    </span>
+			                	@enderror
 								</div>
 								@error('name')
 			                    <span class="text-danger" role="alert">
@@ -50,6 +55,11 @@
 										</span>
 									</div>
 									<input type="text" name="emp_code" class="form-control" value="{{old('emp_code',$data['employee']->emp_code)}}">
+									@error('emp_code')
+			                    <span class="text-danger" role="alert">
+			                        <strong>{{ $message }}</strong>
+			                    </span>
+			                	@enderror
 								</div>
 								@error('emp_code')
 				                    <span class="text-danger" role="alert">
@@ -100,6 +110,12 @@
 			                    </span>
 			                	@enderror
 							</div>
+									@error('parent_id')
+				                    <span class="text-danger" role="alert">
+				                        <strong>{{ $message }}</strong>
+				                    </span>
+				                	@enderror
+						</div>
 								{{-- fetch all grades of company1  --}}
 							<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 								<label for="name"><b>Grade<span class="text-danger">*</span></b> </label>
@@ -182,6 +198,8 @@
 												<option value="">Select designation</option>	
 												@foreach($data['designations'] as $designation)
 												<option value="{{$designation->id}}" {{old('emp_desg',$data['employee']->desg_id) == $designation->id ? 'selected' : ''}}>{{$designation->name}}</option>
+												@foreach($designations as $designation)
+												<option value="{{$designation->id}}" {{old('emp_desg',$employee->desg_id) == $designation->id ? 'selected' : ''}}>{{$designation->name}}</option>
 												@endforeach
 											</select>
 										</div>
@@ -230,9 +248,7 @@
 		</div>
 	</main>
 
-
 <script type="text/javascript">
-
 		$(document).ready(function(){
 			$('.datepicker').datepicker({
 				orientation: "bottom",
@@ -252,6 +268,7 @@
     			 "comp_id":comp_id
     		},
     		success:function(data){
+    			alert(data)
     			console.log(data);
     			var designations = (data);
     			var html='<select name="emp_desg" class="form-control" id=""><option value="">Select designation</option>';

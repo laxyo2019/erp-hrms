@@ -8,7 +8,7 @@
                     <div class="row mt-2">
                         <div class="col-sm-1">
                             <a href="{{route('export.holidays')}}" class="btn btn-sm btn-primary " style="font-size:13px">Export
-                            <span class="fa fa-download"></span></a>
+                            <span class="fa fa-cloud-download"></span></a>
                         </div>
                         <div class="col-sm-1">
                         <form method="POST" action="{{route('import.holidays')}}" enctype="multipart/form-data">

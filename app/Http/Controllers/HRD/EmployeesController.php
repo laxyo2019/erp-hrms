@@ -33,7 +33,7 @@ class EmployeesController extends Controller
 
   public function index()
   {		
-		$employees = EmployeeMast::with('company','grade','designation')->get();
+		$employees = EmployeeMast::with('company','grade','designation')->orderBy('id', 'DESC')->get();
     return view('HRD.employees.index',compact('employees'));
   }
 
@@ -323,14 +323,14 @@ class EmployeesController extends Controller
 	  $data['parent_ids']   = EmployeeMast::where('desg_id', '3')->get();
     $data['grades']       = Grade::all();
 		$data['designations'] = Designation::all();
-    //return $data['parent_ids'];
-
+    
     return view('HRD.employees.edit',compact('data'));
   }
 
   public function update(Request $request, $id)
   {	
-  	$vdata =  $request->validate([
+
+  	$data =  $request->validate([
 			'name'       => 'required|string|max:50',
  			'emp_code'   => 'nullable|string|max:15',
  			'emp_gender' => 'nullable',
@@ -355,22 +355,22 @@ class EmployeesController extends Controller
     $employee->save();
 
       return back()->with('success','Updated successfully.');
+    
+			// $employee = EmployeeMast::findOrfail($id);
+			// $employee->emp_name   = $vdata['emp_title']." ".$vdata['full_name'];
 
-    //return $vdata;
-			/*$employee = EmployeeMast::findOrfail($id);
-			$employee->emp_name   = $vdata['name']." ".$vdata['full_name'];
-			$employee->emp_gender = $request->emp_gender;
-			$employee->emp_dob    = $request->emp_dob;
-			$employee->blood_grp  = $request->blood_group;
-			$employee->curr_addr  = $request->curr_addr;
-			$employee->perm_addr  = $request->perm_addr;
-			$employee->contact    = $vdata['Contact_number'];
-			$employee->alt_contact= $vdata['alternate_contact_number'];
-			$employee->email      = $vdata['email'];
-			$employee->alt_email  = $vdata['alternate_email'];
-			$employee->save();
+			// $employee->emp_gender = $request->emp_gender;
+			// $employee->emp_dob    = $request->emp_dob;
+			// $employee->blood_grp  = $request->blood_group;
+			// $employee->curr_addr  = $request->curr_addr;
+			// $employee->perm_addr  = $request->perm_addr;
+			// $employee->contact    = $vdata['Contact_number'];
+			// $employee->alt_contact= $vdata['alternate_contact_number'];
+			// $employee->email      = $vdata['email'];
+			// $employee->alt_email  = $vdata['alternate_email'];
+			// $employee->save();
 
-			return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'personal'])->with('success','Updated successfully.');*/
+			// return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'personal'])->with('success','Updated successfully.');*/
 
 
     }

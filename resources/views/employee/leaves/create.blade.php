@@ -70,6 +70,7 @@
 					<div class="col-4 form-group">
 						<span id="end_date"><label for="end_date">End Date</label>
 						<input type="text" class="form-control datepicker end" name="end_date" autocomplete="off" id="end_date">
+						<span id="small-date" style="color: 'red"></span>
 						@error('end_date')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
@@ -152,14 +153,16 @@
 	</main>
 	<script>
 		$(document).ready(function(){
-			
-			$('.datepicker').datepicker({
-				orientation: "bottom",
-				format: "yyyy-mm-dd",
-				autoclose: true,
-				todayHighlight: true,
-				startDate: '-0m'
-			});
+
+				$('.datepicker').datepicker({
+					orientation: "bottom",
+					format: "yyyy-mm-dd",
+					autoclose: true,
+					todayHighlight: true,
+					startDate: '-0m',
+					minDate:'0'
+				});
+
 
 			//Hide full & half day for Privilege leave
 			$('#leave_type').on('change', function(){
@@ -188,22 +191,17 @@
 		    });
 
 		    $(".end").on("change",function(){
-
 				var leave_type 	= $('select').children("option:selected").val();
 		        var start 		= $('.start').val();
 		        var end 		= $('.end').val();
 		        var id 			= "{{Auth::id()}}";
 		        var day 		= $('#multi').attr('id');
 
-		        var Sdate 	= new Date(start);
-		        var Edate 	= new Date(end);
+	        	$('#submit').removeAttr('disabled')
 
-		        //End Date should be greater than start date
-		        if(Sdate < Edate){
+			        if(Date.parse(start)<=Date.parse(end)){
+					   $.ajax({
 
-		        	$('#submit').removeAttr('disabled')
-
-		        	 $.ajax({
 					type:'get',
 					url: '/balance/',
 					data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'id': id, 'day': day},
@@ -228,13 +226,14 @@
 						}
 					});
 
-		        }else{
+		        }/*else{
 		        	$('#submit').attr('disabled', true)
 		        	alert('Please ensure that End Date should be greater than Start Date.')
 
-		        }
-
-		       
+		        }*/
+				else{
+				$('#small-date').css("color", "red").append("Can not small from start date.");
+				}	        
 		    });
 
 		    $('#full').on('click', function(e){

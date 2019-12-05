@@ -24,6 +24,11 @@ class LeaveApply extends Model
     public function approve_name(){
     	return $this->belongsTo('App\Models\Master\LeaveMast', 'leave_type_id');
     }
+    public function approve_name(){
+        
+        return $this->belongsTo('App\Models\Employees\EmployeeMast', 'approver_id','id');
+
+    }
 
     
     

@@ -45,7 +45,7 @@
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
 					<div class="card-body table-responsive">
-						<table class="table table-stripped table-bordered">
+						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
 									<th>#</th>
@@ -60,23 +60,35 @@
 								</tr>
 							</thead>
 							<tbody>
-								
-								
-								@php $count = 0; 
-
+								@php $count = 0;
 								if(!empty($employee['leaveapplies'])){
 								@endphp
 								@foreach($employee['leaveapplies'] as $leaveapply)
-								<tr>
+								<tr>{{empty($leaveapply['approvalaction']->name)}}
 									<td>{{++$count}}</td>
 									<td>{{$leaveapply['leavetype']->name}}</td>
 									<td>{{$leaveapply->from}}</td>
 									<td>{{$leaveapply->to}}</td>
 									<td>{{$leaveapply->count}} days</td>
+
 									<td>
 										<strong style="font-weight: 700">
 
-	{{empty($leaveapply['approvalaction']->name) ? 'PENDING' : strtoupper($leaveapply['approvalaction']->name)}}</strong>
+	{{-- {{empty($leaveapply['approvalaction']->name) ? 'PENDING' : strtoupper($leaveapply['approvalaction']->name)}}</strong>
+ --}}
+									<td> @if(empty($leaveapply['approvalaction']->name))
+										{{'Declined'}}
+										<strong style="font-weight: 700"> <u>By 	({{$leaveapply->approve_name['emp_name']}})
+										</strong>
+										@else
+										<strong style="font-weight: 700">{{strtoupper($leaveapply['approvalaction']->name)}}</strong>
+										
+										{{-- {{empty($leaveapply['approvalaction']->name) ? 'Decline'  : strtoupper($leaveapply['approvalaction']->name)}} --}}
+										@endif
+										<?php if($leaveapply['approvalaction']['name'] == 'Approved'){ ?>
+										 <u>By ({{$leaveapply->approve_name['emp_name']}})</u> 
+										<?php } ?>
+
 									</td>
 									<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>
 									<td class='d-flex' style="border-bottom:none">
@@ -122,6 +134,9 @@
 </main>
 <script type="text/javascript">
 	$(document).ready(function(){
+		$('#ClientsTable').DataTable();
+	 });
+	$(document).ready(function(){
 
 		$('.modalLeave').on('click', function(e){
 			e.preventDefault();
@@ -132,7 +147,7 @@
 				url: "/leave-show/"+id,
 				//headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 				success:function(data){
-					alert(data);
+					// alert(data);
 					$('#expModal').modal('show');
 					$('#modalTable').html(data);					
 				}
