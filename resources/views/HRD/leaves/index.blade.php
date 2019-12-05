@@ -22,12 +22,11 @@
 								<tr>
 									<th>##</th>
 									<th>EMPLOYEE</th>
-									<th>TYPE</th>
-									<th>DETAILS</th>
 									<th>LEAVE</th>
-									{{-- <th>LEAVE ENDS</th> --}}
+									<th>DETAILS</th>
+									<th>LEAVE STARTS</th>
+									<th>LEAVE ENDS</th>
 									<th>DURATION</th>
-									<th>POSTED ON</th>
 									<th>STATUS</th>
 									<th style="text-align: center;">ACTIONS</th>
 								</tr>
@@ -58,13 +57,9 @@
 									        </div>
 									    </div>
 									</div>
-									<td>{{date('d M', strtotime($request->from)) }} - {{ date('d M', strtotime($request->to))}}</td>
-									{{-- <td>{{$request->to}}</td> --}}
+									<td>{{$request->from}}</td>
+									<td>{{$request->to}}</td>
 									<td>{{$request->count}}</td>
- 
-									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
-							{{-- <td>{{empty($request->status) ? 'Pending' : $request->action_name }}</td> --}}
-
 									<td> 
 										@if ($request->status =='7')
 											<span class="ml-1">{{'Declined'}} </span>
@@ -75,7 +70,6 @@
 									</td>
 									{{-- <td>{{empty($request->status) ? 'Pending' : $request->action_name }}
 									</td> --}}
-
 									<td class='d-flex' style="border-bottom:none">
 								
 									{{-- @can('HR- manager') --}}
@@ -96,31 +90,9 @@
 
 												@endif
 											@endforeach
-								{{-- @if($action->name != 'Pending') --}}
-									@if($request->status == null)
-									
-										{{-- @if(auth()->user()->can('approve')) --}}
-										{{-- if(auth()->user()->can('approve') && auth()->user()->can('decline')) --}}
-										<span class="ml-2">
-											
-											<form action="{{url('hrd/leaves')}}" method="POST" >
-									            @csrf
-									          <input type="hidden" name="leave_request_id" value="{{$request->id}}">
-									          {{-- <input type="hidden" name="approver_id" value="{{auth()->user()->id}}"> --}}
-									          <input type="hidden" name="approval_action_id" value="{{$action->id}}">
-									          <button type="submit" class="btn btn-success">{{$action->name}}</button>
-									        </form>
-										</span>
-										{{-- @endcan --}}
-										@endif
-									
-									{{-- @endif --}}
-								{{-- @endif --}}
-										@endforeach
 
 									{{-- @endif --}}
 									{{-- @endcan --}}
-
 									</td>
 								</tr>
 							 @endforeach
