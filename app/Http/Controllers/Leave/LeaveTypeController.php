@@ -34,6 +34,7 @@ class LeaveTypeController extends Controller
         $this->validate($request, 
         [
             'leave_name'        => 'required',
+            'leave_alias'       => 'required',
             'total_leaves'      => 'required',
             'generate_after'    => 'nullable|numeric',
             'min_apply_once'    => 'nullable|numeric|between:0,99.99',
@@ -51,6 +52,7 @@ class LeaveTypeController extends Controller
     	$leaves = new LeaveMast;
 
     	$leaves->name 				= 	$request->leave_name;
+        $leaves->alias              =   $request->leave_alias;
     	$leaves->count 				=	$request->total_leaves;
     	$leaves->generates_in		=	$request->generate_after;
     	$leaves->max_apply_once		=	$request->max_apply_once;
@@ -83,6 +85,7 @@ class LeaveTypeController extends Controller
         $this->validate($request, 
         [
             'leave_name'        => 'required',
+            'leave_alias'       => 'required',
             'total_leaves'      => 'required|numeric|between:0,99.99',
             'generate_after'    => 'nullable|numeric',
             'min_apply_once'    => 'nullable|numeric|between:0,99.99',
@@ -93,8 +96,10 @@ class LeaveTypeController extends Controller
             'carry'             => 'nullable'
         ]);
 
+        //return 524;
         $leave = LeaveMast::findOrFail($id);
         $leave->name            =  $request->leave_name;
+        $leave->alias           =  $request->leave_alias;
         $leave->count           =  $request->total_leaves;
         $leave->generates_in    =  $request->generate_after;
         $leave->max_apply_once  =  $request->max_apply_once;

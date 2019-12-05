@@ -7,7 +7,7 @@
 	<div class="row">
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 24px">Edit Leaves here
-				<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></h1>
+				<a href="{{ route('types.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></h1>
 			</div>
 		</div>
 	<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid grey;">
@@ -25,6 +25,15 @@
 						<label for="leave_name">Leave Name</label>
 						<input type="text" id="leave_name" class="form-control" name="leave_name" value="{{$leave_type->name}}">
 						@error('leave_name')
+				          <span class="text-danger" role="alert">
+				            <strong>* {{ $message }}</strong>
+				          </span>
+				      	@enderror
+					</div>
+					<div class="col-6 form-group">
+						<label for="leave_alias">Leave Alias</label>
+						<input type="text" id="leave_alias" class="form-control" name="leave_alias" value="{{$leave_type->alias}}">
+						@error('leave_alias')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
 				          </span>
@@ -69,7 +78,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-6 form-group">
+					<div class="col-4 form-group">
 						<label for="max_days_inmonth">Maximum days in a month</label>
 						<input type="text" class="form-control" name="max_days_inmonth"
 						autocomplete="off" id="max_days_inmonth" value="{{$leave_type->max_days_month}}">
@@ -79,7 +88,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-6 form-group">
+					<div class="col-4 form-group">
 						<label for="max_apply_month">Can be applied max in month</label>
 						<input type="text" class="form-control" name="max_apply_month"
 						autocomplete="off" id="max_apply_month" value="{{$leave_type->max_apply_month}}">
@@ -89,7 +98,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-6 form-group">
+					<div class="col-4 form-group">
 						<label for="max_apply_year">Can be applied max in year</label>
 						<input type="text" class="form-control" name="max_apply_year"
 						autocomplete="off" id="max_apply_year" value="{{$leave_type->max_apply_year}}">

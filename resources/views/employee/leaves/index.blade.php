@@ -60,7 +60,9 @@
 								</tr>
 							</thead>
 							<tbody>
-								@php $count = 0;
+								
+								
+								@php $count = 0; 
 
 								if(!empty($employee['leaveapplies'])){
 								@endphp
@@ -73,7 +75,8 @@
 									<td>{{$leaveapply->count}} days</td>
 									<td>
 										<strong style="font-weight: 700">
-										{{empty($leaveapply['approvalaction']->name) ? 'PENDING' : strtoupper($leaveapply['approvalaction']->name)}}</strong>
+
+	{{empty($leaveapply['approvalaction']->name) ? 'PENDING' : strtoupper($leaveapply['approvalaction']->name)}}</strong>
 									</td>
 									<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>
 									<td class='d-flex' style="border-bottom:none">

@@ -25,7 +25,7 @@
 							<select name="leave_type_id" id="leave_type" class="custom-select">
 								<option value="">Select</option>
 								@foreach($leave_type as $leave_type)
-								<option value="{{$leave_type->id}}">{{$leave_type->name}}</option>
+								<option value="{{$leave_type->alias}}">{{$leave_type->name}}</option>
 								@endforeach
 							</select>
 							@error('leave_type_id')
@@ -120,7 +120,9 @@
 				      	@enderror
 					</div>
 					<div class="col-7 form-group">
-						<label for="file_path">Upload Documents</label>
+						<label for="file_path">Upload Documents 
+							<span class="text-danger" id="docs_error" hidden> | This field is mandatory.</span>
+						</label>
     					<input type="file" name="file_path" class="form-control-file" id="file_path" value="">
 					</div>
 					<div class="col-6 form-group">
@@ -142,7 +144,7 @@
 				      	@enderror
 					</div>
 					<div class="col-12 form-group text-center">
-						<button class="btn btn-info btn-sm m-2" style="width: 30%">Save</button>
+						<button class="btn btn-info btn-sm m-2" id="submit" style="width: 30%">Save</button>
 						<a class="btn btn-danger btn-sm" type="submit" href="javascript:location.reload()" style="width: 30%">Clear</a>
 					</div>
 				</div>
@@ -155,20 +157,23 @@
 				orientation: "bottom",
 				format: "yyyy-mm-dd",
 				autoclose: true,
-				todayHighlight: true
+				todayHighlight: true,
+				startDate: '-0m'
 			});
 
-			//Hide full & half day bu
+			//Hide full & half day for Privilege leave
 			$('#leave_type').on('change', function(){
-				//var str = 'Privilege leave';
-				//alert(str.includes('leave'));
 
-				var value = $(this).children("option:selected").text();
-				var leave = value.trim()
+				var value = $(this).children("option:selected").val();
+				//var leave = value.trim()
+				//alert(value)
 
-				if(leave.indexOf('Privilege') == false){
+				if(value == 'pl'){
+					$('#checkday').attr('hidden', true);
 					$('#full, #half').attr('hidden', true);
-				}else{
+
+				}
+				else{
 					$('#full, #half').removeAttr('hidden');
 				}
 			});
@@ -190,30 +195,46 @@
 		        var id 			= "{{Auth::id()}}";
 		        var day 		= $('#multi').attr('id');
 
-		        $.ajax({
+		        var Sdate 	= new Date(start);
+		        var Edate 	= new Date(end);
+
+		        //End Date should be greater than start date
+		        if(Sdate < Edate){
+
+		        	$('#submit').removeAttr('disabled')
+
+		        	 $.ajax({
 					type:'get',
 					url: '/balance/',
 					data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'id': id, 'day': day},
-					success:function(data){
-						 var data = JSON.parse(data);
+						success:function(data){
+							 var data = JSON.parse(data);
 
-						$('.duration').val(data.days+' days');
-						$('#count').val(data.days);
-						if(data.msg == 0 ){
-							$(".duration_alert").hide();
-						}else{
-							$(".duration_alert").show();
-							//$('button').removeAttr('disabled');
-						}
+							$('.duration').val(data.days+' days');
+							$('#count').val(data.days);
+							if(data.msg == 0 ){
+								$(".duration_alert").hide();
+							}else{
+								$(".duration_alert").show();
+								//$('button').removeAttr('disabled');
+							}
 
-						if(data.rule == 0){
-							$(".rule_alert").hide();
-						}else{
-							$(".rule_alert").show();
-							//$('button').removeAttr('disabled');
+							if(data.rule == 0){
+								$(".rule_alert").hide();
+							}else{
+								$(".rule_alert").show();
+								//$('button').removeAttr('disabled');
+							}
 						}
-					}
-				});
+					});
+
+		        }else{
+		        	$('#submit').attr('disabled', true)
+		        	alert('Please ensure that End Date should be greater than Start Date.')
+
+		        }
+
+		       
 		    });
 
 		    $('#full').on('click', function(e){

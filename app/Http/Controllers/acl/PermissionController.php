@@ -12,10 +12,10 @@ use App\Models\Master\ApprovalAction;
 use App\Models\Master\Designation;
 use Spatie\Permission\Models\Role ;
 use Spatie\Permission\Models\Permission;
+use App\Models\Spatie\PermissionAlias;
 
 class PermissionController extends Controller
 {
-
 	public function __construct(){
 		$this->middleware('auth');
 	}
@@ -35,27 +35,42 @@ class PermissionController extends Controller
     public function store(Request $request){
 
     	$this->validate($request, [
-    		'permission' => 'required'
+    		'permission'      => 'required',
+            'permission_alias'=> 'required'
     		]);
 
-    	Permission::create(['name' => $request->permission]);
+    	$permission = Permission::create(['name' => $request->permission]);
+
+        //Create Alias (short code) for permissions
+
+        $palias = new PermissionAlias;
+        $palias->permission_id  = $permission->id;
+        $palias->alias          = $request->permission_alias;
+        $palias->save();
+
 
     	return redirect()->route('permissions.index')->with('success', 'Permission Created.');
     }
 
     public function edit( $id){
     	$permission = Permission::where('id', $id)->first();
-    	return view('acl.permissions.edit', compact('permission'));
+        $permission_alias = PermissionAlias::where('permission_id', $permission->id)->first();
+
+    	return view('acl.permissions.edit', compact('permission', 'permission_alias'));
     }
 
     public function update(Request $request, $id){
 
     	$this->validate($request, [
-    		'permission' => 'required'
+    		'permission'        => 'required',
+            'permission_alias'  => 'required'
     		]);
 
-    	Permission::where('id', $id)
-    			->update(['name' =>  $request->permission]);
+    	$permission = Permission::where('id', $id)
+    			         ->update(['name' =>  $request->permission]);
+        PermissionAlias::where('permission_id', $id)
+                        ->update(['alias' => $request->permission_alias]);
+
 
         return redirect()->route('permissions.index')->with('success', 'Permission updated successfully.');
 
@@ -64,6 +79,7 @@ class PermissionController extends Controller
     public function destroy( $id){
     	
     	Permission::findOrFail($id)->delete();
+        PermissionAlias::where('permission_id', $id)->delete();
     	return redirect()->route('permissions.index')->with('success', 'Permission deleted.');
     }
 }

@@ -38,6 +38,8 @@ class LeavesController extends Controller
       $emp = EmployeeMast::find(Auth::user()->emp_id)->first();
 
       $employee = EmployeeMast::with(['leaveapplies'])->where('id', Auth::user()->emp_id)->first();
+
+      
       $balance  = EmployeeMast::with('allotments.leaves')->where('id', Auth::user()->emp_id)->first();
       //return $employee['leaveapplies'][0]->status;
       
@@ -85,6 +87,8 @@ class LeavesController extends Controller
           $difference   = date_diff($first_date, $last_date);
           $count        = $difference->format("%a")+1;
 
+
+
           $sandwichRule = Holiday::select('id', 'title')
           ->whereBetween('date', [$request->start_date, $request->end_date])
           ->count();
@@ -104,7 +108,7 @@ class LeavesController extends Controller
                           ['leave_mast_id', $request->leave_type],
                         ])->first();
 
-        //return $allotment;
+        return $allotment;
 
         if($count <= $allotment->current_bal){
 
@@ -134,8 +138,9 @@ class LeavesController extends Controller
       //return $request->all();
 
       $data = request()->validate([
-        'leave_type_id'   => 'required',
-        'team_lead_id'  => 'required'
+        'leave_type_id' => 'required',
+        'team_lead_id'  => 'required',
+        'reason'        => 'required'
       ]);
 
       $id = Auth::user()->emp_id;
