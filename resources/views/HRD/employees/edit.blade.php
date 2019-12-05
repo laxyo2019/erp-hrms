@@ -2,6 +2,8 @@
 @push('styles')
     <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
 @endpush
+
+//ekname
 @section('content')
 	<main class="app-content">
 		<div class="row">
@@ -257,30 +259,31 @@
 				todayHighlight: true
 			});
 		});
+
 		function fetchDesignation(){
 			var comp_id  = $('#comp_id').val();
 			console.log('comp_id',comp_id);
-			 $.ajax({
+			$.ajax({
 			 	type:'POST',
-    		url:"{{route('employees.fetch_designation')}}",
-    		data: {
-    			 "_token": "{{ csrf_token() }}",
-    			 "comp_id":comp_id
-    		},
-    		success:function(data){
-    			alert(data)
-    			console.log(data);
-    			var designations = (data);
-    			var html='<select name="emp_desg" class="form-control" id=""><option value="">Select designation</option>';
-    			$.each(designations ,function(k,v){
-    				console.log(k,v);
-    				html = html + '<option value="'+v.id+'">'+v.title+'</option>';  
-    			})
-    			html = html + '</select>';
-    			$('.designation_div').html(html);
-    			console.log(html);
-    		}
-			 });
+    			url:"{{route('employees.fetch_designation')}}",
+    			data: {
+    				"_token": "{{ csrf_token() }}",
+    			 	"comp_id":comp_id
+    			},
+	    		success:function(data){
+	    			alert(data)
+	    			console.log(data);
+	    			var designations = (data);
+	    			var html='<select name="emp_desg" class="form-control" id=""><option value="">Select designation</option>';
+	    			$.each(designations ,function(k,v){
+	    				console.log(k,v);
+	    				html = html + '<option value="'+v.id+'">'+v.title+'</option>';  
+	    			})
+	    			html = html + '</select>';
+	    			$('.designation_div').html(html);
+	    			console.log(html);
+	    		}
+			});
 		}
 	</script>
 @endsection
