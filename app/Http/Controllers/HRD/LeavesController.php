@@ -23,7 +23,7 @@ use Auth;
 class LeavesController extends Controller
 {
     
-    //tyuhtyufdsfdf
+    //tyuhtyufdsfdfgf
     public function index(){
 
 
