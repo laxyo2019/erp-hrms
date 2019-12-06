@@ -24,8 +24,8 @@
 							<label for="leave_type">Leave</label>
 							<select name="leave_type_id" id="leave_type" class="custom-select">
 								<option value="">Select</option>
-								@foreach($leave_type as $leave_type)
-								<option value="{{$leave_type->alias}}">{{$leave_type->name}}</option>
+								@foreach($leave_type as $leave_types)
+								<option value="{{$leave_types->id}}">{{$leave_types->name}}</option>
 								@endforeach
 							</select>
 							@error('leave_type_id')
@@ -89,7 +89,7 @@
 					<div class="col-4 form-group">
 						<label for="duration">Duration ( In days )</label>
 						<input type="text" class="form-control duration" name="duration" id="duration" disabled="" value="">
-						<input type="hidden" name="count" id="count">
+						<input type="hidden" name="count" id="count" >
 						<span class="text-danger duration_alert" role="alert" style="display:none">
 			    			<strong> &nbsp;&nbsp;&nbsp; You don't have adequate leaves left.</strong>
 			    		</span>
@@ -152,6 +152,7 @@
 			</form>
 	</main>
 	<script>
+
 		$(document).ready(function(){
 
 				$('.datepicker').datepicker({
@@ -167,10 +168,8 @@
 			//Hide full & half day for Privilege leave
 			$('#leave_type').on('change', function(){
 
-				var value = $(this).children("option:selected").val();
+				var value = $(this).val();
 				//var leave = value.trim()
-				//alert(value)
-
 				if(value == 'pl'){
 					$('#checkday').attr('hidden', true);
 					$('#full, #half').attr('hidden', true);
@@ -198,42 +197,40 @@
 		        var day 		= $('#multi').attr('id');
 
 	        	$('#submit').removeAttr('disabled')
-
 			        if(Date.parse(start)<=Date.parse(end)){
 					   $.ajax({
+						type:'get',
+						url: '/balance/',
+						data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'id': id, 'day': day},
+							success:function(data){
+								var data = JSON.parse(data);
 
-					type:'get',
-					url: '/balance/',
-					data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'id': id, 'day': day},
-						success:function(data){
-							 var data = JSON.parse(data);
+								$('.duration').val(data.days+' days');
+								$('#count').val(data.days);
+								if(data.msg == 0 ){
+									$(".duration_alert").hide();
+									alert();
+								}else{
+									$(".duration_alert").show();
+									alert();
 
-							$('.duration').val(data.days+' days');
-							$('#count').val(data.days);
-							if(data.msg == 0 ){
-								$(".duration_alert").hide();
-							}else{
-								$(".duration_alert").show();
-								//$('button').removeAttr('disabled');
+									$('button').removeAttr('disabled');
+								}
+
+								if(data.rule == 0){
+									$(".rule_alert").hide();
+								}else{
+									$(".rule_alert").show();
+									//$('button').removeAttr('disabled');
+								}
 							}
+						});
 
-							if(data.rule == 0){
-								$(".rule_alert").hide();
-							}else{
-								$(".rule_alert").show();
-								//$('button').removeAttr('disabled');
-							}
-						}
-					});
-
-		        }/*else{
+		        }else{
 		        	$('#submit').attr('disabled', true)
-		        	alert('Please ensure that End Date should be greater than Start Date.')
-
-		        }*/
-				else{
-				$('#small-date').css("color", "red").append("Can not small from start date.");
-				}	        
+		        	$('#small-date').css("color", "red").append("Please ensure that End Date should be greater than Start Date.");
+				}
+					        
 		    });
 
 		    $('#full').on('click', function(e){

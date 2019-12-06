@@ -53,16 +53,17 @@
 									<th>Leave starts</th>
 									<th>Leave ends</th>
 									<th>Duration</th>
-									<th>Status</th>
 									<th>Posted on</th>
+									<th>Status</th>
+
 									{{-- <th>Approver Remark</th> --}}
 									<th class="text-center">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
-								@php $count = 0;
+							@php $count = 0;
 								if(!empty($employee['leaveapplies'])){
-								@endphp
+							@endphp
 								@foreach($employee['leaveapplies'] as $leaveapply)
 								<tr>{{empty($leaveapply['approvalaction']->name)}}
 									<td>{{++$count}}</td>
@@ -70,27 +71,30 @@
 									<td>{{$leaveapply->from}}</td>
 									<td>{{$leaveapply->to}}</td>
 									<td>{{$leaveapply->count}} days</td>
-
+									<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>
 									<td>
-										<strong style="font-weight: 700">
-
-	{{-- {{empty($leaveapply['approvalaction']->name) ? 'PENDING' : strtoupper($leaveapply['approvalaction']->name)}}</strong>
- --}}
-									<td> @if(empty($leaveapply['approvalaction']->name))
-										{{'Declined'}}
-										<strong style="font-weight: 700"> <u>By 	({{$leaveapply->approve_name['emp_name']}})
-										</strong>
+										@if(empty($leaveapply['approvalaction']->name))
+										 <div >
+										 	<strong style="color: red;">
+										 		{{strtoupper('Pending')}}
+										 	</strong>
+										 </div>
+										 <div> By <u> ( {{$leaveapply->approve_name['emp_name']}} )</u></div>
 										@else
-										<strong style="font-weight: 700">{{strtoupper($leaveapply['approvalaction']->name)}}</strong>
-										
+										 <div >
+										 	<strong style="color: green;">{{strtoupper($leaveapply['approvalaction']->name)}}
+										 	</strong>
+										 </div>
 										{{-- {{empty($leaveapply['approvalaction']->name) ? 'Decline'  : strtoupper($leaveapply['approvalaction']->name)}} --}}
 										@endif
-										<?php if($leaveapply['approvalaction']['name'] == 'Approved'){ ?>
-										 <u>By ({{$leaveapply->approve_name['emp_name']}})</u> 
-										<?php } ?>
-
+										@if($leaveapply['approvalaction']['name'] == 'Approved')
+										<div >
+											By<u>({{$leaveapply->approve_name['emp_name']}} )
+											</u>
+										</div>
+										@endif
 									</td>
-									<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>
+									
 									<td class='d-flex' style="border-bottom:none">
 										<button class="btn btn-sm btn-info modalLeave ml-2" data-id="{{$leaveapply->id}}">
 											<i class="fa fa-eye" style="font-size: 12px"></i>
@@ -154,6 +158,7 @@
 			})
 		})
 	});
+
 </script>
 @endsection
 

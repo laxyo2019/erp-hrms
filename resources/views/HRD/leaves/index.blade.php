@@ -37,8 +37,8 @@
 							@foreach($leave_request as $request) 
 								<tr>
 									<td>{{++$count}}</td>
-									<td>{{$request->emp_name}}</td>
-									<td>{{$request->name}}</td>
+									<td>{{$request['employee']->emp_name}}</td>
+									<td>{{$request['leavetype']->name}}</td>
 									<td>
 									<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}">
 										<i class="fa fa-eye" style="font-size: 12px;"></i>
@@ -61,12 +61,28 @@
 									<td>{{$request->to}}</td>
 									<td>{{$request->count}}</td>
 									<td> 
-										@if ($request->status =='7')
-											<span class="ml-1">{{'Declined'}} </span>
-											@else
-											{{'Approved'}}
-										@endif
-
+									@if ($request->action_name =='' AND $request->status =='' ) 
+									<div ><strong style="color:yellow;"> {{strtoupper('Pending')}}
+										</strong>
+									</div> 
+									
+								    @elseif( $request->action_name =='')
+								    <div ><strong style="color:red;"> {{strtoupper('Declined')}}
+										</strong>
+									<div>
+										By <u>({{$request->approver_name}})</u>
+								    </div>
+									</div>
+									@else
+									 <div > 
+									 	<strong strong style="color:green;">
+									 	{{strtoupper('Approved')}}</strong> 
+									 </div>
+									 <div>
+									 	By <u >({{$request->approver_name}})
+									 	</u>
+									 </div>
+									@endif
 									</td>
 									{{-- <td>{{empty($request->status) ? 'Pending' : $request->action_name }}
 									</td> --}}
@@ -76,21 +92,25 @@
 									{{-- @if($request->action_name =='Approved') --}}
 									  {{--  {{empty($request->status) ? 'Pending' : $request->action_name }} --}}
 									   {{-- @else --}}
-									   
-											@foreach($permissions as $action)
-												<span class="ml-2">
-													@if($action->name == 'decline')
-													<a href="{{route('leave.details', [$request->id, $action->id])}}" class="btn btn-sm btn-danger">{{$action->name}}</a>
-													@elseif($action->name == 'approve')
-													<a href="{{route('leave.details', [$request->id, $action->id])}}" class="btn btn-sm btn-success disable" id="disable">{{$action->name}}</a>
-													
-													{{-- @elseif($action->name == 'hold')
-													<a href="{{route('leave.details', [$request->id, $action->id])}}" class="btn btn-sm btn-warning">{{$action->name}}</a> --}}
-												</span>
-
+									@foreach($permissions as $action)
+										@if($request->status == null)
+											<span class="ml-2">
+												<form action="{{url('hrd/leaves')}}" method="POST" >
+										         @csrf
+										          <input type="hidden" name="leave_request_id" value="{{$request->id}}">
+										          <input type="hidden" name="approval_action_id" value="{{$action->id}}">
+										          @if($action->name == 'decline')
+										          <button type="submit" class="btn btn-danger">{{$action->name}}</button>
+										          @elseif($action->name == 'approve')
+										          <button type="submit" class="btn btn-success">{{$action->name}}</button>
+										          {{-- @elseif($action->name == 'hold')
+										          <button type="submit" class="btn btn-success">{{$action->name}}</button> --}}
+										        </form>
+											</span>
 												@endif
-											@endforeach
 
+										@endif
+									@endforeach
 									{{-- @endif --}}
 									{{-- @endcan --}}
 									</td>
@@ -103,7 +123,26 @@
 			</div>
 		</div>
 	</main>
-	    
+<script>
+// 	$(document).ready(function(){
+	
+// 	     $(this).on('click','.approve',function(){
+// 		 var product_id = $(this).attr('id');
+// 		alert(product_id);
+// 		 if (product_id == '') {
+// 		 	$(this).show();
+// 		 }else{
+// 		 	$(this).hide('id');
+// 		 	return true;
+
+// 		 }
+
+//           // .. your code here ...
+//     });
+    
+// });
+
+</script>
 <script>
 	$(document).ready(function(){
 		$('#ClientsTable').DataTable();

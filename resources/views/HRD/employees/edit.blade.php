@@ -117,7 +117,6 @@
 				                        <strong>{{ $message }}</strong>
 				                    </span>
 				                	@enderror
-						</div>
 								{{-- fetch all grades of company1  --}}
 							<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 								<label for="name"><b>Grade<span class="text-danger">*</span></b> </label>
@@ -200,8 +199,7 @@
 												<option value="">Select designation</option>	
 												@foreach($data['designations'] as $designation)
 												<option value="{{$designation->id}}" {{old('emp_desg',$data['employee']->desg_id) == $designation->id ? 'selected' : ''}}>{{$designation->name}}</option>
-												@foreach($designations as $designation)
-												<option value="{{$designation->id}}" {{old('emp_desg',$employee->desg_id) == $designation->id ? 'selected' : ''}}>{{$designation->name}}</option>
+												
 												@endforeach
 											</select>
 										</div>
@@ -278,7 +276,7 @@
 	    			$.each(designations ,function(k,v){
 	    				console.log(k,v);
 	    				html = html + '<option value="'+v.id+'">'+v.title+'</option>';  
-	    			})
+	    			});
 	    			html = html + '</select>';
 	    			$('.designation_div').html(html);
 	    			console.log(html);

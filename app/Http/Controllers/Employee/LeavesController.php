@@ -37,23 +37,14 @@ class LeavesController extends Controller
     {
       
       $emp = EmployeeMast::find(Auth::user()->emp_id)->first();
-      
-
-      $employee = EmployeeMast::orderBy('id', 'DESC')->with(['leaveapplies.approve_name'])->where('id', Auth::user()->emp_id)->first();
-      
+      $employee = EmployeeMast::orderBy('id', 'DESC')->with(['leaveapplies'])->where('id', Auth::user()->emp_id)->first();
       $balance  = EmployeeMast::with('allotments.leaves')->where('id', Auth::user()->emp_id)->first();
       $parent_id = EmployeeMast::find(Auth::user()->emp_id)->parent_id;
-      if(!empty($parent_id)){
-          //for logged in user's teamLead
-          $approverName = User::where('emp_id', $parent_id)
-                    ->select('id', 'name')
-                    ->first();
-        }else{
-          $approverName = null;
-        }
+     
+        // dd($employee);
       //return $employee['leaveapplies'][0]->status;
       
-      return view('employee.leaves.index', compact('employee', 'balance','approverName'));
+      return view('employee.leaves.index', compact('employee', 'balance'));
     }
 
     /**
@@ -79,7 +70,6 @@ class LeavesController extends Controller
     }
 
     public function balance(Request $request){
-
       //For multiple days leave
         if($request->day == 'multi'){
 
@@ -87,8 +77,6 @@ class LeavesController extends Controller
           $last_date    = date_create($request->end_date);
           $difference   = date_diff($first_date, $last_date);
           $count        = $difference->format("%a")+1;
-
-
           $sandwichRule = Holiday::select('id', 'title')
           ->whereBetween('date', [$request->start_date, $request->end_date])
           ->count();
@@ -101,14 +89,15 @@ class LeavesController extends Controller
           $sandwichRule = null;
           $count = 0.5;
         }
+        // dd($request);
         //find user and his leave balance
         $allotment  = LeaveAllotment::where([
                           ['emp_id', Auth::user()->emp_id],
                           ['leave_mast_id', $request->leave_type],
                         ])->first();
+// dd( $allotment);
 
         //return $allotment;
-
         if($count <= $allotment->current_bal){
             $data = [
               'days' =>  $count,
@@ -126,11 +115,11 @@ class LeavesController extends Controller
     
     public function store(Request $request)
     {   
+      // dd($request);
       
       $data = request()->validate([
-        'leave_type_id' => 'required',
-        'team_lead_id'  => 'required',
-        'reason'        => 'required'
+        'leave_type_id'   => 'required',
+        'team_lead_id'  => 'required'
       ]);
       $id = Auth::user()->emp_id;
       //duration of leaves
