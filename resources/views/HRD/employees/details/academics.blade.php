@@ -49,7 +49,7 @@
           </span>
       	@enderror
 	    </div>
-	    <div class="col-8 form-group">
+	    <div class="col-4 form-group">
 	    	<label for="file_path">Upload Documents</label>
 	    	<input type="file" class="form-control-file" name="file_path" id="file_path" value="{{ old('file_path') }}">
 	    	@error('file_path')
@@ -68,8 +68,8 @@
       	@enderror
 	    </div> 
     	<div class="col-12 form-group text-center">
-				<button class="btn btn-info btn-sm">Save</button>
-				<a class="btn btn-danger btn-sm" href="javascript:location.reload()">Cancel</a>
+				<button class="btn btn-info btn-sm" style="width: 30%">Save</button>
+				<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Cancel</a>
 			</div>
 		</div>
 		<input type="hidden" id="form_type" value="academics">

@@ -7,7 +7,7 @@
 	<div class="row">
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 24px">Edit Holiday here
-                    <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+                    <a href="{{ route('holidays.index') }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
 				</h1>
 			</div>
 		</div>
@@ -53,7 +53,7 @@
 		    	</div>
 	    		<div class="col-12 form-group text-center">
 					<button class="btn btn-info btn-sm m-2" style="width: 40%">Save</button>
-					{{-- <a class="btn btn-danger btn-sm" type="submit" href="javascript:location.reload()" style="width: 30%">Clear</a> --}}
+					
 				</div>
 				</div>
 			</form>

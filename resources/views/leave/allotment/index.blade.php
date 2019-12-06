@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="col-md-12 col-xl-12">
 			<h1 style="font-size: 24px">Leave Allotments
-                <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+                {{-- <a href="{{ route('allotments.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a> --}}
                 {{-- <span class="ml-2">
                     <a href="{{route('types.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
                     <span class="fa fa-plus "></span> Add New</a>
@@ -13,16 +13,17 @@
 			<hr>
 		</div>
 	</div>
-	@if($message = Session::get('success'))
-		<div class="alert alert-success alert-block">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            {{$message}}
-        </div>
-	@endif
+	
 	<div class="row">
         <div class="col-md-12 col-xl-12">
             <div class="card shadow-xs">
                 <div class="card-body table-responsive">
+                    @if($message = Session::get('success'))
+                        <div class="alert alert-success alert-block">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            {{$message}}
+                        </div>
+                    @endif
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr class="text-center">

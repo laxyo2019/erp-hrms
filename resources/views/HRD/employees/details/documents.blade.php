@@ -55,7 +55,7 @@
 		    </div>
 	    <div class="col-12 form-group ">
 	    	<label for="">Remark</label>
-	    	<textarea name="remarks" id="remark" class="form-control" cols="10" rows="10">{{old('remark')}}</textarea>
+	    	<textarea name="remarks" id="remark" class="form-control" cols="10" rows="5">{{old('remark')}}</textarea>
 	    	@error('remarks')
 					<span class="text-danger" role="alert">
 						<strong>* {{ $message }}</strong>
@@ -63,8 +63,8 @@
 				@enderror
 	    </div>
 	    <div class="col-12 form-group text-center">
-			<button class="btn btn-info btn-sm">Save</button>
-			<a class="btn btn-danger btn-sm" href="javascript:location.reload()">Cancel</a>
+			<button class="btn btn-info btn-sm" style="width: 30%">Save</button>
+			<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Cancel</a>
 		</div>
 		</div>
 		<input type="hidden" id="form_type" value="docs">

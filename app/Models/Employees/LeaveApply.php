@@ -12,7 +12,7 @@ class LeaveApply extends Model
     protected $table = 'emp_leave_applies';
     protected $with	 =	['approve_name', 'leavetype'];
 
-   public function employee(){
+    public function employee(){
 
         return $this->belongsTo('App\Models\Employees\EmployeeMast', 'emp_id');
     }

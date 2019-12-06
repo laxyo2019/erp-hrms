@@ -24,15 +24,14 @@
 									<th>EMPLOYEE</th>
 									<th>LEAVE</th>
 									<th>DETAILS</th>
-									<th>LEAVE STARTS</th>
-									<th>LEAVE ENDS</th>
+									<th>LEAVE</th>
 									<th>DURATION</th>
+									<th>POSTED ON</th>
 									<th>STATUS</th>
 									<th style="text-align: center;">ACTIONS</th>
 								</tr>
 							</thead>
 							<tbody>
-									
 							@php $count = 0; @endphp
 							@foreach($leave_request as $request) 
 								<tr>
@@ -57,11 +56,14 @@
 									        </div>
 									    </div>
 									</div>
-									<td>{{$request->from}}</td>
-									<td>{{$request->to}}</td>
+{{-- 
+									<td> --}} 
+									{{-- @if ($request->action_name =='' AND $request->status =='' )  --}}
+									<td>{{date('d M', strtotime($request->from)) }} - {{ date('d M', strtotime($request->to))}}</td>
 									<td>{{$request->count}}</td>
+									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
 									<td> 
-									@if ($request->action_name =='' AND $request->status =='' ) 
+								  {{-- @if ($request['approvalaction']->name =='' AND $request->status =='' ) 
 									<div ><strong style="color:yellow;"> {{strtoupper('Pending')}}
 										</strong>
 									</div> 
@@ -71,6 +73,11 @@
 										</strong>
 									<div>
 										By <u>({{$request->approver_name}})</u>
+								    @elseif( $request['approvalaction']->name =='')
+								    <div ><strong style="color:red;"> {{strtoupper('Declined')}}
+										</strong>
+									<div>
+										By <u>({{$request['approvalaction']->name}})</u>
 								    </div>
 									</div>
 									@else
@@ -82,7 +89,7 @@
 									 	By <u >({{$request->approver_name}})
 									 	</u>
 									 </div>
-									@endif
+									@endif --}}
 									</td>
 									{{-- <td>{{empty($request->status) ? 'Pending' : $request->action_name }}
 									</td> --}}
@@ -107,13 +114,14 @@
 										          <button type="submit" class="btn btn-success">{{$action->name}}</button> --}}
 										        </form>
 											</span>
-												@endif
-
+											@endif
 										@endif
 									@endforeach
-									{{-- @endif --}}
-									{{-- @endcan --}}
-									</td>
+									 	{{-- By <u >({{$request['approvalaction']->name}})
+									 	</u>
+									 </div>
+									@endif --}}
+									
 								</tr>
 							 @endforeach
 							</tbody>
@@ -123,26 +131,7 @@
 			</div>
 		</div>
 	</main>
-<script>
-// 	$(document).ready(function(){
-	
-// 	     $(this).on('click','.approve',function(){
-// 		 var product_id = $(this).attr('id');
-// 		alert(product_id);
-// 		 if (product_id == '') {
-// 		 	$(this).show();
-// 		 }else{
-// 		 	$(this).hide('id');
-// 		 	return true;
 
-// 		 }
-
-//           // .. your code here ...
-//     });
-    
-// });
-
-</script>
 <script>
 	$(document).ready(function(){
 		$('#ClientsTable').DataTable();

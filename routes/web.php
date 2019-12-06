@@ -59,11 +59,6 @@ Route::resource('/hrd/rules', 'HRD\LeavesController');
 //Route::get('hrd/employee/leaves/{id}/{action}', 'HRD\LeavesController@leavepermission')->name('leave.details');
 Route::get('leave-detail', 'HRD\LeavesController@requestDetail')->name('request.detail');
 
-
-/*Route::get('/hrd/leaves/{tab}/create', 'HRD\LeavesController@create')->name('hrd.leaves.create');
-Route::post('/hrd/leaves/{tab}/store', 'HRD\LeavesController@store')->name('hrd.leaves.store');*/
-
-
 //  Employee Leaves
 Route::get('emp_leave','Employee\LeavesController@emp_leave')->name('emp_leave');
 Route::post('emp_leave_store','Employee\LeavesController@store')->name('emp_leave_store');

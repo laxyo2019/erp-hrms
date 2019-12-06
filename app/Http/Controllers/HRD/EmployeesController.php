@@ -330,11 +330,11 @@ class EmployeesController extends Controller
   public function update(Request $request, $id)
   {	
 
-  	$data =  $request->validate([
+  	$vdata =  $request->validate([
 			'name'       => 'required|string|max:50',
  			'emp_code'   => 'nullable|string|max:15',
  			'emp_gender' => 'nullable',
- 			'emp_dob'    => 'required',
+ 			'emp_dob'    => 'nullable',
  			'join_dt'    => 'required',
  			'emp_desg'   => 'nullable',
 			],[

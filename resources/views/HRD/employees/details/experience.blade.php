@@ -16,7 +16,7 @@
 				@csrf
 				@method('PATCH')
 				<div class="row">
-					<div class="col-3 form-group">
+					<div class="col-6 form-group">
 						<label for="">Company Name</label>
 						<input type="text" class="form-control" name="company_name" 
 								value="{{old('company_name',isset($exp->comp_name) ? $exp->comp_name : '')}}">
@@ -26,7 +26,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-3 form-group">
+					<div class="col-6 form-group">
 							<label for="">Job Type</label>
 							<input type="text" class="form-control" name="job_type"
 							value="{{old('job_type',isset($exp->job_type) ? $exp->job_type : '')}}">
@@ -36,7 +36,7 @@
 					          </span>
 					      	@enderror
 						</div>
-					<div class="col-3 form-group">
+					<div class="col-6 form-group">
 						<label for="">Monthly CTC</label>
 						<input type="text" class="form-control" name="monthly_ctc" value="{{old('monthly_ctc',isset($exp->monthly_ctc) ? $exp->monthly_ctc : '')}}">
 						@error('monthly_ctc')
@@ -45,7 +45,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-3 form-group">
+					<div class="col-6 form-group">
 						<label for="">Designation</label>
 						<input type="text" class="form-control" name="designation"
 						value="{{old('designation',isset($exp->desg) ? $exp->desg : '')}}">
@@ -55,7 +55,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-6 form-group">
 						<label for="">Company Location</label>
 						<input type="text" class="form-control" name="comp_loc"
 						value="{{old('comp_loc',isset($exp->comp_loc) ? $exp->comp_loc : '')}}">
@@ -65,7 +65,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-6 form-group">
 						<label for="">Company Email</label>
 						<input type="email" class="form-control" name="comp_email"
 						value="{{old('comp_email',isset($exp->comp_email) ? $exp->comp_email : '')}}">
@@ -75,7 +75,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-6 form-group">
 						<label for="">Company Website</label>
 						<input type="text" class="form-control" name="comp_website"
 						value="{{old('comp_website',isset($exp->comp_website) ? $exp->comp_website : '')}}">
@@ -85,7 +85,11 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-2 form-group">
+					<div class="col-6 form-group">
+						<label for="file_path">Upload Documents</label>
+    					<input type="file" name="file_path" class="form-control-file" id="file_path" value="{{ old('file_path')}}">
+					</div>
+					<div class="col-6 form-group">
 						<label for="">Start Date</label>
 						<input type="text" class="form-control datepicker" name="start_date" value="{{old('start_date',isset($exp->start_dt) ? $exp->start_dt : '')}}" autocomplete="off">
 						@error('start_date')
@@ -94,7 +98,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-2 form-group">
+					<div class="col-6 form-group">
 						<label for="">End Date</label>
 						<input type="text" class="form-control datepicker" name="end_date"
 							value="{{old('end_date',isset($exp->end_dt) ? $exp->end_dt : '')}}" autocomplete="off">
@@ -105,10 +109,7 @@
 				      	@enderror
 					</div>
 						
-					<div class="col-5 form-group">
-						<label for="file_path">Upload Documents</label>
-    					<input type="file" name="file_path" class="form-control-file" id="file_path" value="{{ old('file_path')}}">
-					</div>
+					
 					<div class="col-12 form-group">
 				    	<label for="">Reason of Leaving</label>
 				    	<textarea name="reason_of_leaving" class="form-control" id="" cols="30" rows="4">{{old('reason_of_leaving',isset($academic->domain_of_study) ? $academic->domain_of_study : '')}}</textarea>
@@ -119,8 +120,8 @@
 			      	@enderror
 				    </div> 
 					<div class="col-12 form-group text-center">
-						<button class="btn btn-info btn-sm">Save</button>
-						<a class="btn btn-danger btn-sm" href="javascript:location.reload()">Cancel</a>
+						<button class="btn btn-info btn-sm" style="width: 30%">Save</button>
+						<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Cancel</a>
 					</div>
 				</div>
 				<input type="hidden" id="form_type" value="experiences">
