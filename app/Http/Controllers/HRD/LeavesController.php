@@ -23,27 +23,26 @@ use Auth;
 
 class LeavesController extends Controller
 {
-    
-    //tyuhtyu
     public function index(){
 
+        //return LeaveApply::with(['employee', 'leavetype', 'approvalaction', 'approve_name'])->get();
 
-        $emp = EmployeeMast::find(Auth::user()->emp_id)->first();
-      $employee = EmployeeMast::orderBy('id', 'DESC')->with(['leaveapplies.approve_name'])->where('id', Auth::user()->emp_id)->first();
-      // dd( $employee);
         $user           = User::find(Auth::user()->id);
         $permissions    = $user->getDirectPermissions();
-    	$leave_request = DB::table('emp_leave_applies')->orderBy('id', 'DESC')
+    	/*$leave_request = DB::table('emp_leave_applies')->orderBy('id', 'DESC')
             ->where('emp_leave_applies.deleted_at', null)
             ->join('emp_mast', 'emp_leave_applies.emp_id', '=', 'emp_mast.id')
             ->join('leave_mast', 'emp_leave_applies.leave_type_id', '=', 'leave_mast.id')
-            // ->join('users', 'emp_leave_applies.approver_id', '=', 'users.id')
+            ->join('users', 'emp_leave_applies.approver_id', '=', 'users.emp_id')
             ->leftjoin('approval_actions_mast', 'emp_leave_applies.status', '=', 'approval_actions_mast.id')
-            ->select('emp_leave_applies.id', 'emp_mast.id as employee_id','emp_name', 'leave_mast.name', 'emp_leave_applies.from', 'emp_leave_applies.from', 'emp_leave_applies.to', 'emp_leave_applies.count', 'emp_leave_applies.status', 'emp_leave_applies.approver_remark', 'approval_actions_mast.id as action_id', 'approval_actions_mast.name as action_name', 'emp_leave_applies.created_at')
+            ->select('emp_leave_applies.id', 'emp_mast.id as employee_id', 'users.name', 'emp_name', 'leave_mast.name', 'emp_leave_applies.from', 'emp_leave_applies.from', 'emp_leave_applies.to', 'emp_leave_applies.count', 'emp_leave_applies.status', 'emp_leave_applies.approver_remark', 'approval_actions_mast.id as action_id', 'approval_actions_mast.name as action_name', 'emp_leave_applies.created_at')
 
-    		->get();
-            // 'users.name as approver_name',
-            // dd($leave_request);
+    		->get();*/
+
+        $leave_request = LeaveApply::with(['employee', 'leavetype', 'approvalaction', 'approve_name'])
+                        //->select('emp_leave_applies.id as leave_request_id', 'emp_name')
+                        ->get();   
+
        
            return view('HRD.leaves.index', compact('leave_request', 'permissions'));
         
@@ -59,35 +58,14 @@ class LeavesController extends Controller
 
         //Update Leave application status
 
-        $leave = LeaveApply::findOrFail($request->leave_request_id);
-        //return PermissionAlias::find()
+        $leave  = LeaveApply::findOrFail($request->leave_request_id);
         $leave->approver_id = Auth::id();
         $leave->status      = $request->approval_action_id;
+        $leave->save();
 
+        //Update user leave balance from allotment table if APPROVED
 
-//         //Update Leave application status
-//         $leave = LeaveApply::findOrFail($leave_id);
-//         $leave->status = $action;
-//         $leave->approver_id = Auth::id();        
-// >>>>>>> 6f4da609b4cea9ca6fd6d1a03ffac631f065b376
-//         $leave->save();
-//         //Update user leave balance from allotment table if APPROVED
-// <<<<<<< HEAD
-
-//         $palias = PermissionAlias::where('permission_id', $request->approval_action_id)
-//                         ->first();
-
-//         //return $palias;
-//         if($palias->alias == 'approve'){
-//             LeaveAllotment::where('leave_mast_id', $leave->leave_type_id)
-//                     ->where('emp_id', $leave->emp_id)
-//                     ->limit(1)
-//                     ->decrement('current_bal', $leave->count);
-//         }
-//         elseif($palias->alias == 'decline'){
-
-// =======
-        $acd = Permission::find($action);
+        $acd = Permission::find($request->approval_action_id);
         
         if($acd->name == 'decline'){
             LeaveAllotment::where('leave_mast_id', $leave->leave_type_id)

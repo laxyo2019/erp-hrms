@@ -12,22 +12,22 @@ class LeaveApply extends Model
     protected $table = 'emp_leave_applies';
     protected $with	 =	['approve_name', 'leavetype'];
 
-    public function employees(){
+    public function employee(){
 
     	return $this->belongsTo('App\Models\Employees\EmployeeMast', 'emp_id');
     }
 
-   public function approvalaction(){
+    public function leavetype(){
+        return $this->belongsTo('App\Models\Master\LeaveMast', 'leave_type_id');
+    }
+
+    public function approvalaction(){
         return $this->belongsTo('App\Models\Master\ApprovalAction', 'status');
     }
-
-    public function approve_name(){
-    	return $this->belongsTo('App\Models\Master\LeaveMast', 'leave_type_id');
-    }
+    
     public function approve_name(){
         
-        return $this->belongsTo('App\Models\Employees\EmployeeMast', 'approver_id','id');
-
+        return $this->belongsTo('App\Models\Employees\EmployeeMast', 'approver_id');
     }
 
     

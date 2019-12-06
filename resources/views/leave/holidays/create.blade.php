@@ -52,7 +52,7 @@
 		    	</div>
 		    		<div class="col-12 form-group text-center">
 						<button class="btn btn-info btn-sm m-2" style="width: 30%">   Save   </button>
-						<a class="btn btn-danger btn-sm" style="width: 30%" type="submit" href="javascript:location.reload()">Clear  </a>
+						<a class="btn btn-danger btn-sm" style="width: 30%" href="javascript:location.reload()">Clear  </a>
 					</div>
 				</div>
 			</form>

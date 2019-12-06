@@ -25,7 +25,6 @@
 									<th>TYPE</th>
 									<th>DETAILS</th>
 									<th>LEAVE</th>
-									{{-- <th>LEAVE ENDS</th> --}}
 									<th>DURATION</th>
 									<th>POSTED ON</th>
 									<th>STATUS</th>
@@ -38,8 +37,8 @@
 							@foreach($leave_request as $request) 
 								<tr>
 									<td>{{++$count}}</td>
-									<td>{{$request->emp_name}}</td>
-									<td>{{$request->name}}</td>
+									<td>{{$request['employee']->emp_name}}</td>
+									<td>{{$request['leavetype']->name}}</td>
 									<td>
 									<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}">
 										<i class="fa fa-eye" style="font-size: 12px;"></i>
@@ -59,68 +58,47 @@
 									    </div>
 									</div>
 									<td>{{date('d M', strtotime($request->from)) }} - {{ date('d M', strtotime($request->to))}}</td>
-									{{-- <td>{{$request->to}}</td> --}}
 									<td>{{$request->count}}</td>
- 
 									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
-							{{-- <td>{{empty($request->status) ? 'Pending' : $request->action_name }}</td> --}}
-
 									<td> 
-										@if ($request->status =='7')
-											<span class="ml-1">{{'Declined'}} </span>
-											@else
-											{{'Approved'}}
-										@endif
-
+									{{-- @if ($request['approvalaction']->name =='' AND $request->status =='' ) 
+									<div ><strong style="color:yellow;"> {{strtoupper('Pending')}}
+										</strong>
+									</div> 
+									
+								    @elseif( $request['approvalaction']->name =='')
+								    <div ><strong style="color:red;"> {{strtoupper('Declined')}}
+										</strong>
+									<div>
+										By <u>({{$request['approvalaction']->name}})</u>
+								    </div>
+									</div>
+									@else
+									 <div > 
+									 	<strong strong style="color:green;">
+									 	{{strtoupper('Approved')}}</strong> 
+									 </div>
+									 <div>
+									 	By <u >({{$request['approvalaction']->name}})
+									 	</u>
+									 </div>
+									@endif --}}
 									</td>
-									{{-- <td>{{empty($request->status) ? 'Pending' : $request->action_name }}
-									</td> --}}
-
 									<td class='d-flex' style="border-bottom:none">
-								
-									{{-- @can('HR- manager') --}}
-									{{-- @if($request->action_name =='Approved') --}}
-									  {{--  {{empty($request->status) ? 'Pending' : $request->action_name }} --}}
-									   {{-- @else --}}
-									   
-											@foreach($permissions as $action)
-												<span class="ml-2">
-													@if($action->name == 'decline')
-													<a href="{{route('leave.details', [$request->id, $action->id])}}" class="btn btn-sm btn-danger">{{$action->name}}</a>
-													@elseif($action->name == 'approve')
-													<a href="{{route('leave.details', [$request->id, $action->id])}}" class="btn btn-sm btn-success disable" id="disable">{{$action->name}}</a>
-													
-													{{-- @elseif($action->name == 'hold')
-													<a href="{{route('leave.details', [$request->id, $action->id])}}" class="btn btn-sm btn-warning">{{$action->name}}</a> --}}
-												</span>
-
-												@endif
-											@endforeach
-								{{-- @if($action->name != 'Pending') --}}
-									@if($request->status == null)
-									
-										{{-- @if(auth()->user()->can('approve')) --}}
-										{{-- if(auth()->user()->can('approve') && auth()->user()->can('decline')) --}}
-										<span class="ml-2">
+										@foreach($permissions as $action)
 											
-											<form action="{{url('hrd/leaves')}}" method="POST" >
-									            @csrf
-									          <input type="hidden" name="leave_request_id" value="{{$request->id}}">
-									          {{-- <input type="hidden" name="approver_id" value="{{auth()->user()->id}}"> --}}
-									          <input type="hidden" name="approval_action_id" value="{{$action->id}}">
-									          <button type="submit" class="btn btn-success">{{$action->name}}</button>
-									        </form>
-										</span>
-										{{-- @endcan --}}
+										
+										@if($request->status == null)
+											<span class="ml-2">
+												<form action="{{url('hrd/leaves')}}" method="POST" >
+										            @csrf
+										          <input type="hidden" name="leave_request_id" value="{{$request->id}}">
+										          <input type="hidden" name="approval_action_id" value="{{$action->id}}">
+										          <button type="submit" class="btn btn-success">{{$action->name}}</button>
+										        </form>
+											</span>
 										@endif
-									
-									{{-- @endif --}}
-								{{-- @endif --}}
 										@endforeach
-
-									{{-- @endif --}}
-									{{-- @endcan --}}
-
 									</td>
 								</tr>
 							 @endforeach
@@ -131,7 +109,6 @@
 			</div>
 		</div>
 	</main>
-	    
 <script>
 	$(document).ready(function(){
 		$('#ClientsTable').DataTable();

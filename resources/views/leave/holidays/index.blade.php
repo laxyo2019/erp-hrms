@@ -4,7 +4,7 @@
 	 <div class="row mt-2">
             <div class="col-md-12 col-xl-12">
                 <h1 style="font-size: 20px">Company Holidays 
-                    <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+                    {{-- <a href="{{ route('holidays.index') }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a> --}}
                     <div class="row mt-2">
                         <div class="col-sm-1">
                             <a href="{{route('export.holidays')}}" class="btn btn-sm btn-primary " style="font-size:13px">Export
@@ -31,16 +31,17 @@
             </div>
 
         </div>
-	@if($message = Session::get('success'))
-		<div class="alert alert-success alert-block">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            {{$message}}
-        </div>
-	@endif
+	
 	<div class="row">
         <div class="col-md-12 col-xl-12">
             <div class="card shadow-xs">
                 <div class="card-body table-responsive">
+                    @if($message = Session::get('success'))
+                        <div class="alert alert-success alert-block">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            {{$message}}
+                        </div>
+                    @endif
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr class="text-center">

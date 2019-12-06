@@ -45,19 +45,27 @@
 						<div class="col-5 form-group">
 
 							<label for="">Full Name</label>
-							<input type="text" class="form-control" name="full_name" value="" />
+							<input type="text" class="form-control" name="full_name" value="{{old('full_name',(explode(' ', $employee->emp_name, 2))[1])}}" />
 							@error('full_name')
 			                <span class="text-danger" role="alert">
 			                    <strong>{{ $message }}</strong>
 			                </span>
 			            	@enderror
 						</div>
-						<div class="col-4 form-group">
+						<div class="col-5 form-group">
+							<label for="">Date of Birth</label>
+							<input type="text" name="emp_dob" class="form-control datepicker" value="{{old('emp_dob',$employee->emp_dob)}}" autocomplete="off">
+							@error('emp_dob')
+			                  <span class="text-danger" role="alert">
+			                      <strong>{{ $message }}</strong>
+			                  </span>
+			              	@enderror
+						</div>
+						{{-- <div class="col-4 form-group">
 							<label for="">Gender</label>
 							<br>
 							<div class="row">
-<input type="radio" class="mr-2 mt-1" name="emp_gender" value="M" autocomplete="off" 
-{{old('emp_gender',$employee->emp_gender) == 'M' ? 'checked' : ''}}
+								<input type="radio" class="mr-2 mt-1" name="emp_gender" value="M" autocomplete="off" {{old('emp_gender',$employee->emp_gender) == 'M' ? 'checked' : ''}}
 									> Male
 									<input type="radio" 
 									class="mr-2 mt-1 ml-3"
@@ -75,23 +83,12 @@
 									> Other
 							</div>
 							@error('emp_gender')
-                <span class="text-danger" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            	@enderror
-						</div>
-						{{-- <div class="w-100"></div> --}}
-						
-						<div class="col-3 form-group">
-							<label for="">Date of Birth</label>
-							<input type="text" name="emp_dob" class="form-control datepicker" value="{{old('emp_dob',$employee->emp_dob)}}" autocomplete="off">
-							@error('emp_dob')
-                  <span class="text-danger" role="alert">
-                      <strong>{{ $message }}</strong>
-                  </span>
-              	@enderror
-						</div>
-						<div class="col-3 form-group">
+			                <span class="text-danger" role="alert">
+			                    <strong>{{ $message }}</strong>
+			                </span>
+			            	@enderror
+						</div> --}}
+						<div class="col-4 form-group">
 							<label for="">Blood Group</label>
 							<select name="blood_group" class="form-control">
 									@foreach($blood_groups as $row)
@@ -101,32 +98,32 @@
 									@endforeach
 							</select>
 							@error('blood_group')
-                  <span class="text-danger" role="alert">
-                      <strong>{{ $message }}</strong>
-                  </span>
-              @enderror
+				                  <span class="text-danger" role="alert">
+				                      <strong>{{ $message }}</strong>
+				                  </span>
+				              @enderror
 						</div>
-							<div class="col-4 form-group">
-					    		<label for="file_path">Upload Photo</label>
-					    		<input type="file" name="file_path" id="file_path" value="{{ old('file_path') }}">
-					    		@error('file_path')
-								<span class="text-danger" role="alert">
-									<strong> {{ $message }}</strong>
-								</span>
-								@enderror
-					    	</div>
+						<div class="col-4 form-group">
+							<label for="file_path">Upload Documents</label>
+    						<input type="file" name="file_path" class="form-group-file" id="file_path" value="{{ old('file_path')}}">
+    						@error('blood_group')
+				                  <span class="text-danger" role="alert">
+				                      <strong>{{ $message }}</strong>
+				                  </span>
+				              @enderror
+						</div>
 					</div>
 					<hr/>
 					<div class="row">
 						<div class="col">
 							<span><p class="text-center">Current Residence</p></span>
 							<div class="form-group col-md-8 offset-md-2">
-<textarea onkeydown="match_addr('curr')" name="curr_addr" id="curr_addr" class="form-control" cols="30" rows="10">{{$employee->curr_addr}}</textarea>
+								<textarea onkeydown="match_addr('curr')" name="curr_addr" id="curr_addr" class="form-control" cols="30" rows="10">{{$employee->curr_addr}}</textarea>
 								@error('curr_addr')
-                  <span class="text-danger" role="alert">
-                      <strong>{{ $message }}</strong>
-                  </span>
-              	@enderror
+				                  <span class="text-danger" role="alert">
+				                      <strong>{{ $message }}</strong>
+				                  </span>
+				              	@enderror
 							</div>
 						</div>
 
@@ -189,8 +186,8 @@
               @enderror
 						</div>
 							<div class="col-12 form-group text-center">
-								<button class="btn btn-info btn-sm">Update</button>
-								<a class="btn btn-danger btn-sm" href="javascript:location.reload()">Cancel</a>
+								<button class="btn btn-info btn-sm" style="width: 30%">Update</button>
+								<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Cancel</a>
 							</div>
 					</div>
 					<input type="hidden" name="form_type" id="form_type" value="basic">

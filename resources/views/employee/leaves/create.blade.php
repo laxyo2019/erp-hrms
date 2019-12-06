@@ -5,11 +5,12 @@
 @section('content')
 <main class="app-content">
 	<div class="row">
-			<div class="col-md-12 col-xl-12">
-				<h1 style="font-size: 24px">Leave Application
-				<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></h1></h1>
-			</div>
+		<div class="col-md-12 col-xl-12">
+			<h1 style="font-size: 24px">Leave Application
+				<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+			</h1>
 		</div>
+	</div>
 	<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid grey;">
 		@if($message = Session::get('success'))
 			<div class="alert alert-success alert-block">
@@ -21,28 +22,30 @@
 				@csrf
 				<div class="row">
 					<div class="col-6 form-group">
-							<label for="leave_type">Leave</label>
+							<label for="leave_type">Leave 
+								@error('leave_type_id')
+									<span style="color: red">
+										| {{ $message }}
+									</span>
+								@enderror
+							</label>
 							<select name="leave_type_id" id="leave_type" class="custom-select">
 								<option value="">Select</option>
 								@foreach($leave_type as $leave_type)
-								<option value="{{$leave_type->alias}}">{{$leave_type->name}}</option>
+								<option value="{{$leave_type->id}}">{{$leave_type->name}}</option>
 								@endforeach
 							</select>
-							@error('leave_type_id')
-							<span class="text-danger" role="alert">
-								<strong>* {{ $message }}</strong>
-							</span>
-							@enderror
 						</div>
 						<div class="col-6 form-group">
-						<label for="team_lead">Team Lead</label>
+						<label for="team_lead">Team Lead
+							@error('team_lead_id')
+					          	<span style="color: red">
+									| {{ $message }}
+								</span>
+					      	@enderror
+						</label>
 						<input type="text" id="team_lead" class="form-control" name="team_lead"	value="{{!empty($team_lead) ? $team_lead->emp_name : null}}" disabled>
 						<input type="hidden" name="team_lead_id" value="{{!empty($team_lead) ?$team_lead->id : null}}">
-						@error('team_lead_id')
-				          <span class="text-danger" role="alert">
-				            <strong>* {{ $message }}</strong>
-				          </span>
-				      	@enderror
 					</div>
 		    	</div>
 		    	<div class="row"   style="padding-top: 1%">
@@ -50,7 +53,7 @@
 						<button type="button" id="multi" class="btn btn-primary active">Multiple</button>
 					</div>
 					<div class="col-1 form-group">
-							<button type="button" id="full" class="btn btn-primary " >Full Day</button>
+						<button type="button" id="full" class="btn btn-primary " >Full Day</button>
 					</div>
 					<div class="col-1 form-group">
 						<button type="button" id="half" class="btn btn-primary ">Half Day</button>
@@ -58,24 +61,19 @@
 		    	</div>
 		    	<div class="row">
 					<div class="col-4">
-						<label for="start_date">Start Date</label>
-						<input type="text" class="form-control datepicker start" name="start_date" autocomplete="off" id="start_date">
-						@error('start_date')
-				          <span class="text-danger" role="alert">
-				            <strong>* {{ $message }}</strong>
-				          </span>
+						<label for="start_date">Start Date
+							@error('start_date')
+					          	<span style="color: red">
+									| {{ $message }}
+								</span>
 				      	@enderror
+						</label>
+						<input type="text" class="form-control datepicker start" name="start_date" autocomplete="off" id="start_date">
 				      	<input type="hidden" name="full_day" id="full_day">
 				    </div>
 					<div class="col-4 form-group">
-						<span id="end_date"><label for="end_date">End Date</label>
+						<span id="end_date"><label for="end_date">End Date <span id="small-date" style="color: 'red"></span></label>
 						<input type="text" class="form-control datepicker end" name="end_date" autocomplete="off" id="end_date">
-						<span id="small-date" style="color: 'red"></span>
-						@error('end_date')
-				          <span class="text-danger" role="alert">
-				            <strong>* {{ $message }}</strong>
-				          </span>
-				      	@enderror
 				      	</span>
 				      	<span id="checkday" style="display: none;">
 					      	<label class="">
@@ -102,13 +100,14 @@
 		    	</div>
 		    	<div class="row">
 					<div class="col-7 form-group">
-						<label for="reason">Reason</label>
+						<label for="reason">Reason 
+							@error('reason')
+					          	<span style="color: red">
+									| {{ $message }}
+								</span>
+					      	@enderror</label>
 						<textarea  class="form-control" id="reason" name="reason" value=""></textarea>
-						@error('reason')
-				          <span class="text-danger" role="alert">
-				            <strong>* {{ $message }}</strong>
-				          </span>
-				      	@enderror
+						
 					</div>
 					<div class="col-5 form-group">
 						<label for="contact_no">Contact no</label>
@@ -122,18 +121,9 @@
 					</div>
 					<div class="col-7 form-group">
 						<label for="file_path">Upload Documents 
-							<span class="text-danger" id="docs_error" hidden> | This field is mandatory.</span>
+							<span id="docs_error" style="color: red"></span>
 						</label>
     					<input type="file" name="file_path" class="form-control-file" id="file_path" value="">
-					</div>
-					<div class="col-6 form-group">
-						<label for="address_leave">Address During Leave</label>
-						<textarea class="form-control" id="address_leave" name="address_leave"	value=""></textarea>
-						@error('address_leave')
-				          <span class="text-danger" role="alert">
-				            <strong>* {{ $message }}</strong>
-				          </span>
-				      	@enderror
 					</div>
 					<div class="col-6 form-group">
 						<label for="applicant_remark">Applicant's Remark</label>
@@ -144,9 +134,18 @@
 				          </span>
 				      	@enderror
 					</div>
+					<div class="col-6 form-group">
+						<label for="address_leave">Address During Leave</label>
+						<textarea class="form-control" id="address_leave" name="address_leave"	value=""></textarea>
+						@error('address_leave')
+				          <span class="text-danger" role="alert">
+				            <strong>* {{ $message }}</strong>
+				          </span>
+				      	@enderror
+					</div>
 					<div class="col-12 form-group text-center">
 						<button class="btn btn-info btn-sm m-2" id="submit" style="width: 30%">Save</button>
-						<a class="btn btn-danger btn-sm" type="submit" href="javascript:location.reload()" style="width: 30%">Clear</a>
+						<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Clear</a>
 					</div>
 				</div>
 			</form>
@@ -163,20 +162,25 @@
 					minDate:'0'
 				});
 
-
 			//Hide full & half day for Privilege leave
 			$('#leave_type').on('change', function(){
 
 				var value = $(this).children("option:selected").val();
-				//var leave = value.trim()
-				//alert(value)
+				var name  = $(this).children("option:selected").text();
+				var leave = name.trim().toLowerCase();
 
-				if(value == 'pl'){
+				//Check if privilege id or string meet then hide other tabs
+				if(value == 1 || leave.includes('privilege')){
+					
 					$('#checkday').attr('hidden', true);
 					$('#full, #half').attr('hidden', true);
+					$('#end_date').show();
 
 				}
-				else{
+				else if(value == 2 || leave.includes('sick')){
+					$('#docs_error').text('| This field is mandatory')
+					$('submit')
+				}else{
 					$('#full, #half').removeAttr('hidden');
 				}
 			});
@@ -199,40 +203,42 @@
 
 	        	$('#submit').removeAttr('disabled')
 
-			        if(Date.parse(start)<=Date.parse(end)){
+			        if( Date.parse(start) < Date.parse(end) ){ // Check if End date is higher or not
+			        	$('#small-date').empty();
+			        	$('#submit').attr('disabled', true)
 					   $.ajax({
-
-					type:'get',
-					url: '/balance/',
-					data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'id': id, 'day': day},
+						type:'get',
+						url: '/balance/',
+						data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'id': id, 'day': day},
 						success:function(data){
+							console.log(data.days)
 							 var data = JSON.parse(data);
 
 							$('.duration').val(data.days+' days');
 							$('#count').val(data.days);
+
+							//0 - If you have enough leave balance
 							if(data.msg == 0 ){
 								$(".duration_alert").hide();
 							}else{
 								$(".duration_alert").show();
-								//$('button').removeAttr('disabled');
 							}
-
+							//0 - If you leave duration doesn't fall into sandwich rule
 							if(data.rule == 0){
 								$(".rule_alert").hide();
 							}else{
 								$(".rule_alert").show();
-								//$('button').removeAttr('disabled');
 							}
 						}
 					});
 
-		        }/*else{
-		        	$('#submit').attr('disabled', true)
-		        	alert('Please ensure that End Date should be greater than Start Date.')
-
-		        }*/
-				else{
-				$('#small-date').css("color", "red").append("Can not small from start date.");
+		        }else{
+		        	$('#count').val('');
+					$('#duration').val('');
+					$(".rule_alert").hide();
+					$(".duration_alert").hide();
+					$('#submit').attr('disabled', true)
+					$('#small-date').css("color", "red").text("| date should be greater then start date.");
 				}	        
 		    });
 
@@ -317,6 +323,10 @@
 		    });
 		    
 		});
+
+function cm_add(){
+	alert(54);
+}
 
 		
 

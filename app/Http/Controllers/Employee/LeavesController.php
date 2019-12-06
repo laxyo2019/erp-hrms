@@ -81,56 +81,55 @@ class LeavesController extends Controller
     public function balance(Request $request){
 
       //For multiple days leave
-        if($request->day == 'multi'){
+      if($request->day == 'multi'){
 
-          $first_date   = date_create($request->start_date);
-          $last_date    = date_create($request->end_date);
-          $difference   = date_diff($first_date, $last_date);
-          $count        = $difference->format("%a")+1;
+        $first_date   = date_create($request->start_date);
+        $last_date    = date_create($request->end_date);
+        $difference   = date_diff($first_date, $last_date);
+        $count        = $difference->format("%a")+1;
 
 
-          $sandwichRule = Holiday::select('id', 'title')
-          ->whereBetween('date', [$request->start_date, $request->end_date])
-          ->count();
+        $sandwichRule = Holiday::select('id', 'title')
+        ->whereBetween('date', [$request->start_date, $request->end_date])
+        ->count();
 
-        }elseif ($request->day == 'full') { //for single days
-          $sandwichRule = null;
-          $count = 1;
+      }elseif ($request->day == 'full') { //for single days
+        $sandwichRule = null;
+        $count = 1;
 
-        }else{                              //for half days
-          $sandwichRule = null;
-          $count = 0.5;
-        }
-        //find user and his leave balance
-        $allotment  = LeaveAllotment::where([
-                          ['emp_id', Auth::user()->emp_id],
-                          ['leave_mast_id', $request->leave_type],
-                        ])->first();
+      }else{                              //for half days
+        $sandwichRule = null;
+        $count = 0.5;
+      }
 
-        //return $allotment;
+      //find user and his leave balance
+      $allotment  = LeaveAllotment::where([
+                        ['emp_id', Auth::user()->emp_id],
+                        ['leave_mast_id', $request->leave_type],
+                      ])->first();
 
-        if($count <= $allotment->current_bal){
-            $data = [
-              'days' =>  $count,
-              'rule' =>  $sandwichRule,
-              'msg'  =>  0 ];
-        }else{
-            $data = [
-              'days' => $count,
-              'rule' =>  $sandwichRule,
-              'msg'  => 1 ];           
-        }
-        return json_encode($data);
+      if($count <= $allotment->current_bal){
+          $data = [
+            'days' =>  $count,
+            'rule' =>  $sandwichRule,
+            'msg'  =>  0 ];
+      }else{
+          $data = [
+            'days' => $count,
+            'rule' =>  $sandwichRule,
+            'msg'  => 1 ];           
+      }
+      
+      return json_encode($data);
     }
 
     
     public function store(Request $request)
     {   
-      
       $data = request()->validate([
         'leave_type_id' => 'required',
         'team_lead_id'  => 'required',
-        'reason'        => 'required'
+        'start_date'    => 'required',
       ]);
       $id = Auth::user()->emp_id;
       //duration of leaves
@@ -169,6 +168,7 @@ class LeavesController extends Controller
       $leaveapply->approver_remark   = null;
       $leaveapply->hr_remark         = null;
       $leaveapply->save();
+      
       //Deduct leave when employee apply for it & add if declined
       LeaveAllotment::where([
                     ['emp_id', Auth::user()->emp_id],

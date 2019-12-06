@@ -3,7 +3,7 @@
     <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
 @endpush
 
-//ekname
+
 @section('content')
 	<main class="app-content">
 		<div class="row">
@@ -37,10 +37,10 @@
 									</div>
 									<input type="text" name="name" class="form-control" value="{{old('name',$data['employee']->emp_name)}}">
 									@error('name')
-			                    <span class="text-danger" role="alert">
-			                        <strong>{{ $message }}</strong>
-			                    </span>
-			                	@enderror
+				                    <span class="text-danger" role="alert">
+				                        <strong>{{ $message }}</strong>
+				                    </span>
+				                	@enderror
 								</div>
 								@error('name')
 			                    <span class="text-danger" role="alert">
@@ -58,16 +58,11 @@
 									</div>
 									<input type="text" name="emp_code" class="form-control" value="{{old('emp_code',$data['employee']->emp_code)}}">
 									@error('emp_code')
-			                    <span class="text-danger" role="alert">
-			                        <strong>{{ $message }}</strong>
-			                    </span>
-			                	@enderror
-								</div>
-								@error('emp_code')
 				                    <span class="text-danger" role="alert">
 				                        <strong>{{ $message }}</strong>
 				                    </span>
-				                @enderror
+				                	@enderror
+								</div>
 							</div>
 								{{--<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 									<label for="name"><b>Company Code <span class="text-danger">*</span></b> </label>
@@ -112,12 +107,7 @@
 			                    </span>
 			                	@enderror
 							</div>
-									@error('parent_id')
-				                    <span class="text-danger" role="alert">
-				                        <strong>{{ $message }}</strong>
-				                    </span>
-				                	@enderror
-						</div>
+						
 								{{-- fetch all grades of company1  --}}
 							<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 								<label for="name"><b>Grade<span class="text-danger">*</span></b> </label>
@@ -163,7 +153,7 @@
 												<i class="fa fa-id-card-o"></i>	
 											</span>
 										</div>
-										<input type="text" name="emp_dob" class="datepicker form-control" value="{{old('emp_dob',$data['employee']->emp_dob)}}">
+										<input type="text" name="emp_dob" class="datepicker form-control" value="{{old('emp_dob',$data['employee']->emp_dob)}}" autocomplete="off">
 									</div>
 									@error('emp_dob')
 				                    <span class="text-danger" role="alert">
@@ -179,7 +169,7 @@
 												<i class="fa fa-id-card-o"></i>	
 											</span>
 										</div>
-										<input type="text" name="join_dt" value="{{old('join_dt',$data['employee']->join_dt)}}" class="datepicker form-control" >
+										<input type="text" name="join_dt" value="{{old('join_dt',$data['employee']->join_dt)}}" class="datepicker form-control" autocomplete="off" >
 									</div>
 									@error('join_dt')
 				                    <span class="text-danger" role="alert">
@@ -200,8 +190,7 @@
 												<option value="">Select designation</option>	
 												@foreach($data['designations'] as $designation)
 												<option value="{{$designation->id}}" {{old('emp_desg',$data['employee']->desg_id) == $designation->id ? 'selected' : ''}}>{{$designation->name}}</option>
-												@foreach($designations as $designation)
-												<option value="{{$designation->id}}" {{old('emp_desg',$employee->desg_id) == $designation->id ? 'selected' : ''}}>{{$designation->name}}</option>
+												
 												@endforeach
 											</select>
 										</div>
