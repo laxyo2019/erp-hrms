@@ -210,7 +210,7 @@
 	        	$('#submit').removeAttr('disabled')
 				 if( Date.parse(start) < Date.parse(end) ){ // Check if End date is higher or not
 			        	$('#small-date').empty();
-			        	$('#submit').attr('disabled', true)
+			        	// $('#submit').attr('disabled', true)
 
 					   $.ajax({
 						type:'get',

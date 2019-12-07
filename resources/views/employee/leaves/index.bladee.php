@@ -89,6 +89,15 @@
 										 		{{strtoupper('panding')}}
 										 	</strong>
 										 </div>
+<<<<<<< HEAD
+										@endif
+										@if($leaveapply['approvalaction']['name'] == 'Approved')
+										<div >
+											By<u>({{$leaveapply->approve_name['emp_name']}} )
+											</u>
+										</div>
+										@endif
+=======
 										 <div>
 										 	<u>@if($leaveapply->approve_name){{'By'.' ' }}	({{$leaveapply->approve_name['emp_name']}})
 											</u>@endif
@@ -107,8 +116,8 @@
 										{{-- {{empty($leaveapply['approvalaction']->name) ? 'Decline'  : strtoupper($leaveapply['approvalaction']->name)}} --}}
 									@endif
 										
+>>>>>>> 6cf254b6e8832350c34eece3a4a3683213791b4d
 									</td>
-									
 									<td class='d-flex' style="border-bottom:none">
 										<button class="btn btn-sm btn-info modalLeave ml-2" data-id="{{$leaveapply->id}}">
 											<i class="fa fa-eye" style="font-size: 12px"></i>

@@ -22,13 +22,12 @@ use Auth;
 
 class LeavesController extends Controller
 {
-
     public function index(){
-
         //return LeaveApply::with(['employee', 'leavetype', 'approvalaction', 'approve_name'])->get();
-
         $user           = User::find(Auth::user()->id);
-        $permissions    = $user->getDirectPermissions();
+        // $permissions    = $user->getDirectPermissions();
+        $permissions    = $user->getAllPermissions();
+        // dd($permissions);
     	/*$leave_request = DB::table('emp_leave_applies')->orderBy('id', 'DESC')
             ->where('emp_leave_applies.deleted_at', null)
             ->join('emp_mast', 'emp_leave_applies.emp_id', '=', 'emp_mast.id')
@@ -38,24 +37,16 @@ class LeavesController extends Controller
             ->select('emp_leave_applies.id', 'emp_mast.id as employee_id', 'users.name', 'emp_name', 'leave_mast.name', 'emp_leave_applies.from', 'emp_leave_applies.from', 'emp_leave_applies.to', 'emp_leave_applies.count', 'emp_leave_applies.status', 'emp_leave_applies.approver_remark', 'approval_actions_mast.id as action_id', 'approval_actions_mast.name as action_name', 'emp_leave_applies.created_at')
 
     		->get();*/
-
-        $leave_request = LeaveApply::with(['employee', 'leavetype', 'approvalaction', 'approve_name'])
-                        //->select('emp_leave_applies.id as leave_request_id', 'emp_name')
-                        ->get();   
-
-       
-           return view('HRD.leaves.index', compact('leave_request', 'permissions'));
-        
-
-    	
+        $leave_request = LeaveApply::with(['employee', 'leavetype', 'approve_name'])
+                                    ->orderBy('id', 'DESC')
+                                    ->get(); 
+        return view('HRD.leaves.index', compact('leave_request', 'permissions'));
 	}
 	public function edit($id){
 
 	}
     public function store(Request $request){
         //Update Leave application status
-
-
         $leave  = LeaveApply::findOrFail($request->leave_request_id);
         $leave->approver_id = Auth::id();
         $leave->status      = $request->approval_action_id;

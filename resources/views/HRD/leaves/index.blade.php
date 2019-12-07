@@ -27,7 +27,7 @@
 									<th>LEAVE</th>
 									<th>DURATION</th>
 									<th>POSTED ON</th>
-									<th>STATUS</th>
+									{{-- <th>STATUS</th> --}}
 									<th style="text-align: center;">ACTIONS</th>
 								</tr>
 							</thead>
@@ -35,6 +35,7 @@
 							@php $count = 0; @endphp
 							@foreach($leave_request as $request) 
 								<tr>
+
 									<td>{{++$count}}</td>
 									<td>{{$request['employee']->emp_name}}</td>
 									<td>{{$request['leavetype']->name}}</td>
@@ -62,35 +63,30 @@
 									<td>{{date('d M', strtotime($request->from)) }} - {{ date('d M', strtotime($request->to))}}</td>
 									<td>{{$request->count}}</td>
 									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
-									<td> 
-								  {{-- @if ($request['approvalaction']->name =='' AND $request->status =='' ) 
-									<div ><strong style="color:yellow;"> {{strtoupper('Pending')}}
-										</strong>
-									</div> 
-									
-								    @elseif( $request->action_name =='')
-								    <div ><strong style="color:red;"> {{strtoupper('Declined')}}
-										</strong>
-									<div>
-										By <u>({{$request->approver_name}})</u>
-								    @elseif( $request['approvalaction']->name =='')
-								    <div ><strong style="color:red;"> {{strtoupper('Declined')}}
-										</strong>
-									<div>
-										By <u>({{$request['approvalaction']->name}})</u>
-								    </div>
-									</div>
+									{{-- <td> 
+									  @if($request['approvalaction'] =='' AND $request->status =='' ) 
+										<div ><strong style="color:yellow;"> {{strtoupper('Pending')}}
+											</strong>
+										</div> 
+
+									@elseif( $request->status =='17')
+									    <div ><strong style="color:red;"> {{strtoupper('Declined')}}
+											</strong>
+										</div>
+										<div>
+											By <u>({{$request->approve_name->emp_name}})</u>
+									  	</div>
 									@else
-									 <div > 
-									 	<strong strong style="color:green;">
-									 	{{strtoupper('Approved')}}</strong> 
-									 </div>
-									 <div>
-									 	By <u >({{$request->approver_name}})
-									 	</u>
-									 </div>
-									@endif --}}
-									</td>
+										 <div > 
+										 	<strong strong style="color:green;">
+										 	{{strtoupper('Approved')}}</strong> 
+										 </div>
+										 <div>
+										 	By <u >({{$request->approve_name->emp_name}})
+										 	</u>
+										 </div>
+									@endif 
+									</td> --}}
 									{{-- <td>{{empty($request->status) ? 'Pending' : $request->action_name }}
 									</td> --}}
 									<td class='d-flex' style="border-bottom:none">
@@ -104,17 +100,40 @@
 											<span class="ml-2">
 												<form action="{{url('hrd/leaves')}}" method="POST" >
 										         @csrf
+
 										          <input type="hidden" name="leave_request_id" value="{{$request->id}}">
 										          <input type="hidden" name="approval_action_id" value="{{$action->id}}">
 										          @if($action->name == 'decline')
 										          <button type="submit" class="btn btn-danger">{{$action->name}}</button>
+
 										          @elseif($action->name == 'approve')
 										          <button type="submit" class="btn btn-success">{{$action->name}}</button>
+										         {{--  <br><strong style="color:yellow;"> {{strtoupper('Pending')}}
+												  </strong> --}}
 										          {{-- @elseif($action->name == 'hold')
 										          <button type="submit" class="btn btn-success">{{$action->name}}</button> --}}
 										        </form>
 											</span>
 											@endif
+											@else
+											<div class="col-sm-12">
+												@if($request['approvalaction'] =='' AND $request->status =='' ) 
+												<div ><strong style="color:yellow;"> {{strtoupper('Pending')}}
+													</strong>
+												</div> 
+												@elseif( $request->status =='17')
+											    <div ><strong style="color:red;"> {{strtoupper('Declined')}}
+													</strong> <br>By <u>({{$request->approve_name->emp_name}})</u>
+											  	</div>
+												@else
+												 <div > 
+												 	<strong strong style="color:green;">
+												 	{{strtoupper('Approved')}}</strong><br> By <u >({{$request->approve_name->emp_name}})
+												 	</u>
+												 </div>
+												@endif 
+												@break
+											</div>
 										@endif
 									@endforeach
 									 	{{-- By <u >({{$request['approvalaction']->name}})
