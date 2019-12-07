@@ -7,7 +7,7 @@
 	<div class="row">
 		<div class="col-md-12 col-xl-12">
 			<h1 style="font-size: 24px">Leave Application
-				<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+				<a href="{{ url('employee/leaves') }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
 			</h1>
 		</div>
 	</div>
@@ -39,15 +39,15 @@
 							</select>
 						</div>
 						<div class="col-6 form-group">
-						<label for="team_lead">Team Lead
+						<label for="reports_to">Reports To
 							@error('team_lead_id')
 					          	<span style="color: red">
 									| {{ $message }}
 								</span>
 					      	@enderror
 						</label>
-						<input type="text" id="team_lead" class="form-control" name="team_lead"	value="{{!empty($team_lead) ? $team_lead->emp_name : null}}" disabled>
-						<input type="hidden" name="team_lead_id" value="{{!empty($team_lead) ?$team_lead->id : null}}">
+						<input type="text" id="reports_to" class="form-control" name="reports_to"	value="{{!empty($reports_to) ? $reports_to->emp_name : null}}" disabled>
+						<input type="hidden" name="team_lead_id" value="{{!empty($reports_to) ?$reports_to->id : null}}">
 					</div>
 		    	</div>
 		    	<div class="row"   style="padding-top: 1%">
@@ -178,6 +178,7 @@
 					
 					$('#checkday').attr('hidden', true);
 					$('#full, #half').attr('hidden', true);
+					$('#docs_error').text('')
 					$('#end_date').show();
 
 				}
@@ -186,6 +187,7 @@
 					$('submit')
 				}else{
 					$('#full, #half').removeAttr('hidden');
+					$('#docs_error').text('')
 				}
 			});
 

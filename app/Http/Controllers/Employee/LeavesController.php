@@ -35,15 +35,11 @@ class LeavesController extends Controller
 
     public function index()
     {
-      
-      $emp = EmployeeMast::find(Auth::user()->emp_id)->first();
-      $employee = EmployeeMast::orderBy('id', 'DESC')->with(['leaveapplies'])->where('id', Auth::user()->emp_id)->first();
-      $balance  = EmployeeMast::with('allotments.leaves')->where('id', Auth::user()->emp_id)->first();
-      $parent_id = EmployeeMast::find(Auth::user()->emp_id)->parent_id;
-     
-        // dd($employee);
-      //return $employee['leaveapplies'][0]->status;
-      
+      $emp        = EmployeeMast::find(Auth::user()->emp_id)->first();
+      $employee   = EmployeeMast::orderBy('id', 'DESC')->with(['leaveapplies'])->where('id', Auth::user()->emp_id)->first();
+      $balance    = EmployeeMast::with('allotments.leaves')->where('id', Auth::user()->emp_id)->first();
+      $parent_id  = EmployeeMast::find(Auth::user()->emp_id)->parent_id;
+
       return view('employee.leaves.index', compact('employee', 'balance'));
     }
 
@@ -56,23 +52,22 @@ class LeavesController extends Controller
     {
         //Many2Many relationship
         //$desig = Designation::find(3)->approvals;
-        $parent_id = EmployeeMast::find(Auth::user()->emp_id)->parent_id;
-          if(!empty($parent_id)){
-            //for logged in user's teamLead
-            $team_lead = EmployeeMast::where('id', $parent_id)
+        $reports_id = EmployeeMast::find(Auth::user()->emp_id)->reports_to;
+          if(!empty($reports_id)){
+            //for logged in user's reports to
+            $reports_to = EmployeeMast::where('id', $reports_id)
                       ->select('id', 'emp_name')
                       ->first();
           }else{
-            $team_lead = null;
+            $reports_to = null;
           }
         $leave_type = LeaveMast::all();
-        return view('employee.leaves.create', compact('leave_type', 'team_lead'));
+        return view('employee.leaves.create', compact('leave_type', 'reports_to'));
     }
 
     public function balance(Request $request){
       //For multiple days leave
       if($request->day == 'multi'){
-
 
           $first_date   = date_create($request->start_date);
           $last_date    = date_create($request->end_date);
@@ -140,7 +135,7 @@ class LeavesController extends Controller
 
       $leaveapply = new LeaveApply;
       $leaveapply->emp_id            = $id;
-      $leaveapply->teamlead_id       = $request->team_lead_id;
+      $leaveapply->reports_to        = $request->team_lead_id;
       $leaveapply->leave_type_id     = $data['leave_type_id'];
       $leaveapply->first_half        = $request->first_half;
       $leaveapply->second_half       = $request->second_half;
@@ -194,7 +189,7 @@ class LeavesController extends Controller
     {
         $leave_type   = LeaveMast::all();
         $leaves       = LeaveApply::findOrFail($id);
-
+        
         return view('employee.leaves.edit', compact('leaves', 'leave_type')) ;
     }
 
@@ -208,8 +203,10 @@ class LeavesController extends Controller
         $last_date  = date_create($request->end_date);
         $difference = date_diff($first_date, $last_date);
         $count = $difference->format("%a");
+
         if($request->hasFile('file_path')){
             //Delete file and save null in file_path column
+          
             $file = LeaveApply::find($id);
             Storage::delete($file->file_path);
             $file->file_path = null;
@@ -225,7 +222,7 @@ class LeavesController extends Controller
 
         $leaveapply = LeaveApply::findOrFail($id);
         $leaveapply->emp_id            = Auth::id();
-        $leaveapply->teamlead_id       = $request->team_lead_id;
+        $leaveapply->reports_to        = $request->team_lead_id;
         $leaveapply->leave_type_id     = $data['leave_type_id'];
         $leaveapply->from              = $request->start_date;
         $leaveapply->to                = $request->end_date;
@@ -249,8 +246,15 @@ class LeavesController extends Controller
     public function destroy($id)
     {
         $leave_app = LeaveApply::findOrFail($id);
+
         Storage::delete($leave_app->file_path);
         $leave_app->delete();
+
+        /***Add leave balance to employee if leave application is deleted***/
+        LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
+                      ->where('emp_id', $leave_app->emp_id)
+                      ->increment('current_bal', $leave_app->count);
+
         return back()->with('success', 'Record deleted successfully');
     }
 

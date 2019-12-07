@@ -180,7 +180,6 @@ class EmployeesController extends Controller
 
   public function save_personal(Request $request,$id){
 	  $vdata = request()->validate([
-			'emp_title'      => 'required',
 			'full_name'      => 'required|max:45',
 			'contact_number' => 'nullable',
 			'alternate_contact_number' => 'nullable',
@@ -188,7 +187,8 @@ class EmployeesController extends Controller
 			'alternate_email'=> 'nullable|email|max:50',
 		]);
 
-    //Directory structure
+    /***** Directory structure *****/
+
     if($request->hasFile('file_path')){
       $dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
       $file_ext = $request->file('file_path')->extension();
@@ -199,7 +199,7 @@ class EmployeesController extends Controller
     }
 
 		$employee = EmployeeMast::findOrfail($id);
-		$employee->emp_name   = $vdata['emp_title']." ".$vdata['full_name'];
+		$employee->emp_name   = $vdata['full_name'];
 		$employee->emp_gender = $request->emp_gender;
 		$employee->emp_dob    = $request->emp_dob;
 		$employee->blood_grp  = $request->blood_group;
@@ -320,16 +320,16 @@ class EmployeesController extends Controller
   public function edit($id)
   {
     $data['employee']     = EmployeeMast::with('company','designation')->findOrFail($id);
-	  $data['parent_ids']   = EmployeeMast::where('desg_id', '3')->get();
+	  $data['reports_to']   = EmployeeMast::all();
     $data['grades']       = Grade::all();
 		$data['designations'] = Designation::all();
+    //return $data['reports_to'];
     
     return view('HRD.employees.edit',compact('data'));
   }
 
   public function update(Request $request, $id)
   {	
-
   	$vdata =  $request->validate([
 			'name'       => 'required|string|max:50',
  			'emp_code'   => 'nullable|string|max:15',
@@ -346,7 +346,7 @@ class EmployeesController extends Controller
     $employee = EmployeeMast::findOrfail($id);
     $employee->emp_name   = $vdata['name']/*." ".$vdata['full_name']*/;
     $employee->emp_code   = $vdata['emp_code'];
-    $employee->parent_id  = $request->parent_id;
+    $employee->reports_to = $request->reports_to;
     $employee->grade_id   = $request->grade_id;
     $employee->emp_gender = $request->emp_gender;
     $employee->emp_dob    = $request->emp_dob;

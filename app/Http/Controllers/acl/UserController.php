@@ -22,22 +22,27 @@ class UserController extends Controller
     	return view('acl.users.index', compact('users'));
     }
 
-    public function create( $id){
-    	$user = User::find($id);
-    	$roles = Role::all();
+    public function create(Request $request){
 
-    	return view('acl.users.create', compact('user', 'roles'));
+    	return view('acl.users.create');
     }
 
-    public function store(Request $request, $id){
+    //Add as an employee
+    public function store(Request $request){
 
-    	$this->validate($request, [
-    		'role' => 'required']);
+    	$user = User::find( $request->id);
 
-    	$user = User::find( $id);
-    	$role_name = Role::find($request->role)->name;
+/********Add user as an employee if not exists*******/
+        if(empty($user->emp_id)){
+            $employee = EmployeeMast::create([
+                        'emp_name' => $user->name,
+                        'email'    => $user->email ]);
 
-    	$user->assignRole($role_name);
+/****After creating employee take id and update users's emp_id*********/
+            $user->emp_id = $employee->id;
+            $user->save();
+        }
+
     	return redirect()->route('users.index')->with('success', 'Role Assigned successfully');
     }
 
@@ -78,34 +83,20 @@ class UserController extends Controller
 
     public function update(Request $request, $id){
 
-        //return 54;
         $this->validate($request,
                 ['name' => 'required']);
 
-        $user = User::find($id);
-
+        $user       = User::find($id);
         $user->name = $request->name;
         $user->save();
 
         //Save roles
         $user->syncRoles($request->roles);
+
         //Save direct permissions to user
         $user->syncPermissions($request->perms);
 
-        //Add user as an employee if not exists
-        if(empty($user->emp_id)){
-            $user_id = EmployeeMast::create([
-                        'emp_name'  => $user->name])->id;
-            $user->emp_id = $user_id;
-            $user->save();
-
-            return redirect()->route('users.index')->with('success', 'User Added as an Employee.');
-        }else{
-            return redirect()->route('users.index')->with('success', 'User already Added.');
-        }
-
-
-    return back()->with('success', 'User information updated.');
+        return back()->with('success', 'User information updated.');
     }
 
     public function destroy( $id){

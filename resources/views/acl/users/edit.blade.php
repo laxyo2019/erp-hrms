@@ -7,11 +7,12 @@
 	<div class="row">
 		<div class="col-md-12 col-xl-12">
 			<h1 style="font-size: 24px">Edit Role
-              <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-				
-				<button class="btn btn-sm btn-info ml-2 employee">
-                  <i class="fa fa-eye" style="font-size: 12px">&nbsp Add as Employee</i>
-                </button>
+              <a href="{{ route('users.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+				@if(empty($user->emp_id))
+					<button class="btn btn-sm btn-info ml-2 employee">
+	                  <span style="font-size: 12px">+ Add as Employee</span>
+	                </button>
+                @endif
 			</h1>
 		</div>
 	</div>
@@ -68,9 +69,13 @@
 <script>
 $(document).ready(function(){
 	$('.employee').on('click', function(e){
+		var user_id = {{$user->id}};
+		//alert(emp_id)
 		$.ajax({
-            type: 'GET',
-			url: '{{ route("assign.user", $user->id)}}',
+            type: 'POST',
+			url: '{{ route("users.store")}}',
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			data: {'id':user_id },
 			success:function(data){
 
 			}

@@ -4,11 +4,11 @@
 @endpush
 @section('content')
 @php
-	$emp_titles = array('Mr.', 'Mrs.', 'Ms.');
-	$blood_groups = array('O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-');
-	$castes = array('General', 'OBC', 'SC', 'ST');
-	$religions = array('Hindu', 'Muslim', 'Christian', 'Sikh', 'Jain');
-	$nationalities = array('Indian', 'Other');
+	//$emp_titles = array('Mr.', 'Mrs.', 'Ms.');
+	$blood_groups	= array('O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-');
+	$castes			= array('General', 'OBC', 'SC', 'ST');
+	$religions		= array('Hindu', 'Muslim', 'Christian', 'Sikh', 'Jain');
+	$nationalities	= array('Indian', 'Other');
 @endphp
 <main class="app-content">
 	@include ('HRD/employees/tabs')
@@ -18,16 +18,13 @@
 		<button type="button" class="close" data-dismiss="alert">×</button>
 			{{$message}}
 		</div>
-		@endif 
-		@php
-			//dd($employee);
-		@endphp
+		@endif
 		<div id="form-area">
 				<form action="{{route('employees.personal', ['id'=>$employee->id])}}" method="POST" enctype="multipart/form-data">
 					@csrf
 				<div class="container-fluid">
 					<div class="row">
-						 <div class="col-2 form-group">
+						 {{-- <div class="col-2 form-group">
 							<label for="">Title</label>
 							<select name="emp_title" class="form-control">
 									@foreach($emp_titles as $row)
@@ -41,18 +38,26 @@
 			                    <strong>{{ $message }}</strong>
 			                </span>
 			            	@enderror
-						</div> 
-						<div class="col-5 form-group">
-
+						</div>  --}}
+						<div class="col-7 form-group">
 							<label for="">Full Name</label>
-							<input type="text" class="form-control" name="full_name" value="{{old('full_name',(explode(' ', $employee->emp_name, 2))[1])}}" />
+								<input type="text" class="form-control" name="full_name" value="{{old('full_name', $employee->emp_name)}}" />
 							@error('full_name')
 			                <span class="text-danger" role="alert">
 			                    <strong>{{ $message }}</strong>
 			                </span>
 			            	@enderror
 						</div>
-						<div class="col-5 form-group">
+						<div class="col-4 form-group">
+							<label for="file_path">Upload Documents</label>
+    						<input type="file" name="file_path" class="form-group-file" id="file_path" value="{{ old('file_path')}}">
+    						@error('blood_group')
+			                	<span class="text-danger" role="alert">
+			                    	<strong>{{ $message }}</strong>
+			                  	</span>
+			            	@enderror
+						</div>
+						<div class="col-6 form-group">
 							<label for="">Date of Birth</label>
 							<input type="text" name="emp_dob" class="form-control datepicker" value="{{old('emp_dob',$employee->emp_dob)}}" autocomplete="off">
 							@error('emp_dob')
@@ -60,6 +65,57 @@
 			                      <strong>{{ $message }}</strong>
 			                  </span>
 			              	@enderror
+						</div>
+						<div class="col-6 form-group">
+							<label for="">Blood Group</label>
+							<select name="blood_group" class="form-control">
+									@foreach($blood_groups as $row)
+										<option value="{{$row}}" {{old('blood_group',$employee->blood_grp) == $row ? 'selected' : ''}} >
+											{{ $row }}
+										</option>
+									@endforeach
+							</select>
+							@error('blood_group')
+				                  <span class="text-danger" role="alert">
+				                      <strong>{{ $message }}</strong>
+				                  </span>
+				              @enderror
+						</div>
+						<div class="col-6 form-group">
+							<label for="">Contact Number</label>
+							<input type="text" name="contact_number" class="form-control" value="{{old('contact_number',$employee->contact)}}">
+								@error('contact_number')
+					                <span class="text-danger" role="alert">
+					                	<strong>{{ $message }}</strong>
+					            	</span>
+					            @enderror
+						</div>
+						<div class="col-6 form-group">
+							<label for="">Alternate Contact Number</label>
+							<input type="text" name="alternate_contact_number" class="form-control" value="{{old('alternate_contact_number',$employee->alt_contact)}}">
+							@error('alternate_contact_number')
+				                <span class="text-danger" role="alert">
+				                  <strong>{{ $message }}</strong>
+				                </span>
+				              @enderror
+						</div>
+						<div class="col form-group">
+							<label for="">Email</label>
+							<input type="email" name="email" class="form-control" value="{{old('email',$employee->email)}}">
+							@error('email')
+				            	<span class="text-danger" role="alert">
+				                	<strong>{{ $message }}</strong>
+				                </span>
+				            @enderror
+						</div>
+						<div class="col-6 form-group">
+							<label for="">Alternate Email</label>
+							<input type="email" name="alternate_email" class="form-control" value="{{old('alternate_email',$employee->alt_email)}}" checked="">
+							@error('alternate_email')
+				                <span class="text-danger" role="alert">
+				                  <strong>{{ $message }}</strong>
+				                </span>
+				              @enderror
 						</div>
 						{{-- <div class="col-4 form-group">
 							<label for="">Gender</label>
@@ -88,30 +144,6 @@
 			                </span>
 			            	@enderror
 						</div> --}}
-						<div class="col-4 form-group">
-							<label for="">Blood Group</label>
-							<select name="blood_group" class="form-control">
-									@foreach($blood_groups as $row)
-										<option value="{{$row}}" {{old('blood_group',$employee->blood_grp) == $row ? 'selected' : ''}} >
-											{{ $row }}
-										</option>
-									@endforeach
-							</select>
-							@error('blood_group')
-				                  <span class="text-danger" role="alert">
-				                      <strong>{{ $message }}</strong>
-				                  </span>
-				              @enderror
-						</div>
-						<div class="col-4 form-group">
-							<label for="file_path">Upload Documents</label>
-    						<input type="file" name="file_path" class="form-group-file" id="file_path" value="{{ old('file_path')}}">
-    						@error('blood_group')
-				                  <span class="text-danger" role="alert">
-				                      <strong>{{ $message }}</strong>
-				                  </span>
-				              @enderror
-						</div>
 					</div>
 					<hr/>
 					<div class="row">
@@ -126,69 +158,29 @@
 				              	@enderror
 							</div>
 						</div>
-
 						<div class="col">
 							<span><p class="text-center">Permanent Residence</p></span>
 							<div class="form-group col-md-8 offset-md-2">
 								<textarea onkeydown="match_addr('perm')" name="perm_addr" class="form-control" id="perm_addr" cols="30" rows="10">{{$employee->perm_addr}}</textarea>
-									@error('perm_addr')
-                  <span class="text-danger" role="alert">
-                      <strong>{{ $message }}</strong>
-                  </span>
-              @enderror
+								@error('perm_addr')
+					                <span class="text-danger" role="alert">
+					                      <strong>{{ $message }}</strong>
+					                </span>
+				              	@enderror
 							</div>
 						</div>
 					</div>
 					<div class="custom-control custom-checkbox bg-dark text-white" style="background-color: #fff;">
-						<input type="checkbox" class="custom-control-input" id="check-address"
-						@if($employee->curr_addr==$employee->perm_addr)
-						checked
-						@endif
-						>
+						<input type="checkbox" class="custom-control-input" id="check-address" 
+						@if($employee->curr_addr==$employee->perm_addr) checked @endif >
 						<label class="custom-control-label" for="check-address">Permanent Residence same as current</label>
 					</div>
 					<hr/>
 					<div class="row">
-						<div class="col form-group">
-							<label for="">Contact Number</label>
-							<input type="text" name="contact_number" class="form-control" value="{{old('contact_number',$employee->contact)}}">
-								@error('contact_number')
-	                  <span class="text-danger" role="alert">
-	                    <strong>{{ $message }}</strong>
-	                  </span>
-	              @enderror
+						<div class="col-12 form-group text-center">
+							<button class="btn btn-info btn-sm" style="width: 30%">Update</button>
+							<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Cancel</a>
 						</div>
-						<div class="col form-group">
-							<label for="">Alternate Contact Number</label>
-							<input type="text" name="alternate_contact_number" class="form-control" value="{{old('alternate_contact_number',$employee->alt_contact)}}">
-							@error('alternate_contact_number')
-                <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-                </span>
-              @enderror
-						</div>
-						<div class="col form-group">
-							<label for="">Email</label>
-							<input type="email" name="email" class="form-control" value="{{old('email',$employee->email)}}">
-							@error('email')
-                <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-                </span>
-              @enderror
-						</div>
-						<div class="col form-group">
-							<label for="">Alternate Email</label>
-							<input type="email" name="alternate_email" class="form-control" value="{{old('alternate_email',$employee->alt_email)}}" checked="">
-							@error('alternate_email')
-                <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-                </span>
-              @enderror
-						</div>
-							<div class="col-12 form-group text-center">
-								<button class="btn btn-info btn-sm" style="width: 30%">Update</button>
-								<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Cancel</a>
-							</div>
 					</div>
 					<input type="hidden" name="form_type" id="form_type" value="basic">
 				</div>

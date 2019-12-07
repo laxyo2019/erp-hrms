@@ -85,7 +85,6 @@
 										 	<strong style="color: green;">{{strtoupper($leaveapply['approvalaction']->name)}}
 										 	</strong>
 										 </div>
-										{{-- {{empty($leaveapply['approvalaction']->name) ? 'Decline'  : strtoupper($leaveapply['approvalaction']->name)}} --}}
 										@endif
 										@if($leaveapply['approvalaction']['name'] == 'Approved')
 										<div >
@@ -94,7 +93,6 @@
 										</div>
 										@endif
 									</td>
-									
 									<td class='d-flex' style="border-bottom:none">
 										<button class="btn btn-sm btn-info modalLeave ml-2" data-id="{{$leaveapply->id}}">
 											<i class="fa fa-eye" style="font-size: 12px"></i>

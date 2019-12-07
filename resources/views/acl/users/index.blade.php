@@ -4,11 +4,10 @@
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 24px">Manage Users
-              <a href="{{ route('users.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-          
+          <a href="{{ route('users.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
           {{-- <span class="ml-2">
-              <a href="{{route('types.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
-              <span class="fa fa-plus "></span> Add New</a>
+            <a href="{{route('users.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
+            <span class="fa fa-plus "></span> Add User</a>
           </span> --}}
 		    </h1>
 		    <hr>
@@ -44,14 +43,14 @@
                         <span>
                           <a href="{{route('users.edit',$index->id)}}" class="btn btn-sm btn-info">EDIT</a>
                         </span>
-                        @if(empty($index->emp_id))
+                        {{-- @if(!empty($index->emp_id))
                           <span class="ml-2">
                           <form action="{{route('assign.user',$index->id)}}" method="POST" id="assign_{{ $index->id}}">
                             @csrf
                             <a href="javascript:$('#assign_{{ $index->id}}').submit();" class="btn btn-sm btn-info" onclick="return confirm('Are you sure?')">Add as Employee</a>
                           </form>
                           </span>
-                          @endif
+                          @endif --}}
                         <span class="ml-2">
                           <form  action="{{route('users.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
                             @csrf

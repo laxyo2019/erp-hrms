@@ -1,6 +1,9 @@
 @extends('layouts.master')
 @push('styles')
     <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
+	<script src='{{asset('js/select2.min.js')}}' type='text/javascript'></script>
+	{{-- Select2 CSS --}}
+	{{-- <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}"> --}}
 @endpush
 
 
@@ -87,21 +90,21 @@
 								</div> --}}
 								{{-- Fetch all Employee of the same company--}}
 							<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
-								<label for="name"><b>Team Lead<span class="text-danger">*</span></b> </label>
+								<label for="reportsTo"><b>Reports To<span class="text-danger">*</span></b> </label>
 								<div class="input-group">
 									<div class="input-group-prepend">
 										<span class="input-group-text">
 											<i class="fa fa-id-card-o"></i>	
 										</span>
 									</div>
-									<select name="parent_id" class="form-control" id="">
+									<select name="reports_to" class="form-control" id="reportsTo">
 										<option value="">Select Employee</option>	
-										@foreach($data['parent_ids'] as $parent)
-										<option value="{{$parent->id}}" {{old('parent_id',$data['employee']->parent_id) == $parent->id ? 'selected' : ''}}>{{$parent->emp_name}}</option>
+										@foreach($data['reports_to'] as $report)
+										<option value="{{$report->id}}" {{old('reports_to',$data['employee']->reports_to) == $report->id ? 'selected' : ''}}>{{$report->emp_name}}</option>
 										@endforeach
 									</select>
 								</div>
-								@error('parent_id')
+								@error('reports_to')
 			                    <span class="text-danger" role="alert">
 			                        <strong>{{ $message }}</strong>
 			                    </span>
@@ -225,6 +228,26 @@
 				                    </span>
 				                	@enderror
 								</div> --}}
+
+								<!-- Dropdown --> 
+								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
+
+									{{-- <select id='selUser' style='width: 200px;'>
+									  <option value='0'>Select User</option> 
+									  <option value='1'>Yogesh singh</option> 
+									  <option value='2'>Sonarika Bhadoria</option> 
+									  <option value='3'>Anil Singh</option> 
+									  <option value='4'>Vishal Sahu</option> 
+									  <option value='5'>Mayank Patidar</option> 
+									  <option value='6'>Vijay Mourya</option> 
+									  <option value='7'>Rakesh sahu</option> 
+									</select>
+
+									<input type='button' value='Seleted option' id='but_read'> --}}
+
+									<br/>
+									<div id='result'></div>
+								</div>
 								<div class="col-md-12 mt-3">
 								<input type="hidden" name="grp_code" value="1">
 								<button class="btn btn-md btn-success" type="submit"><span class="fa fa-save"></span> Submit</button>
@@ -248,6 +271,18 @@
 				todayHighlight: true
 			});
 		});
+
+		// Initialize select2
+		  $("#reportsTo").select2();
+
+		  // Read selected option
+		  /*$('#but_read').click(function(){
+		    var username = $('#selUser option:selected').text();
+		    var userid = $('#selUser').val();
+
+		    $('#result').html("id : " + userid + ", name : " + username);
+
+		  });*/
 
 		function fetchDesignation(){
 			var comp_id  = $('#comp_id').val();
