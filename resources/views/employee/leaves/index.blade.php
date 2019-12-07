@@ -55,7 +55,6 @@
 									<th>Duration</th>
 									<th>Posted on</th>
 									<th>Status</th>
-
 									{{-- <th>Approver Remark</th> --}}
 									<th class="text-center">Actions</th>
 								</tr>
@@ -73,26 +72,41 @@
 									<td>{{$leaveapply->count}} days</td>
 									<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>
 									<td>
-										@if(empty($leaveapply['approvalaction']->name))
-										 <div >
+									@if($leaveapply->status =='17' )
+										<div >
 										 	<strong style="color: red;">
-										 		{{strtoupper('Pending')}}
+										 		{{strtoupper('Decline')}}
 										 	</strong>
 										 </div>
-										 <div> By <u> ( {{$leaveapply->approve_name['emp_name']}} )</u></div>
-										@else
+										 <div>
+										 	<u>@if($leaveapply->approve_name){{'By'.' ' }}({{$leaveapply->approve_name['emp_name']}})
+											</u>@endif
+										 </div>
+										 
+									@elseif(empty($leaveapply->status))
 										 <div >
-										 	<strong style="color: green;">{{strtoupper($leaveapply['approvalaction']->name)}}
+										 	<strong style="color: yellow;">
+										 		{{strtoupper('panding')}}
 										 	</strong>
+										 </div>
+										 <div>
+										 	<u>@if($leaveapply->approve_name){{'By'.' ' }}	({{$leaveapply->approve_name['emp_name']}})
+											</u>@endif
+										 </div>
+									@elseif($leaveapply->status !='')
+										  
+										 <div >
+										 	<strong style="color: green;">
+										 		{{strtoupper('Approved')}}
+										 	</strong>
+										 </div>
+										 <div>
+										 	<u>@if($leaveapply->approve_name){{'By'.' ' }}({{$leaveapply->approve_name['emp_name']}})
+											</u>@endif
 										 </div>
 										{{-- {{empty($leaveapply['approvalaction']->name) ? 'Decline'  : strtoupper($leaveapply['approvalaction']->name)}} --}}
-										@endif
-										@if($leaveapply['approvalaction']['name'] == 'Approved')
-										<div >
-											By<u>({{$leaveapply->approve_name['emp_name']}} )
-											</u>
-										</div>
-										@endif
+									@endif
+										
 									</td>
 									
 									<td class='d-flex' style="border-bottom:none">

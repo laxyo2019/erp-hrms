@@ -29,7 +29,7 @@ Route::resource('/leave-management/holidays', 'Leave\HolidayController');
 Spatie Roles & Permissions
 */
 
-Route::group(['middleware' => ['role:manager']], function () {
+// Route::group(['middleware' => ['role:manager']], function () {
     
 	Route::resource('acl/permissions', 'acl\PermissionController');
 	Route::resource('acl/roles', 'acl\RoleController');
@@ -37,7 +37,7 @@ Route::group(['middleware' => ['role:manager']], function () {
 	Route::get('acl/user/create/{id}', 'acl\UserController@create')->name('assign.role');
 	Route::post('assign/{id}', 'acl\UserController@AssignUser')->name('assign.user');
 	
-});
+// });
 
 
 

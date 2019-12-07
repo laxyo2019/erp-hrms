@@ -7,7 +7,7 @@
   </div>
   <ul class="app-menu">
     <li><a class="app-menu__item active" href="{{url('/')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
-    @unlessrole('employee')
+    @unlessrole('employee|team lead')
 
     <li class="treeview {{call_user_func_array('Request::is', (array)['incomes*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-money"></i><span class="app-menu__label">Incomes</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
@@ -31,7 +31,7 @@
     @endrole
 
     {{-- Hr Module to handle employees --}}
-    @hasrole('hr manager|team lead')
+    @unlessrole('employee')
       <li class="treeview {{call_user_func_array('Request::is', (array)['hrd*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">HRD</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
         <li class={{call_user_func_array('Request::is', (array)['hrd/employees*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('employees.index')}}"><i class="icon fa fa-angle-double-right"></i>Employees</a></li>
@@ -48,7 +48,7 @@
       </ul>
     </li>
     @php  @endphp
-    @unlessrole('employee')
+    @unlessrole('employee|team lead')
     {{-- end of module --}}
     <li class="treeview {{call_user_func_array('Request::is', (array)['tender*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">Tenders</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
@@ -61,7 +61,7 @@
 
       <li class="treeview {{call_user_func_array('Request::is', (array)['settings*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-cog "></i><span class="app-menu__label">Settings</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
-      	<li class={{call_user_func_array('Request::is', (array)['settings/mast_entity*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('mast_entity.home')}}"><i class="icon fa fa-angle-double-right"></i> Master Entities</a></li>
+        <li class={{call_user_func_array('Request::is', (array)['settings/mast_entity*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('mast_entity.home')}}"><i class="icon fa fa-angle-double-right"></i> Master Entities</a></li>
         <li><a class="treeview-item" href=""><i class="icon fa fa-angle-double-right"></i> General</a></li>
         <li><a class="treeview-item" href="{{route('categories.index')}}"><i class="icon fa fa-angle-double-right"></i> Categories</a></li>
         <li><a class="treeview-item" href="{{route('expense_in_user.create')}}"><i class="icon fa fa-angle-double-right"></i> Expense In User</a></li>          
