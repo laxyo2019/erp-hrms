@@ -182,7 +182,7 @@
 				                </span>
 				            	@enderror
 						</div>--}}
-						{{-- <div class="col-4 form-group">
+						<div class="col-4 form-group">
 							<label for="">Team Lead</label>
 							<select name="parent_id" class="select2 form-control">
 								<option value="">Select </option>
@@ -190,7 +190,7 @@
 									<option value="{{$employeeM->id}}" {{old('parent_id', $employee->parent_id) == $employeeM->id ? 'selected': ''}} {{ $employee->id == $employeeM->id ? 'disabled' :''}}>{{$employeeM->emp_name}}</option>
 								@endforeach
 							</select>
-						</div> --}}
+						</div>
 					<div class="col-12 form-group text-center">
 						<button class="btn btn-info btn-sm" style="width: 30%">Update</button>
 						<a class="btn btn-danger btn-sm" style="width: 30%" href="javascript:location.reload()">Cancel</a>
@@ -200,7 +200,7 @@
 			</form>
 		</div>
 		
-		<hr>
+		{{-- <hr>
 		<div class="col-4 form-group">
 			<h4>Allot leaves to this employee</h4>
 			@if($employee->leave_allotted == null)
@@ -208,7 +208,7 @@
 			@else
 				<h5>LEAVE ALLOTTED</h5>
 			@endif
-		</div>
+		</div> --}}
 		
 	</div>
 
@@ -227,19 +227,17 @@
 			todayHighlight: true
 			});
 
-		$('#allot').on('click', function(e){
+		/*$('#allot').on('click', function(e){
             e.preventDefault();
 			$.ajax({
 				type: 'POST',
-				url: '{{route('alloting.leave', $employee->id)}}',
+				url: route('alloting.leave', $employee->id)}},
 				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 				success: function(data){
-
 					alert(data);
-
 				}
 			});
-		});
+		});*/
 
 		$(":input").each(function(){
 		 var input = $(this); // This is the jquery object of the input, do what you will

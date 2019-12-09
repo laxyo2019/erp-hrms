@@ -6,13 +6,20 @@
 <main class="app-content">
 	<div class="row">
 		<div class="col-md-12 col-xl-12">
-			<h1 style="font-size: 24px">Edit Role
+			<h1 style="font-size: 24px">Edit User
               <a href="{{ route('users.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
 				@if(empty($user->emp_id))
 					<button class="btn btn-sm btn-info ml-2 employee">
 	                  <span style="font-size: 12px">+ Add as Employee</span>
 	                </button>
+	            @else
+	            	@if(empty($employee->leave_allotted))
+						<button class="btn btn-sm btn-info ml-2 leave" id="leave">
+		                	<span style="font-size: 12px">+ Allot Leaves</span>
+		                </button>
+	                @endif
                 @endif
+                
 			</h1>
 		</div>
 	</div>
@@ -77,9 +84,21 @@ $(document).ready(function(){
 			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			data: {'id':user_id },
 			success:function(data){
-
+				alert(data);
 			}
 		})
+	});
+
+	$('.leave').on('click', function(e){
+        e.preventDefault();
+		$.ajax({
+			type: 'POST',
+			url: '{{route("alloting.leave", $employee->id)}}',
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			success: function(data){
+				alert(data);
+			}
+		});
 	});
 });
 </script>

@@ -27,6 +27,8 @@ class AllotmentController extends Controller
 		return redirect()->route('allotments.index')->with('success', 'Success updated');
 	}
 
+	/******Leaves allot to Employees*********/
+
     public function store( $id){
 
     	$exists = LeaveAllotment::where('emp_id', $id)->get();
@@ -95,5 +97,16 @@ class AllotmentController extends Controller
 		}
 
 		return redirect()->route('allotments.index')->with('success', 'Updated successfully.');
+    }
+
+    public function destroy( $id){
+
+    	LeaveAllotment::where('emp_id', $id)->delete();
+
+    	$employee = EmployeeMast::find( $id);
+    	$employee->leave_allotted = null;
+    	$employee->save();
+
+    	return redirect()->route('allotments.index')->with('success', 'Record deleted successfully.');
     }
 }

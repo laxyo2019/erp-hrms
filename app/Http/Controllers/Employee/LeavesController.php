@@ -36,7 +36,6 @@ class LeavesController extends Controller
     public function index()
     {
 
-      
       $emp      = EmployeeMast::find(Auth::user()->emp_id)
                           ->first();
       $employee = EmployeeMast::with(['leaveapplies'])
@@ -114,15 +113,23 @@ class LeavesController extends Controller
       
       return json_encode($data);
     }
-
     
     public function store(Request $request)
     {  
       $data = request()->validate([
         'leave_type_id' => 'required',
-        'team_lead_id'  => 'required',
-        'start_date'    => 'required',
+        'team_lead_id'  => 'required'
       ]);
+
+      $leave_type = LeaveMast::where('id',$data['leave_type_id'])->first();
+
+      if( $leave_type->alias == 'sl' ){
+        $data = request()->validate([
+        'file_path'     => 'required',
+        'leave_type_id' => 'required',
+        'team_lead_id'  => 'required']);
+      }
+
       $id = Auth::user()->emp_id;
       //duration of leaves
       if($request->half_day == 1){

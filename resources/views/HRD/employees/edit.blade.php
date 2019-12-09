@@ -100,7 +100,7 @@
 									<select name="reports_to" class="form-control" id="reportsTo">
 										<option value="">Select Employee</option>	
 										@foreach($data['reports_to'] as $report)
-										<option value="{{$report->id}}" {{old('reports_to',$data['employee']->reports_to) == $report->id ? 'selected' : ''}}>{{$report->emp_name}}</option>
+											<option value="{{$report->id}}" {{old('reports_to',$data['employee']->reports_to) == $report->id ? 'selected' : ''}} {{$report->id == $data['employee']->id ? 'disabled' : '' }}>{{$report->emp_name}}</option>
 										@endforeach
 									</select>
 								</div>

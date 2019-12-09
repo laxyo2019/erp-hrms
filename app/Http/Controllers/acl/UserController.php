@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\acl;
 
+use DB;
+use Auth;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use Models\Spatie\ModelRole;
 use Spatie\Permission\Models\Permission;
 use Models\Spatie\ModelPermission;
-use DB;
-use App\User;
-use Auth;
 use App\Models\Employees\EmployeeMast;
 
-// test
 class UserController extends Controller
 {
     public function index(){
@@ -41,18 +40,22 @@ class UserController extends Controller
 /****After creating employee take id and update users's emp_id*********/
             $user->emp_id = $employee->id;
             $user->save();
+
         }
 
-    	return redirect()->route('users.index')->with('success', 'Role Assigned successfully');
+    	return 'User added as an Employee.';
     }
 
     public function edit( $id){
     	
-    	$user          = User::find( $id);
+    	$user          = User::findOrFail($id);
+        $employee      = EmployeeMast::where('id', $id)->first();
     	$roles         = Role::all();
         $permissions   = Permission::all();
 
         $roles_given = [];
+
+        //return $user;
 
         //Get all roles
         foreach($user->roles as $index){
@@ -78,11 +81,12 @@ class UserController extends Controller
     	return $permission[2]->id;
     	*/
 
-    	return view('acl.users.edit', compact('user', 'roles', 'roles_given', 'permissions', 'permissions_given'));
+    	return view('acl.users.edit', compact('user', 'roles', 'roles_given', 'permissions', 'permissions_given', 'employee'));
     }
 
     public function update(Request $request, $id){
 
+//return ([$request->all(), $id]);
         $this->validate($request,
                 ['name' => 'required']);
 
