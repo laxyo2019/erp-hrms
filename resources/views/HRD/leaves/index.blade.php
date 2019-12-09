@@ -123,12 +123,12 @@
 												</div> 
 												@elseif( $request->status =='17')
 											    <div ><strong style="color:red;"> {{strtoupper('Declined')}}
-													</strong> <br>By <u>({{$request->approve_name->emp_name}})</u>
+													</strong> <br>By <u>({{$request->approve_name->UserName->name}})</u>
 											  	</div>
 												@else
 												 <div > 
 												 	<strong strong style="color:green;">
-												 	{{strtoupper('Approved')}}</strong><br> By <u >({{$request->approve_name->emp_name}})
+												 	{{strtoupper('Approved')}}</strong><br> By <u >({{$request->approve_name->UserName->name}})
 												 	</u>
 												 </div>
 												@endif 

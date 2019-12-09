@@ -74,5 +74,8 @@ class EmployeeMast extends Model
 
  	// public function approver_detail(){
  	// 	return $this->hasMany('App\Models\Employees\LeaveApply','id');
- 	// }		
+ 	// }
+ 	public function UserName(){
+ 		return $this->hasOne('App\User', 'id');
+ 	}		
 }
