@@ -44,6 +44,6 @@ class User extends Authenticatable
     ];
 
   public function employee(){
- 		return $this->hasOne('App\Models\EmployeeMast','login_user');
+ 		return $this->belongsTo('App\Models\Employees\EmployeeMast','emp_id','id');
  	}
 }
