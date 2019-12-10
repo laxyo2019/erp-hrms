@@ -22,16 +22,25 @@ class AllotmentController extends Controller
 		return view('leave.allotment.index', compact('allotments'));
 	}
 
-	public function create(){
+	public function create(Request $request){
+		
+		$employee 	= EmployeeMast::where('id', $request->emp_id)
+						->select('id', 'emp_name')
+						->first();
 
-		return redirect()->route('allotments.index')->with('success', 'Success updated');
+		$leaves 	= LeaveMast::all();
+		$sessionStarts	= date('Y-m-d');
+		$sessionEnds	= date('Y-m-d', strtotime('Dec 31'));
+
+		return view('HRD.employees.leavesAllot', compact('employee', 'leaves', 'sessionStarts', 'sessionEnds'));
 	}
 
 	/******Leaves allot to Employees*********/
 
-    public function store( $id){
+    public function store(Request $request){
 
-    	$exists = LeaveAllotment::where('emp_id', $id)->get();
+    	//return $request->leave[0];
+    	$exists = LeaveAllotment::where('emp_id', $request->emp_id)->get();
 
     	if(count($exists) == 0){
 
@@ -39,29 +48,29 @@ class AllotmentController extends Controller
 
 	    	//return $leave_type[0]['count'];
 
-	    	for($i=0; $i<count($leave_type); $i++){
+	    	for($i=0; $i<count($request->leave); $i++){
 
 	    		$allotted = new LeaveAllotment;
 
-	    		$allotted->leave_mast_id= $leave_type[$i]['id'];
-	    		$allotted->emp_id		= $id;
-	    		$allotted->start 		= date("Y-m-d");
-	    		$allotted->end 			= date('Y-m-d', strtotime('Dec 31'));
-	    		$allotted->current_bal 	= $leave_type[$i]['count'];
+	    		$allotted->leave_mast_id= $request->id[$i];
+	    		$allotted->emp_id		= $request->emp_id;
+	    		$allotted->start 		= $request->start;
+	    		$allotted->end 			= $request->ends;
+	    		$allotted->current_bal 	= $request->leave[$i];
 	    		$allotted->save();
 	    	}
 
-	    	$employee = EmployeeMast::find( $id);
+	    	$employee = EmployeeMast::find( $request->emp_id);
 		    $employee->leave_allotted = 1;
 		    $employee->save();
 	    }
 
-	    return 'Leave Allotted ';
+	    return back()->with('success', 'Leave allotted successfully.');
     }
 
     public function edit( $id){
 
-    		$name	= EmployeeMast::where('id', $id)
+    	$name 		= EmployeeMast::where('id', $id)
     					->select('id', 'emp_name')
     					->first();
 

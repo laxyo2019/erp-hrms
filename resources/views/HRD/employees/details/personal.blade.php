@@ -39,22 +39,14 @@
 			                </span>
 			            	@enderror
 						</div>  --}}
-						<div class="col-7 form-group">
+
+						<div class="col-6 form-group">
 							<label for="">Full Name</label>
 								<input type="text" class="form-control" name="full_name" value="{{old('full_name', $employee->emp_name)}}" />
 							@error('full_name')
 			                <span class="text-danger" role="alert">
 			                    <strong>{{ $message }}</strong>
 			                </span>
-			            	@enderror
-						</div>
-						<div class="col-4 form-group">
-							<label for="file_path">Upload Documents</label>
-    						<input type="file" name="file_path" class="form-group-file" id="file_path" value="{{ old('file_path')}}">
-    						@error('blood_group')
-			                	<span class="text-danger" role="alert">
-			                    	<strong>{{ $message }}</strong>
-			                  	</span>
 			            	@enderror
 						</div>
 						<div class="col-6 form-group">
@@ -67,6 +59,30 @@
 			              	@enderror
 						</div>
 						<div class="col-6 form-group">
+							<label for="name"><b>Gender</b> </label>
+							<div class="input-group">
+								<div class="input-group-prepend mt-1">
+									<div class="animated-radio-button">
+						              <label>
+						                <input type="radio" value="M" name="emp_gender" class="mt-1 mr-1" {{old('emp_gender',$employee->emp_gender) == 'M' ? 'checked' : ''}} ><span class="label-text">Male</span>
+						              </label>
+						              <label class="ml-3">
+						                <input type="radio" value="F" name="emp_gender" class="mt-1 mr-1 ml-3" {{old('emp_gender',$employee->emp_gender) == 'F' ? 'checked' : ''}}><span class="label-text">Female</span>
+						              </label>
+						              <label class="ml-3">
+						                <input type="radio" value="O" name="emp_gender" class="mt-1 mr-1 ml-3" {{old('emp_gender',$employee->emp_gender) == 'O' ? 'checked' : ''}} ><span class="label-text">Other</span>
+						              </label>
+						            </div>
+								</div>
+							</div>							
+							@error('emp_gender')
+		                    <span class="text-danger" role="alert">
+		                        <strong>{{ $message }}</strong>
+		                    </span>
+		                	@enderror
+						</div>
+						<div class="col-6 form-group">
+							<div class="col-4">
 							<label for="">Blood Group</label>
 							<select name="blood_group" class="form-control">
 									@foreach($blood_groups as $row)
@@ -80,15 +96,20 @@
 				                      <strong>{{ $message }}</strong>
 				                  </span>
 				              @enderror
+				            </div>
 						</div>
+					</div>
+					<br>
+					<h5>CONTACT INFORMATION</h5><hr>
+					<div class="row">
 						<div class="col-6 form-group">
 							<label for="">Contact Number</label>
 							<input type="text" name="contact_number" class="form-control" value="{{old('contact_number',$employee->contact)}}">
-								@error('contact_number')
-					                <span class="text-danger" role="alert">
-					                	<strong>{{ $message }}</strong>
-					            	</span>
-					            @enderror
+							@error('contact_number')
+				                <span class="text-danger" role="alert">
+				                	<strong>{{ $message }}</strong>
+				            	</span>
+				            @enderror
 						</div>
 						<div class="col-6 form-group">
 							<label for="">Alternate Contact Number</label>
@@ -100,8 +121,8 @@
 				              @enderror
 						</div>
 						<div class="col form-group">
-							<label for="">Email</label>
-							<input type="email" name="email" class="form-control" value="{{old('email',$employee->email)}}">
+							<label for="email">Email</label>
+							<input type="email" name="email" class="form-control" value="{{old('email',$employee->email)}}" id="email">
 							@error('email')
 				            	<span class="text-danger" role="alert">
 				                	<strong>{{ $message }}</strong>
@@ -109,8 +130,8 @@
 				            @enderror
 						</div>
 						<div class="col-6 form-group">
-							<label for="">Alternate Email</label>
-							<input type="email" name="alternate_email" class="form-control" value="{{old('alternate_email',$employee->alt_email)}}" checked="">
+							<label for="alt-email">Alternate Email</label>
+							<input type="email" name="alternate_email" class="form-control" value="{{old('alternate_email',$employee->alt_email)}}" checked="" id="alt-email">
 							@error('alternate_email')
 				                <span class="text-danger" role="alert">
 				                  <strong>{{ $message }}</strong>
@@ -144,36 +165,38 @@
 			                </span>
 			            	@enderror
 						</div> --}}
-					</div>
+					{{-- </div>
 					<hr/>
-					<div class="row">
-						<div class="col">
-							<span><p class="text-center">Current Residence</p></span>
-							<div class="form-group col-md-8 offset-md-2">
-								<textarea onkeydown="match_addr('curr')" name="curr_addr" id="curr_addr" class="form-control" cols="30" rows="10">{{$employee->curr_addr}}</textarea>
-								@error('curr_addr')
-				                  <span class="text-danger" role="alert">
-				                      <strong>{{ $message }}</strong>
-				                  </span>
-				              	@enderror
-							</div>
+					<div class="row"> --}}
+						<div class="col-6 form-group">
+							<label>Current Residence</label>
+							<textarea onkeydown="match_addr('curr')" name="curr_addr" id="curr_addr" class="form-control" cols="30" rows="5">{{$employee->curr_addr}}</textarea>
+							@error('curr_addr')
+			                  <span class="text-danger" role="alert">
+			                      <strong>{{ $message }}</strong>
+			                  </span>
+			              	@enderror
 						</div>
-						<div class="col">
-							<span><p class="text-center">Permanent Residence</p></span>
-							<div class="form-group col-md-8 offset-md-2">
-								<textarea onkeydown="match_addr('perm')" name="perm_addr" class="form-control" id="perm_addr" cols="30" rows="10">{{$employee->perm_addr}}</textarea>
-								@error('perm_addr')
-					                <span class="text-danger" role="alert">
-					                      <strong>{{ $message }}</strong>
-					                </span>
-				              	@enderror
-							</div>
+						<div class="col-6 form-group">
+							<label>Permanent Residence</label>
+							<textarea onkeydown="match_addr('perm')" name="perm_addr" class="form-control" id="perm_addr" cols="30" rows="5">{{$employee->perm_addr}}</textarea>
+							@error('perm_addr')
+				                <span class="text-danger" role="alert">
+				                      <strong>{{ $message }}</strong>
+				                </span>
+			              	@enderror
 						</div>
 					</div>
-					<div class="custom-control custom-checkbox bg-dark text-white" style="background-color: #fff;">
-						<input type="checkbox" class="custom-control-input" id="check-address" 
+					<div class=" custom-checkbox" >
+						{{-- <input type="checkbox" class="custom-control-input" id="check-address" 
 						@if($employee->curr_addr==$employee->perm_addr) checked @endif >
-						<label class="custom-control-label" for="check-address">Permanent Residence same as current</label>
+						<label class="custom-control-label" for="check-address">Permanent Residence same as current</label> --}}
+						<div class="animated-checkbox">
+			            	<label>
+			                	<input type="checkbox" id="check-address" @if($employee->curr_addr==$employee->perm_addr) checked @endif>
+			                	<span class="label-text">Permanent Residence same as current</span>
+			            	</label>
+			            </div>
 					</div>
 					<hr/>
 					<div class="row">
@@ -181,6 +204,8 @@
 							<button class="btn btn-info btn-sm" style="width: 30%">Update</button>
 							<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Cancel</a>
 						</div>
+
+						
 					</div>
 					<input type="hidden" name="form_type" id="form_type" value="basic">
 				</div>

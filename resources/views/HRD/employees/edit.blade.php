@@ -2,10 +2,7 @@
 @push('styles')
     <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
 	<script src='{{asset('js/select2.min.js')}}' type='text/javascript'></script>
-	{{-- Select2 CSS --}}
-	{{-- <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}"> --}}
 @endpush
-
 
 @section('content')
 	<main class="app-content">
@@ -25,7 +22,7 @@
 							<button type="button" class="close" data-dismiss="alert">×</button>
 								{{$message}}
 							</div>
-						@endif 
+						@endif
 						<form action="{{route('employees.update', ['id'=>$data['employee']->id])}}" method="POST">
 						@csrf
 						@method('PATCH')
@@ -192,7 +189,7 @@
 											<select name="emp_desg" class="form-control" id="">
 												<option value="">Select designation</option>	
 												@foreach($data['designations'] as $designation)
-												<option value="{{$designation->id}}" {{old('emp_desg',$data['employee']->desg_id) == $designation->id ? 'selected' : ''}}>{{$designation->name}}</option>
+<option value="{{$designation->id}}" {{old('emp_desg',$data['employee']->desg_id) == $designation->id ? 'selected' : ''}}>{{$designation->name}}</option>
 												
 												@endforeach
 											</select>
@@ -230,24 +227,6 @@
 								</div> --}}
 
 								<!-- Dropdown --> 
-								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
-
-									{{-- <select id='selUser' style='width: 200px;'>
-									  <option value='0'>Select User</option> 
-									  <option value='1'>Yogesh singh</option> 
-									  <option value='2'>Sonarika Bhadoria</option> 
-									  <option value='3'>Anil Singh</option> 
-									  <option value='4'>Vishal Sahu</option> 
-									  <option value='5'>Mayank Patidar</option> 
-									  <option value='6'>Vijay Mourya</option> 
-									  <option value='7'>Rakesh sahu</option> 
-									</select>
-
-									<input type='button' value='Seleted option' id='but_read'> --}}
-
-									<br/>
-									<div id='result'></div>
-								</div>
 								<div class="col-md-12 mt-3">
 								<input type="hidden" name="grp_code" value="1">
 								<button class="btn btn-md btn-success" type="submit"><span class="fa fa-save"></span> Submit</button>

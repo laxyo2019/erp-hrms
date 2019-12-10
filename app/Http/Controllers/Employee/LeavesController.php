@@ -16,6 +16,7 @@ use App\Models\Master\Designation;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Employees\LeaveAllotment;
 use App\Models\Master\Holiday;
+use DateTime;
 use App\User;
 
 
@@ -83,6 +84,19 @@ class LeavesController extends Controller
           $sandwichRule = Holiday::select('id', 'title')
           ->whereBetween('date', [$request->start_date, $request->end_date])
           ->count();
+
+          $startDate  = new DateTime($request->start_date);
+          $endDate    = new DateTime($request->end_date);
+
+          $sundays = [];
+
+          for($i=0; $startDate <= $endDate; $startDate->modify('+1 day')){
+            if($startDate->format('w') == 0){
+              $sundays[] = $startDate->format('Y-m-d');
+            }
+          }
+
+          return $sundays;
 
       }elseif ($request->day == 'full') { //for single days
         $sandwichRule = null;
