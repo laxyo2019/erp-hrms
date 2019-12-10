@@ -3,17 +3,19 @@
 	<main class="app-content">
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
-				<h1 style="font-size: 24px">Leaves Request
+				<h1 style="font-size: 24px">Leaves Request 
 				 <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+
 			</div>
 		</div>
+			
 		@if($message = Session::get('success'))
 			<div class="alert alert-success alert-block">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				{{$message}}
 			</div>
 		@endif 
-		<div class="row ">
+		<div class="row mt-1 ">
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
 					<div class="card-body table-responsive">
@@ -108,8 +110,8 @@
 
 										          @elseif($action->name == 'approve')
 										          <button type="submit" class="btn btn-success">{{$action->name}}</button>
-										         {{--  <br><strong style="color:yellow;"> {{strtoupper('Pending')}}
-												  </strong> --}}
+										          <br><strong style="color:yellow;" id="yellow"> {{strtoupper('Pending')}}
+												  </strong>
 										          {{-- @elseif($action->name == 'hold')
 										          <button type="submit" class="btn btn-success">{{$action->name}}</button> --}}
 										        </form>
@@ -122,7 +124,7 @@
 													</strong>
 												</div> 
 												@elseif( $request->status =='17')
-											    <div ><strong style="color:red;"> {{strtoupper('Declined')}}
+											    <div ><strong style="color:red;"> {{strtoupper('Decline')}}
 													</strong> <br>By <u>({{$request->approve_name->UserName->name}})</u>
 											  	</div>
 												@else
@@ -153,10 +155,11 @@
 
 <script>
 	$(document).ready(function(){
+  		$("#yellow").css("display", "none");
 		$('#ClientsTable').DataTable();
+		
 	 });
 	$(document).ready(function(){
-		
 		$('.modalReq').on('click', function(e){
 			e.preventDefault();
 			var leave_id = $(this).data('id');

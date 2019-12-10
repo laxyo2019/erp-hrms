@@ -35,13 +35,14 @@
 				<hr>
 			</div>
 		</div>
+
 		@if($message = Session::get('success'))
 			<div class="alert alert-success alert-block">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				{{$message}}
 			</div>
 		@endif
-		<div class="row ">
+		<div class="row mt-1">
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
 					<div class="card-body table-responsive">
@@ -75,7 +76,7 @@
 									@if($leaveapply->status =='17' )
 										<div >
 										 	<strong style="color: red;">
-										 		{{strtoupper('Decline')}}
+										 		{{strtoupper('Declined')}}
 										 	</strong>
 										 </div>
 										 <div>
@@ -86,7 +87,7 @@
 									@elseif(empty($leaveapply->status))
 										 <div >
 										 	<strong style="color: yellow;">
-										 		{{strtoupper('panding')}}
+										 		{{strtoupper('pending')}}
 										 	</strong>
 										 </div>
 										 <div>
@@ -150,6 +151,7 @@
 			</div>
 		</div>
 </main>
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#ClientsTable').DataTable();

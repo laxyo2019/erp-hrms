@@ -24,9 +24,6 @@ class LeavesController extends Controller
 {
     public function index(){
 
-        $data = User::with('employee')->where('id',Auth::user()->id)->get();
-        // dd($data);
-        //return LeaveApply::with(['employee', 'leavetype', 'approvalaction', 'approve_name'])->get();
         $user           = User::find(Auth::user()->id);
         // $permissions    = $user->getDirectPermissions();
         $permissions    = $user->getAllPermissions();
@@ -38,11 +35,9 @@ class LeavesController extends Controller
             ->join('users', 'emp_leave_applies.approver_id', '=', 'users.emp_id')
             ->leftjoin('approval_actions_mast', 'emp_leave_applies.status', '=', 'approval_actions_mast.id')
             ->select('emp_leave_applies.id', 'emp_mast.id as employee_id', 'users.name', 'emp_name', 'leave_mast.name', 'emp_leave_applies.from', 'emp_leave_applies.from', 'emp_leave_applies.to', 'emp_leave_applies.count', 'emp_leave_applies.status', 'emp_leave_applies.approver_remark', 'approval_actions_mast.id as action_id', 'approval_actions_mast.name as action_name', 'emp_leave_applies.created_at')
-
     		->get();*/
-        $leave_request = LeaveApply::with(['employee','leavetype','approve_name.UserName'])
-                                    ->orderBy('id', 'DESC')
-                                    ->get(); 
+        $leave_request = LeaveApply::with(['employee','leavetype','approve_name.UserName'])->orderBy('id', 'DESC') ->get();
+        // dd($leave_request); 
         return view('HRD.leaves.index', compact('leave_request', 'permissions'));
 	}
 	public function edit($id){
