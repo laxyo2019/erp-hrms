@@ -12,12 +12,12 @@
 					<button class="btn btn-sm btn-info ml-2 employee">
 	                  <span style="font-size: 12px">+ Add as Employee</span>
 	                </button>
-	            @else
+	            {{-- @else
 	            	@if(empty($employee->leave_allotted))
 						<button class="btn btn-sm btn-info ml-2 leave" id="leave">
 		                	<span style="font-size: 12px">+ Allot Leaves</span>
 		                </button>
-	                @endif
+	                @endif --}}
                 @endif
                 
 			</h1>
@@ -89,17 +89,17 @@ $(document).ready(function(){
 		})
 	});
 
-	$('.leave').on('click', function(e){
+	/*$('.leave').on('click', function(e){
         e.preventDefault();
 		$.ajax({
 			type: 'POST',
-			url: '{{route("alloting.leave", $employee->id)}}',
+			url: route("alloting.leave", $employee->id)}},
 			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			success: function(data){
 				alert(data);
 			}
 		});
-	});
+	});*/
 });
 </script>
 @endsection

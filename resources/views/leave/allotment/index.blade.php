@@ -50,15 +50,15 @@
                                     </td>
                                     <td class='d-flex ' style="border-bottom:none">
                                       <span class="ml-2 text-center">
-                                        <a href="{{route('allotments.edit', $index->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
+                                        <a href="{{route('allotments.edit', $index->id)}}" class="btn btn-sm btn-success">EDIT</i></a>
                                       </span>
                                       <span class="ml-2">
-                    <form  action="{{route('allotments.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
-                      @csrf
-                      @method('DELETE')
-                      <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
-                      </form>
-                    </span>
+                                        <form  action="{{route('allotments.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
+                                          @csrf
+                                          @method('DELETE')
+                                          <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
+                                          </form>
+                                        </span>
                                     </td>
                                 </tr>
                             @endforeach

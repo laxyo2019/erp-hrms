@@ -136,6 +136,7 @@ class EmployeesController extends Controller
 
   public function save_official(Request $request,$id){
 
+    //return $request->all();
 	  $vdata = request()->validate([
 			/*'emp_code'  => 'string|max:15',
       'designation'=> 'nullable',*/
@@ -152,9 +153,16 @@ class EmployeesController extends Controller
 		]);
 
     $employee = EmployeeMast::findOrfail($id);
-    $employee->emp_status = $request->emp_status;
+    $employee->comp_id    = $request->comp_id;
+    $employee->dept_id    = $request->dept_id;
     $employee->emp_type   = $request->emp_type;
-    $employee->leave_dt   = null;
+    $employee->reports_to = $request->reports_to;
+    $employee->emp_status = $request->emp_status;
+    $employee->join_dt    = $request->join_date;
+    $employee->leave_dt   = $request->leave_date;
+    $employee->emp_code   = $request->emp_code;
+    $employee->grade_id   = $request->emp_grade;
+    $employee->desig_id   = $request->designation;
     $employee->aadhar_no  = $request->aadhar_no;
     $employee->pan_no     = $request->pan_no;
     $employee->voter_id   = $request->voter_id;
@@ -165,14 +173,13 @@ class EmployeesController extends Controller
     $employee->curr_uan   = $request->curr_uan;
     $employee->old_esi    = $request->old_esi;
     $employee->curr_esi   = $request->curr_esi;
-    $employee->comp_id    = $request->comp_id;
-    $employee->dept_id    = $request->dept_id;
+    
     $employee->save();
-  /*$employee->emp_code   = $request->emp_code;
-    $employee->join_dt    = $request->join_date;
-    $employee->parent_id  = $request->parent_id;
-    $employee->desg_id    = $request->designation;
-    $employee->grade_id   = $request->emp_grade;
+  /*
+    
+    
+    
+    
   */
     
 		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'official'])->with('success','Updated successfully.');
@@ -292,6 +299,8 @@ class EmployeesController extends Controller
       $meta['grade_mast']    = Grade::all();
       $meta['designation']   = Designation::where('deleted_at', null)->get();
       $meta['emp_mast']      = EmployeeMast::where('deleted_at', null)->get();
+      //return $meta['grade_mast'];  
+      //return $employee->id;
     }
 
     if($tab == 'academics'){

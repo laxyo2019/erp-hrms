@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @push('styles')
-<script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
+	<script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
+	<script src='{{asset('js/select2.min.js')}}' type='text/javascript'></script>
 @endpush
 @section('content')
 <main class="app-content">
@@ -13,20 +14,11 @@
 		</div>
 		@endif 
 		<div id="form-area">
-
 			<form action="{{route('employees.official', ['id'=>$employee->id])}}" method="POST">
 				@csrf
 				<div class="container-fluid">
 					<div class="row">
-						{{-- <div class="col-4 form-group">
-							<label for="">Employee Code</label>
-							<input type="text" class="form-control" name="emp_code" value="{{old('emp_code',$employee->emp_code)}}" />
-							@error('emp_code')
-							<span class="text-danger" role="alert">
-								<strong>* {{ $message }}</strong>
-							</span>
-							@enderror
-						</div> --}}
+
 						<div class="col-6 form-group">
 							<label for="">Company</label>
 							<select name="comp_id" class="form-control">
@@ -84,6 +76,15 @@
 							@enderror
 						</div>
 						<div class="col-6 form-group">
+							<label for="">Joinning Date</label>
+							<input type="text" class="form-control datepicker" name="join_dt" value="{{old('join_dt', $employee->leave_dt)}}" autocomplete="off"/>
+							@error('join_dt')
+							<span class="text-danger" role="alert">
+								<strong>* {{ $message }}</strong>
+							</span>
+							@enderror
+						</div>
+						<div class="col-6 form-group">
 							<label for="">Leave Date</label>
 							<input type="text" class="form-control datepicker" name="leave_date" value="{{old('leave_date', $employee->leave_dt)}}" autocomplete="off"/>
 							@error('leave_date')
@@ -91,6 +92,37 @@
 								<strong>* {{ $message }}</strong>
 							</span>
 							@enderror
+						</div>
+						<div class="col-6 form-group">
+							<label for="">Employee Code</label>
+							<input type="text" name="emp_code" value="{{old('emp_code', $employee->emp_code)}}" class="form-control">
+						</div>
+						<div class="col-6 form-group">
+							<label for="emp_grade">Employee Grade</label>
+							<select name="emp_grade" class="form-control" id="">
+								<option value="">Select Grade</option>	
+									@foreach($meta['grade_mast'] as $grades)
+										<option value="{{$grades->id}}" {{old('emp_grade',$employee->grade_id) == $grades->id ? 'selected' : ''}}>{{$grades->name}}</option>
+									@endforeach
+							</select>
+						</div>
+						<div class="col-6 form-group">
+							<label for="designation"><b>Designation</b> </label>
+							<select name="designation" class="form-control" id="">
+								<option value="">Select designation</option>	
+									@foreach($meta['designation'] as $designation)
+										<option value="{{$designation->id}}" {{old('designation',$employee->desig_id) == $designation->id ? 'selected' : ''}} >{{$designation->name}}</option>
+									@endforeach
+							</select>			
+						</div>
+						<div class="col-6 form-group">
+							<label for="name"><b>REPORTS TO</b> </label>
+							<select name="reports_to" class="form-control" id="">
+								<option value="">Select User</option>	
+									@foreach($meta['emp_mast'] as $index)
+										<option value="{{$index->id}}" {{old('reports_to',$employee->reports_to) == $index->id ? 'selected' : ''}} {{$index->id == $employee->id ? 'disabled' : ''}}>{{$index->emp_name}}</option>
+									@endforeach
+							</select>			
 						</div>
 					</div>
 					<br>
@@ -181,7 +213,7 @@
 				                    <strong>{{ $message }}</strong>
 				                </span>
 				            	@enderror
-						</div>--}}
+						</div>
 						<div class="col-4 form-group">
 							<label for="">Team Lead</label>
 							<select name="parent_id" class="select2 form-control">
@@ -190,7 +222,7 @@
 									<option value="{{$employeeM->id}}" {{old('parent_id', $employee->parent_id) == $employeeM->id ? 'selected': ''}} {{ $employee->id == $employeeM->id ? 'disabled' :''}}>{{$employeeM->emp_name}}</option>
 								@endforeach
 							</select>
-						</div>
+						</div>--}}
 					<div class="col-12 form-group text-center">
 						<button class="btn btn-info btn-sm" style="width: 30%">Update</button>
 						<a class="btn btn-danger btn-sm" style="width: 30%" href="javascript:location.reload()">Cancel</a>
@@ -226,6 +258,9 @@
 			autoclose: true,
 			todayHighlight: true
 			});
+
+		// Initialize select2
+		  $("#reportsTo").select2();
 
 		/*$('#allot').on('click', function(e){
             e.preventDefault();

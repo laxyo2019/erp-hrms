@@ -155,9 +155,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#ClientsTable').DataTable();
-	 });
-	$(document).ready(function(){
-
+	 
 		$('.modalLeave').on('click', function(e){
 			e.preventDefault();
 			var id = $(this).data('id');
