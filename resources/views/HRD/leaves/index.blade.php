@@ -24,9 +24,9 @@
 								<tr>
 									<th>##</th>
 									<th>EMPLOYEE</th>
-									<th>LEAVE</th>
+									<th>TYPE</th>
 									<th>DETAILS</th>
-									<th>LEAVE</th>
+									<th>LEAVE PERIOD</th>
 									<th>DURATION</th>
 									<th>POSTED ON</th>
 									{{-- <th>STATUS</th> --}}
@@ -37,10 +37,9 @@
 							@php $count = 0; @endphp
 							@foreach($leave_request as $request) 
 								<tr>
-
 									<td>{{++$count}}</td>
-									<td>{{$request['employee']->emp_name}}</td>
-									<td>{{$request['leavetype']->name}}</td>
+									<td>{{ucwords($request['employee']->emp_name)}}</td>
+									<td>{{ucwords($request['leavetype']->name)}}</td>
 									<td>
 									<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}">
 										<i class="fa fa-eye" style="font-size: 12px;"></i>
@@ -51,7 +50,7 @@
 									        	<div class="modal-header">
 									        		<h4 class="modal-title">Request Detail</h4>
 									        	</div>
-									        	<div class="modal-body table-responsive" id="detailTable">
+									        	<div class="modal-body table-responsive" id="detailTable" style="background: #ececec">
 									        	</div>
 									        	 <div class="modal-footer">
 									          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -59,44 +58,19 @@
 									        </div>
 									    </div>
 									</div>
-{{-- 
-									<td> --}} 
-									{{-- @if ($request->action_name =='' AND $request->status =='' )  --}}
-									<td>{{date('d M', strtotime($request->from)) }} - {{ date('d M', strtotime($request->to))}}</td>
-									<td>{{$request->count}}</td>
+									<td>
+										@if($request->from && $request->to)
+											{{date('d M', strtotime($request->from))}} <strong>To</strong> {{date('d M, Y', strtotime($request->to))}}
+										@else
+											{{date('d M, Y', strtotime($request->from))}}
+										@endif
+										</td>
+									<td>
+										{{$request->first_half && $request->second_half == null ? 'Half day' : $request->count.' days'}}
+									</td>
 									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
-									{{-- <td> 
-									  @if($request['approvalaction'] =='' AND $request->status =='' ) 
-										<div ><strong style="color:yellow;"> {{strtoupper('Pending')}}
-											</strong>
-										</div> 
-
-									@elseif( $request->status =='17')
-									    <div ><strong style="color:red;"> {{strtoupper('Declined')}}
-											</strong>
-										</div>
-										<div>
-											By <u>({{$request->approve_name->emp_name}})</u>
-									  	</div>
-									@else
-										 <div > 
-										 	<strong strong style="color:green;">
-										 	{{strtoupper('Approved')}}</strong> 
-										 </div>
-										 <div>
-										 	By <u >({{$request->approve_name->emp_name}})
-										 	</u>
-										 </div>
-									@endif 
-									</td> --}}
-									{{-- <td>{{empty($request->status) ? 'Pending' : $request->action_name }}
-									</td> --}}
 									<td class='d-flex' style="border-bottom:none">
 								
-									{{-- @can('HR- manager') --}}
-									{{-- @if($request->action_name =='Approved') --}}
-									  {{--  {{empty($request->status) ? 'Pending' : $request->action_name }} --}}
-									   {{-- @else --}}
 									@foreach($permissions as $action)
 										@if($request->status == null)
 											<span class="ml-2">
@@ -112,15 +86,13 @@
 										          <button type="submit" class="btn btn-success">{{$action->name}}</button>
 										          <br><strong style="color:yellow;" id="yellow"> {{strtoupper('Pending')}}
 												  </strong>
-										          {{-- @elseif($action->name == 'hold')
-										          <button type="submit" class="btn btn-success">{{$action->name}}</button> --}}
 										        </form>
 											</span>
 											@endif
 											@else
 											<div class="col-sm-12">
 												@if($request['approvalaction'] =='' AND $request->status =='' ) 
-												<div ><strong style="color:yellow;"> {{strtoupper('Pending')}}
+												<div ><strong style="color:grey;"> {{strtoupper('Pending')}}
 													</strong>
 												</div> 
 												@elseif( $request->status =='17')
@@ -138,11 +110,6 @@
 											</div>
 										@endif
 									@endforeach
-									 	{{-- By <u >({{$request['approvalaction']->name}})
-									 	</u>
-									 </div>
-									@endif --}}
-									
 								</tr>
 							 @endforeach
 							</tbody>
@@ -165,7 +132,7 @@
 			var leave_id = $(this).data('id');
 			$.ajax({
 				type: 'GET',
-				url: "{{route('request.detail')}}?leave_id="+leave_id,
+				url: '/hrd/leaves/'+leave_id,
 				success:function(res){
 					$('#detailTable').empty().html(res);
 					$('#reqModal').modal('show');

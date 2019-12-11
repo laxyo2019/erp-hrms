@@ -11,7 +11,7 @@ use File;
 use App\Models\Employees\EmpLeave;
 use App\Models\Master\LeaveMast;
 use App\Models\Employees\LeaveApply;
-use App\Models\Master\ApprovalAction;
+//use App\Models\Master\ApprovalAction;
 use App\Models\Master\Designation;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Employees\LeaveAllotment;
@@ -74,6 +74,7 @@ class LeavesController extends Controller
     }
 
     public function balance(Request $request){
+      //return $request->all();
       //For multiple days leave
       if($request->day == 'multi'){
 
@@ -81,20 +82,22 @@ class LeavesController extends Controller
           $last_date    = date_create($request->end_date);
           $difference   = date_diff($first_date, $last_date);
           $count        = $difference->format("%a")+1;
-          $sandwichRule = Holiday::select('id', 'title')
+          $sandwichRule = Holiday::select('id', 'title', 'date')
           ->whereBetween('date', [$request->start_date, $request->end_date])
-          ->count();
+          ->get();
 
           // $startDate  = new DateTime($request->start_date);
           // $endDate    = new DateTime($request->end_date);
 
           // $sundays = [];
 
-          // for($i=0; $startDate <= $endDate; $startDate->modify('+1 day')){
-          //   if($startDate->format('w') == 0){
-          //     $sundays[] = $startDate->format('Y-m-d');
-          //   }
-          // }
+          for($i=0; $startDate <= $endDate; $startDate->modify('+1 day')){
+            if($startDate->format('w') == 0){
+              $sundays[] = $startDate->format('Y-m-d');
+            }
+          }
+          //return $sandwichRule;
+          //return count($sundays);
 
           // return $sundays;
 
@@ -130,11 +133,14 @@ class LeavesController extends Controller
     
     public function store(Request $request)
     {  
+
+      //return $request->all();
       $data = request()->validate([
         'leave_type_id' => 'required',
         'team_lead_id'  => 'required'
       ]);
 
+      //return $request->all();
       $leave_type = LeaveMast::where('id',$data['leave_type_id'])->first();
 
       if( $leave_type->alias == 'sl' ){
@@ -145,12 +151,22 @@ class LeavesController extends Controller
       }
 
       $id = Auth::user()->emp_id;
-      //duration of leaves
-      if($request->half_day == 1){
-        $request->first_half = 1;
-      }else{
-        $request->second_half = 1;
+
+      //Store full, first/second half day
+      switch($request->day){
+        case "full":
+          $request->full_day = 1;
+          break;
+
+        case "first_half":
+          $request->first_half = 1;
+          break;
+
+        case "second_half":
+          $request->second_half = 1;
+          break;
       }
+
       //Uploading documents to hrmsupload directory
       if($request->hasFile('file_path')){
 
@@ -218,6 +234,8 @@ class LeavesController extends Controller
     {
         $leave_type   = LeaveMast::all();
         $leaves       = LeaveApply::findOrFail($id);
+
+        //return $leaves;
         
         return view('employee.leaves.edit', compact('leaves', 'leave_type')) ;
     }

@@ -48,12 +48,13 @@
 					<input type="hidden" name="team_lead_id" value="{{!empty($reports_to) ?$reports_to->id : null}}">
 				</div>
 	    	</div>
-	    	<div class="row"   style="padding-top: 1%">
+	    	<div class="row" style="padding-top: 1%">
 				<div class="col-1 form-group">
 					<button type="button" id="multi" class="btn btn-primary active">Multiple</button>
 				</div>
 				<div class="col-1 form-group">
 					<button type="button" id="full" class="btn btn-primary " >Full Day</button>
+					<input type="hidden" name="full_day" id="full_day">
 				</div>
 				<div class="col-1 form-group">
 					<button type="button" id="half" class="btn btn-primary ">Half Day</button>
@@ -69,7 +70,7 @@
 			      	@enderror
 					</label>
 					<input type="text" class="form-control datepicker start" name="start_date" autocomplete="off" id="start_date">
-			      	<input type="hidden" name="full_day" id="full_day">
+			      	
 			    </div>
 				<div class="col-4 form-group">
 					<span id="end_date"><label for="end_date">End Date <span id="small-date" style="color: 'red"></span></label>
@@ -77,13 +78,16 @@
 			      	</span>
 			      	<span id="checkday" style="display: none;">
 				      	<label class="">
-						    <input type="radio" name="half_day" value="1" autocomplete="off"> First Half
+						    <input type="radio" name="half_day" value="first_half" autocomplete="off" {{-- id="1_half" --}}> First Half
+						    {{-- <input type="hidden" name="first_half" > --}}
 						</label>
 						<label class="">
-						    <input type="radio"  name="half_day" value="2" autocomplete="off"> Second Half
+						    <input type="radio"  name="half_day" value="second_half" autocomplete="off" {{-- id="2_half" --}}> Second Half
+						   {{--  <input type="hidden" name="second_half" > --}}
 						</label>
 					</span>
 				</div>
+				<input type="hidden" name="day" id="day">
 				<div class="col-4 form-group">
 					<label for="duration">Duration ( In days )</label>
 					<input type="text" class="form-control duration" name="duration" id="duration" disabled="" value="">
@@ -195,9 +199,12 @@
 			else if(value == 2 || leave.includes('sick')){
 				$('#docs_error').text('| This field is mandatory')
 				$('#file_path').attr('name', 'file_path')
+				$('#full, #half').attr('hidden', false);
+				$('#checkday').attr('hidden', false);
 
 			}else{
 				$('#full, #half').removeAttr('hidden');
+				$('#checkday').attr('hidden', false);
 				$('#submit').removeAttr('disabled', false);
 				$('#docs_error').text('')
 			}
@@ -283,6 +290,7 @@
 
 						$('.duration').val(data.days+' days');
 						$('#count').val(data.days);
+						$('#day').val(day);
 
 						if(data.rule == null){
 							$(".duration_alert").hide();
@@ -306,23 +314,24 @@
 	    	$('#full, #multi').removeClass('active');
 	    	$('#checkday').show();
 
-	    	$('#start_date').on('change', function(){
+	    	$('input[type=radio]').on('click', function(){
 	    		var leave_type 	= $('select').children("option:selected").val();
 		        var start 		= $('.start').val();
 		        var end 		= $('.end').val();
 		        var emp_id 		= "{{Auth::id()}}";
-		        var day 		= 'half';
-
+		        //var day 		= 'half';
+		        var day 		= $("input[name='half_day']:checked").val();
 		        $.ajax({
 					type:'get',
 					url: '/balance/',
 					data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'emp_id': emp_id, 'day': day },
 					success:function(data){
-						 var data = JSON.parse(data);
-						 //alert(data)
-
-						$('.duration').val(data.days+' days');
+						var data = JSON.parse(data);
+						 
+						$('.duration').val('Half day');
 						$('#count').val(data.days);
+						$('#day').val(day);
+
 						if(data.msg == 0 ){
 							$(".duration_alert").hide();
 						}else{
