@@ -17,6 +17,7 @@
 	              <div class="row col-12">
 	                <div class="col-4">
 	                	<div class="form-group">
+	                	@if(!empty($meta['company'] AND $meta['department'] AND $meta['emptype'] AND $meta['empstatus'] AND $meta['company'] AND $meta['company']))
 							<label for=""><b>Company : </b></label>
 							<td>{{$meta['company']->name}}</td>
 						</div>
@@ -132,6 +133,7 @@
                     </div>
                 </div>
               </div>
+              @endif
             </section>
           </div>
        </div>

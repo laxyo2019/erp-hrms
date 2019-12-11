@@ -343,6 +343,7 @@ public function viewDetails($id, $view)
       // $meta['grade_mast']    = Grade::all();
       // $meta['designation']   = Designation::where('deleted_at', null)->get();
       $meta      = EmployeeMast::with('company','designation','grade','academics','experiences','documents','department','emptype','empstatus','empgrade','empdesignation','reportto')->where('deleted_at', null)->where('id',$id)->first();
+      // dd($meta);
       // return $meta['grade_mast'];  
     }
 
