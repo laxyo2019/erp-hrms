@@ -47,8 +47,12 @@ Spatie Roles & Permissions
 Route::post('holidays/import', 'Leave\HolidayController@import')->name('import.holidays');
 Route::get('holidays/export', 'Leave\HolidayController@export')->name('export.holidays');
 
-
 Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_page')->name('employee.show_page');
+
+// created by Kishan..........
+Route::get('/hrd/employees/view-details/{id}/{view}','HRD\EmployeesController@viewDetails')->name('employee.view-details');
+// End created by Kishan...........
+
 Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
 
 //HRD LEAVES

@@ -77,5 +77,24 @@ class EmployeeMast extends Model
  	// }
  	public function UserName(){
  		return $this->hasOne('App\User', 'id');
+ 	}
+
+ 	public function emptype(){
+ 		return $this->hasOne('App\Models\Master\EmpType', 'id','emp_type');
+ 	}
+
+ 	public function empstatus(){
+ 		return $this->hasOne('App\Models\Master\EmpStatus', 'id','emp_status');
+ 	}
+
+ 	public function empgrade(){
+ 		return $this->hasOne('App\Models\Master\Grade', 'id','grade_id');
+ 	}
+
+ 	public function empdesignation(){
+ 		return $this->hasOne('App\Models\Master\Designation', 'id','desig_id');
+ 	}
+ 	public function reportto(){
+ 		return $this->belongsTo('App\Models\Employees\EmployeeMast','reports_to');
  	}		
 }

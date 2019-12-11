@@ -48,7 +48,7 @@
 								<tr>
 									<th>ID</th>
 									<th>Employee Name</th>
-									<th>Employee Code</th>									
+									<th>Employee Code</th>
 									{{-- <th>Company</th> --}}
 									<th>Grade Code</th>
 									<th>Designation</th>
@@ -94,10 +94,12 @@
 									</td>
 									<td class='d-flex' style="border-bottom:none">
 										<span>
-											<a href="{{route('employees.edit',$employee->id)}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>
+											<a href="{{route('employee.view-details',['id'=>$employee->id,'view'=>'official'])}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>
 										</span>
 										<span class="ml-2">
+											{{-- Edit by kishan developer --}}
 											<a href="{{route('employee.show_page',['id'=>$employee->id,'tab'=>'official'])}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
+											{{-- End edit by kishan developer --}}
 										</span>
 										<span class="ml-2">
 											<form action="{{route('employees.destroy',$employee->id)}}" method="POST" id="delform_{{ $employee->id}}">

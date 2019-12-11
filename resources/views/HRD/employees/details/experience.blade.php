@@ -14,7 +14,6 @@
 		@endif 
 			<form action="{{route('employees.experience', ['id'=>$employee->id])}}" method="POST" enctype="multipart/form-data">
 				@csrf
-				@method('PATCH')
 				<div class="row">
 					<div class="col-6 form-group">
 						<label for="">Company Name</label>

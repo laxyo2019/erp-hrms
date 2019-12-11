@@ -85,18 +85,18 @@ class LeavesController extends Controller
           ->whereBetween('date', [$request->start_date, $request->end_date])
           ->count();
 
-          $startDate  = new DateTime($request->start_date);
-          $endDate    = new DateTime($request->end_date);
+          // $startDate  = new DateTime($request->start_date);
+          // $endDate    = new DateTime($request->end_date);
 
-          $sundays = [];
+          // $sundays = [];
 
-          for($i=0; $startDate <= $endDate; $startDate->modify('+1 day')){
-            if($startDate->format('w') == 0){
-              $sundays[] = $startDate->format('Y-m-d');
-            }
-          }
+          // for($i=0; $startDate <= $endDate; $startDate->modify('+1 day')){
+          //   if($startDate->format('w') == 0){
+          //     $sundays[] = $startDate->format('Y-m-d');
+          //   }
+          // }
 
-          return $sundays;
+          // return $sundays;
 
       }elseif ($request->day == 'full') { //for single days
         $sandwichRule = null;
