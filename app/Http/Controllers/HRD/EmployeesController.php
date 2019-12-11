@@ -97,6 +97,7 @@ class EmployeesController extends Controller
 
   public function save_experience(Request $request,$id){
 
+// dd($request);
 	  $vdata = request()->validate([
 			'company_name' => 'required|max:100',
 			'job_type'     => 'max:50',
@@ -135,7 +136,6 @@ class EmployeesController extends Controller
   }
 
   public function save_official(Request $request,$id){
-
     //return $request->all();
 	  $vdata = request()->validate([
 			/*'emp_code'  => 'string|max:15',
@@ -301,10 +301,12 @@ class EmployeesController extends Controller
       $meta['emp_mast']      = EmployeeMast::where('deleted_at', null)->get();
       //return $meta['grade_mast'];  
       //return $employee->id;
+      // dd($meta['comp_mast']);
     }
 
     if($tab == 'academics'){
     	$employee = EmployeeMast::with('academics')->where('id',$id)->first();
+      // dd($employee);
     }
 
     if($tab == 'experience'){
@@ -325,6 +327,47 @@ class EmployeesController extends Controller
 
     return view($path,compact('employee','meta'));
   }
+
+/*Created by kishan developer*/
+public function viewDetails($id, $view)
+  {
+    $meta      = array();
+    $employee  = EmployeeMast::findOrFail($id);
+    $path      = "HRD.employees.view-details.".$view;
+
+    if($view == 'official'){
+      // $meta['emp_types']     = EmpType::where('deleted_at', null)->get();
+      // $meta['emp_statuses']  = EmpStatus::where('deleted_at', null)->get();
+      // $meta['comp_mast']     = CompMast::where('deleted_at', null)->get();
+      // $meta['dept_mast']     = DeptMast::where('deleted_at', null)->get();
+      // $meta['grade_mast']    = Grade::all();
+      // $meta['designation']   = Designation::where('deleted_at', null)->get();
+      $meta      = EmployeeMast::with('company','designation','grade','academics','experiences','documents','department','emptype','empstatus','empgrade','empdesignation','reportto')->where('deleted_at', null)->where('id',$id)->first();
+      // return $meta['grade_mast'];  
+    }
+
+    if($view == 'academics'){
+      $employee = EmployeeMast::with('academics')->where('id',$id)->first();
+    }
+
+    if($view == 'experience'){
+      $employee = EmployeeMast::with('experiences')->where('id',$id)->first();
+    }
+
+    if($view == 'documents'){
+      $meta['doc_types'] = DocTypeMast::all();
+      $employee = EmployeeMast::with('documents')->where('id',$id)->first();
+     
+    }
+
+    if($view == 'nominee'){
+       $employee = EmployeeMast::with('nominee')->where('id',$id)->first();
+    }
+
+    return view($path,compact('employee','meta'));
+  }
+
+/*end Created by kishan developer*/
 
   public function edit($id)
   {
