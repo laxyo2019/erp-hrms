@@ -19,7 +19,6 @@
 		                </button>
 	                @endif --}}
                 @endif
-                
 			</h1>
 		</div>
 	</div>
@@ -88,7 +87,6 @@ $(document).ready(function(){
 			}
 		})
 	});
-
 	/*$('.leave').on('click', function(e){
         e.preventDefault();
 		$.ajax({

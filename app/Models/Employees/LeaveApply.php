@@ -10,7 +10,7 @@ class LeaveApply extends Model
     use SoftDeletes;
 
     protected $table = 'emp_leave_applies';
-    protected $with	 =	['approve_name', 'leavetype'];
+    //protected $with	 =	['approve_name', 'leavetype', 'employee']; //It will be called everytime when LeaveApply model is used.
 
     public function employee(){
 
@@ -22,7 +22,7 @@ class LeaveApply extends Model
     }
 
     public function approvalaction(){
-        return $this->belongsTo('App\Models\Master\ApprovalAction', 'status');
+        return $this->belongsTo('App\Models\Spatie\Permission', 'status');
     }
     
     public function approve_name(){

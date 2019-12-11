@@ -20,7 +20,7 @@
 								<center>
 									<div class="card " style="min-height:150px;background-image: linear-gradient(to bottom,#31c54a, #6fb183);color: white;">
 									<br>
-									<h3>{{$index['leaves']->name}}</h3>
+									<h3>{{ucwords($index['leaves']->name)}}</h3>
 									<h1>{{$index->current_bal}}</h1>
 									<br>
 									</div>
@@ -35,24 +35,22 @@
 				<hr>
 			</div>
 		</div>
-
-		@if($message = Session::get('success'))
-			<div class="alert alert-success alert-block">
-				<button type="button" class="close" data-dismiss="alert">×</button>
-				{{$message}}
-			</div>
-		@endif
 		<div class="row mt-1">
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
 					<div class="card-body table-responsive">
+						@if($message = Session::get('success'))
+							<div class="alert alert-success alert-block">
+								<button type="button" class="close" data-dismiss="alert">×</button>
+								{{$message}}
+							</div>
+						@endif
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
 									<th>#</th>
 									<th>Leave Type</th>	
-									<th>Leave starts</th>
-									<th>Leave ends</th>
+									<th>Leave Period</th>
 									<th>Duration</th>
 									<th>Posted on</th>
 									<th>Status</th>
@@ -67,10 +65,18 @@
 								@foreach($employee['leaveapplies'] as $leaveapply)
 								<tr>{{empty($leaveapply['approvalaction']->name)}}
 									<td>{{++$count}}</td>
-									<td>{{$leaveapply['leavetype']->name}}</td>
-									<td>{{$leaveapply->from}}</td>
-									<td>{{$leaveapply->to}}</td>
-									<td>{{$leaveapply->count}} days</td>
+									<td>{{ucwords($leaveapply['leavetype']->name)}}</td>
+									<td>@php 
+											$date = date('d M', strtotime($leaveapply->from)).' To '.date('d M, Y', strtotime($leaveapply->to));
+											$date2 = date('M d, Y', strtotime($leaveapply->from));
+										@endphp
+
+										{{!empty($leaveapply->from && $leaveapply->to) ? $date : $date2}}
+									</td>
+									<td>
+										{{ !empty($leaveapply->first_half || $leaveapply->second_half) ? 'Half day' : $leaveapply->count.' days'}}
+
+									</td>
 									<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>
 									<td>
 									@if($leaveapply->status =='17' )
@@ -86,7 +92,7 @@
 										 
 									@elseif(empty($leaveapply->status))
 										 <div >
-										 	<strong style="color: yellow;">
+										 	<strong style="color: grey;">
 										 		{{strtoupper('pending')}}
 										 	</strong>
 										 </div>
@@ -118,9 +124,9 @@
 										     <div class="modal-dialog modal-lg" >
 										    	<div class="modal-content" >
 										        	<div class="modal-header">
-										        		<h4 class="modal-title">Experience</h4>
+										        		<h4 class="modal-title">Leave Details</h4>
 										        	</div>
-										        	<div class="modal-body table-responsive" id="modalTable">
+										        	<div class="modal-body table-responsive" id="modalTable" style="background: #ececec">
 										        	</div>
 										        	<div class="modal-footer">
 										          		<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
