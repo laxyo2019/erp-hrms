@@ -238,7 +238,6 @@
 					success:function(data){
 						console.log(data.days)
 						 var data = JSON.parse(data);
-
 						$('.duration').val(data.days+' days');
 						$('#count').val(data.days);
 
@@ -250,8 +249,10 @@
 						}
 						//0 - If you leave duration doesn't fall into sandwich rule
 						if(data.rule == 0){
+
 							$(".rule_alert").hide();
 						}else{
+
 							$(".rule_alert").show();
 						}
 					}
@@ -295,7 +296,7 @@
 						if(data.rule == null){
 							$(".duration_alert").hide();
 						}
-
+						alert(data);
 						if(data.msg == 0 ){
 							$(".duration_alert").hide();
 						}else{

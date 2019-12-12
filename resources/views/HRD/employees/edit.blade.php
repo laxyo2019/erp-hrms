@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @push('styles')
-    <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
+	<script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
 	<script src='{{asset('js/select2.min.js')}}' type='text/javascript'></script>
 @endpush
 
@@ -37,16 +37,16 @@
 									</div>
 									<input type="text" name="name" class="form-control" value="{{old('name',$data['employee']->emp_name)}}">
 									@error('name')
-				                    <span class="text-danger" role="alert">
-				                        <strong>{{ $message }}</strong>
-				                    </span>
-				                	@enderror
+									<span class="text-danger" role="alert">
+										<strong>{{ $message }}</strong>
+									</span>
+									@enderror
 								</div>
 								@error('name')
-			                    <span class="text-danger" role="alert">
-			                        <strong>{{ $message }}</strong>
-			                    </span>
-			                	@enderror
+								<span class="text-danger" role="alert">
+									<strong>{{ $message }}</strong>
+								</span>
+								@enderror
 							</div>
 							<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 								<label for="name"><b>Employee Code <span class="text-danger">*</span></b> </label>
@@ -58,10 +58,10 @@
 									</div>
 									<input type="text" name="emp_code" class="form-control" value="{{old('emp_code',$data['employee']->emp_code)}}">
 									@error('emp_code')
-				                    <span class="text-danger" role="alert">
-				                        <strong>{{ $message }}</strong>
-				                    </span>
-				                	@enderror
+									<span class="text-danger" role="alert">
+										<strong>{{ $message }}</strong>
+									</span>
+									@enderror
 								</div>
 							</div>
 								{{--<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
@@ -80,10 +80,10 @@
 										</select>
 									</div>
 									@error('comp_id')
-				                    <span class="text-danger" role="alert">
-				                        <strong>{{ $message }}</strong>
-				                    </span>
-				                	@enderror
+									<span class="text-danger" role="alert">
+										<strong>{{ $message }}</strong>
+									</span>
+									@enderror
 								</div> --}}
 								{{-- Fetch all Employee of the same company--}}
 							<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
@@ -102,10 +102,10 @@
 									</select>
 								</div>
 								@error('reports_to')
-			                    <span class="text-danger" role="alert">
-			                        <strong>{{ $message }}</strong>
-			                    </span>
-			                	@enderror
+								<span class="text-danger" role="alert">
+									<strong>{{ $message }}</strong>
+								</span>
+								@enderror
 							</div>
 
 								{{-- fetch all grades of company1  --}}
@@ -125,10 +125,10 @@
 									</select>
 								</div>
 								@error('grade_code')
-			                    <span class="text-danger" role="alert">
-			                        <strong>{{ $message }}</strong>
-			                    </span>
-			                	@enderror
+								<span class="text-danger" role="alert">
+									<strong>{{ $message }}</strong>
+								</span>
+								@enderror
 							</div>
 								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 									<label for="name"><b>Gender<span class="text-danger">*</span></b> </label>
@@ -140,10 +140,10 @@
 										</div>
 									</div>
 									@error('emp_gender')
-				                    <span class="text-danger" role="alert">
-				                        <strong>{{ $message }}</strong>
-				                    </span>
-				                	@enderror
+									<span class="text-danger" role="alert">
+										<strong>{{ $message }}</strong>
+									</span>
+									@enderror
 								</div>
 								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 									<label for="name"><b>Date Of Birth <span class="text-danger">*</span></b> </label>
@@ -156,10 +156,10 @@
 										<input type="text" name="emp_dob" class="datepicker form-control" value="{{old('emp_dob',$data['employee']->emp_dob)}}" autocomplete="off">
 									</div>
 									@error('emp_dob')
-				                    <span class="text-danger" role="alert">
-				                        <strong>{{ $message }}</strong>
-				                    </span>
-				                	@enderror
+									<span class="text-danger" role="alert">
+										<strong>{{ $message }}</strong>
+									</span>
+									@enderror
 								</div>
 								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 									<label for="name"><b>Date Of Joining <span class="text-danger">*</span></b> </label>
@@ -172,10 +172,10 @@
 										<input type="text" name="join_dt" value="{{old('join_dt',$data['employee']->join_dt)}}" class="datepicker form-control" autocomplete="off" >
 									</div>
 									@error('join_dt')
-				                    <span class="text-danger" role="alert">
-				                        <strong>{{ $message }}</strong>
-				                    </span>
-                					@enderror
+									<span class="text-danger" role="alert">
+										<strong>{{ $message }}</strong>
+									</span>
+									@enderror
 								</div>
 								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 									<label for="name"><b>Designation<span class="text-danger">*</span></b> </label>
@@ -189,17 +189,17 @@
 											<select name="emp_desg" class="form-control" id="">
 												<option value="">Select designation</option>	
 												@foreach($data['designations'] as $designation)
-<option value="{{$designation->id}}" {{old('emp_desg',$data['employee']->desg_id) == $designation->id ? 'selected' : ''}}>{{$designation->name}}</option>
+												<option value="{{$designation->id}}" {{old('emp_desg',$data['employee']->desg_id) == $designation->id ? 'selected' : ''}}>{{$designation->name}}</option>
 												
 												@endforeach
 											</select>
 										</div>
 									</div>
 									@error('emp_desg')
-				                    <span class="text-danger" role="alert">
-				                        <strong>{{ $message }}</strong>
-				                    </span>
-				                	@enderror
+									<span class="text-danger" role="alert">
+										<strong>{{ $message }}</strong>
+									</span>
+									@enderror
 								</div>
 								{{--<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 									<label for="name"><b>Status<span class="text-danger">*</span></b> </label>
@@ -220,10 +220,10 @@
 										</div>
 									</div>
 									@error('active')
-				                    <span class="text-danger" role="alert">
-				                        <strong>{{ $message }}</strong>
-				                    </span>
-				                	@enderror
+									<span class="text-danger" role="alert">
+										<strong>{{ $message }}</strong>
+									</span>
+									@enderror
 								</div> --}}
 
 								<!-- Dropdown --> 
@@ -242,50 +242,47 @@
 	</main>
 
 <script type="text/javascript">
-		$(document).ready(function(){
-			$('.datepicker').datepicker({
-				orientation: "bottom",
-				format: "yyyy-mm-dd",
-				autoclose: true,
-				todayHighlight: true
+	$(document).ready(function(){
+		$('.datepicker').datepicker({
+			orientation: "bottom",
+			format: "yyyy-mm-dd",
+			autoclose: true,
+			todayHighlight: true
 			});
 		});
-
 		// Initialize select2
-		  $("#reportsTo").select2();
-
+		$("#reportsTo").select2();
 		  // Read selected option
 		  /*$('#but_read').click(function(){
-		    var username = $('#selUser option:selected').text();
-		    var userid = $('#selUser').val();
+			var username = $('#selUser option:selected').text();
+			var userid = $('#selUser').val();
 
-		    $('#result').html("id : " + userid + ", name : " + username);
+			$('#result').html("id : " + userid + ", name : " + username);
 
 		  });*/
-
 		function fetchDesignation(){
 			var comp_id  = $('#comp_id').val();
 			console.log('comp_id',comp_id);
 			$.ajax({
-			 	type:'POST',
-    			url:"{{route('employees.fetch_designation')}}",
-    			data: {
-    				"_token": "{{ csrf_token() }}",
-    			 	"comp_id":comp_id
-    			},
-	    		success:function(data){
-	    			alert(data)
-	    			console.log(data);
-	    			var designations = (data);
-	    			var html='<select name="emp_desg" class="form-control" id=""><option value="">Select designation</option>';
-	    			$.each(designations ,function(k,v){
-	    				console.log(k,v);
-	    				html = html + '<option value="'+v.id+'">'+v.title+'</option>';  
-	    			});
-	    			html = html + '</select>';
-	    			$('.designation_div').html(html);
-	    			console.log(html);
-	    		}
+				type:'POST',
+				url:"{{route('employees.fetch_designation')}}",
+				data: {
+					"_token": "{{ csrf_token() }}",
+					"comp_id":comp_id
+				},
+				success:function(data){
+					alert(data)
+					console.log(data);
+					var designations = (data);
+					var html='<select name="emp_desg" class="form-control" id=""><option value="">Select designation</option>';
+					$.each(designations ,function(k,v){
+						console.log(k,v);
+						html = html + '<option value="'+v.id+'">'+v.title+'</option>';  
+					});
+					html = html + '</select>';
+					$('.designation_div').html(html);
+					console.log(html);
+				}
 			});
 		}
 	</script>

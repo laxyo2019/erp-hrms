@@ -46,7 +46,6 @@ class LeavesController extends Controller
 
 	}
     public function store(Request $request){
-
         //Update Leave application status
         $leave  = LeaveApply::findOrFail($request->leave_request_id);
         $leave->approver_id = Auth::id();
@@ -68,6 +67,7 @@ class LeavesController extends Controller
         $approval_detail->leave_apply_id = $request->leave_request_id;
         $approval_detail->approver_id    = Auth::id();
         $approval_detail->actions        = $request->approval_action_id;
+        $approval_detail->approver_remark = $request->reason;; 
         $approval_detail->save();
         return back();
     }

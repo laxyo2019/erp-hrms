@@ -86,36 +86,32 @@ class LeavesController extends Controller
           ->whereBetween('date', [$request->start_date, $request->end_date])
           ->get();
 
-          // $startDate  = new DateTime($request->start_date);
-          // $endDate    = new DateTime($request->end_date);
+          $startDate  = new DateTime($request->start_date);
+          $endDate    = new DateTime($request->end_date);
+          $sundays = [];
 
-          // $sundays = [];
+      for($i=0; $startDate <= $endDate; $startDate->modify('+1 day')){
+        if($startDate->format('w') == 0){
+          $sundays[] = $startDate->format('Y-m-d');
+           //return count($sundays);
+           // return $sundays;
+        }
+      }
 
-          for($i=0; $startDate <= $endDate; $startDate->modify('+1 day')){
-            if($startDate->format('w') == 0){
-              $sundays[] = $startDate->format('Y-m-d');
-            }
-          }
-          //return $sandwichRule;
-          //return count($sundays);
-
-          // return $sundays;
-
+       // return $sandwichRule;
+       
       }elseif ($request->day == 'full') { //for single days
         $sandwichRule = null;
         $count = 1;
-        
       }else{                              //for half days
         $sandwichRule = null;
         $count = 0.5;
       }
-
       //find user and his leave balance
       $allotment  = LeaveAllotment::where([
                         ['emp_id', Auth::user()->emp_id],
                         ['leave_mast_id', $request->leave_type],
                       ])->first();
-
       if($count <= $allotment->current_bal){
           $data = [
             'days' =>  $count,
