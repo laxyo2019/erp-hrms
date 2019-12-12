@@ -162,7 +162,7 @@ class EmployeesController extends Controller
     $employee->leave_dt   = $request->leave_date;
     $employee->emp_code   = $request->emp_code;
     $employee->grade_id   = $request->emp_grade;
-    $employee->desig_id   = $request->designation;
+    $employee->desg_id   = $request->designation;
     $employee->aadhar_no  = $request->aadhar_no;
     $employee->pan_no     = $request->pan_no;
     $employee->voter_id   = $request->voter_id;

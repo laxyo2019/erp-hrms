@@ -189,7 +189,7 @@
 											<select name="emp_desg" class="form-control" id="">
 												<option value="">Select designation</option>	
 												@foreach($data['designations'] as $designation)
-<option value="{{$designation->id}}" {{old('emp_desg',$data['employee']->desig_id) == $designation->id ? 'selected' : ''}}>{{$designation->name}}</option>
+<option value="{{$designation->id}}" {{old('emp_desg',$data['employee']->desg_id) == $designation->id ? 'selected' : ''}}>{{$designation->name}}</option>
 												
 												@endforeach
 											</select>
