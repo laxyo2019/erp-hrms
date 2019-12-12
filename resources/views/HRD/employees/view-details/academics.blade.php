@@ -11,27 +11,27 @@
       		<section class="invoice">
 	           <div class="container-fluid">
 				 <div id="form-area">
-				 	@foreach($employee->academics as $row)
+				 @foreach($employee->academics as $row)
 	              <div class="row col-12">
 	                <div class="col-4">
 	                	<div class="form-group">
 							<label for=""><b>Domain of Study : </b></label>
-							<td>{{$row->domain_of_study}}</td>
+							<td>{{empty($row->domain_of_study)?'':$row->domain_of_study}}</td>
 						</div>
 					 	<div class=" form-group">
 							<label for=""><b>Name of Board/University : </b></label>
-							<td>{{$row->name_of_unversity}}</td>
+							<td>{{empty($row->name_of_unversity)?'':$row->name_of_unversity}}</td>
 						</div>
 							
                     </div>
                  	<div class="col-4">
 	                	<div class="form-group">
 							<label for=""><b>Completed In : </b></label>
-							<td>{{$row->completed_in_year}}</td>
+							<td>{{empty($row->completed_in_year)?'':$row->completed_in_year}}</td>
 						</div>
 						<div class=" form-group">
 							<label for=""><b>Grade or % : </b></label>
-							<td>{{$row->grade_or_pct}}</td>
+							<td>{{empty($row->grade_or_pct)?'':$row->grade_or_pct}}</td>
 						</div>	
                     </div>
                      <div class="col-4">
@@ -41,7 +41,7 @@
 						</div>
 						<div class=" form-group">
 							<label for=""><b>Special Note : </b></label>
-							<td>{{$row->note}}</td>
+							<td>{{empty($row->note)?'':$row->note}}</td>
 						</div>
 					</div>
               </div>

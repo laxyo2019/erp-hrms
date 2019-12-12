@@ -17,23 +17,23 @@
 	                <div class="col-4">
 	                	<div class="form-group">
 							<label for=""><b>Full Name : </b></label>
-							<td>{{$employee->emp_name}}</td>
+							<td>{{empty($employee->emp_name)?'':$employee->emp_name}}</td>
 						</div>
 						<div class=" form-group">
 							<label for=""><b>Date of Birth : </b></label>
-							<td>{{$employee->emp_dob}}</td>
+							<td>{{empty($employee->emp_dob)?'':$employee->emp_dob}}</td>
 						</div>
 	                </div>
                     <div class="col-4">
 	                	<div class=" form-group">
 							<label for=""><b>Gender : </b></label>
-							<td>{{$employee->emp_gender}}</td>
+							<td>{{empty($employee->emp_gender)?'':$employee->emp_gender}}</td>
 						</div> 
                     </div>
                      <div class="col-4">
 						<div class=" form-group">
 							<label for=""><b>Blood Group : </b></label>
-							<td>{{$employee->blood_grp}}</td>
+							<td>{{empty($employee->blood_grp)?'':$employee->blood_grp}}</td>
 						</div>		
                     </div>
                  	</div>
@@ -46,11 +46,11 @@
                     <div class="col-4">
 	                	<div class="form-group">
 							<label for=""><b>Contact Number : </b></label>
-							<td>{{$employee->contact}}</td>
+							<td>{{empty($employee->contact)?'':$employee->contact}}</td>
 						</div>
 						<div class=" form-group">
 							<label for=""><b>Alternate Contact Number : </b></label>
-							<td>{{$employee->alt_contact}}</td>
+							<td>{{empty($employee->alt_contact)?'':$employee->alt_contact}}</td>
 						</div>
 						<div class=" form-group">
 						<label>
@@ -62,21 +62,21 @@
                     <div class="col-4">
 	                	<div class=" form-group">
 							<label for=""><b>Email : </b></label>
-							<td>{{$employee->email}}</td>
+							<td>{{empty($employee->email)?'':$employee->email}}</td>
 						</div>
 						<div class=" form-group">
 							<label for=""><b>Alternate Email : </b></label>
-							<td>{{$employee->alt_email}}</td>
+							<td>{{empty($employee->alt_email)?'':$employee->alt_email}}</td>
 						</div>  
                     </div>
                      <div class="col-4">
 						<div class=" form-group">
 							<label for=""><b>Current Residence : </b></label>
-							<td>{{$employee->curr_addr}}</td>
+							<td>{{empty($employee->curr_addr)?'':$employee->curr_addr}}</td>
 						</div>
 						<div class=" form-group">
 							<label for=""><b>Permanent Residence : </b></label>
-							<td>{{$employee->perm_addr}}</td>
+							<td>{{empty($employee->perm_addr)?'':$employee->perm_addr}}</td>
 						</div>			
                     </div>
                  </div>
