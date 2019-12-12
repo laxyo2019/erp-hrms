@@ -17,49 +17,48 @@
 	              <div class="row col-12">
 	                <div class="col-4">
 	                	<div class="form-group">
-	                	@if(!empty($meta['company'] AND $meta['department'] AND $meta['emptype'] AND $meta['empstatus'] AND $meta['company'] AND $meta['company']))
 							<label for=""><b>Company : </b></label>
-							<td>{{$meta['company']->name}}</td>
+							<td>{{!empty($meta['company']->name)}}</td>
 						</div>
 						<div class=" form-group">
 							<label for=""><b>Department : </b></label>
-							<td>{{$meta['department']->name}}</td>
+							<td>{{!empty($meta['department']->name)}}</td>
 						</div>
 						<div class=" form-group">
 							<label for=""><b>Employee Type : </b></label>
-							<td>{{$meta['emptype']->name}}</td>
+							<td>{{!empty($meta['emptype']->name)}}</td>
 						</div> 
 						<div class=" form-group">
 							<label for=""><b>REPORTS TO : </b></label>
-							<td>{{$meta['reportto']->emp_name}}</td>
+							<td>{{!empty($meta['reportto']->emp_name)}}</td>
 						</div>	
                     </div>
                  	<div class="col-4">
 	                	<div class="form-group">
 							<label for=""><b>Employee Status : </b></label>
-							<td>{{$meta['empstatus']->name}}</td>
+							<td>{{!empty($meta['empstatus']->name)}}</td>
 						</div>
 						<div class=" form-group">
 							<label for=""><b>Joinning Date : </b></label>
-							<td>{{$meta->join_dt}}</td>
+							<td>{{!empty($meta->join_dt)}}</td>
 						</div>
 						<div class=" form-group">
 							<label for=""><b>Leave Date : </b></label>
-							<td>{{$meta->leave_dt}}</td>
+							<td>{{!empty($meta->leave_dt)}}</td>
 						</div>	
                     </div>
                      <div class="col-4">
 	                	<div class="form-group">
 							<label for=""><b>Employee Code : </b></label>
-							<td>{{$meta->emp_code}}</td>
+							<td>{{!empty($meta->emp_code)}}</td>
 						</div>
 						<div class=" form-group">
 							<label for=""><b>Employee Grade : </b></label>
-							<td>{{$meta['empgrade']->name}}</td>
+							<td>{{!empty($meta['empgrade']->name)}}</td>
 						</div>
 						<div class=" form-group">
 							<label for=""><b>Designation : </b></label>
-							<td>{{$meta['designation']}}</td>
+							<td>{{!empty($meta['designation']->name)}}</td>
 						</div>	
                     </div>
                 </div>
@@ -72,25 +71,25 @@
                    <div class="col-4">
 	                	<div class="form-group">
 							<label for=""><b>Aadhaar Card No : </b></label>
-							<td>{{$meta->aadhar_no}}</td>
+							<td>{{!empty($meta->aadhar_no)}}</td>
 						</div>
 						<div class="form-group">
 							<label for=""><b>Driving License No : </b></label>
-							<td>{{$meta->driv_lic}}</td>
+							<td>{{!empty($meta->driv_lic)}}</td>
 						</div>
 						
                     </div>
                  <div class="col-4">
 						<div class=" form-group">
 							<label for=""><b>PAN Card No : </b></label>
-							<td>{{$meta->join_dt}}</td>
+							<td>{{!empty($meta->join_dt)}}</td>
 						</div>
 							
                     </div>
                      <div class="col-4">
                      	<div class=" form-group">
 							<label for=""><b>Voter ID No: </b></label>
-							<td>{{$meta->voter_id}}</td>
+							<td>{{!empty($meta->voter_id)}}</td>
 						</div>
                     </div>
                 </div>
@@ -103,37 +102,36 @@
                    <div class="col-4">
 	                	<div class="form-group">
 							<label for=""><b>Old PF Number : </b></label>
-							<td>{{$meta->old_pf}}</td>
+							<td>{{!empty($meta->old_pf)}}</td>
 						</div>
 						<div class="form-group">
 							<label for=""><b>New PF Number : </b></label>
-							<td>{{$meta->curr_pf}}</td>
+							<td>{{!empty($meta->curr_pf)}}</td>
 						</div>
 						
                     </div>
                  <div class="col-4">
 						<div class=" form-group">
 							<label for=""><b>Old UAN Number : </b></label>
-							<td>{{$meta->old_uan}}</td>
+							<td>{{!empty($meta->old_uan)}}</td>
 						</div>
 						<div class=" form-group">
 							<label for=""><b>New UAN Number: </b></label>
-							<td>{{$meta->curr_uan}}</td>
+							<td>{{!empty($meta->curr_uan)}}</td>
 						</div>	
                     </div>
                      <div class="col-4">
                      	<div class=" form-group">
 							<label for=""><b>Old ESI Number: </b></label>
-							<td>{{$meta->old_esi}}</td>
+							<td>{{!empty($meta->old_esi)}}</td>
 						</div>
 						<div class=" form-group">
 							<label for=""><b>New ESI Number: </b></label>
-							<td>{{$meta->curr_esi}}</td>
+							<td>{{!empty($meta->curr_esi)}}</td>
 						</div>
                     </div>
                 </div>
               </div>
-              @endif
             </section>
           </div>
        </div>
