@@ -39,15 +39,18 @@ class LeavesController extends Controller
 
       $emp      = EmployeeMast::find(Auth::user()->emp_id)
                           ->first();
-      $employee = EmployeeMast::with(['leaveapplies'])
-                          ->orderBy('id', 'DESC')
+      $employee = EmployeeMast::with(['leaveapplies','UserName','approve_name'])
+                          ->orderBy('created_at', 'DESC')
                           ->where('id', Auth::user()->emp_id)
                           ->first();
       $balance  = EmployeeMast::with('allotments.leaves')
                           ->where('id', Auth::user()->emp_id)
                           ->first();
       $parent_id = EmployeeMast::find(Auth::user()->emp_id)->parent_id;
-     
+
+      // dd($employee);
+
+
       return view('employee.leaves.index', compact('employee', 'balance'));
     }
 
@@ -74,10 +77,9 @@ class LeavesController extends Controller
     }
 
     public function balance(Request $request){
-      //return $request->all();
+
       //For multiple days leave
       if($request->day == 'multi'){
-
           $first_date   = date_create($request->start_date);
           $last_date    = date_create($request->end_date);
           $difference   = date_diff($first_date, $last_date);
@@ -85,7 +87,6 @@ class LeavesController extends Controller
           $sandwichRule = Holiday::select('id', 'title', 'date')
           ->whereBetween('date', [$request->start_date, $request->end_date])
           ->get();
-
           $startDate  = new DateTime($request->start_date);
           $endDate    = new DateTime($request->end_date);
           $sundays = [];
@@ -93,12 +94,12 @@ class LeavesController extends Controller
       for($i=0; $startDate <= $endDate; $startDate->modify('+1 day')){
         if($startDate->format('w') == 0){
           $sundays[] = $startDate->format('Y-m-d');
-           //return count($sundays);
-           // return $sundays;
+           // return count($sundays);
+            // return $sundays;
         }
       }
 
-       // return $sandwichRule;
+      // return $sandwichRule;
        
       }elseif ($request->day == 'full') { //for single days
         $sandwichRule = null;
@@ -112,6 +113,7 @@ class LeavesController extends Controller
                         ['emp_id', Auth::user()->emp_id],
                         ['leave_mast_id', $request->leave_type],
                       ])->first();
+
       if($count <= $allotment->current_bal){
           $data = [
             'days' =>  $count,
@@ -123,19 +125,16 @@ class LeavesController extends Controller
             'rule' =>  $sandwichRule,
             'msg'  => 1 ];           
       }
-      
       return json_encode($data);
     }
     
     public function store(Request $request)
     {  
-
       //return $request->all();
       $data = request()->validate([
         'leave_type_id' => 'required',
         'team_lead_id'  => 'required'
       ]);
-
       //return $request->all();
       $leave_type = LeaveMast::where('id',$data['leave_type_id'])->first();
 
@@ -195,12 +194,11 @@ class LeavesController extends Controller
       $leaveapply->save();
       
       //Deduct leave when employee apply for it & add if declined
-      LeaveAllotment::where([
+     $leave = LeaveAllotment::where([
                     ['emp_id', Auth::user()->emp_id],
                     ['leave_mast_id', $request->leave_type_id]])
                     ->limit(1)
                     ->decrement('current_bal', $request->count);
-
     return redirect('employee/leaves')->with('success','Applied successfully');
     }
 

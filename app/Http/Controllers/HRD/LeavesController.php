@@ -39,7 +39,6 @@ class LeavesController extends Controller
                             ->orderBy('id', 'DESC')
                             ->get();
 
-
         return view('HRD.leaves.index', compact('leave_request', 'permissions'));
 	}
 	public function edit($id){

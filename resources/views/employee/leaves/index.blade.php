@@ -23,6 +23,7 @@
 									<h3>{{ucwords($index['leaves']->name)}}</h3>
 									<h1>{{$index->current_bal}}</h1>
 									<br>
+									{{-- dd(index->current_bal); --}}
 									</div>
 								</center>
 							</div>
@@ -59,6 +60,9 @@
 								</tr>
 							</thead>
 							<tbody>
+								@foreach($employee as $leaveapply)
+									{{-- @php dd($leaveapply['approve_name']) @endphp --}}
+								@endforeach
 							@php $count = 0;
 								if(!empty($employee['leaveapplies'])){
 							@endphp
@@ -86,7 +90,7 @@
 										 	</strong>
 										 </div>
 										 <div>
-										 	<u>@if($leaveapply->approve_name){{'By'.' ' }}({{$leaveapply->approve_name['emp_name']}})
+										 	<u>@if($leaveapply->approve_name){{'By'.' ' }}({{$leaveapply->approve_name->UserName->name}})
 											</u>@endif
 										 </div>
 										 
@@ -97,7 +101,7 @@
 										 	</strong>
 										 </div>
 										 <div>
-										 	<u>@if($leaveapply->approve_name){{'By'.' ' }}	({{$leaveapply->approve_name['emp_name']}})
+										 	<u>@if($leaveapply->approve_name){{'By'.' ' }}	({{$leaveapply->approve_name->UserName->name}})
 											</u>@endif
 										 </div>
 									@elseif($leaveapply->status !='')
@@ -108,7 +112,7 @@
 										 	</strong>
 										 </div>
 										 <div>
-										 	<u>@if($leaveapply->approve_name){{'By'.' ' }}({{$leaveapply->approve_name['emp_name']}})
+										 	<u>@if($leaveapply->approve_name){{'By'.' ' }}({{$leaveapply->approve_name->UserName->name}})
 											</u>@endif
 										 </div>
 										{{-- {{empty($leaveapply['approvalaction']->name) ? 'Decline'  : strtoupper($leaveapply['approvalaction']->name)}} --}}
@@ -160,7 +164,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('#ClientsTable').DataTable();
+		// $('#ClientsTable').DataTable();
 	 
 		$('.modalLeave').on('click', function(e){
 			e.preventDefault();
