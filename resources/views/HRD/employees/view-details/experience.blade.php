@@ -11,12 +11,11 @@
 <div class="row mt-2">
   	<div class="col-md-12">
     	<div class="tile">
-      		<section class="invoice">
 	           <div class="container-fluid">
 				 <div id="form-area">
-	              <div class="row col-12">
+	              @if(!empty($employee->experiences))
+	               <div class="row col-12">
 	                <div class="col-4">
-	                @if(!empty($employee->experiences))
 						@foreach($employee->experiences as $exp)
 	                	<div class="form-group">
 							<label for=""><b>Company Name : </b></label>
@@ -68,16 +67,14 @@
 						</div>	
                     </div>
                  </div>
-               </div>
+               </div><hr><br>
 			  @endforeach
 			 @else
 			@endif
-       		{{-- {{'sdfdsfdsf'}} --}}
-           </section>
         </div>
-       </div>
+      </div>
    </div>
-</main>
+ </main>
 <script>
 $(document).ready(function(){
 	$('.experience').addClass('active');

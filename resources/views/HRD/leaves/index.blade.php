@@ -82,9 +82,9 @@
 										           <input type="hidden" name="reason" value="">
 
 										          @if($action->name == 'decline')
-										          <button type="submit" class="btn btn-danger reason-decline" >{{$action->name}}</button>
+										          <button type="submit" class="btn btn-danger reason-decline" bootbox >{{$action->name}}</button>
 										          @elseif($action->name == 'approve')
-										          <button type="submit"  class="btn btn-success approved" >{{$action->name}}</button>
+										          <button type="submit"  class="btn btn-success approved" id='approved'>{{$action->name}}</button>
 										          <br><strong style="color:yellow;" class="pending"> {{strtoupper('Pending')}}
 												  </strong>
 										        </form>
@@ -125,6 +125,7 @@
 <script>
 $(document).ready(function(){
     $(".reason-decline").click(function(){
+
   		var reason;
   		var text = prompt("Please enter the reason","Enter the reason");
 	    if (!text){
@@ -133,8 +134,9 @@ $(document).ready(function(){
 			reason =  text;
 			$('input[name="reason"]').val(reason);
 		}
+		
 	});
-	$(".approved").click(function(){
+	$("#approved").click(function(){
 	    if (!confirm("Do you want to approve")){
 	      return false;
 	    }

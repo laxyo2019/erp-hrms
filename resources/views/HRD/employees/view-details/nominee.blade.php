@@ -11,7 +11,6 @@
 <div class="row mt-2">
   	<div class="col-md-12">
     	<div class="tile">
-      		<section class="invoice">
 	           <div class="container-fluid">
 				 <div id="form-area">
 				 	@foreach($employee['nominee'] as $nominees)
@@ -50,22 +49,21 @@
 							<td>{{$nominees->addr}}</td>
 						</div>
 					</div>
-              </div>
+                </div><hr>
 		  		@endforeach
-            </section>
           </div>
         </div>
       </div>
     </main>
-	<script>
-		$(document).ready(function(){
-			$('.nominee').addClass('active');
-			$('.datepicker').datepicker({
-				orientation: "bottom",
-				format: "yyyy-mm-dd",
-				autoclose: true,
-				todayHighlight: true
-			});
-		});
-	</script>
+<script>
+$(document).ready(function(){
+	$('.nominee').addClass('active');
+	$('.datepicker').datepicker({
+		orientation: "bottom",
+		format: "yyyy-mm-dd",
+		autoclose: true,
+		todayHighlight: true
+	});
+});
+</script>
 	@endsection
