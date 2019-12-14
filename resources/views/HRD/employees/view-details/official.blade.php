@@ -18,6 +18,7 @@
 	                <div class="col-4">
 	                	<div class="form-group">
 							<label for=""><b>Company : </b></label>
+							@php dd($meta['company']); @endphp
 							<td>{{$meta['company']->name}}</td>
 						</div>
 						<div class=" form-group">
