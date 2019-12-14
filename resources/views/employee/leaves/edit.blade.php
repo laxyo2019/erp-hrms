@@ -36,8 +36,8 @@
 							@enderror
 						</div>
 						<div class="col-6 form-group">
-						<label for="team_lead">Team Lead</label>
-						<input type="text" id="team_lead" class="form-control" name="team_lead"	value="{{-- {{$leaves['employees']->emp_name}} --}}" disabled>
+						<label for="team_lead">Reports To</label>
+						<input type="text" id="team_lead" class="form-control" name="team_lead"	value="{{$leaves['reportsto']->emp_name}}" disabled>
 						<input type="hidden" name="team_lead_id" value="{{-- {{$leaves['employees']->id}} --}}">
 					</div>
 						<div class="col-3 form-group">

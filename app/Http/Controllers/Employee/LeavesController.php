@@ -227,7 +227,9 @@ class LeavesController extends Controller
     public function edit( $id)
     {
         $leave_type   = LeaveMast::all();
-        $leaves       = LeaveApply::findOrFail($id);
+        $leaves       = LeaveApply::where('id', $id)
+                            ->with('reportsto')
+                            ->first();
 
         //return $leaves;
         

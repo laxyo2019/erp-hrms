@@ -29,5 +29,9 @@ class LeaveApply extends Model
         return $this->belongsTo('App\Models\Employees\EmployeeMast', 'approver_id');
     }
     
+    public function reportsto(){
+
+        return $this->belongsTo('App\Models\Employees\EmployeeMast', 'reports_to');
+    }
     
 }
