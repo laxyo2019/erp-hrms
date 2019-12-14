@@ -70,21 +70,22 @@
 									</td>
 									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
 									<td class='d-flex' style="border-bottom:none">
-								
+									{{-- edit by kishan............ --}}
 									@foreach($permissions as $action)
 										@if($request->status == null)
 											<span class="ml-2">
-												<form action="{{url('hrd/leaves')}}" method="POST" >
+												<form action="{{url('hrd/leaves')}}" method="POST" id="ression1">
 										         @csrf
 
 										          <input type="hidden" name="leave_request_id" value="{{$request->id}}">
 										          <input type="hidden" name="approval_action_id" value="{{$action->id}}">
-										          @if($action->name == 'decline')
-										          <button type="submit" class="btn btn-danger">{{$action->name}}</button>
+										           <input type="hidden" name="reason" value="">
 
+										          @if($action->name == 'decline')
+										          <button type="submit" class="btn btn-danger reason-decline" >{{$action->name}}</button>
 										          @elseif($action->name == 'approve')
-										          <button type="submit" class="btn btn-success">{{$action->name}}</button>
-										          <br><strong style="color:yellow;" id="yellow"> {{strtoupper('Pending')}}
+										          <button type="submit"  class="btn btn-success approved" >{{$action->name}}</button>
+										          <br><strong style="color:yellow;" class="pending"> {{strtoupper('Pending')}}
 												  </strong>
 										        </form>
 											</span>
@@ -110,6 +111,7 @@
 											</div>
 										@endif
 									@endforeach
+									{{-- edd edit by kishan............ --}}
 								</tr>
 							 @endforeach
 							</tbody>
@@ -119,13 +121,28 @@
 			</div>
 		</div>
 	</main>
-
+{{-- Created by kishan developer............ --}}
 <script>
-	$(document).ready(function(){
-  		$("#yellow").css("display", "none");
-		$('#ClientsTable').DataTable();
-		
-	 });
+$(document).ready(function(){
+    $(".reason-decline").click(function(){
+  		var reason;
+  		var text = prompt("Please enter the reason","Enter the reason");
+	    if (!text){
+	        return false;
+	    }else {
+			reason =  text;
+			$('input[name="reason"]').val(reason);
+		}
+	});
+	$(".approved").click(function(){
+	    if (!confirm("Do you want to approve")){
+	      return false;
+	    }
+	  });
+  });
+</script>
+{{-- End created by kishan developer............ --}}
+<script>	
 	$(document).ready(function(){
 		$('.modalReq').on('click', function(e){
 			e.preventDefault();
@@ -141,4 +158,5 @@
 		})
 	});
 </script>
+
 @endsection

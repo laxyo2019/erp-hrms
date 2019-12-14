@@ -162,7 +162,7 @@ class EmployeesController extends Controller
     $employee->leave_dt   = $request->leave_date;
     $employee->emp_code   = $request->emp_code;
     $employee->grade_id   = $request->emp_grade;
-    $employee->desig_id   = $request->designation;
+    $employee->desg_id   = $request->designation;
     $employee->aadhar_no  = $request->aadhar_no;
     $employee->pan_no     = $request->pan_no;
     $employee->voter_id   = $request->voter_id;
@@ -173,7 +173,6 @@ class EmployeesController extends Controller
     $employee->curr_uan   = $request->curr_uan;
     $employee->old_esi    = $request->old_esi;
     $employee->curr_esi   = $request->curr_esi;
-    
     $employee->save();
   /*
     
@@ -336,14 +335,13 @@ public function viewDetails($id, $view)
     $path      = "HRD.employees.view-details.".$view;
 
     if($view == 'official'){
-      // $meta['emp_types']     = EmpType::where('deleted_at', null)->get();
-      // $meta['emp_statuses']  = EmpStatus::where('deleted_at', null)->get();
-      // $meta['comp_mast']     = CompMast::where('deleted_at', null)->get();
-      // $meta['dept_mast']     = DeptMast::where('deleted_at', null)->get();
-      // $meta['grade_mast']    = Grade::all();
-      // $meta['designation']   = Designation::where('deleted_at', null)->get();
-      $meta      = EmployeeMast::with('company','designation','grade','academics','experiences','documents','department','emptype','empstatus','empgrade','empdesignation','reportto')->where('deleted_at', null)->where('id',$id)->first();
-      // return $meta['grade_mast'];  
+      $meta['emp_types']     = EmpType::where('deleted_at', null)->where('id',$id)->first(); ;
+      $meta['emp_statuses']  = EmpStatus::where('deleted_at', null)->get();
+      $meta['comp_mast']     = CompMast::where('deleted_at', null)->get();
+      $meta['dept_mast']     = DeptMast::where('deleted_at', null)->get();
+      $meta['grade_mast']    = Grade::all();
+      $meta['designation']   = Designation::where('deleted_at', null)->get();
+      $meta      = EmployeeMast::with('company','designation','grade','academics','experiences','documents','department','emptype','empstatus','empgrade','empdesignation','reportto')->where('deleted_at', null)->where('id',$id)->first(); 
     }
 
     if($view == 'academics'){
