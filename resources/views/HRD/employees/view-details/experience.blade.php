@@ -11,12 +11,16 @@
 <div class="row mt-2">
   	<div class="col-md-12">
     	<div class="tile">
+			@if(!empty($employee->experiences))
+			@foreach($employee->experiences as $exp)
+				@php $count = 1;@endphp
+				<h4>Company - {{$count++}}</h4><hr>
 	           <div class="container-fluid">
 				 <div id="form-area">
-	              @if(!empty($employee->experiences))
+	              
 	               <div class="row col-12">
 	                <div class="col-4">
-						@foreach($employee->experiences as $exp)
+						
 	                	<div class="form-group">
 							<label for=""><b>Company Name : </b></label>
 							<td>{{$exp->comp_name}}</td>
@@ -67,11 +71,13 @@
 						</div>	
                     </div>
                  </div>
-               </div><hr><br>
-			  @endforeach
-			 @else
-			@endif
+               </div><br>
+			  
+			 
         </div>
+        @endforeach
+        @else
+			@endif
       </div>
    </div>
  </main>

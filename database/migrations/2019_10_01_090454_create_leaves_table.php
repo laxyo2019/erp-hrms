@@ -113,17 +113,14 @@ class CreateLeavesTable extends Migration
           $table->string('desc');
       });
 
-      Schema::create('approval_detail', function (Blueprint $table){
+      Schema::create('leave_approval_detail', function (Blueprint $table){
           $table->bigIncrements('id');
-          $table->integer('leave_allotment_id');
-          $table->integer('approval_id');
-          $table->string('title');
-          $table->string('approve');
-          $table->string('decline');
-          $table->string('cancel');
-          $table->string('hold');
-          $table->string('skip');
-          $table->string('desc');
+          $table->integer('leave_apply_id');
+          $table->integer('approver_id');
+          $table->string('actions');
+          $table->string('approver_remark');
+          $table->timestamps();
+          $table->softDeletes();
       });
 
       Schema::create('approval_actions_mast', function (Blueprint $table){

@@ -11,9 +11,12 @@
 		<div class="row mt-2">
   			<div class="col-md-12">
     			<div class="tile">
+    				@php $count = 1;@endphp
+    				@foreach($employee->bankdetails as $bank_details)
+    				    		<h4>Account - {{$count++}}</h4><hr>
 	        		<div class="container-fluid">
 							<div id="form-area">
-						@foreach($employee->bankdetails as $bank_details)
+						
 	              		<div class="row col-12">
 	                		<div class="col-4">
 	                			<div class="form-group">
@@ -73,9 +76,9 @@
 								</div>			
 			                </div>
 			              </div>      
-			        		</div><hr><br>
-			         @endforeach
-              </div>
+			        		</div><br>
+			         
+              </div>@endforeach
 {{-- >>>>>>> d653f27de7ca565a87df1f09c1eccf409aa23947 --}}
           	</div>
         	</div>

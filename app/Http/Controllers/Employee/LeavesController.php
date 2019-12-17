@@ -78,6 +78,7 @@ class LeavesController extends Controller
 
     public function balance(Request $request){
 
+      return $request->all();
       //For multiple days leave
       if($request->day == 'multi'){
           $first_date   = date_create($request->start_date);
@@ -87,6 +88,7 @@ class LeavesController extends Controller
           $sandwichRule = Holiday::select('id', 'title', 'date')
           ->whereBetween('date', [$request->start_date, $request->end_date])
           ->get();
+
           $startDate  = new DateTime($request->start_date);
           $endDate    = new DateTime($request->end_date);
           $sundays = [];
@@ -224,7 +226,7 @@ class LeavesController extends Controller
         return view('employee.leaves.create');
     }
     
-    public function edit( $id)
+    /*public function edit( $id)
     {
         $leave_type   = LeaveMast::all();
         $leaves       = LeaveApply::where('id', $id)
@@ -233,7 +235,6 @@ class LeavesController extends Controller
 
         return view('employee.leaves.edit', compact('leaves', 'leave_type')) ;
     }
-
     public function update(Request $request, $id)
     {
         $data = request()->validate([
@@ -278,7 +279,7 @@ class LeavesController extends Controller
         $leaveapply->save();
         return back()->with('success', 'Updated successfully');
     }
-
+*/
     public function download($id){
         $document = LeaveApply::findOrFail($id)->file_path;
         return Storage::download($document);

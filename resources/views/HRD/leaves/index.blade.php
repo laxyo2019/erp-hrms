@@ -4,11 +4,9 @@
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 24px">Leaves Request 
-				 <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-
+				<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
 			</div>
 		</div>
-			
 		@if($message = Session::get('success'))
 			<div class="alert alert-success alert-block">
 				<button type="button" class="close" data-dismiss="alert">×</button>
@@ -74,42 +72,25 @@
 									@foreach($permissions as $action)
 										@if($request->status == null)
 											<span class="ml-2">
-												<form action="{{url('hrd/leaves')}}" method="POST" id="ression1">
-										         @csrf
-
-										          <input type="hidden" name="leave_request_id" value="{{$request->id}}">
-										          <input type="hidden" name="approval_action_id" value="{{$action->id}}">
-										           <input type="hidden" name="reason" value="">
-
-										          @if($action->name == 'decline')
-										          <button type="submit" class="btn btn-danger reason-decline" bootbox >{{$action->name}}</button>
-										          @elseif($action->name == 'approve')
-										          <button type="submit"  class="btn btn-success approved" id='approved'>{{$action->name}}</button>
-										          <br><strong style="color:yellow;" class="pending"> {{strtoupper('Pending')}}
-												  </strong>
-										        </form>
-											</span>
-											@endif
-											@else
-											<div class="col-sm-12">
-												@if($request['approvalaction'] =='' AND $request->status =='' ) 
-												<div ><strong style="color:grey;"> {{strtoupper('Pending')}}
-													</strong>
-												</div> 
-												@elseif( $request->status =='17')
-											    <div ><strong style="color:red;"> {{strtoupper('Decline')}}
-													</strong> <br>By <u>({{$request->approve_name->UserName->name}})</u>
-											  	</div>
-												@else
-												 <div > 
-												 	<strong strong style="color:green;">
-												 	{{strtoupper('Approved')}}</strong><br> By <u >({{$request->approve_name->UserName->name}})
-												 	</u>
-												 </div>
-												@endif 
-												@break
-											</div>
-										@endif
+	<form action="{{url('hrd/leaves')}}" method="POST" id="ression1">
+		@csrf
+		<input type="hidden" name="leave_request_id" value="{{$request->id}}">
+		<input type="hidden" name="approval_action_id" value="{{$action->id}}">
+		<input type="hidden" name="reason" value="">
+		@if($action->name == 'decline')
+			<button type="submit" class="btn btn-danger reason-decline" bootbox >{{$action->name}}</button>
+		@elseif($action->name == 'approve')
+			<button type="submit"  class="btn btn-success approved" id='approved'>{{$action->name}}</button>
+		<br><strong style="color:grey;" class="pending"> Pending</strong>
+	</form>
+	</span>
+	@endif
+	@else
+		<div class="col-sm-12">
+			<strong>{{ ucwords($request['approvalaction']->name) }}d </strong> <br>By <u>({{$request->approve_name->UserName->name}})</u>
+			@break
+		</div>
+	@endif
 									@endforeach
 									{{-- edd edit by kishan............ --}}
 								</tr>

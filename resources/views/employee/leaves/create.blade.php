@@ -226,7 +226,7 @@
 				$.ajax({
 				type:'get',
 				url: '/balance/',
-				data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'id': id, 'day': day},
+				data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'emp_id': id, 'day': day},
 
 					success:function(data){
 						console.log(data.days)

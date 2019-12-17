@@ -7,49 +7,6 @@
 @section('content')
 <main class="app-content">
 @include ('HRD/employees/view-tabs')
-	{{-- <div style="margin-top: 1.5rem; padding: 1.5rem; ">
-		<div class="">
-  			<div class="col-md-12">
-    			<div class="tile">
-	        		<div class="container-fluid">
-						<div id="form-area">
-							@foreach($employee->documents as $emp_documents)
-	              				<div class="row col-12">
-	                				<div class="col">
-	                					<div class="form-group">
-											<label for=""><b>Document Title : </b></label>
-												<td>{{$emp_documents['doctypemast']->name}}</td>
-										</div>
-									</div>
-									@can('download documents')
-										<div class="col">
-										<div class=" form-group">
-											<label for=""><b>File : </b></label>
-											<td><a href="{{ route('employees.download', ['db_table'=>'emp_docs', 'id'=>$emp_documents->id]) }}" ><i class="fa fa-arrow-down"></i> Download</a></td>
-										</div>
-									</div>
-									@endcan
-			           				<div class="col">
-				              			<div class=" form-group">
-											<label for=""><b>Status : </b></label>
-											<td>{{ $emp_documents->doc_status }}</td>
-										</div>
-									</div>
-									<div class="col">
-										<div class=" form-group">
-											<label for=""><b>Remark : </b></label>
-											<td>{{ $emp_documents->remark }}</td>
-										</div> 
-			            			</div>
-			          			</div> 
-			          			<hr><br>   
-			          		@endforeach  
-			        	</div>
-            		</div>
-          		</div>
-        	</div>
-      	</div>
-  	</div> --}}
   	<div class="row" style="margin-top: 1rem; padding: 1.5rem;">
       <div class="col-md-12 col-xl-12">
         <div class="card body">

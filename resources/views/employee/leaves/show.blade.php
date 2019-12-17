@@ -3,7 +3,7 @@
 		<h4>Leave Period</h4>
 		<div>
 			@if($leave_req->from && $leave_req->to)
-				{{date('d M', strtotime($leave_req->from))}} <strong>To</strong> {{date('d M, Y', strtotime($leave_req->to))}}
+				<strong>From - </strong> {{date('d M', strtotime($leave_req->from))}} <strong>To - </strong> {{date('d M, Y', strtotime($leave_req->to))}}
 			@else
 				{{date('d M, Y', strtotime($leave_req->from))}}
 			@endif
