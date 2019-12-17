@@ -73,12 +73,10 @@
 			      	</span>
 			      	<span id="checkday" style="display: none;">
 				      	<label class="">
-						    <input type="radio" name="half_day" value="first_half" autocomplete="off" {{-- id="1_half" --}}> First Half
-						    {{-- <input type="hidden" name="first_half" > --}}
+						    <input type="radio" name="half_day" value="first_half" autocomplete="off" > First Half
 						</label>
 						<label class="">
-						    <input type="radio"  name="half_day" value="second_half" autocomplete="off" {{-- id="2_half" --}}> Second Half
-						   {{--  <input type="hidden" name="second_half" > --}}
+						    <input type="radio"  name="half_day" value="second_half" autocomplete="off" > Second Half
 						</label>
 					</span>
 				</div>
@@ -163,14 +161,13 @@
 <script>
 
 	$(document).ready(function(){
-
 			$('.datepicker').datepicker({
 				orientation: "bottom",
 				format: "yyyy-mm-dd",
 				autoclose: true,
 				todayHighlight: true,
 				startDate: '-0m',
-				minDate:'0'
+				dateLimit: { days: 3 }
 			});
 
 		//Hide full & half day for Privilege leave
@@ -219,10 +216,13 @@
 	        var id 			= "{{Auth::id()}}";
 	        var day 		= $('#multi').attr('id');
 
+
+
         	$('#submit').removeAttr('disabled')
 
 			if( Date.parse(start) < Date.parse(end) ){ // Check if End date is higher or not
 	        	$('#small-date').empty();
+
 				$.ajax({
 				type:'get',
 				url: '/balance/',
@@ -234,12 +234,19 @@
 						$('.duration').val(data.days+' days');
 						$('#count').val(data.days);
 
-						//0 - If you have enough leave balance
-						if(data.msg == 0 ){
-							$(".duration_alert").hide();
+						if(data.days <= 3){
+							//0 - If you have enough leave balance
+							if(data.msg == 0 ){
+								$(".duration_alert").hide();
+							}else{
+								$(".duration_alert").show();
+							}
 						}else{
-							$(".duration_alert").show();
+							alert('you cant apply for more than 3 days.');
+							$('#duration').val('');
+							$('#count').val('');
 						}
+
 						//0 - If you leave duration doesn't fall into sandwich rule
 						if(data.rule == 0){
 

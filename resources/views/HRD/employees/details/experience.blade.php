@@ -157,7 +157,7 @@
 								{{-- Modal --}}
 								<div class="modal fade" id="expModal" role="dialog">
 								     <div class="modal-dialog modal-lg" >
-								    	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
+								    	<div class="modal-content" >
 								        	<div class="modal-header">
 								        		<h4 class="modal-title">Experience</h4>
 								        	</div>

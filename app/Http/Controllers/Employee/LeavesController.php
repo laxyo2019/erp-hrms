@@ -78,16 +78,19 @@ class LeavesController extends Controller
 
     public function balance(Request $request){
 
-      return $request->all();
+      //return $request->all();
       //For multiple days leave
       if($request->day == 'multi'){
           $first_date   = date_create($request->start_date);
           $last_date    = date_create($request->end_date);
           $difference   = date_diff($first_date, $last_date);
+          
           $count        = $difference->format("%a")+1;
           $sandwichRule = Holiday::select('id', 'title', 'date')
           ->whereBetween('date', [$request->start_date, $request->end_date])
           ->get();
+
+          //return $difference;
 
           $startDate  = new DateTime($request->start_date);
           $endDate    = new DateTime($request->end_date);
@@ -116,6 +119,15 @@ class LeavesController extends Controller
                         ['leave_mast_id', $request->leave_type],
                       ])->first();
 
+      //$reques
+      //Check how many time sick leave is applied
+      $counter = LeaveApply::where('emp_id', Auth::user()->emp_id)
+                        ->where('leave_type_id', 3)
+                        ->whereBetween('created_at', [, $request->end_date])
+                        ->count();
+
+      return $counter;
+
       if($count <= $allotment->current_bal){
           $data = [
             'days' =>  $count,
@@ -127,7 +139,7 @@ class LeavesController extends Controller
             'rule' =>  $sandwichRule,
             'msg'  => 1 ];           
       }
-      return json_encode($data);
+      //  return json_encode($data);
     }
     
     public function store(Request $request)
