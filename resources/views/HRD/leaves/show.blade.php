@@ -24,8 +24,6 @@
 		<h4>Duration</h4>
 		<div>
 {{ !empty($data->first_half || $data->second_half) ? 'Half day' : $data->count.' days'}}
-			{{-- {{$data->count}} --}}
-			Days
 		</div>
 	</div>
 </div>

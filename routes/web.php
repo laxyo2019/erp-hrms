@@ -18,6 +18,7 @@ Route::resource('/expenses/bills','Expenses\BillsController');
 Route::resource('/expenses/vendors','Expenses\VendorsController');
 Route::resource('/expenses/tours','Expenses\ToursController');
 Route::resource('/hrd/approvals','HRD\ApprovalsController');
+Route::resource('/information', 'InformationController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
 

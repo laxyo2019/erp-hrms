@@ -62,17 +62,12 @@
 	    	</div>
 	    	<div class="row">
 				<div class="col-4">
-					<label for="start_date">Start Date
-						@error('start_date')
-				          	<span style="color: red">
-								| {{ $message }}
-							</span>
-			      	@enderror
+					<label for="start_date">Start Date @error('start_date') <span style="color: red">| {{ $message }}</span> @enderror
 					</label>
 					<input type="text" class="form-control datepicker start" name="start_date" autocomplete="off" id="start_date">
-			      	
 			    </div>
-				<div class="col-4 form-group">
+				<div class="col-4">
+					<label class=""></label>
 					<span id="end_date"><label for="end_date">End Date <span id="small-date" style="color: 'red"></span></label>
 					<input type="text" class="form-control datepicker end" name="end_date" autocomplete="off" id="end_date">
 			      	</span>
@@ -111,7 +106,6 @@
 							</span>
 				      	@enderror</label>
 					<textarea  class="form-control" id="reason" name="reason" value=""></textarea>
-					
 				</div>
 				<div class="col-5 form-group">
 					<label for="contact_no">Contact no</label>
@@ -123,7 +117,6 @@
 			          </span>
 			      	@enderror
 				</div>
-
 				<div class="col-7 form-group">
 					<label for="file_path">Upload Documents 
 						<span id="docs_error" style="color: red"></span>
@@ -233,7 +226,7 @@
 				$.ajax({
 				type:'get',
 				url: '/balance/',
-				data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'id': id, 'day': day},
+				data:{'leave_type': leave_type, 'start_date':start,'end_date':end, 'emp_id': id, 'day': day},
 
 					success:function(data){
 						console.log(data.days)

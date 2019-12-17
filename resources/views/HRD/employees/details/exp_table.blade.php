@@ -11,7 +11,9 @@
 			<th>Company Website</th>
 			<th>Start Date</th>
 			<th>End Date</th>
-			<th>Certificate</th>
+			@can('download documents')
+				<th>Certificate</th>
+			@endcan
 			<th>Reason of Leaving</th>
 		</tr>
 	</thead>
@@ -28,7 +30,9 @@
 			<td>{{$exp->comp_website}}</td>
 			<td>{{$exp->start_dt}}</td>
 			<td>{{$exp->end_dt}}</td>
-			<td><a href="{{route('employees.download', ['db_table' => 'emp_exp', $exp->id])}}"><i class="fa fa-arrow-down"></i>Download</a></td>
+			@can('download documents')
+				<td><a href="{{route('employees.download', ['db_table' => 'emp_exp', $exp->id])}}"><i class="fa fa-arrow-down"></i>Download</a></td>
+			@endcan
 			<td>{{$exp->reason_of_leaving}}</td>
 		</tr>
 		

@@ -40,12 +40,7 @@
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
 					<div class="card-body table-responsive">
-						@if($message = Session::get('success'))
-							<div class="alert alert-success alert-block">
-								<button type="button" class="close" data-dismiss="alert">×</button>
-								{{$message}}
-							</div>
-						@endif
+						
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
@@ -139,9 +134,9 @@
 										    </div>
 										</div>
 										@if(empty($leaveapply->status))
-										<span class="ml-2">
+										{{-- <span class="ml-2">
 											<a href="{{url('employee/leaves/'.$leaveapply->id.'/edit')}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
-										</span>										
+										</span>	 --}}									
 										<span class="ml-2">
 											<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
 													@csrf

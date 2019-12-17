@@ -35,10 +35,12 @@
 						</div>	
                     </div>
                      <div class="col-4">
-	                	<div class="form-group">
-							<label for=""><b> Documents : </b></label>
-							<td><a href="{{route('employees.download', ['db_table' => 'emp_academics', $row->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
-						</div>
+                     	@can('download documents')
+		                	<div class="form-group">
+								<label for=""><b> Documents : </b></label>
+								<td><a href="{{route('employees.download', ['db_table' => 'emp_academics', $row->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
+							</div>
+						@endcan
 						<div class=" form-group">
 							<label for=""><b>Special Note : </b></label>
 							<td>{{empty($row->note)?'':$row->note}}</td>

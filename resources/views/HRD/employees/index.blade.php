@@ -65,8 +65,13 @@
 							@php $count = 0; @endphp
 							@foreach($employees as $employee)
 								<tr>
+<<<<<<< HEAD
 									<td >{{++$count}} <input type="checkbox" value="{{$employee->id}}" class="emp" name="checked"></td>
 									<td >{{$employee->emp_name}}</td>
+=======
+									<td>{{++$count}}</td>
+									<td>{{ucwords($employee->emp_name)}}</td>
+>>>>>>> e255c8ff428537c4a8c501ef1b0811dd508779c1
 									<td>{{$employee->emp_code}}</td>
 									{{-- <td>@if($employee->company!=null) {{$employee->company->comp_name}} @endif</td> --}}
 									<td>@if($employee->grade!=null) {{$employee->grade->name}} @endif</td>

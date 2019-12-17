@@ -75,7 +75,9 @@
 	    <tr>
 	      <th>#</th>
 	      <th>Document Title</th>
-	      <th>File</th>
+	      @can('download documents')
+	      	<th>File</th>
+	      @endcan
 	      <th>Status</th>
 	      <th>Remark</th>
 	      <th class="text-center">Actions</th>
@@ -87,8 +89,10 @@
 	  	<tr>
 	  		<td>{{ $emp_documents->id }}</td>
 			<td>{{$emp_documents['doctypemast']->name}}</td>
+			@can('download documents')
 			<td><a href="{{ route('employees.download', ['db_table'=>'emp_docs', 'id'=>$emp_documents->id]) }}" ><i class="fa fa-arrow-down"></i> Download</a>
 			</td>
+			@endcan
 		  		<td>{{ $emp_documents->doc_status }}</td>
 		  		<td>{{ $emp_documents->remark }}</td>
 		  		<td>
