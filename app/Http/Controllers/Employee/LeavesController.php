@@ -42,15 +42,13 @@ class LeavesController extends Controller
       $employee = EmployeeMast::with(['leaveapplies','UserName','approve_name'])
                           ->orderBy('created_at', 'DESC')
                           ->where('id', Auth::user()->emp_id)
+                          ->latest()
                           ->first();
+                            
       $balance  = EmployeeMast::with('allotments.leaves')
                           ->where('id', Auth::user()->emp_id)
+                          ->latest()
                           ->first();
-      $parent_id = EmployeeMast::find(Auth::user()->emp_id)->parent_id;
-
-      // dd($employee);
-
-
       return view('employee.leaves.index', compact('employee', 'balance'));
     }
 

@@ -10,13 +10,16 @@
 							<form action="{{route('employees.import')}}" method="POST" enctype="multipart/form-data">
 								@csrf
 								<input type="file" onchange="this.form.submit()" name="import" class="hidden" style="display:none" id="FileUpload">
-								<i class="fa fa-cloud-upload" id="btnFileUpload"></i> Upload Files</label>
+								<i class="fa fa-cloud-upload" id="btnFileUpload"> Import Employees</i> </label>
 							</form>
 						</button>
 					</span>
 					<span class="ml-2">
-						<a href="{{route('employees.export')}}" class="btn btn-sm btn-primary" style="font-size:13px">
-							<span class="fa fa-download"></span> Export
+						<a  class="btn btn-sm btn-primary export" style="font-size:13px" id="export">
+							<span class="fa fa-download"></span> Export Employees
+						</a>
+						<a hidden href="{{route('employees.export')}}" class="btn btn-sm btn-primary export" style="font-size:13px" id="exportone">
+							<span class="fa fa-download"></span> Export Employees
 						</a>
 					</span>
 				</h1>
@@ -46,14 +49,15 @@
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
-									<th>ID</th>
-									<th>Employee Name</th>
+									<th>ID <input type="checkbox" id="checkedall"></th>
+									<th>Employee Name </th>
 									<th>Employee Code</th>
 									{{-- <th>Company</th> --}}
 									<th>Grade Code</th>
 									<th>Designation</th>
-									<th>Status</th>
 									<th>Leaves</th>
+									<th>Status</th>
+
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -61,13 +65,12 @@
 							@php $count = 0; @endphp
 							@foreach($employees as $employee)
 								<tr>
-									<td>{{++$count}}</td>
-									<td>{{$employee->emp_name}}</td>
+									<td >{{++$count}} <input type="checkbox" value="{{$employee->id}}" class="emp" name="checked"></td>
+									<td >{{$employee->emp_name}}</td>
 									<td>{{$employee->emp_code}}</td>
 									{{-- <td>@if($employee->company!=null) {{$employee->company->comp_name}} @endif</td> --}}
 									<td>@if($employee->grade!=null) {{$employee->grade->name}} @endif</td>
 									<td>{{$employee->designation['desg_name']}}</td>
-									<td>{{$employee->active ==1 ? 'Active' : 'Inactive'}}</td>
 									<td>
 										@if(empty($employee->leave_allotted))
 										<button class="btn btn-sm btn-info ml-2 modalAllot" data-id="{{$employee->id}}">
@@ -92,13 +95,14 @@
 											<span style="color: green">Allotted</span>
 										@endif
 									</td>
+									<td ><span class="btn btn-success active-enactive" id="{{$employee->id}}"> @if('{{$employee->active ==1}}') {{'Active'}}</span> </span> @else <span class=" btn btn-danger">{{'Inactive'}}@endif </td>
 									<td class='d-flex' style="border-bottom:none">
 										<span>
-											<a href="{{route('employee.view-details',['id'=>$employee->id,'view'=>'official'])}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>
+											<a href="{{route('employee.view-details',['id'=>$employee->id,'view'=>'personal'])}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>
 										</span>
 										<span class="ml-2">
 											{{-- Edit by kishan developer --}}
-											<a href="{{route('employee.show_page',['id'=>$employee->id,'tab'=>'official'])}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
+											<a href="{{route('employee.show_page',['id'=>$employee->id,'tab'=>'personal'])}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 											{{-- End edit by kishan developer --}}
 										</span>
 										<span class="ml-2">
@@ -112,6 +116,7 @@
 								</tr>
 							@endforeach
 							</tbody>
+
 						</table>
 					</div>
 				</div>
@@ -120,8 +125,11 @@
 </main>
 <script type="text/javascript">
 $(document).ready(function(){
-	$('#ClientsTable').DataTable();
-
+	$('#ClientsTable').dataTable( {
+	        "columnDefs": [
+	    { "orderable": false, "targets": 0 }
+	  ]
+	} );
 	$('#btnFileUpload').on('click', function(){
         $('#FileUpload').trigger('click');
 
@@ -141,6 +149,46 @@ $(document).ready(function(){
 			}
 		});
 	});
- });
+/*	create by kishan for export data using checkbox or unchecheked*/
+    $("#export").click(function(){
+    	var emp = [];
+    	$.each($("input[name='checked']:checked"), function(){
+        	emp.push($(this).val());
+    	});
+
+    	$.ajax({
+    		type:'POST',
+    		url:'{{route('employee.save_session')}}',
+    		headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    		data:{id:emp},
+    		success:function(data){
+    			 window.location.href = $('#exportone').attr('href');
+    		}
+    	})
+	});
+	/*for active inactive employee*/
+	// $(".active-enactive").click(function(){
+	// 	var id = $(this).val();
+	// 	alert(id);
+	// 	exit();
+	// 	id = '4';
+	// 	$.ajax({
+ //    		type:'POST',
+ //    		url:'{{route('employee.active-inactive')}}',
+ //    		headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+ //    		data:{id:id},
+ //    		success:function(data){
+ //    			alert(data);
+ //    		}
+ //    	})
+	// });
+	
+/*select all employee using checkbox*/
+	var clicked = false;
+	$("#checkedall").on("click", function() {
+	  	$(".emp").prop("checked", !clicked);
+	  clicked = !clicked;
+	});
+});
 </script>
 @endsection

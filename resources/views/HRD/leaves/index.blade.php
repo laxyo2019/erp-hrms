@@ -11,7 +11,7 @@
 			
 		@if($message = Session::get('success'))
 			<div class="alert alert-success alert-block">
-				<button type="button" class="close" data-dismiss="alert">×</button>
+				<button type="button" class="close" data-dismiss="alert" >×</button>
 				{{$message}}
 			</div>
 		@endif 
@@ -37,7 +37,7 @@
 							@php $count = 0; @endphp
 							@foreach($leave_request as $request) 
 								<tr>
-									<td>{{++$count}}</td>
+									<td>{{++$count}} </td>
 									<td>{{ucwords($request['employee']->emp_name)}}</td>
 									<td>{{ucwords($request['leavetype']->name)}}</td>
 									<td>
