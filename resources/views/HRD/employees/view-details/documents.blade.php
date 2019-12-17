@@ -23,7 +23,9 @@
 										</div>
 										<div class=" form-group">
 											<label for=""><b>File : </b></label>
+											@can('download documents')
 											<td><a href="{{ route('employees.download', ['db_table'=>'emp_docs', 'id'=>$emp_documents->id]) }}" ><i class="fa fa-arrow-down"></i> Download</a></td>
+											@endcan
 										</div>
 	                			</div>
 			                  <div class="col-4">

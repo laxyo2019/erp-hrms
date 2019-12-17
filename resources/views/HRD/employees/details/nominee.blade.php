@@ -89,7 +89,9 @@
 						<th>Nominee's Aadhaar No.</th>
 						<th>Nominee's Contact</th>
 						<th>Nominee's Relation</th>
-						<th>Nominee's Document</th>
+						@can('download documents')
+							<th>Nominee's Document</th>
+						@endcan
 						<th>Nominee's Address</th>
 						<th class="text-center">Actions</th>
 					</tr>
@@ -103,7 +105,9 @@
 						<td>{{$nominees->aadhar_no}}</td>
 						<td>{{$nominees->contact}}</td>
 						<td>{{$nominees->relation}}</td>
-						<td><a href="{{route('employees.download', ['db_table' => 'emp_nominee', $nominees->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
+						@can('download documents')
+							<td><a href="{{route('employees.download', ['db_table' => 'emp_nominee', $nominees->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
+						@endcan
 						<td>{{$nominees->addr}}</td>
 						<td>
 						<form action="{{ route('employee.delete_row', ['db_table' => 'emp_nominee' ,$nominees->id]) }}" method="GET" id="delform_{{ $nominees->id }}">

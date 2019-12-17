@@ -41,10 +41,12 @@
 						</div>	
                     </div>
                      <div class="col-4">
-	                	<div class="form-group">
-							<label for=""><b>Nominee's Documents : </b></label>
-							<td><a href="{{route('employees.download', ['db_table' => 'emp_nominee', $nominees->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
-						</div>
+                     	@can('download documents')
+		                	<div class="form-group">
+								<label for=""><b>Nominee's Documents : </b></label>
+								<td><a href="{{route('employees.download', ['db_table' => 'emp_nominee', $nominees->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
+							</div>
+						@endcan
 						<div class=" form-group">
 							<label for=""><b>Nominee's Address : </b></label>
 							<td>{{$nominees->addr}}</td>

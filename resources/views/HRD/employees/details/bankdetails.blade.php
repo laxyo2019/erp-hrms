@@ -97,7 +97,9 @@
 						<th>IFSC Code</th>
 						<th>Branch</th>
 						<th>Primary</th>
-						<th>Attachment</th>
+						@can('download documents')
+							<th>Attachment</th>
+						@endcan
 						<th>Note</th>
 						<th class="text-center">Actions</th>
 					</tr>
@@ -112,12 +114,14 @@
 					<td>{{ $bank_details->ifsc }}</td>
 					<td>{{ $bank_details->branch_name }}</td>
 					<td>{{ $bank_details->is_primary }}</td>
-					<td>@if(!empty($bank_details->file_path))
-						<a href="{{ route('employees.download', ['db_table'=>'emp_bank_details', $bank_details->id]) }}" ><i class="fa fa-arrow-down"></i>download</a>
-						@else
-							Not uploaded
-						@endif
-					</td>
+					@can('download documents')
+						<td>@if(!empty($bank_details->file_path))
+							<a href="{{ route('employees.download', ['db_table'=>'emp_bank_details', $bank_details->id]) }}" ><i class="fa fa-arrow-down"></i>download</a>
+							@else
+								Not uploaded
+							@endif
+						</td>
+					@endcan
 					<td>{{ $bank_details->note }}</td>
 					<td>
 			<form action="{{ route('employee.delete_row', ['db_table' => 'emp_bank_details', $bank_details->id]) }}" method="GET" id="delform_{{$bank_details->id}}">

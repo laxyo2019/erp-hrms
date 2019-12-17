@@ -37,16 +37,16 @@ class LeavesController extends Controller
     public function index()
     {
 
-      $emp      = EmployeeMast::find(Auth::user()->emp_id)
+      $emp        = EmployeeMast::find(Auth::user()->emp_id)
                           ->first();
-      $employee = EmployeeMast::with(['leaveapplies','UserName','approve_name'])
+      $employee   = EmployeeMast::with(['leaveapplies','UserName','approve_name'])
                           ->orderBy('created_at', 'DESC')
                           ->where('id', Auth::user()->emp_id)
                           ->first();
-      $balance  = EmployeeMast::with('allotments.leaves')
+      $balance    = EmployeeMast::with('allotments.leaves')
                           ->where('id', Auth::user()->emp_id)
                           ->first();
-      $parent_id = EmployeeMast::find(Auth::user()->emp_id)->parent_id;
+      $parent_id  = EmployeeMast::find(Auth::user()->emp_id)->parent_id;
 
       // dd($employee);
 
@@ -231,14 +231,11 @@ class LeavesController extends Controller
                             ->with('reportsto')
                             ->first();
 
-        //return $leaves;
-        
         return view('employee.leaves.edit', compact('leaves', 'leave_type')) ;
     }
 
     public function update(Request $request, $id)
     {
-      // dd($request);
         $data = request()->validate([
           'leave_type_id'   => 'required'
         ]);

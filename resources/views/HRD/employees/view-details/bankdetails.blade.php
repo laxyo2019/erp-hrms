@@ -46,7 +46,8 @@
 										</div> 
 			                  </div>
 			                  <div class="col-4">
-										<div class=" form-group">
+			                  	@can('download documents')
+									<div class=" form-group">
 											<label for=""><b>Attachment : </b></label>
 											<td>@if(!empty($bank_details->file_path))
 											<a href="{{ route('employees.download', ['db_table'=>'emp_bank_details', $bank_details->id]) }}" ><i class="fa fa-arrow-down"></i>download</a>
@@ -54,15 +55,16 @@
 												Not uploaded
 											@endif
 										</td>
-										</div>
-										<div class=" form-group">
-											<label for=""><b>Note : </b></label>
-											<td>{{$bank_details->note}}</td>
-										</div>			
+									</div>
+								@endcan
+								<div class=" form-group">
+									<label for=""><b>Note : </b></label>
+									<td>{{$bank_details->note}}</td>
+								</div>			
 			                  </div>
 			               </div>      
-			        		 </div>
-			        		 @endforeach
+			        	</div>
+			        	@endforeach
               		</div>
             	</section>
           	</div>

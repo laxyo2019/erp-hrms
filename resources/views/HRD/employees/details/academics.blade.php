@@ -83,7 +83,9 @@
 		      <th>Name of Board</th>
 		      <th>Completed In</th>
 		      <th>Grade</th>
-		      <th>Documents</th>
+		      @can('download documents')
+		      	<th>Documents</th>
+		      @endcan
 		      <th>Special Note</th>
 		      <th class="text-center">Actions</th>
 		    </tr>
@@ -95,8 +97,10 @@
 		  			<td>{{$row->domain_of_study}}</td>
 		  			<td>{{$row->name_of_unversity}}</td>
 		  			<td>{{$row->completed_in_year}}</td>
-		  			<td>{{$row->grade_or_pct}}</td>		  			
+		  			<td>{{$row->grade_or_pct}}</td>	
+		  			@can('download documents')	  			
 		  			<td><a href="{{route('employees.download', ['db_table' => 'emp_academics', $row->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
+		  			@endcan
 		  			<td>{{$row->note}}</td>
 		  			<td><form action="{{route('employee.delete_row', ['db_table' => 'emp_academics', $row->id])}}" method="GET" id="delform_{{$row->id}}">
 				<a href="javascript:$('#delform_{{$row->id}}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>

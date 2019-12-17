@@ -8,6 +8,10 @@
   </div>
   <ul class="app-menu">
     <li><a class="app-menu__item active" href="{{url('/')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
+
+    <li><a class="app-menu__item" href="{{route('information.index')}}"><i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Basic Information</span></a></li>
+    {{-- <a class="app-menu__item" href="{{route('information.index')}}"><i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Basic Information</span></a> --}}
+
     @unlessrole('employee|team lead')
 
     {{-- <li class="treeview {{call_user_func_array('Request::is', (array)['incomes*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-money"></i><span class="app-menu__label">Incomes</span><i class="treeview-indicator fa fa-angle-right"></i></a>

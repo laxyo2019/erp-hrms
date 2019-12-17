@@ -40,12 +40,7 @@
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
 					<div class="card-body table-responsive">
-						@if($message = Session::get('success'))
-							<div class="alert alert-success alert-block">
-								<button type="button" class="close" data-dismiss="alert">×</button>
-								{{$message}}
-							</div>
-						@endif
+						
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
