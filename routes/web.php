@@ -50,8 +50,14 @@ Route::get('holidays/export', 'Leave\HolidayController@export')->name('export.ho
 
 Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_page')->name('employee.show_page');
 
-// created by Kishan..........
+/*	create by kishan for export data using checkbox or unchecheked and view  enployee details and active inactive */
 Route::get('/hrd/employees/view-details/{id}/{view}','HRD\EmployeesController@viewDetails')->name('employee.view-details');
+
+Route::post('/hrd/employees/save_session','HRD\EmployeesController@save_session')->name('employee.save_session');
+
+// Route::post('/hrd/employees/save_session','HRD\EmployeesController@save_session')->name('employee.save_session');
+Route::post('/hrd/employees/activeInactive','HRD\EmployeesController@activeInactive')->name('employee.active-inactive');
+
 // End created by Kishan...........
 
 Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');

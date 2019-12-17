@@ -24,6 +24,7 @@ use App\Imports\EmployeesImport;
 use App\Exports\EmployeesExport;
 use App\Exports\ErrorEmployeeExport;
 use App\Models\Employees\LeaveAllotment;
+use Session;
 
 class EmployeesController extends Controller
 {
@@ -610,16 +611,24 @@ public function viewDetails($id, $view)
     }
 
   //Employees Export
-
     public function export(){
-      return Excel::download(new EmployeesExport, 'employee.xlsx');
-      
+      return Excel::download(new EmployeesExport, 'employee.xlsx');      
     }
 
+    public function save_session(Request $request){
+        $ids = $request->id;
+        Session::put('ids',$ids);
+    }
+
+    public function activeInactive(Request $request){
+      // dd($request->id);
+     return EmployeeMast::where('id',$request->id)->update(array('active' => '0'));
+    }
   //Employees Import
 
   public function import(Request $request){
 
+// dd($request);
     $this->validate($request, [
           'import' => 'required|mimes:xlsx,xls'
           ]);
@@ -646,18 +655,18 @@ public function viewDetails($id, $view)
           }
 
         }
-        if($status == TRUE){
+        // if($status == TRUE){
 
-          if($data['parent_id'] == '' ){
+        //   if($data['parent_id'] == '' ){
 
-            $status = TRUE;
-            $data['parent_id'] = null;
+        //     $status = TRUE;
+        //     $data['parent_id'] = null;
 
-          }else{
-            $status = TRUE;
+        //   }else{
+        //     $status = TRUE;
 
-          }
-        }
+        //   }
+        // }
 
         if($status == TRUE){
 
@@ -1048,7 +1057,7 @@ public function viewDetails($id, $view)
               ->update($data);
 
          }else{
-            EmployeeMast::create($data);
+            // EmployeeMast::create($data);
          }
 
         }else if($status == FALSE){
@@ -1104,7 +1113,7 @@ public function viewDetails($id, $view)
   public function array_data($data){
     return $data = [
                     'id'         => $data['id'],
-                    'parent_id'  => $data['parent_id'],
+                    // 'parent_id'  => $data['parent_id'],
                     'emp_code'   => $data['emp_code'],
                     'comp_id'    => $data['comp_id'],
                     'dept_id'    => $data['dept_id'],

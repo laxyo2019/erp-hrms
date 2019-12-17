@@ -54,8 +54,9 @@
 						</div>
 						<div class=" form-group">
 						<label>
-		                	<input type="checkbox" id="check-address" @if($employee->curr_addr==$employee->perm_addr) checked @endif>
+		                	@if(empty($employee->perm_addr))
 		                	<span class="label-text">Permanent Residence same as current</span>
+		                	@endif
 		            	</label>
 		            	</div>
                     </div>

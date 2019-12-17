@@ -94,11 +94,13 @@ class EmployeeMast extends Model
  	public function empdesignation(){
  		return $this->hasOne('App\Models\Master\Designation', 'id','desig_id');
  	}
+  
  	public function reportto(){
  		return $this->belongsTo('App\Models\Employees\EmployeeMast','reports_to');
  	}
- 	 public function approve_name(){
+
+ 	public function approve_name(){
         return $this->belongsTo('App\user', 'reports_to','id');
-    }
+  }
     		
 }
