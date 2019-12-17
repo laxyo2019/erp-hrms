@@ -62,7 +62,7 @@
 							@foreach($employees as $employee)
 								<tr>
 									<td>{{++$count}}</td>
-									<td>{{$employee->emp_name}}</td>
+									<td>{{ucwords($employee->emp_name)}}</td>
 									<td>{{$employee->emp_code}}</td>
 									{{-- <td>@if($employee->company!=null) {{$employee->company->comp_name}} @endif</td> --}}
 									<td>@if($employee->grade!=null) {{$employee->grade->name}} @endif</td>

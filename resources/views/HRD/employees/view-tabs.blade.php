@@ -1,10 +1,11 @@
 
 <ul class="nav nav-pills nav-justified">
-	<li class="nav-item">
-		<a class="nav-link official" href="{{route('employee.view-details',['id'=>$employee->id,'view'=>'official'])}}">Official</a>
-	</li>
+	
 	<li class="nav-item">
 		<a class="nav-link personal" href="{{route('employee.view-details',['id'=>$employee->id,'view'=>'personal'])}}">Personal</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link official" href="{{route('employee.view-details',['id'=>$employee->id,'view'=>'official'])}}">Official</a>
 	</li>
 	<li class="nav-item">
 		<a class="nav-link academics" href="{{route('employee.view-details',['id'=>$employee->id,'view'=>'academics'])}}">Academics</a>
