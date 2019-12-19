@@ -79,7 +79,7 @@
 					</div>
 					<div class="col-6 form-group ">
 						<label for="">Address</label>
-						<input type="text" class="form-control" name="address" value="{{old('address', $info->address )}}">
+						<input type="text" class="form-control" name="address" value="{{old('address', $info->curr_addr )}}">
 						@error('address')
 							<span class="text-danger" role="alert">
 								<strong>* {{ $message }}</strong>

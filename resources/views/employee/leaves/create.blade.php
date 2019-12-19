@@ -1,6 +1,11 @@
 @extends('layouts.master')
 @push('styles')
   <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
+  <style type="text/css">
+  	.d-none{
+  		display: none;
+  	}
+  </style>
 @endpush
 @section('content')
 <main class="app-content">
@@ -38,26 +43,26 @@
 					</div>
 					<div class="col-6 form-group">
 					<label for="reports_to">Reports To
-						@error('team_lead_id')
+						@error('reports_to')
 				          	<span style="color: red">
 								| {{ $message }}
 							</span>
 				      	@enderror
 					</label>
 					<input type="text" id="reports_to" class="form-control" name="reports_to"	value="{{!empty($reports_to) ? $reports_to->emp_name : null}}" disabled>
-					<input type="hidden" name="team_lead_id" value="{{!empty($reports_to) ?$reports_to->id : null}}">
+					<input type="hidden" name="reports_to" value="{{!empty($reports_to) ?$reports_to->id : null}}">
 				</div>
 	    	</div>
 	    	<div class="row" style="padding-top: 1%">
 				<div class="col-1 form-group">
-					<button type="button" id="multi" class="btn btn-primary active">Multiple</button>
+					<button type="button" id="multiBtn" class="btn btn-primary active d-none" >Multiple</button>
 				</div>
 				<div class="col-1 form-group">
-					<button type="button" id="full" class="btn btn-primary " >Full Day</button>
+					<button type="button" id="fullBtn" class="btn btn-primary d-none" >Full Day</button>
 					<input type="hidden" name="full_day" id="full_day">
 				</div>
 				<div class="col-1 form-group">
-					<button type="button" id="half" class="btn btn-primary ">Half Day</button>
+					<button type="button" id="halfBtn" class="btn btn-primary d-none">Half Day</button>
 				</div>
 	    	</div>
 	    	<div class="row">
@@ -71,7 +76,7 @@
 					<span id="end_date"><label for="end_date">End Date <span id="small-date" style="color: 'red"></span></label>
 					<input type="text" class="form-control datepicker end" name="end_date" autocomplete="off" id="end_date">
 			      	</span>
-			      	<span id="checkday" style="display: none;">
+			      	<span id="checkday" class="d-none">
 				      	<label class="">
 						    <input type="radio" name="half_day" value="first_half" autocomplete="off" > First Half
 						</label>
@@ -82,7 +87,14 @@
 				</div>
 				<input type="hidden" name="day" id="day">
 				<div class="col-4 form-group">
-					<label for="duration">Duration ( In days )</label>
+					<label for="duration">Duration ( In days )
+						@error('count')
+				          	<span style="color: red">
+								| {{ $message }}
+							</span>
+				      	@enderror
+
+					</label>
 					<input type="text" class="form-control duration" name="duration" id="duration" disabled="" value="">
 					<input type="hidden" name="count" id="count" >
 					<span class="text-danger duration_alert" role="alert" style="display:none">
@@ -115,7 +127,7 @@
 			          </span>
 			      	@enderror
 				</div>
-				<div class="col-7 form-group">
+				<div class="col-7 form-group d-none">
 					<label for="file_path">Upload Documents 
 						<span id="docs_error" style="color: red"></span>
 						@error('file_path')
@@ -124,7 +136,7 @@
 				          </span>
 				      	@enderror
 					</label>
-					<input type="file" name="file_path" class="form-control-file" id="file_path" value="">
+					<input type="file" name="" class="form-control-file" id="file_path" value="">
 					{{-- @error('file_path')
 			          <span class="text-danger" role="alert">
 			            <strong>* {{ $message }}</strong>
@@ -170,8 +182,9 @@
 				dateLimit: { days: 3 }
 			});
 
+/************Old Code********/
 		//Hide full & half day for Privilege leave
-		$('#leave_type').on('change', function(){
+		/*$('#leave_type').on('change', function(){
 
 			var value = $(this).children("option:selected").val();
 			var name  = $(this).children("option:selected").text();
@@ -197,6 +210,7 @@
 				$('#checkday').attr('hidden', false);
 				$('#submit').removeAttr('disabled', false);
 				$('#docs_error').text('')
+				//casualCount();
 			}
 		});
 
@@ -342,10 +356,227 @@
 					}
 				});
 	    	})
-	    });
+	    });*/
+
+/****************************/
+
+	    /***New Code***/
+
+
+	    $('#leave_type').on('change', function(){
+	    	var leave_id = $(this).children("option:selected").val();
+			var name  = $(this).children("option:selected").text();
+			var leaveType = name.trim().toLowerCase();
+				
+
+			if (leave_id) {
+
+				$.ajax({
+					type:'get',
+					url: '/balance/',
+					data:{'leave_id': leave_id},
+					success: function(res){
+
+
+						
+
+						//Check for Half day
+						if(res.min_apply_once == 0.5){
+							checkHalf(res);
+							
+						//Check for 1 day
+						}else if(res.min_apply_once == 1.0){ 
+
+							checkOnce(res);
+
+						//Check for more than 1 day
+						}else{
+
+							$('#halfBtn').addClass('d-none');
+							$('#fullBtn').addClass('d-none');
+							$('#multiBtn').removeClass('d-none');
+
+
+						}
+
+						//Carry forward
+						/*if(res.carry_forward == null){
+							alert(3)
+							$('#file_path').val('name', '');
+						}else{
+							alert(6)
+							$('#file_path').val('name', 'file_path');
+						}*/
+						
+						
+						console.log(res);  
+		            }
+		 		});
+			}		
+
+		});
 	});
-function cm_add(){
-	alert(54);
+
+function checkHalf(res){
+	if(res.max_apply_once == 0.5){
+		$('#halfBtn').addClass('active');
+		$('#fullBtn, #multiBtn').removeClass('active');
+		$('#halfBtn').removeClass('d-none');
+
+		//hide date box
+		$('#end_date').addClass('d-none');
+		$('#checkday').removeClass('d-none');
+		halfDate();
+
+		$('#fullBtn').addClass('d-none');
+		$('#multiBtn').addClass('d-none');
+	}else if(res.max_apply_once == 1.0){
+
+
+		/***For buttons***/
+		$('#fullBtn').addClass('active');
+		$('#halfBtn, #multiBtn').removeClass('active');
+
+		$('#halfBtn').removeClass('d-none');
+		$('#fullBtn').removeClass('d-none');
+		$('#multiBtn').addClass('d-none');
+
+		
+		//Default fields
+		$('#checkday').addClass('d-none');
+		$('#end_date').addClass('d-none');
+
+		/***For fields***/
+		halfDate();
+		fullDate();
+
+
+	}else if(res.max_apply_once > 1.0){
+
+		/***For buttons***/
+		$('#multiBtn').addClass('active');
+		$('#halfBtn, #fullBtn').removeClass('active');
+
+		$('#halfBtn').removeClass('d-none');
+		$('#fullBtn').removeClass('d-none');
+		$('#multiBtn').removeClass('d-none');
+
+		multiDate();
+		fullDate();
+		halfDate();
+	}else {
+		$('#halfBtn').removeClass('d-none');
+		$('#fullBtn').removeClass('d-none');
+		$('#multiBtn').removeClass('d-none');
+
+		multiDate();
+		fullDate();
+		halfDate();
+	}	
 }
+
+function checkOnce(res){
+	if(res.max_apply_once == 1.0){
+		$('#halfBtn').addClass('d-none');
+		$('#fullBtn').removeClass('d-none');
+		$('#multiBtn').addClass('d-none');
+	}else if(res.max_apply_once > 1.0){
+		$('#halfBtn').addClass('d-none');
+		$('#fullBtn').removeClass('d-none');
+		$('#multiBtn').removeClass('d-none');
+	}else {
+		$('#halfBtn').addClass('d-none');
+		$('#fullBtn').removeClass('d-none');
+		$('#multiBtn').removeClass('d-none');
+	}	
+}
+
+
+function multiDate(){
+
+	$('#multiBtn').on('click', function(){
+
+		//Add & remove active class
+		$('#multiBtn').addClass('active');
+		$('#halfBtn, #fullBtn').removeClass('active');
+
+		$('#checkday').addClass('d-none');
+		$('#end_date').removeClass('d-none');
+
+	});
+}
+
+function fullDate(){
+
+	$('#fullBtn').on('click', function(){
+
+		//Add & remove active class
+		$('#fullBtn').addClass('active');
+		$('#halfBtn, #multiBtn').removeClass('active');
+
+		//Hide date & radio btns
+		$('#checkday').addClass('d-none');
+		$('#end_date').addClass('d-none');
+
+	});
+}
+
+function halfDate(){
+
+	$('#halfBtn').on('click', function(){
+
+		//Add & remove active class
+		$('#halfBtn').addClass('active');
+		$('#fullBtn, #multiBtn').removeClass('active');
+
+		//Hide date & radio btns
+		$('#checkday').removeClass('d-none');
+		$('#end_date').addClass('d-none');
+
+	});
+}
+
+// function leaveValidation(leave_id){
+// 	alert('helo');
+// 	var re_data = '';
+// 	 re_data = $.ajax({
+// 			type:'get',
+// 			url: '/balance/',
+// 			data:{'leave_id': leave_id},
+// 			success: function(data){
+                  
+               
+//                  // console.log(re_data);
+//             }
+ 	
+// 			// success:function(data){
+// 			// 	re_data = data	
+
+// 			// 	//alert(data.leave_bal)
+// 			// 	 if(data.min_apply_once >= 2){
+// 			// 	 	$('#checkday').attr('hidden', true);
+// 			// 		$('#full, #half').attr('hidden', true);
+// 			// 		$('#docs_error').text('')
+// 			// 		$('#end_date').show();
+// 			// 		$('#submit').removeAttr('disabled', false);
+// 			// 	 }
+
+				
+// 			// 	/*$('.duration').val('Half day');
+// 			// 	$('#count').val(data.days);
+// 			// 	$('#day').val(day);
+
+// 			// 	if(data.msg == 0 ){
+// 			// 		$(".duration_alert").hide();
+// 			// 	}else{
+// 			// 		$(".duration_alert").show();
+// 			// 		$('button').removeAttr('disabled');
+// 			// 	}*/
+// 			// }
+// 		});
+// 	// data = re_data;
+// 	 // console.log(re_data);
+// 	 return re_data;
+// }
 </script>
 @endsection

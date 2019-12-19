@@ -89,7 +89,7 @@ class LeaveTypeController extends Controller
             'total_leaves'      => 'required|numeric|between:0,99.99',
             'generate_after'    => 'nullable|numeric',
             'min_apply_once'    => 'nullable|numeric|between:0,99.99',
-            'max_apply_once'    => 'nullable|numeric|between:0,99.99',
+            'max_apply_once'    => 'nullable|numeric|between:0,99.99|gte:min_apply_once',
             'max_days_inmonth'  => 'nullable|numeric|between:0,99.99',
             'max_apply_month'   => 'nullable|numeric|between:0,99.99',
             'max_apply_year'    => 'nullable|numeric|between:0,99.99',

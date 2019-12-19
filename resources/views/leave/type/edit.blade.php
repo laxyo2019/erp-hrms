@@ -108,16 +108,30 @@
 				          </span>
 				      	@enderror
 					</div>
-<div class="col-5 form-group">
-	<div class="form-check">
-		<input type="checkbox" class="form-check-input" id="exampleCheck1"  name="carry" value="1" {{old('carry', $leave_type->carry_forward	) == '1' ? 'checked' : ''}}>
-	    <label class="form-check-label" for="exampleCheck1">Can be carry forward ?</label>
-	  </div>
-</div>
-		    	</div>
-		    		<div class="col-12 form-group text-center">
-						<button class="btn btn-info btn-sm m-2" style="width: 40%">Save</button>
+					<div class="col-3 form-group">
+						<div><h5>Can be carry forward</h5></div>
+            			<div class="toggle lg row col-12">
+            				<div class="form-check form-check-inline mr-0">
+								<label>
+									<input type="checkbox" name="carry" value="1" {{ !empty($leave_type->carry_forward) ? 'checked' : ''}}><span class="button-indecator"></span>
+								</label>
+							</div>
+            			</div>
 					</div>
+					<div class="col-3 form-group">
+						<div><h5>Document required</h5></div>
+            			<div class="toggle lg row col-12">
+            				<div class="form-check form-check-inline mr-0">
+								<label>
+									<input type="checkbox" name="perms" value="" ><span class="button-indecator"></span>
+								</label>
+							</div>
+            			</div>
+					</div>
+		    	</div>
+	    		<div class="col-12 form-group text-center">
+					<button class="btn btn-info btn-sm m-2" style="width: 40%">Save</button>
+				</div>
 				</div>
 			</form>
 	</main>

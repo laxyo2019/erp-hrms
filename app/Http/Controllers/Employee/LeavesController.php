@@ -44,23 +44,14 @@ class LeavesController extends Controller
                           ->where('id', Auth::user()->emp_id)
                           ->latest()
                           ->first();
-<<<<<<< HEAD
-                            
-      $balance  = EmployeeMast::with('allotments.leaves')
-=======
+
       $balance    = EmployeeMast::with('allotments.leaves')
->>>>>>> e255c8ff428537c4a8c501ef1b0811dd508779c1
                           ->where('id', Auth::user()->emp_id)
                           ->latest()
                           ->first();
-<<<<<<< HEAD
-=======
+
       $parent_id  = EmployeeMast::find(Auth::user()->emp_id)->parent_id;
 
-      // dd($employee);
-
-
->>>>>>> e255c8ff428537c4a8c501ef1b0811dd508779c1
       return view('employee.leaves.index', compact('employee', 'balance'));
     }
 
@@ -88,9 +79,36 @@ class LeavesController extends Controller
 
     public function balance(Request $request){
 
-      //return $request->all();
+      //Get leave type
+
+      $leave    = LeaveMast::where('id', $request->leave_id)
+                  ->orWhere('name', $request->leaveType)
+                  ->first();
+
+      // Get user's balance of selected leave
+
+      $data['user_bal'] = LeaveAllotment::where('emp_id', Auth::user()->emp_id)
+                              ->where('leave_mast_id', $leave->id)
+                              ->first();
+
+      // Check leave applied by user
+
+      $user_applied_leaves = LeaveApply::where('emp_id', Auth::user()->emp_id)->get();
+
+      $data['leave_bal']        = $leave->count;
+      $data['min_apply_once']   = $leave->min_apply_once;
+      $data['max_apply_once']   = $leave->max_apply_once;
+      $data['max_daysIn_month'] = $leave->max_days_month;
+      $data['max_applyIn_month']= $leave->max_apply_month;
+      $data['max_apply_year']   = $leave->max_apply_year;
+      $data['carry_forward']    = $leave->carry_forward;
+
+      
+      return $data;
+
+      /********Old Code***********/
       //For multiple days leave
-      if($request->day == 'multi'){
+      /*if($request->day == 'multi'){
           $first_date   = date_create($request->start_date);
           $last_date    = date_create($request->end_date);
           $difference   = date_diff($first_date, $last_date);
@@ -129,27 +147,26 @@ class LeavesController extends Controller
                         ['leave_mast_id', $request->leave_type],
                       ])->first();
 
-      //$reques
       //Check how many time sick leave is applied
-      $counter = LeaveApply::where('emp_id', Auth::user()->emp_id)
+      $casualcount = LeaveApply::where('emp_id', Auth::user()->emp_id)
                         ->where('leave_type_id', 3)
-                        ->whereBetween('created_at', [, $request->end_date])
+                        ->whereBetween('created_at', [date('01-m-Y'), $request->end_date])
                         ->count();
 
-      return $counter;
+      //return $counter;
 
       if($count <= $allotment->current_bal){
           $data = [
-            'days' =>  $count,
-            'rule' =>  $sandwichRule,
-            'msg'  =>  0 ];
+            'days' =>   $count,
+            'rule' =>   $sandwichRule,
+            'msg'  =>   0];
       }else{
           $data = [
-            'days' => $count,
-            'rule' =>  $sandwichRule,
-            'msg'  => 1 ];           
-      }
-      //  return json_encode($data);
+            'days' =>   $count,
+            'rule' =>   $sandwichRule,
+            'msg'  =>   1 ];           
+      }*/
+        
     }
     
     public function store(Request $request)
@@ -157,21 +174,30 @@ class LeavesController extends Controller
       //return $request->all();
       $data = request()->validate([
         'leave_type_id' => 'required',
-        'team_lead_id'  => 'required'
+        'reports_to'    => 'required',
+        'start_date'    => 'required',
+        'count'         => 'required',
+        'file_path'     => 'sometimes|required',
+        'leave_type_id' => 'required',
+        'reports_to'    => 'required',
+        'start_date'    => 'required'
       ]);
       //return $request->all();
       $leave_type = LeaveMast::where('id',$data['leave_type_id'])->first();
 
-      if( $leave_type->alias == 'sl' ){
+      if( $leave_type->name == 'Sick Leave'){
         $data = request()->validate([
         'file_path'     => 'required',
         'leave_type_id' => 'required',
-        'team_lead_id'  => 'required']);
+        'reports_to'    => 'required',
+        'start_date'    => 'required',
+        'count'         => 'required',]);
       }
 
       $id = Auth::user()->emp_id;
 
       //Store full, first/second half day
+
       switch($request->day){
         case "full":
           $request->full_day = 1;
@@ -223,6 +249,7 @@ class LeavesController extends Controller
                     ['leave_mast_id', $request->leave_type_id]])
                     ->limit(1)
                     ->decrement('current_bal', $request->count);
+
     return redirect('employee/leaves')->with('success','Applied successfully');
     }
 
@@ -325,6 +352,7 @@ class LeavesController extends Controller
     public function emp_leave()
     {
         $leave_type = DB::table('leave_type_mast')->get();
+        return 542;
         return view('employee.leaves.leave',compact('leave_type'));
     }
 

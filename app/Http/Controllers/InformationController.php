@@ -13,10 +13,8 @@ class InformationController extends Controller
     }
 
     public function index(){
-    	//return Auth::user()->emp_id;
-    	$info = EmployeeMast::where('id', Auth::user()->emp_id)->with('department')->first();
 
-    	//return $info;
+    	$info = EmployeeMast::where('id', Auth::user()->emp_id)->with('department')->first();
 
     	return view('information.index', compact('info'));
 
@@ -31,16 +29,16 @@ class InformationController extends Controller
 
     public function update(Request $request, $id){
 
-    	//return $request->all();
     	if($id == Auth::user()->emp_id){
 
     		EmployeeMast::where('id', $id)
     			->update([
-					'emp_name' => $request->emp_name,
-					'emp_dob'  => $request->dob,
-					'contact'  => $request->contact,
-					'email'	   => $request->email,
-					'curr_addr'  => $request->address]);
+					'emp_name'      => $request->emp_name,
+                    'emp_gender'    => $request->emp_gender, 
+					'emp_dob'       => $request->dob,
+					'contact'       => $request->contact,
+					'email'	        => $request->email,
+					'curr_addr'     => $request->address]);
 
     		return redirect()->route('information.index')->with('success', 'Successfully updated.');
 

@@ -36,11 +36,8 @@ Spatie Roles & Permissions
 	Route::resource('acl/roles', 'acl\RoleController');
 	Route::resource('acl/users', 'acl\UserController');
 	Route::get('acl/user/create/{id}', 'acl\UserController@create')->name('assign.role');
-  //Route::post('assign/{id}', 'acl\UserController@AssignUser')->name('assign.user');
 	
 /*});*/
-
-
 
 
 //Export Import holidays
