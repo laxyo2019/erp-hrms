@@ -29,16 +29,16 @@
 			<div class="row ">
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
-			{{-- 	<div class="card-header">
+			 	<!-- <div class="card-header">
 					<ul class="nav nav-pills">
 					  <li class="nav-item">
-					    <a class="nav-link {{call_user_func_array('Request::is', (array)['*/employees']) ? 'active' : ''}}" href="{{route('employees.index')}}">Active Employees</a>
+					    <a class="nav-link {{call_user_func_array('Request::is', (array)['*/']) ? 'active' : ''}}" href="">Active Employees</a>
 					  </li>
 					  <li class="nav-item">
-					    <a class="nav-link {{call_user_func_array('Request::is', (array)['*inactiveEmployees*']) ? 'active' : ''}}"  href="{{route('employees.inactiveEmployees')}}">Inactive Employees</a>
+					    <a class="nav-link {{call_user_func_array('Request::is', (array)['**']) ? 'active' : ''}}"  href="">Inactive Employees</a>
 					  </li>
 					</ul>
-				</div> --}}
+				</div> -->
 					<div class="card-body table-responsive">
 						@if($message = Session::get('success'))
 							<div class="alert alert-success alert-block">
@@ -52,7 +52,7 @@
 									<th>ID <input type="checkbox" id="checkedall"></th>
 									<th>Employee Name </th>
 									<th>Employee Code</th>
-									{{-- <th>Company</th> --}}
+									<!-- <th>Company</th> -->
 									<th>Grade Code</th>
 									<th>Designation</th>
 									<th>Leaves</th>
@@ -65,13 +65,8 @@
 							@php $count = 0; @endphp
 							@foreach($employees as $employee)
 								<tr>
-<<<<<<< HEAD
 									<td >{{++$count}} <input type="checkbox" value="{{$employee->id}}" class="emp" name="checked"></td>
-									<td >{{$employee->emp_name}}</td>
-=======
-									<td>{{++$count}}</td>
 									<td>{{ucwords($employee->emp_name)}}</td>
->>>>>>> e255c8ff428537c4a8c501ef1b0811dd508779c1
 									<td>{{$employee->emp_code}}</td>
 									{{-- <td>@if($employee->company!=null) {{$employee->company->comp_name}} @endif</td> --}}
 									<td>@if($employee->grade!=null) {{$employee->grade->name}} @endif</td>

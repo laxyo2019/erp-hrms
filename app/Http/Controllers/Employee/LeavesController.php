@@ -102,11 +102,11 @@ class LeavesController extends Controller
       $data['max_applyIn_month']= $leave->max_apply_month;
       $data['max_apply_year']   = $leave->max_apply_year;
       $data['carry_forward']    = $leave->carry_forward;
+      $data['docs_required']    = $leave->docs_required;
 
-      
       return $data;
 
-      /********Old Code***********/
+    /********Old Code***********/
       //For multiple days leave
       /*if($request->day == 'multi'){
           $first_date   = date_create($request->start_date);
@@ -166,91 +166,168 @@ class LeavesController extends Controller
             'rule' =>   $sandwichRule,
             'msg'  =>   1 ];           
       }*/
-        
+    /****/
     }
     
     public function store(Request $request)
-    {  
-      //return $request->all();
-      $data = request()->validate([
-        'leave_type_id' => 'required',
-        'reports_to'    => 'required',
-        'start_date'    => 'required',
-        'count'         => 'required',
-        'file_path'     => 'sometimes|required',
-        'leave_type_id' => 'required',
-        'reports_to'    => 'required',
-        'start_date'    => 'required'
-      ]);
-      //return $request->all();
-      $leave_type = LeaveMast::where('id',$data['leave_type_id'])->first();
+    {
 
-      if( $leave_type->name == 'Sick Leave'){
-        $data = request()->validate([
-        'file_path'     => 'required',
-        'leave_type_id' => 'required',
-        'reports_to'    => 'required',
-        'start_date'    => 'required',
-        'count'         => 'required',]);
-      }
 
-      $id = Auth::user()->emp_id;
 
-      //Store full, first/second half day
+      $leaveData = LeaveMast::where('id', $request->leave_type_id)
+                  ->first();
+      $document =$leaveData->docs_required;
 
-      switch($request->day){
-        case "full":
-          $request->full_day = 1;
-          break;
+      //$allotted = LeaveAllotment::where('emp_id', Auth::user()->emp_id)
+                    //->get();
 
-        case "first_half":
-          $request->first_half = 1;
-          break;
 
-        case "second_half":
-          $request->second_half = 1;
-          break;
-      }
-
-      //Uploading documents to hrmsupload directory
-      if($request->hasFile('file_path')){
-
-        $dir      = 'hrms_uploads/'.date("Y").'/'.date("F").'/leave';
-        $file_ext = $request->file('file_path')->extension();
-        $filename = $id.'_'.time().'_leaves.'.$file_ext;
-        $path     = $request->file('file_path')->storeAs($dir, $filename);
-      }else{
-        $path = null;
-      }
-
-      $leaveapply = new LeaveApply;
-      $leaveapply->emp_id            = $id;
-      $leaveapply->reports_to        = $request->team_lead_id;
-      $leaveapply->leave_type_id     = $data['leave_type_id'];
-      $leaveapply->first_half        = $request->first_half;
-      $leaveapply->second_half       = $request->second_half;
-      $leaveapply->full_day          = $request->full_day;
-      $leaveapply->from              = $request->start_date;
-      $leaveapply->to                = $request->end_date;
-      $leaveapply->count             = $request->count;
-      $leaveapply->reason            = $request->reason;
-      $leaveapply->file_path         = $path;
-      $leaveapply->addr_during_leave = $request->address_leave;
-      $leaveapply->contact_no        = $request->contact_no;
-      $leaveapply->status            = null;
-      $leaveapply->applicant_remark  = $request->applicant_remark;
-      $leaveapply->approver_remark   = null;
-      $leaveapply->hr_remark         = null;
-      $leaveapply->save();
+      //If min leave starts from half day
       
-      //Deduct leave when employee apply for it & add if declined
-     $leave = LeaveAllotment::where([
-                    ['emp_id', Auth::user()->emp_id],
-                    ['leave_mast_id', $request->leave_type_id]])
-                    ->limit(1)
-                    ->decrement('current_bal', $request->count);
+      if($leaveData->min_apply_once == 0.5){
 
-    return redirect('employee/leaves')->with('success','Applied successfully');
+        if($leaveData->max_apply_once == 0.5){
+            $request->validate([
+                'start_date' => 'required',
+            ]);
+
+        }if($leaveData->max_apply_once == 1){
+
+        }
+        if($leaveData->max_apply_once > 1 || $leaveData->max_apply_once == null ){
+          if($request->btnId == 'multiBtn'){
+           
+            $request->validate([
+                'start_date' => 'required',
+                'end_date' => 'required',
+            ]);  
+
+          }else if($request->btnId == 'fullBtn'){
+            $request->validate([
+                'start_date' => 'required',
+            ]);  
+          }else if($request->btnId == 'halfBtn'){
+            $request->validate([
+                'start_date' => 'required',
+                'half_day'  => 'required',
+            ]);
+          }
+
+
+        }
+        //If min leave starts from 1 day
+      }elseif( $leaveData->min_apply_once == 1 ){
+
+        
+        if($leaveData->max_apply_once == 1){
+
+        
+        }elseif($leaveData->max_apply_once > 1 || $leaveData->max_apply_once == null){
+
+
+        }
+
+      }else{
+        // return "multiple";
+            $request->validate([  
+                'start_date' => 'required',
+                'end_date' => 'required',
+              
+              
+            ]);
+      }
+
+      $request->validate([
+        'reason'   => 'required',
+        'reports_to' => 'required'
+      ]);
+      if($document){
+        $request->validate([
+              'file_path' => 'required'
+        ]);
+      }
+      return $request->all();
+
+      return $leaveData;
+    //   $data = request()->validate([
+    //     'leave_type_id' => 'required',
+    //     'reports_to'    => 'required',
+    //     'start_date'    => 'required',
+    //     'count'         => 'required',
+    //     'file_path'     => 'sometimes|required',
+    //     'leave_type_id' => 'required',
+    //     'reports_to'    => 'required',
+    //     'start_date'    => 'required'
+    //   ]);
+    //   //return $request->all();
+    //   $leave_type = LeaveMast::where('id',$data['leave_type_id'])->first();
+
+    //   if( $leave_type->name == 'Sick Leave'){
+    //     $data = request()->validate([
+    //     'file_path'     => 'required',
+    //     'leave_type_id' => 'required',
+    //     'reports_to'    => 'required',
+    //     'start_date'    => 'required',
+    //     'count'         => 'required',]);
+    //   }
+
+    //   $id = Auth::user()->emp_id;
+
+    //   //Store full, first/second half day
+
+    //   switch($request->day){
+    //     case "full":
+    //       $request->full_day = 1;
+    //       break;
+
+    //     case "first_half":
+    //       $request->first_half = 1;
+    //       break;
+
+    //     case "second_half":
+    //       $request->second_half = 1;
+    //       break;
+    //   }
+
+    //   //Uploading documents to hrmsupload directory
+    //   if($request->hasFile('file_path')){
+
+    //     $dir      = 'hrms_uploads/'.date("Y").'/'.date("F").'/leave';
+    //     $file_ext = $request->file('file_path')->extension();
+    //     $filename = $id.'_'.time().'_leaves.'.$file_ext;
+    //     $path     = $request->file('file_path')->storeAs($dir, $filename);
+    //   }else{
+    //     $path = null;
+    //   }
+
+    //   $leaveapply = new LeaveApply;
+    //   $leaveapply->emp_id            = $id;
+    //   $leaveapply->reports_to        = $request->team_lead_id;
+    //   $leaveapply->leave_type_id     = $data['leave_type_id'];
+    //   $leaveapply->first_half        = $request->first_half;
+    //   $leaveapply->second_half       = $request->second_half;
+    //   $leaveapply->full_day          = $request->full_day;
+    //   $leaveapply->from              = $request->start_date;
+    //   $leaveapply->to                = $request->end_date;
+    //   $leaveapply->count             = $request->count;
+    //   $leaveapply->reason            = $request->reason;
+    //   $leaveapply->file_path         = $path;
+    //   $leaveapply->addr_during_leave = $request->address_leave;
+    //   $leaveapply->contact_no        = $request->contact_no;
+    //   $leaveapply->status            = null;
+    //   $leaveapply->applicant_remark  = $request->applicant_remark;
+    //   $leaveapply->approver_remark   = null;
+    //   $leaveapply->hr_remark         = null;
+    //   $leaveapply->save();
+      
+    //   //Deduct leave when employee apply for it & add if declined
+    //  $leave = LeaveAllotment::where([
+    //                 ['emp_id', Auth::user()->emp_id],
+    //                 ['leave_mast_id', $request->leave_type_id]])
+    //                 ->limit(1)
+    //                 ->decrement('current_bal', $request->count);
+
+    // return redirect('employee/leaves')->with('success','Applied successfully');
     }
 
     public function show($id)

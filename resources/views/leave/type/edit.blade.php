@@ -123,7 +123,7 @@
             			<div class="toggle lg row col-12">
             				<div class="form-check form-check-inline mr-0">
 								<label>
-									<input type="checkbox" name="perms" value="" ><span class="button-indecator"></span>
+									<input type="checkbox" name="docs_required" value="1" {{!empty($leave_type->docs_required) ? 'checked' : ''}}><span class="button-indecator"></span>
 								</label>
 							</div>
             			</div>

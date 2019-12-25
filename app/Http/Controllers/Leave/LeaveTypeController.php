@@ -37,7 +37,7 @@ class LeaveTypeController extends Controller
             'leave_alias'       => 'required',
             'total_leaves'      => 'required',
             'generate_after'    => 'nullable|numeric',
-            'min_apply_once'    => 'nullable|numeric|between:0,99.99',
+            'min_apply_once'    => 'required|numeric|between:0,99.99',
             'max_apply_once'    => 'nullable|numeric|between:0,99.99',
             'max_days_inmonth'  => 'nullable|numeric|between:0,99.99',
             'max_apply_month'   => 'nullable|numeric',
@@ -60,7 +60,8 @@ class LeaveTypeController extends Controller
     	$leaves->max_days_month		=	$request->max_days_inmonth;
     	$leaves->max_apply_month	=	$request->max_apply_month;
     	$leaves->max_apply_year		=	$request->max_apply_year;
-    	$leaves->carry_forward		=	$carry;
+    	$leave->carry_forward       =   $request->carry;
+        $leave->docs_required       =   $request->docs_required;
     	$leaves->save();
 
     	return redirect()->route('types.index')->with('success', 'Updated record successfully.');
@@ -82,6 +83,7 @@ class LeaveTypeController extends Controller
 
     public function update(Request $request, $id){
 
+        //return $request->all();
         $this->validate($request, 
         [
             'leave_name'        => 'required',
@@ -107,7 +109,8 @@ class LeaveTypeController extends Controller
         $leave->max_days_month  =  $request->max_days_inmonth;
         $leave->max_apply_month =  $request->max_apply_month;
         $leave->max_apply_year  =  $request->max_apply_year;
-        $leave->carry_forward   =  $request->carry; 
+        $leave->carry_forward   =  $request->carry;
+        $leave->docs_required   =  $request->docs_required;
         $leave->save();
 
     	return back()->with('success', 'Updated successfully.');

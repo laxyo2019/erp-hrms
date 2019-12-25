@@ -101,11 +101,25 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-5 form-group">
-						<div class="form-check">
-						    <input type="checkbox" class="form-check-input" id="exampleCheck1" value="1" name="carry">
-						    <label class="form-check-label" for="exampleCheck1">Can be carry forward ?</label>
-						  </div>
+					<div class="col-3 form-group">
+						<div><h5>Can be carry forward</h5></div>
+            			<div class="toggle lg row col-12">
+            				<div class="form-check form-check-inline mr-0">
+								<label>
+									<input type="checkbox" name="carry" value="1"><span class="button-indecator"></span>
+								</label>
+							</div>
+            			</div>
+					</div>
+					<div class="col-3 form-group">
+						<div><h5>Document required</h5></div>
+            			<div class="toggle lg row col-12">
+            				<div class="form-check form-check-inline mr-0">
+								<label>
+									<input type="checkbox" name="docs_required" value="1" ><span class="button-indecator"></span>
+								</label>
+							</div>
+            			</div>
 					</div>
 		    	</div>
 		    		<div class="col-12 form-group text-center">

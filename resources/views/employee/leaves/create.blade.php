@@ -27,7 +27,7 @@
 			@csrf
 			<div class="row">
 				<div class="col-6 form-group">
-						<label for="leave_type">Leave 
+						<label for="leave_type required">Leave 
 							@error('leave_type_id')
 								<span style="color: red">
 									| {{ $message }}
@@ -37,7 +37,7 @@
 						<select name="leave_type_id" id="leave_type" class="custom-select">
 							<option value="">Select</option>
 							@foreach($leave_type as $leave_types)
-								<option value="{{$leave_types->id}}">{{ucwords($leave_types->name)}}</option>
+								<option value="{{$leave_types->id}}" {{old('leave_type_id') == $leave_types->id ? 'selected' : ''}}>{{ucwords($leave_types->name)}}</option>
 							@endforeach
 						</select>
 					</div>
@@ -53,39 +53,49 @@
 					<input type="hidden" name="reports_to" value="{{!empty($reports_to) ?$reports_to->id : null}}">
 				</div>
 	    	</div>
+			
+
 	    	<div class="row" style="padding-top: 1%">
-				<div class="col-1 form-group">
+				<div class="col-1 form-group  ml-2">
 					<button type="button" id="multiBtn" class="btn btn-primary active d-none" >Multiple</button>
+
 				</div>
-				<div class="col-1 form-group">
+				<div class="col-1 form-group ml-2">
 					<button type="button" id="fullBtn" class="btn btn-primary d-none" >Full Day</button>
-					<input type="hidden" name="full_day" id="full_day">
 				</div>
-				<div class="col-1 form-group">
+				<div class="col-1 form-group ml-2">
 					<button type="button" id="halfBtn" class="btn btn-primary d-none">Half Day</button>
 				</div>
 	    	</div>
+	    	<input type="hidden" name="btnId" id="btnId" value="">
+
+
+
 	    	<div class="row">
 				<div class="col-4">
 					<label for="start_date">Start Date @error('start_date') <span style="color: red">| {{ $message }}</span> @enderror
 					</label>
-					<input type="text" class="form-control datepicker start" name="start_date" autocomplete="off" id="start_date">
+					<input type="text" class="form-control datepicker start" name="start_date" autocomplete="off" id="start_date" value="{{old('start_date')}}">
+					@error('start_date')
+						<span>{{$message}}</span>
+					@enderror
 			    </div>
 				<div class="col-4">
 					<label class=""></label>
-					<span id="end_date"><label for="end_date">End Date <span id="small-date" style="color: 'red"></span></label>
-					<input type="text" class="form-control datepicker end" name="end_date" autocomplete="off" id="end_date">
+					<span id="endDate">
+						<label for="end_date">End Date <span id="small-date" style="color: 'red"></span></label>
+						<input type="text" class="form-control datepicker end" name="end_date" autocomplete="off" id="end_date" value="{{old('end_date')}}">
 			      	</span>
+			      	<br><br>
 			      	<span id="checkday" class="d-none">
 				      	<label class="">
-						    <input type="radio" name="half_day" value="first_half" autocomplete="off" > First Half
+						    <input type="radio" name="half_day" value="first_half" autocomplete="off" {{old('half_day') == 'first_half' ? 'checked' : 'checked'}}> First Half
 						</label>
 						<label class="">
-						    <input type="radio"  name="half_day" value="second_half" autocomplete="off" > Second Half
+						    <input type="radio"  name="half_day" value="second_half" autocomplete="off" {{old('half_day') == 'second_half' ? 'checked' : ''}}> Second Half
 						</label>
 					</span>
 				</div>
-				<input type="hidden" name="day" id="day">
 				<div class="col-4 form-group">
 					<label for="duration">Duration ( In days )
 						@error('count')
@@ -93,7 +103,6 @@
 								| {{ $message }}
 							</span>
 				      	@enderror
-
 					</label>
 					<input type="text" class="form-control duration" name="duration" id="duration" disabled="" value="">
 					<input type="hidden" name="count" id="count" >
@@ -127,7 +136,8 @@
 			          </span>
 			      	@enderror
 				</div>
-				<div class="col-7 form-group d-none">
+				<div class="col-7 form-group d-none" id="doc_element">
+					<div class="col-5">
 					<label for="file_path">Upload Documents 
 						<span id="docs_error" style="color: red"></span>
 						@error('file_path')
@@ -136,8 +146,9 @@
 				          </span>
 				      	@enderror
 					</label>
-					<input type="file" name="" class="form-control-file" id="file_path" value="">
-					{{-- @error('file_path')
+					<input type="file"  class="form-control-file" name="file_path">
+					</div>
+				{{-- 	@error('file_path')
 			          <span class="text-danger" role="alert">
 			            <strong>* {{ $message }}</strong>
 			          </span>
@@ -156,11 +167,11 @@
 				<div class="col-6 form-group">
 					<label for="address_leave">Address During Leave</label>
 					<textarea class="form-control" id="address_leave" name="address_leave"	value=""></textarea>
-					{{-- @error('address_leave')
+					<!-- @error('address_leave')
 			          <span class="text-danger" role="alert">
 			            <strong>* {{ $message }}</strong>
 			          </span>
-			      	@enderror --}}
+			      	@enderror  -->
 				</div>
 				<div class="col-12 form-group text-center">
 					<button class="btn btn-info btn-sm m-2" id="submit" style="width: 30%">Save</button>
@@ -171,16 +182,14 @@
 	</div>
 </main>
 <script>
-
-	$(document).ready(function(){
-			$('.datepicker').datepicker({
-				orientation: "bottom",
-				format: "yyyy-mm-dd",
-				autoclose: true,
-				todayHighlight: true,
-				startDate: '-0m',
-				dateLimit: { days: 3 }
-			});
+$(document).ready(function(){
+	$('.datepicker').datepicker({
+		orientation: "bottom",
+		format: "yyyy-mm-dd",
+		autoclose: true,
+		todayHighlight: true,
+		startDate: '-0m'
+	});
 
 /************Old Code********/
 		//Hide full & half day for Privilege leave
@@ -360,73 +369,174 @@
 
 /****************************/
 
-	    /***New Code***/
+var leave_id = "{{old('leave_type_id')}}";
+
+if(leave_id != ''){
+	leaveIDChange(leave_id);
+}
+	    
+	/*******New Code*******/
 
 
-	    $('#leave_type').on('change', function(){
-	    	var leave_id = $(this).children("option:selected").val();
-			var name  = $(this).children("option:selected").text();
-			var leaveType = name.trim().toLowerCase();
-				
+var btnId = "{{old('btnId')}}";
 
-			if (leave_id) {
+if(btnId !=null){
+	btnChange(btnId);
+}
 
-				$.ajax({
-					type:'get',
-					url: '/balance/',
-					data:{'leave_id': leave_id},
-					success: function(res){
+$('#multiBtn, #fullBtn,#halfBtn').on('click',function(e){
+	e.preventDefault();
+	var btnId = $(this).attr('id');
+	btnChange(btnId);
+})
 
 
-						
-
-						//Check for Half day
-						if(res.min_apply_once == 0.5){
-							checkHalf(res);
-							
-						//Check for 1 day
-						}else if(res.min_apply_once == 1.0){ 
-
-							checkOnce(res);
-
-						//Check for more than 1 day
-						}else{
-
-							$('#halfBtn').addClass('d-none');
-							$('#fullBtn').addClass('d-none');
-							$('#multiBtn').removeClass('d-none');
-
-
-						}
-
-						//Carry forward
-						/*if(res.carry_forward == null){
-							alert(3)
-							$('#file_path').val('name', '');
-						}else{
-							alert(6)
-							$('#file_path').val('name', 'file_path');
-						}*/
-						
-						
-						console.log(res);  
-		            }
-		 		});
-			}		
-
-		});
+	$('#leave_type').on('change', function(){
+		var leave_id = $(this).children("option:selected").val();
+		// var name  = $(this).children("option:selected").text();
+		// var leaveType = name.trim().toLowerCase();
+		leaveIDChange(leave_id);		
 	});
+});
 
-function checkHalf(res){
+
+function leaveIDChange(leave_id){
+	if (leave_id) {
+		$.ajax({
+			type:'get',
+			url: '/balance/',
+			data:{'leave_id': leave_id},
+			success: function(res){
+
+				//Null all fields values when after selecting leave
+				$('#start_date').val('');
+				$('#end_date').val('');
+				
+				$('#duration').val('');
+				$('#count').val('');
+							
+
+				//Check for Half day
+				if(res.min_apply_once == 0.5){
+
+					checkHalf(res);
+
+				//Check for 1 day
+				}else if(res.min_apply_once == 1.0){ 
+
+					checkOnce(res);
+
+				//Check for more than 1 day
+				}else if(res.min_apply_once > 1.0){
+
+					$('#halfBtn').addClass('d-none');
+					$('#fullBtn').addClass('d-none');
+					$('#multiBtn').removeClass('d-none');
+
+					//Default values for tab fields as in
+					// multiple, full_Day, half_day
+					$('#day').val('multiBtn');
+
+					$('#end_date').on('change', function(){
+						var start = $('#start_date').val();
+						/******/
+						var end = $('#end_date').val();
+						console.log([start, end]);
+					})
+
+				}else{
+
+					//Default values for tab fields as in
+					// multiple, full_Day, half_day
+					$('#btnId').val('multiBtn');
+					var btnId = 'multiBtn';
+					btnChange(btnId);
+					$('#halfBtn').addClass('d-none');
+					$('#fullBtn').addClass('d-none');
+					$('#multiBtn').removeClass('d-none');
+				}
+
+				// multiHolidays();
+
+				//Upload documents required
+
+				if(res.docs_required != null){
+					$('#doc_element').removeClass('d-none');
+					
+				}else{
+					$('#doc_element').addClass('d-none');
+				}
+
+				
+				console.log(res);  
+            }
+ 		});
+	}	
+}
+
+
+function btnChange(btnId){
+
+	$('#start_date').val('{{old('start_date')}}');
+	$('#end_date').val('{{old('end_date')}}');
+	
+	$('#duration').val('');
+	$('#count').val('');
+	
+
+	if(btnId == 'multiBtn'){
+		$('#multiBtn').addClass('active');
+		$('#btnId').val(btnId);
+		$('#halfBtn, #fullBtn').removeClass('active');
+		$('#btnId').val(btnId);
+		$('#endDate').removeClass('d-none');
+		$('#checkday').addClass('d-none');
+
+	}
+	else if(btnId == 'fullBtn'){
+		$('#btnId').val(btnId);
+		$('#fullBtn').addClass('active');
+		$('#halfBtn, #multiBtn').removeClass('active');
+		$('#endDate').addClass('d-none');
+		$('#checkday').addClass('d-none');
+
+	}else if(btnId == 'halfBtn'){
+		$('#btnId').val(btnId);
+		$('#halfBtn').addClass('active');
+		$('#fullBtn, #multiBtn').removeClass('active');
+		$('#endDate').addClass('d-none');
+		$('#checkday').removeClass('d-none');
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function checkHalf(res){  //min apply half
+
 	if(res.max_apply_once == 0.5){
 		$('#halfBtn').addClass('active');
 		$('#fullBtn, #multiBtn').removeClass('active');
 		$('#halfBtn').removeClass('d-none');
 
+		//Default values for tab fields as in
+		// multiple, full_Day, half_day
+		$('#btnId').val('halfBtn');
+		var btnId = 'halfBtn';
+		btnChange(btnId);
 		//hide date box
-		$('#end_date').addClass('d-none');
+		$('#endDate').addClass('d-none');
 		$('#checkday').removeClass('d-none');
-		halfDate();
 
 		$('#fullBtn').addClass('d-none');
 		$('#multiBtn').addClass('d-none');
@@ -437,6 +547,11 @@ function checkHalf(res){
 		$('#fullBtn').addClass('active');
 		$('#halfBtn, #multiBtn').removeClass('active');
 
+		//Default values for tab fields as in
+		// multiple, full_Day, half_day
+		 $('#btnId').val('fullBtn');
+		 var btnId = 'fullBtn';
+		btnChange(btnId);
 		$('#halfBtn').removeClass('d-none');
 		$('#fullBtn').removeClass('d-none');
 		$('#multiBtn').addClass('d-none');
@@ -444,11 +559,10 @@ function checkHalf(res){
 		
 		//Default fields
 		$('#checkday').addClass('d-none');
-		$('#end_date').addClass('d-none');
+		$('#endDate').addClass('d-none');
 
 		/***For fields***/
-		halfDate();
-		fullDate();
+	
 
 
 	}else if(res.max_apply_once > 1.0){
@@ -457,126 +571,112 @@ function checkHalf(res){
 		$('#multiBtn').addClass('active');
 		$('#halfBtn, #fullBtn').removeClass('active');
 
+		//Default values for tab fields as in
+		// multiple, full_Day, half_day
+		 $('#btnId').val('multiBtn');
+		 var btnId = 'multiBtn';
+		btnChange(btnId);
 		$('#halfBtn').removeClass('d-none');
 		$('#fullBtn').removeClass('d-none');
 		$('#multiBtn').removeClass('d-none');
-
-		multiDate();
-		fullDate();
-		halfDate();
 	}else {
+
+		//Default values for tab fields as in
+		// multiple, full_Day, half_day
+		 $('#btnId').val('multiBtn');
+		 var btnId = 'multiBtn';
+		
+		btnChange(btnId);
 		$('#halfBtn').removeClass('d-none');
 		$('#fullBtn').removeClass('d-none');
 		$('#multiBtn').removeClass('d-none');
-
-		multiDate();
-		fullDate();
-		halfDate();
 	}	
 }
 
-function checkOnce(res){
+
+
+ 
+function checkOnce(res){ //min apply one
 	if(res.max_apply_once == 1.0){
+
+		//Default values for tab fields as in
+		// multiple, full_Day, half_day
+		
+		var btnId = $('#btnId').val('multiBtn');
+		btnChange(btnId);
 		$('#halfBtn').addClass('d-none');
 		$('#fullBtn').removeClass('d-none');
 		$('#multiBtn').addClass('d-none');
-	}else if(res.max_apply_once > 1.0){
+	}/*else if(res.max_apply_once > 1.0){
+
+		//Default values for tab fields as in
+		// multiple, full_Day, half_day
+		$('#day').val('multiple');
 		$('#halfBtn').addClass('d-none');
 		$('#fullBtn').removeClass('d-none');
 		$('#multiBtn').removeClass('d-none');
-	}else {
+	}*/else {
+
+		//Default values for tab fields as in
+		// multiple, full_Day, half_day
+		var btnId = $('#btnId').val('multiBtn');
+		btnChange(btnId);
 		$('#halfBtn').addClass('d-none');
 		$('#fullBtn').removeClass('d-none');
 		$('#multiBtn').removeClass('d-none');
 	}	
 }
 
+function multiHolidays(){
 
-function multiDate(){
+	$('#end_date').on('change', function(){
+		var start = $('.start').val();
+		var end   = $('.end').val();
 
-	$('#multiBtn').on('click', function(){
+		// Check if End date is higher or not
 
-		//Add & remove active class
-		$('#multiBtn').addClass('active');
-		$('#halfBtn, #fullBtn').removeClass('active');
+		if( Date.parse(start) >= Date.parse(end) ){ 
 
-		$('#checkday').addClass('d-none');
-		$('#end_date').removeClass('d-none');
+			alert('End date should be greater.');
+			$('.end').val('');
+			$('#duration').val('');
+			$('#count').val('');
+			
+		}else{
 
+			var OneDay	= 1000 * 60 * 60 * 24;
+			var first	= new Date(start);
+          	var last	= new Date(end);
+          	
+ 			var difference_ms = Math.abs(first - last);
+			var count = Math.round(difference_ms/OneDay)+1;
+			
+			$('#duration').val(count);
+			$('#count').val(count);
+		}
 	});
 }
 
-function fullDate(){
 
-	$('#fullBtn').on('click', function(){
+function fullHoliday(){
 
-		//Add & remove active class
-		$('#fullBtn').addClass('active');
-		$('#halfBtn, #multiBtn').removeClass('active');
-
-		//Hide date & radio btns
-		$('#checkday').addClass('d-none');
-		$('#end_date').addClass('d-none');
-
-	});
+	$('#start_date').on('change', function(){
+		$('#duration').val(1);
+		$('#count').val(1);
+	})
 }
 
-function halfDate(){
-
-	$('#halfBtn').on('click', function(){
-
-		//Add & remove active class
-		$('#halfBtn').addClass('active');
-		$('#fullBtn, #multiBtn').removeClass('active');
-
-		//Hide date & radio btns
-		$('#checkday').removeClass('d-none');
-		$('#end_date').addClass('d-none');
-
-	});
+function halfDay(){
+	$('#start_date').on('change', function(){
+		$('#duration').val('Half day');
+		$('#count').val(1);
+	})
 }
+//$('#day').attr('name', 'full_day');
+//$('#day').attr('name', 'half_day');
 
-// function leaveValidation(leave_id){
-// 	alert('helo');
-// 	var re_data = '';
-// 	 re_data = $.ajax({
-// 			type:'get',
-// 			url: '/balance/',
-// 			data:{'leave_id': leave_id},
-// 			success: function(data){
-                  
-               
-//                  // console.log(re_data);
-//             }
- 	
-// 			// success:function(data){
-// 			// 	re_data = data	
+//function TypeOfDay(){}
 
-// 			// 	//alert(data.leave_bal)
-// 			// 	 if(data.min_apply_once >= 2){
-// 			// 	 	$('#checkday').attr('hidden', true);
-// 			// 		$('#full, #half').attr('hidden', true);
-// 			// 		$('#docs_error').text('')
-// 			// 		$('#end_date').show();
-// 			// 		$('#submit').removeAttr('disabled', false);
-// 			// 	 }
-
-				
-// 			// 	/*$('.duration').val('Half day');
-// 			// 	$('#count').val(data.days);
-// 			// 	$('#day').val(day);
-
-// 			// 	if(data.msg == 0 ){
-// 			// 		$(".duration_alert").hide();
-// 			// 	}else{
-// 			// 		$(".duration_alert").show();
-// 			// 		$('button').removeAttr('disabled');
-// 			// 	}*/
-// 			// }
-// 		});
-// 	// data = re_data;
-// 	 // console.log(re_data);
-// 	 return re_data;
-// }
+/***************Count days********************/
 </script>
 @endsection
