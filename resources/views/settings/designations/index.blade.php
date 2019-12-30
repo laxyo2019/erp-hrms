@@ -10,21 +10,19 @@
 						<a href="{{route('designations.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
 							<span class="fa fa-plus "></span> Add New</a>
 					</span>
-					
 				</h1>
 				<hr>
 			</div>
 		</div>
-		@if($message = Session::get('success'))
-			<div class="alert alert-success">
-				{{$message}}
-			</div>
-		@endif 
 		<div class="row ">
 			<div class="col-md-12 col-xl-12">
 				<div class="card shadow-xs">
-					
 					<div class="card-body table-responsive">
+						@if($message = Session::get('success'))
+						<div class="alert alert-success">
+							{{$message}}
+						</div>
+						@endif
 						<table class="table table-stripped table-bordered">
 							<thead>
 								<tr>
@@ -38,8 +36,8 @@
 								@foreach($designations as $designation)
 								<tr>
 									<td>{{$designation->id}}</td>
-									<td>{{$designation->desg_name}}</td>
-									<td>{{$designation->desg_desc}}</td>
+									<td>{{$designation->name}}</td>
+									<td>{{$designation->description}}</td>
 									<td class="d-flex">
 										<span>
 												<a href="{{route('designations.edit',$designation->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
@@ -61,6 +59,5 @@
 				</div>
 			</div>
 		</div>
-
 	</main>
 @endsection

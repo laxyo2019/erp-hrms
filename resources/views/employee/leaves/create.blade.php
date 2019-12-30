@@ -53,12 +53,9 @@
 					<input type="hidden" name="reports_to" value="{{!empty($reports_to) ?$reports_to->id : null}}">
 				</div>
 	    	</div>
-			
-
 	    	<div class="row" style="padding-top: 1%">
 				<div class="col-1 form-group  ml-2">
 					<button type="button" id="multiBtn" class="btn btn-primary active d-none" >Multiple</button>
-
 				</div>
 				<div class="col-1 form-group ml-2">
 					<button type="button" id="fullBtn" class="btn btn-primary d-none" >Full Day</button>
@@ -68,44 +65,44 @@
 				</div>
 	    	</div>
 	    	<input type="hidden" name="btnId" id="btnId" value="">
-
-
-
 	    	<div class="row">
 				<div class="col-4">
 					<label for="start_date">Start Date @error('start_date') <span style="color: red">| {{ $message }}</span> @enderror
 					</label>
-					<input type="text" class="form-control datepicker start" name="start_date" autocomplete="off" id="start_date" value="{{old('start_date')}}">
-					@error('start_date')
+					<input type="text" class="form-control 	datepicker start" name="start_date" autocomplete="off" id="start_date" value="{{old('start_date')}}">
+					{{-- @error('start_date')
 						<span>{{$message}}</span>
-					@enderror
+					@enderror --}}
 			    </div>
 				<div class="col-4">
 					<label class=""></label>
 					<span id="endDate">
 						<label for="end_date">End Date <span id="small-date" style="color: 'red"></span></label>
 						<input type="text" class="form-control datepicker end" name="end_date" autocomplete="off" id="end_date" value="{{old('end_date')}}">
+						@error('end_date')
+						<span>{{$message}}</span>
+					@enderror
 			      	</span>
 			      	<br><br>
 			      	<span id="checkday" class="d-none">
 				      	<label class="">
-						    <input type="radio" name="half_day" value="first_half" autocomplete="off" {{old('half_day') == 'first_half' ? 'checked' : 'checked'}}> First Half
+						    <input type="radio" name="day_status" value="0"  {{old('day_status') == '0' ? 'checked' : 'checked'}}> First Half
 						</label>
 						<label class="">
-						    <input type="radio"  name="half_day" value="second_half" autocomplete="off" {{old('half_day') == 'second_half' ? 'checked' : ''}}> Second Half
+						    <input type="radio"  name="day_status" value="1"  {{old('day_status') == '1' ? 'checked' : ''}}> Second Half
 						</label>
 					</span>
 				</div>
 				<div class="col-4 form-group">
 					<label for="duration">Duration ( In days )
-						@error('count')
+						@error('duration')
 				          	<span style="color: red">
 								| {{ $message }}
 							</span>
 				      	@enderror
 					</label>
-					<input type="text" class="form-control duration" name="duration" id="duration" disabled="" value="">
-					<input type="hidden" name="count" id="count" >
+					<input type="text" class="form-control" id="duration" name="duration" value="{{old('duration')}}" readonly="">
+
 					<span class="text-danger duration_alert" role="alert" style="display:none">
 		    			<strong> &nbsp;&nbsp;&nbsp; You don't have adequate leaves left.</strong>
 		    		</span>
@@ -124,12 +121,12 @@
 								| {{ $message }}
 							</span>
 				      	@enderror</label>
-					<textarea  class="form-control" id="reason" name="reason" value=""></textarea>
+					<textarea  class="form-control" id="reason" name="reason" >{{old('reason')}}</textarea>
 				</div>
 				<div class="col-5 form-group">
 					<label for="contact_no">Contact no</label>
 					<input type="text" id="contact_no" class="form-control" name="contact_no"
-					value="">
+					value="{{old('contact_no')}}">
 					@error('contact_no')
 			          <span class="text-danger" role="alert">
 			            <strong>* {{ $message }}</strong>
@@ -148,16 +145,16 @@
 					</label>
 					<input type="file"  class="form-control-file" name="file_path">
 					</div>
-				{{-- 	@error('file_path')
+				<!-- @error('file_path')
 			          <span class="text-danger" role="alert">
 			            <strong>* {{ $message }}</strong>
 			          </span>
-			      	@enderror --}}
+			      	@enderror -->
 				</div>
 
 				<div class="col-6 form-group">
 					<label for="applicant_remark">Applicant's Remark</label>
-					<textarea class="form-control" id="applicant_remark" name="applicant_remark" value=""></textarea>
+					<textarea class="form-control" id="applicant_remark" name="applicant_remark" value="">{{old('applicant_remark')}}</textarea>
 					@error('applicant_remark')
 			          <span class="text-danger" role="alert">
 			            <strong>* {{ $message }}</strong>
@@ -166,12 +163,12 @@
 				</div>
 				<div class="col-6 form-group">
 					<label for="address_leave">Address During Leave</label>
-					<textarea class="form-control" id="address_leave" name="address_leave"	value=""></textarea>
+					<textarea class="form-control" id="address_leave" name="address_leave">{{old('address_leave')}}</textarea>
 					<!-- @error('address_leave')
 			          <span class="text-danger" role="alert">
 			            <strong>* {{ $message }}</strong>
 			          </span>
-			      	@enderror  -->
+			      	@enderror -->
 				</div>
 				<div class="col-12 form-group text-center">
 					<button class="btn btn-info btn-sm m-2" id="submit" style="width: 30%">Save</button>
@@ -188,7 +185,8 @@ $(document).ready(function(){
 		format: "yyyy-mm-dd",
 		autoclose: true,
 		todayHighlight: true,
-		startDate: '-0m'
+		startDate: '-0m',
+		
 	});
 
 /************Old Code********/
@@ -369,18 +367,22 @@ $(document).ready(function(){
 
 /****************************/
 
+
+	    
+/*******New Code*******/
+
+
 var leave_id = "{{old('leave_type_id')}}";
 
 if(leave_id != ''){
-	leaveIDChange(leave_id);
-}
-	    
-	/*******New Code*******/
 
+	leaveIDChange(leave_id);
+
+}
 
 var btnId = "{{old('btnId')}}";
 
-if(btnId !=null){
+if(btnId !=''){
 	btnChange(btnId);
 }
 
@@ -408,14 +410,6 @@ function leaveIDChange(leave_id){
 			data:{'leave_id': leave_id},
 			success: function(res){
 
-				//Null all fields values when after selecting leave
-				$('#start_date').val('');
-				$('#end_date').val('');
-				
-				$('#duration').val('');
-				$('#count').val('');
-							
-
 				//Check for Half day
 				if(res.min_apply_once == 0.5){
 
@@ -432,57 +426,38 @@ function leaveIDChange(leave_id){
 					$('#halfBtn').addClass('d-none');
 					$('#fullBtn').addClass('d-none');
 					$('#multiBtn').removeClass('d-none');
-
-					//Default values for tab fields as in
-					// multiple, full_Day, half_day
-					$('#day').val('multiBtn');
-
-					$('#end_date').on('change', function(){
-						var start = $('#start_date').val();
-						/******/
-						var end = $('#end_date').val();
-						console.log([start, end]);
-					})
-
-				}else{
-
-					//Default values for tab fields as in
-					// multiple, full_Day, half_day
 					$('#btnId').val('multiBtn');
 					var btnId = 'multiBtn';
 					btnChange(btnId);
-					$('#halfBtn').addClass('d-none');
-					$('#fullBtn').addClass('d-none');
-					$('#multiBtn').removeClass('d-none');
+		
+
 				}
-
-				// multiHolidays();
-
-				//Upload documents required
 
 				if(res.docs_required != null){
 					$('#doc_element').removeClass('d-none');
 					
 				}else{
 					$('#doc_element').addClass('d-none');
-				}
-
-				
-				console.log(res);  
+				}console.log(res);  
             }
  		});
 	}	
 }
 
-
 function btnChange(btnId){
+	var leave_id = $('#leave_type').val();
+	var old_leave_id = "{{old('leave_type_id')}}"
+	if(old_leave_id == leave_id){
+		$('#start_date').val('{{old('start_date')}}');
+		$('#end_date').val('{{old('end_date')}}');
+		$('#duration').val('{{old('duration')}}');
+	}
+	else{
+		$('#start_date').val('');
+		$('#end_date').val('');
+		$('#duration').val('');
+	}
 
-	$('#start_date').val('{{old('start_date')}}');
-	$('#end_date').val('{{old('end_date')}}');
-	
-	$('#duration').val('');
-	$('#count').val('');
-	
 
 	if(btnId == 'multiBtn'){
 		$('#multiBtn').addClass('active');
@@ -491,6 +466,8 @@ function btnChange(btnId){
 		$('#btnId').val(btnId);
 		$('#endDate').removeClass('d-none');
 		$('#checkday').addClass('d-none');
+		//alert(56)
+		// multiHolidays();
 
 	}
 	else if(btnId == 'fullBtn'){
@@ -499,6 +476,7 @@ function btnChange(btnId){
 		$('#halfBtn, #multiBtn').removeClass('active');
 		$('#endDate').addClass('d-none');
 		$('#checkday').addClass('d-none');
+		// fullHoliday();
 
 	}else if(btnId == 'halfBtn'){
 		$('#btnId').val(btnId);
@@ -506,20 +484,9 @@ function btnChange(btnId){
 		$('#fullBtn, #multiBtn').removeClass('active');
 		$('#endDate').addClass('d-none');
 		$('#checkday').removeClass('d-none');
+		// halfDay();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function checkHalf(res){  //min apply half
@@ -592,9 +559,6 @@ function checkHalf(res){  //min apply half
 		$('#multiBtn').removeClass('d-none');
 	}	
 }
-
-
-
  
 function checkOnce(res){ //min apply one
 	if(res.max_apply_once == 1.0){
@@ -607,15 +571,7 @@ function checkOnce(res){ //min apply one
 		$('#halfBtn').addClass('d-none');
 		$('#fullBtn').removeClass('d-none');
 		$('#multiBtn').addClass('d-none');
-	}/*else if(res.max_apply_once > 1.0){
-
-		//Default values for tab fields as in
-		// multiple, full_Day, half_day
-		$('#day').val('multiple');
-		$('#halfBtn').addClass('d-none');
-		$('#fullBtn').removeClass('d-none');
-		$('#multiBtn').removeClass('d-none');
-	}*/else {
+	}else {
 
 		//Default values for tab fields as in
 		// multiple, full_Day, half_day
@@ -627,15 +583,15 @@ function checkOnce(res){ //min apply one
 	}	
 }
 
-function multiHolidays(){
 
-	$('#end_date').on('change', function(){
-		var start = $('.start').val();
-		var end   = $('.end').val();
 
-		// Check if End date is higher or not
-
-		if( Date.parse(start) >= Date.parse(end) ){ 
+	$('#end_date').on('change',function(){
+		var start = $('#start_date').val();
+		var end   = $('#end_date').val();
+		var btnId =$('#btnId').val();
+		
+		if(btnId == 'multiBtn'){
+			if( Date.parse(start) >= Date.parse(end) ){ 
 
 			alert('End date should be greater.');
 			$('.end').val('');
@@ -650,28 +606,32 @@ function multiHolidays(){
           	
  			var difference_ms = Math.abs(first - last);
 			var count = Math.round(difference_ms/OneDay)+1;
+			console.log(count)
+			if(count == 'NaN'){
+				$('#duration').val('');
+
+			}else{
+				$('#duration').val(count);
+
+			}
 			
-			$('#duration').val(count);
-			$('#count').val(count);
 		}
+		}
+		
 	});
-}
 
-
-function fullHoliday(){
 
 	$('#start_date').on('change', function(){
-		$('#duration').val(1);
-		$('#count').val(1);
-	})
-}
+		var btnId =$('#btnId').val();
+		if(btnId == 'fullBtn'){
+			$('#duration').val(1);
 
-function halfDay(){
-	$('#start_date').on('change', function(){
-		$('#duration').val('Half day');
-		$('#count').val(1);
+		}else if(btnId == 'halfBtn'){
+			$('#duration').val('Half Day');
+		}
+
 	})
-}
+
 //$('#day').attr('name', 'full_day');
 //$('#day').attr('name', 'half_day');
 

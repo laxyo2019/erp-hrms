@@ -26,7 +26,7 @@
 												<i class="fa fa-id-card-o"></i>	
 											</span>
 										</div>
-										<input type="text" name="title" class="form-control" value="{{old('title',$designation->desg_name)}}">
+										<input type="text" name="title" class="form-control" value="{{old('title',$designation->name)}}">
 									</div>
 									@error('title')
                     <span class="text-danger" role="alert">
@@ -65,7 +65,7 @@
 												<i class="fa fa-asterisk"></i>	
 											</span>
 										</div>
-										<textarea class="form-control" name="description" id="" cols="30" rows="5">{{old('description',$designation->desg_desc)}}</textarea>
+										<textarea class="form-control" name="description" id="" cols="30" rows="5">{{old('description',$designation->description)}}</textarea>
 									</div>
 									@error('description')
                     <span class="text-danger" role="alert">

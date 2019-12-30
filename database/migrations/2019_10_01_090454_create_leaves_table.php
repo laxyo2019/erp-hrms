@@ -13,13 +13,7 @@ class CreateLeavesTable extends Migration
      */
     public function up()
     {
-      Schema::create('leave_type_mast', function (Blueprint $table) {
-          $table->bigIncrements('id');
-          $table->string('name',100);
-          $table->text('description')->nullable();
-          $table->timestamps();
-          $table->softDeletes();
-      });
+      
 
       Schema::create('leave_mast', function (Blueprint $table) {
           $table->bigIncrements('id');
@@ -37,15 +31,7 @@ class CreateLeavesTable extends Migration
           $table->softDeletes();
       });
 
-      Schema::create('leave_period', function(Blueprint $table) {
-          $table->bigIncrements('id');
-          $table->string('name');
-          $table->string('start');
-          $table->string('end');
-          $table->timestamps();
-          $table->softDeletes();
-
-      });
+      
 
       Schema::create('emp_leave_applies', function (Blueprint $table) {
           $table->bigIncrements('id');
@@ -101,6 +87,32 @@ class CreateLeavesTable extends Migration
           $table->string('desc');
       });
 
+      
+
+      Schema::create('leave_approval_detail', function (Blueprint $table){
+          $table->bigIncrements('id');
+          $table->integer('leave_apply_id');
+          $table->integer('approver_id');
+          $table->string('actions');
+          $table->string('approver_remark');
+          $table->timestamps();
+          $table->softDeletes();
+      });
+
+      
+
+      /*
+
+      Schema::create('leave_period', function(Blueprint $table) {
+          $table->bigIncrements('id');
+          $table->string('name');
+          $table->string('start');
+          $table->string('end');
+          $table->timestamps();
+          $table->softDeletes();
+
+      });
+
       Schema::create('leave_approval_mast', function (Blueprint $table){
           $table->bigIncrements('id');
           $table->integer('act_id');
@@ -113,12 +125,10 @@ class CreateLeavesTable extends Migration
           $table->string('desc');
       });
 
-      Schema::create('leave_approval_detail', function (Blueprint $table){
+      Schema::create('approval_designation', function (Blueprint $table){
           $table->bigIncrements('id');
-          $table->integer('leave_apply_id');
-          $table->integer('approver_id');
-          $table->string('actions');
-          $table->string('approver_remark');
+          $table->string('desig_id');
+          $table->string('approval_id');
           $table->timestamps();
           $table->softDeletes();
       });
@@ -139,20 +149,21 @@ class CreateLeavesTable extends Migration
           $table->integer('ordering')
       });
 
-      Schema::create('approval_designation', function (Blueprint $table){
-          $table->bigIncrements('id');
-          $table->string('desig_id');
-          $table->string('approval_id');
-          $table->timestamps();
-          $table->softDeletes();
-      });
-
       Schema::create('permission_alias', function (Blueprint $table){
         $table->bigIncrements('id');
         $table->string('permission_id');
         $table->string('alias');
         $table->timestamps();
       })
+
+
+      Schema::create('leave_type_mast', function (Blueprint $table) {
+          $table->bigIncrements('id');
+          $table->string('name',100);
+          $table->text('description')->nullable();
+          $table->timestamps();
+          $table->softDeletes();
+      });*/
     }
     /**
      * Reverse the migrations.
@@ -161,18 +172,26 @@ class CreateLeavesTable extends Migration
      */
     public function down()
     {
-      Schema::dropIfExists('leave_type_mast');
+      
       Schema::dropIfExists('leave_mast');
       Schema::dropIfExists('emp_leave_applies');
       Schema::dropIfExists('emp_leave_allotment');
       Schema::dropIfExists('holidays');
       Schema::dropIfExists('activity');
-      Schema::dropIfExists('leave_approval_mast');
+      
       Schema::dropIfExists('approval_detail');
+      
+      
+
+
+      /*
+      Schema::dropIfExists('approval_designation');
+      Schema::dropIfExists('leave_approval_mast');
       Schema::dropIfExists('approval_actions_mast');
       Schema::dropIfExists('approval_setup_mast');
-      Schema::dropIfExists('approval_designation');
       Schema::dropIfExists('permission_alias');
+      Schema::dropIfExists('leave_type_mast');
 
+      */
     }
 }

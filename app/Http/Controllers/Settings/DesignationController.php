@@ -49,9 +49,9 @@ class DesignationController extends Controller
 	   			'description'	=> 'required',
 	   		]);
 				$designation  = new Designation;
-				$designation->desg_name = $data['title'];
-				$designation->comp_id =1;
-				$designation->desg_desc = $data['description'];
+				$designation->name = $data['title'];
+				$designation->account_code =1;
+				$designation->description = $data['description'];
 				$designation->save();
 
 	   		$designations = Designation::all();
@@ -78,7 +78,9 @@ class DesignationController extends Controller
     public function edit($id)
     {
         $designation = Designation::find($id);
-   			return view('settings.designations.edit',compact('designation'));
+
+        //return $designation;
+   		return view('settings.designations.edit',compact('designation'));
     }
 
     /**
@@ -94,8 +96,8 @@ class DesignationController extends Controller
 	   			'title'	=> 'required|string|max:100',
 	   		]);
          $designation = Designation::find($id);
-         $designation->desg_name = $data['title'];
-         $designation->desg_desc = $request->description;
+         $designation->name = $data['title'];
+         $designation->description = $request->description;
          $designation->save();
 	   		return redirect()->route('designations.index')->with('success','Designation Updated Successfully');
     }

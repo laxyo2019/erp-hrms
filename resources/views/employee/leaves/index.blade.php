@@ -73,7 +73,19 @@
 										{{!empty($leaveapply->from && $leaveapply->to) ? $date : $date2}}
 									</td>
 									<td>
-										{{ !empty($leaveapply->first_half || $leaveapply->second_half) ? 'Half day' : $leaveapply->count.' days'}}
+										{{-- {{ !empty($leaveapply->first_half || $leaveapply->second_half) ? 'Half day' : $leaveapply->count.' days'}} --}}
+										
+										@if($leaveapply->day_status == 0)
+											First half
+										@elseif($leaveapply->day_status == 1)
+											Second half
+										@elseif($leaveapply->day_status == 2)
+											1 Day
+										@elseif($leaveapply->day_status == 3)
+											{{$leaveapply->count}} days
+										@endif
+
+
 
 									</td>
 									<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>

@@ -17,12 +17,21 @@
 <div class="row card-body text-center">
 	<div class="col-6" >
 		<h4>Duration</h4>
-		<div>{{ !empty($leave_req->first_half || $leave_req->second_half) ? 'Half day' : $leave_req->count.' days'}}
+		<div>
+			@if($leave_req->day_status == 0)
+				First half
+			@elseif($leave_req->day_status == 1)
+				Second half
+			@elseif($leave_req->day_status == 2)
+				1 Day
+			@elseif($leave_req->day_status == 3)
+				{{$leave_req->count}} days
+			@endif
 		</div>
 	</div>
 	<div class="col-6" >
 		<h4>Status</h4>
-		<div>{{!empty($leave_req['approvalaction']->name) ? ucwords($leave_req['approvalaction']->name) : 'Pending' }}</div>
+		<div>{{!empty($leave_req['approvalaction']->name) ? ucwords($leave_req['approvalaction']->name).'d' : 'Pending' }}</div>
 	</div>
 </div>
 <div class="row card-body text-center">

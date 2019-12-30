@@ -18,12 +18,22 @@
 	<div class="col-6" >
 		<h4>Type</h4>
 		<div>{{ucwords($data['leavetype']->name)}}</div>
-		
 	</div>
 	<div class="col-6" >
 		<h4>Duration</h4>
 		<div>
-{{ !empty($data->first_half || $data->second_half) ? 'Half day' : $data->count.' days'}}
+			@if($data->day_status == 0)
+				First half
+			@elseif($data->day_status == 1)
+				Second half
+			@elseif($data->day_status == 2)
+				1 Day
+			@elseif($data->day_status == 3)
+				{{$data->count}} days
+			@endif
+{{-- 
+
+{{ !empty($data->first_half || $data->second_half) ? 'Half day' : $data->count.' days'}} --}}
 		</div>
 	</div>
 </div>

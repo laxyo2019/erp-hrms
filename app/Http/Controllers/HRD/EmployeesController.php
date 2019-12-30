@@ -54,6 +54,7 @@ class EmployeesController extends Controller
 			'contact.required' => 'The contact number field is required.',
 			'contact.max' => 'The contact number may not be greater than 10 digits.',
 		]);
+    
 		$employee = EmployeeMast::findOrfail($id);
 		$employee->emp_name = $vdata['name'];
 		$employee->email = $vdata['email'];

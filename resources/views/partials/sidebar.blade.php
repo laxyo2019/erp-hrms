@@ -9,7 +9,7 @@
   <ul class="app-menu">
     <li><a class="app-menu__item active" href="{{url('/')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
 
-    <li><a class="app-menu__item" href="{{route('information.index')}}"><i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Basic Information</span></a></li>
+    <li><a class="app-menu__item" href="{{route('information.index')}}"><i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Profile</span></a></li>
     {{-- <a class="app-menu__item" href="{{route('information.index')}}"><i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Basic Information</span></a> --}}
 
     @unlessrole('employee|team lead')
