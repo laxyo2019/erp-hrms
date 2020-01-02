@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LeaveAllotment extends Model
 {
-    use SoftDeletes;
+    //use SoftDeletes;
     
     protected $table = 'emp_leave_allotment';
 

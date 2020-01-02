@@ -72,28 +72,32 @@
 									<td>@if($employee->grade!=null) {{$employee->grade->name}} @endif</td>
 									<td>{{$employee->designation['desg_name']}}</td>
 									<td>
-										@if(empty($employee->leave_allotted))
-										<button class="btn btn-sm btn-info ml-2 modalAllot" data-id="{{$employee->id}}">
-						                	<span style="font-size: 12px">Allot</span>
-						                </button>
-						                <div class="modal fade" id="allotmentsModal" role="dialog">
-										     <div class="modal-dialog modal-lg" >
-										    	<div class="modal-content" >
-										        	<div class="modal-header">
-										        		<h4 class="modal-title">Leaves Allotments</h4>
-										        		<button type="button" class="close" data-dismiss="modal">&times;</button>
-										        	</div>
-										        	<div class="modal-body table-responsive" id="modalform">
-										        	</div>
-										        	{{-- <div class="modal-footer">
-										          		<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-										        	</div> --}}
-										        </div>
-										    </div>
-										</div>
-										@else
-											<span style="color: green">Allotted</span>
-										@endif
+		@if(empty($employee->leave_allotted))
+			<button class="btn btn-sm btn-info ml-2 modalAllot" data-id="{{$employee->id}}">
+	        	<span style="font-size: 12px">Allot</span>
+	        </button>
+			<div class="modal fade" id="allotmentsModal" role="dialog">
+				<div class="modal-dialog modal-lg" >
+					<div class="modal-content" >
+						<div class="modal-header">
+							<h4 class="modal-title">Leaves Allotments</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<div class="modal-body table-responsive" id="modalform">
+						</div>
+			        </div>
+			    </div>
+			</div>
+		@else
+<button class="btn btn-sm btn-danger ml-2">
+	<form action="{{route('hold.leave',$employee->id)}}" method="POST" id="holdLeave{{ $employee->id}}">
+		@csrf
+		
+		<a href="javascript:$('#holdLeave{{$employee->id}}').submit();" style="color: white" onclick="return confirm('Are you sure?')">Hold</i></a>			
+	</form>
+</button>
+
+		@endif
 									</td>
 									<td ><span class="btn btn-success active-enactive" id="{{$employee->id}}"> @if('{{$employee->active ==1}}') {{'Active'}}</span> </span> @else <span class=" btn btn-danger">{{'Inactive'}}@endif </td>
 									<td class='d-flex' style="border-bottom:none">

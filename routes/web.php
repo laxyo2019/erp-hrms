@@ -23,7 +23,11 @@ Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
 
 Route::resource('/leave-management/types', 'Leave\LeaveTypeController');
+
+//Leave Allotments
 Route::resource('/leave-management/allotments', 'Leave\AllotmentController');
+//Hold leaves or Reset
+Route::post('leave-management/hold/{id}', 'Leave\AllotmentController@hold')->name('hold.leave');
 Route::resource('/leave-management/holidays', 'Leave\HolidayController');
 
 /*
@@ -52,10 +56,11 @@ Route::get('/hrd/employees/view-details/{id}/{view}','HRD\EmployeesController@vi
 
 Route::post('/hrd/employees/save_session','HRD\EmployeesController@save_session')->name('employee.save_session');
 
-// Route::post('/hrd/employees/save_session','HRD\EmployeesController@save_session')->name('employee.save_session');
 Route::post('/hrd/employees/activeInactive','HRD\EmployeesController@activeInactive')->name('employee.active-inactive');
 
-// End created by Kishan...........
+
+
+//...................................//
 
 Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
 
@@ -64,13 +69,12 @@ Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
 
 Route::resource('/hrd/leaves', 'HRD\LeavesController');
 Route::resource('/hrd/rules', 'HRD\LeavesController');
-//Route::get('hrd/employee/leaves/{id}/{action}', 'HRD\LeavesController@leavepermission')->name('leave.details');
 
 //  Employee Leaves
 Route::get('emp_leave','Employee\LeavesController@emp_leave')->name('emp_leave');
 Route::post('emp_leave_store','Employee\LeavesController@store')->name('emp_leave_store');
 Route::get('employee/leaves/{id}/create', 'Employee\LeavesController@applyform')->name('apply.leave');
-
+Route::post('employee/holidaycheck', 'Employee\LeavesController@holidayCheck')->name('holiday.check');
 
 Route::get('/leave-show/{id}', 'Employee\LeavesController@showrequest')->name('show.leave');
 Route::get('leave-request/{id}/download', 'Employee\LeavesController@download')->name('request.document');

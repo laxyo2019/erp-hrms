@@ -73,7 +73,6 @@
 									@elseif($request->day_status == 3)
 										{{$request->count}} days
 									@endif						
-										{{-- {{$request->first_half && $request->second_half == null ? 'Half day' : $request->count.' days'}} --}}
 									</td>
 									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
 									<td class='d-flex' style="border-bottom:none">

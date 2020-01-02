@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Employees\EmployeeMast;
 use App\Models\Master\LeaveMast;
 use App\Models\Employees\LeaveAllotment;
+use App\Models\Employees\LeaveApply;
 
 class AllotmentController extends Controller
 {
@@ -117,5 +118,18 @@ class AllotmentController extends Controller
     	$employee->save();
 
     	return redirect()->route('allotments.index')->with('success', 'Record deleted successfully.');
+    }
+
+    //Hold employee leaves
+    public function hold( $id){
+
+    	
+    	LeaveAllotment::where('emp_id', $id)->delete();
+
+    	$employee = EmployeeMast::find($id);
+    	$employee->leave_allotted = null;
+    	$employee->save();
+
+    	return back()->with('success', 'Leave holded.');
     }
 }

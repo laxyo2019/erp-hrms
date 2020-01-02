@@ -33,8 +33,6 @@ class ApprovalsController extends Controller
         $activity   = ActivityMast::where('name', 'leave')->first();
         $department = DeptMast::where('deleted_at', null)->get();
 
-        //return $activity->id;
-
         return view('HRD.approvals.create',compact('activity', 'department'));
     }
 

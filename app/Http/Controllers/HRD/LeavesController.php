@@ -33,12 +33,32 @@ class LeavesController extends Controller
 
         return view('HRD.leaves.index', compact('leave_request', 'permissions'));
 	}
+
 	public function edit($id){
 
 	}
+
     public function store(Request $request){
 
-        //return $request->all();
+        $leaveApp  = LeaveApply::find($request->leave_request_id);
+        $allotment = LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
+                    ->where('emp_id', $leaveApp->emp_id)
+                    ->first();
+
+        $leave_generated_after = LeaveMast::find($leaveApp->leave_type_id)->generates_in;
+
+        //return ([$leave, $allotment]);
+        $today = date('Y-m-d');
+
+        $start = $leave->starts_dt;
+        $count = $leave->count;
+        $last_generated = $allotment->last_generated;
+        $leave_bal = $allotment->intial_bal;
+
+        if($leave){
+
+        }
+
         //Update Leave application status
 
         $leave  = LeaveApply::findOrFail($request->leave_request_id);

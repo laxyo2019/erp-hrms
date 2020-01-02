@@ -90,6 +90,9 @@ class LeavesController extends Controller
                               ->where('leave_mast_id', $leave->id)
                               ->first();
 
+      //Get holidays
+      $holidays = Holiday::all();
+
       // Check leave applied by user
 
       $user_applied_leaves = LeaveApply::where('emp_id', Auth::user()->emp_id)->get();
@@ -102,6 +105,8 @@ class LeavesController extends Controller
       $data['max_apply_year']   = $leave->max_apply_year;
       $data['carry_forward']    = $leave->carry_forward;
       $data['docs_required']    = $leave->docs_required;
+      $data['holidays']         = $holidays;
+      
 
       return $data;
 
@@ -167,11 +172,23 @@ class LeavesController extends Controller
       }*/
    /****/
    }
-    
+  
+   public function holidayCheck(Request $request){
+
+    $sandwichRule = Holiday::select('id', 'title', 'date')
+                      ->where('date', '>', $request->start)
+                      ->where('date', '<', $request->end )
+                      ->get();
+     
+    $check = count($sandwichRule);
+    return $check;
+   }
+
    public function store(Request $request)
    {
 
     //return $request->all();
+
      $data =  $request->validate([
          'leave_type_id' => 'required',
          'reports_to'    => 'required',
@@ -263,10 +280,9 @@ class LeavesController extends Controller
          ]);
       }
 
-
       if($btnId == 'multiBtn'){
 
-        $data['day_status'] = null;
+        $data['day_status'] = 3;
 
       }elseif($btnId == 'fullBtn'){
 
@@ -294,8 +310,10 @@ class LeavesController extends Controller
 
 
 
-      //return $data;
-      //return 'no error';
+    
+
+    //return $data;
+    //return 'no error';
       
 
     // return $leaveData;
@@ -339,6 +357,8 @@ class LeavesController extends Controller
     //       break;
     //   }
 
+
+
     //Uploading documents to hrmsupload directory
     if($request->hasFile('file_path')){
 
@@ -355,9 +375,6 @@ class LeavesController extends Controller
     $leaveapply->reports_to        = $request->reports_to;
     $leaveapply->leave_type_id     = $request->leave_type_id;
     $leaveapply->day_status        = $data['day_status'];
-    //$leaveapply->first_half      = $request->first_half;
-    //$leaveapply->second_half     = $request->second_half;
-    //$leaveapply->full_day        = $request->full_day;
     $leaveapply->from              = $request->start_date;
     $leaveapply->to                = $request->end_date;
     $leaveapply->count             = $request->duration;
@@ -372,11 +389,11 @@ class LeavesController extends Controller
     $leaveapply->save();
       
     //Deduct leave when employee apply for it & add if declined
-    $leave = LeaveAllotment::where([
+    /*$leave = LeaveAllotment::where([
                   ['emp_id', Auth::user()->emp_id],
                   ['leave_mast_id', $request->leave_type_id]])
                   ->limit(1)
-                  ->decrement('current_bal', $request->duration);
+                  ->decrement('current_bal', $request->duration);*/
 
 
     return redirect('employee/leaves')->with('success','Applied successfully');
@@ -471,10 +488,10 @@ class LeavesController extends Controller
         $leave_app->delete();
 
         /***Add leave balance to employee if leave application is deleted***/
-        LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
+        /*LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
                       ->where('emp_id', $leave_app->emp_id)
                       ->increment('current_bal', $leave_app->count);
-
+        */
         return back()->with('success', 'Record deleted successfully');
     }
 

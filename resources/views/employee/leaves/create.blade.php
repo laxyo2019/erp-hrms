@@ -79,9 +79,12 @@
 					<span id="endDate">
 						<label for="end_date">End Date <span id="small-date" style="color: 'red"></span></label>
 						<input type="text" class="form-control datepicker end" name="end_date" autocomplete="off" id="end_date" value="{{old('end_date')}}">
+						<span class="text-danger rule_alert" role="alert" style="display:none">
+		    				<strong> &nbsp;&nbsp;&nbsp; Your leaves falling into sandwich rule.</strong>
+		    			</span>
 						@error('end_date')
-						<span>{{$message}}</span>
-					@enderror
+							<span>{{$message}}</span>
+						@enderror
 			      	</span>
 			      	<br><br>
 			      	<span id="checkday" class="d-none">
@@ -107,9 +110,7 @@
 		    			<strong> &nbsp;&nbsp;&nbsp; You don't have adequate leaves left.</strong>
 		    		</span>
 		    		<div>
-		    		<span class="text-danger rule_alert" role="alert" style="display:none">
-		    			<strong> &nbsp;&nbsp;&nbsp; Your leaves falling into sandwich rule.</strong>
-		    		</span>
+		    		
 		    		</div>
 				</div>
 	    	</div>
@@ -409,7 +410,7 @@ function leaveIDChange(leave_id){
 			url: '/balance/',
 			data:{'leave_id': leave_id},
 			success: function(res){
-
+				
 				//Check for Half day
 				if(res.min_apply_once == 0.5){
 
@@ -438,10 +439,10 @@ function leaveIDChange(leave_id){
 					
 				}else{
 					$('#doc_element').addClass('d-none');
-				}console.log(res);  
+				}
             }
  		});
-	}	
+	}
 }
 
 function btnChange(btnId){
@@ -468,6 +469,8 @@ function btnChange(btnId){
 		$('#checkday').addClass('d-none');
 		//alert(56)
 		// multiHolidays();
+
+		//On changing date
 
 	}
 	else if(btnId == 'fullBtn'){
@@ -606,7 +609,25 @@ function checkOnce(res){ //min apply one
           	
  			var difference_ms = Math.abs(first - last);
 			var count = Math.round(difference_ms/OneDay)+1;
-			console.log(count)
+			//console.log(count)
+			$.ajax({
+				type:'POST',
+				url: "{{route('holiday.check')}}",
+				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				data: {'start': start, 'end': end},
+				success:function(res){
+					//alert(res)
+					if(res != 0 ){
+						$('.rule_alert').show();
+					}else{
+						$('.rule_alert').hide();
+					}
+					
+				}
+			})
+
+
+
 			if(count == 'NaN'){
 				$('#duration').val('');
 

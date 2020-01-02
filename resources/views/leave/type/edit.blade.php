@@ -31,15 +31,6 @@
 				      	@enderror
 					</div>
 					<div class="col-6 form-group">
-						<label for="leave_alias">Leave Alias</label>
-						<input type="text" id="leave_alias" class="form-control" name="leave_alias" value="{{$leave_type->alias}}">
-						@error('leave_alias')
-				          <span class="text-danger" role="alert">
-				            <strong>* {{ $message }}</strong>
-				          </span>
-				      	@enderror
-					</div>
-					<div class="col-6 form-group">
 						<label for="total_leaves">Total leaves</label>
 						<input type="text" class="form-control" name="total_leaves" autocomplete="off" id="total_leaves" value="{{$leave_type->count}}">
 						@error('total_leaves')
@@ -48,7 +39,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-6 form-group">
+					{{-- <div class="col-6 form-group">
 						<label for="generate_after">Generate after</label>
 						<input type="text" class="form-control" name="generate_after"
 						autocomplete="off" id="generate_after" value="{{$leave_type->generates_in}}">
@@ -57,7 +48,7 @@
 				            <strong>* {{ $message }}</strong>
 				          </span>
 				      	@enderror
-					</div>
+					</div> --}}
 					<div class="col-6 form-group">
 						<label for="min_apply_once">Can be applied min once</label>
 						<input type="text" class="form-control" name="min_apply_once"
