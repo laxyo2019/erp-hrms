@@ -22,5 +22,5 @@
 	<li class="nav-item">
 		<a class="nav-link documents" href="{{route('employee.view-details',['id'=>$employee->id,'view'=>'documents'])}}">Documents</a>
 	</li>
-	<li><a href="{{ URL('hrd/employees') }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a><br></li>
+	{{-- <li class="nav-item"><a href="{{ URL('hrd/employees') }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></li> --}}
 </ul>

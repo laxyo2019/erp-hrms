@@ -77,10 +77,14 @@
 									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
 									<td class='d-flex' style="border-bottom:none">
 									{{-- edit by kishan............ --}}
-									@foreach($permissions as $action)
+									
 										@if($request->status == null)
 											<span class="ml-2">
-	<form action="{{url('hrd/leaves')}}" method="POST" id="ression1">
+
+	<a href="{{url('approve_leave',$request->id)}}" class=" btn-sm btn-success approve">Approve</a>											
+	<a href="" class=" btn-sm btn-danger decline">Decline</a>											
+
+	{{-- <form action="{{url('hrd/leaves')}}" method="POST" id="ression1">
 		@csrf
 		<input type="hidden" name="leave_request_id" value="{{$request->id}}">
 		<input type="hidden" name="approval_action_id" value="{{$action->id}}">
@@ -88,18 +92,17 @@
 		@if($action->name == 'decline')
 			<button type="submit" class="btn btn-danger reason-decline" bootbox >{{$action->name}}</button>
 		@elseif($action->name == 'approve')
-			<button type="submit"  class="btn btn-success approved" id='approved'>{{$action->name}}</button>
+			<button type="submit"  class="btn btn-success approved1" id='approved'>{{$action->name}}</button>
 		<br><strong style="color:grey;" class="pending"> Pending</strong>
-	</form>
+	</form> --}}
 	</span>
-	@endif
+	{{-- @endif --}}
 	@else
 		<div class="col-sm-12">
 			<strong>{{ ucwords($request['approvalaction']->name) }}d </strong> <br>By <u>({{$request->approve_name->UserName->name}})</u>
 			@break
 		</div>
 	@endif
-									@endforeach
 									{{-- edd edit by kishan............ --}}
 								</tr>
 							 @endforeach
@@ -125,7 +128,7 @@ $(document).ready(function(){
 		}
 		
 	});
-	$("#approved").click(function(){
+	$(".approved1").click(function(){
 	    if (!confirm("Do you want to approve")){
 	      return false;
 	    }

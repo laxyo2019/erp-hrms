@@ -65,7 +65,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-6 form-group">
 						<label for="max_days_inmonth">Maximum days in a month</label>
 						<input type="text" class="form-control" name="max_days_inmonth" id="max_days_inmonth" value="{{old('max_days_inmonth')}}">
 						@error('max_days_inmonth')
@@ -74,7 +74,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-6 form-group">
 						<label for="max_apply_month">Maximum time can be appied in month</label>
 						<input type="text" class="form-control" name="max_apply_month" id="max_apply_month" value="{{old('max_apply_month')}}">
 						@error('max_apply_month')
@@ -83,7 +83,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-6 form-group">
 						<label for="max_apply_year">Can be applied max in year</label>
 						<input type="text" class="form-control" name="max_apply_year" id="max_apply_year" value="{{old('max_apply_year')}}">
 						@error('max_apply_year')

@@ -56,7 +56,6 @@
 							</thead>
 							<tbody>
 								@foreach($employee as $leaveapply)
-									{{-- @php dd($leaveapply['approve_name']) @endphp --}}
 								@endforeach
 							@php $count = 0;
 								if(!empty($employee['leaveapplies'])){
@@ -84,16 +83,13 @@
 										@elseif($leaveapply->day_status == 3)
 											{{$leaveapply->count}} days
 										@endif
-
-
-
 									</td>
 									<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>
 									<td>
 									@if($leaveapply->status =='17' )
 										<div >
 										 	<strong style="color: red;">
-										 		{{strtoupper('Declined')}}
+										 		DECLINE
 										 	</strong>
 										 </div>
 										 <div>

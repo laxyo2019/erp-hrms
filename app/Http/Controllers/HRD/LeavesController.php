@@ -38,26 +38,77 @@ class LeavesController extends Controller
 
 	}
 
-    public function store(Request $request){
 
-        $leaveApp  = LeaveApply::find($request->leave_request_id);
+    public function approve_leave($leave_id){
+        $leaveApp  = LeaveApply::find($leave_id);
+        $leave_mast = LeaveMast::find($leaveApp->leave_type_id);
+
+
         $allotment = LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
                     ->where('emp_id', $leaveApp->emp_id)
                     ->first();
+         //from Leave applies table
+        $from         = $leaveApp->from;
+        $count        = $leaveApp->count;
 
-        $leave_generated_after = LeaveMast::find($leaveApp->leave_type_id)->generates_in;
+        //from Leave allottment table
+        $generated_at = $allotment->generated_at;
+        $leave_bal    = $allotment->initial_bal;
 
-        //return ([$leave, $allotment]);
-        $today = date('Y-m-d');
+         if($count <= $leave_bal){
 
-        $start = $leave->starts_dt;
-        $count = $leave->count;
-        $last_generated = $allotment->last_generated;
-        $leave_bal = $allotment->intial_bal;
+            $paid_leave   = $count;
+            $unpaid_leave = 0;
+            // return "also available balnce";
 
-        if($leave){
+        }else{
 
+            $month = date('m',strtotime($from)) - date('m',strtotime($generated_at));
+            $leave_genrate = $leave_mast->total / 12 * $month ;
+         
+
+        if(date('Y-m-d', strtotime( "+".$month. " month", strtotime( $generated_at ) )) < $from ){
+
+               if($leaveApp->day_status == '3' || $leaveApp->day_status == '2'){
+                $after_gen_bal  = floor($leave_bal + $leave_genrate);
+                $unpaid_leave   =  $count - $after_gen_bal;             
+                $paid_leave     = $count - $unpaid_leave;
+                // return $    unpaid_leave;
+               }else{
+                   $paid_leave  = $count; 
+                   $unpaid_leave = 0;
+                } 
+
+       
+            }else{ 
+                $unpaid_leave = $count;
+                $paid_leave = 0;
+                // return "generated not";
+            }
         }
+
+        $data = [
+            'leave_apply_id' => $leave_id,
+            'emp_id'         => $leaveApp->emp_id,
+            'approver_id'    => Auth::user()->emp_id,
+            'paid_count'     => $paid_leave,
+            'unpaid_count'   => $unpaid_leave,
+            'approver_remark'=> null,
+            'actions'        => '16'
+        ];
+
+        LeaveApprovalDetail::create($data);
+
+        return $data;
+
+
+    }
+
+    public function store(Request $request){
+
+
+        // return $data;
+        
 
         //Update Leave application status
 

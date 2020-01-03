@@ -45,7 +45,7 @@ class AllotmentController extends Controller
 
     	if(count($exists) == 0){
 
-	    	$leave_type = LeaveMast::all(['id', 'count'])->toArray();
+	    	$leave_type = LeaveMast::all(['id', 'total'])->toArray();
 
 	    	//return $leave_type[0]['count'];
 
@@ -57,6 +57,7 @@ class AllotmentController extends Controller
 	    		$allotted->emp_id		= $request->emp_id;
 	    		$allotted->start 		= $request->start;
 	    		$allotted->end 			= $request->ends;
+	    		$allotted->initial_bal 	= $request->leave[$i];
 	    		$allotted->current_bal 	= $request->leave[$i];
 	    		$allotted->save();
 	    	}

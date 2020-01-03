@@ -9,5 +9,6 @@ class LeaveApprovalDetail extends Model
 {
     use SoftDeletes;
     protected $table = 'leave_approval_detail';
+    protected $guarded = [];
     
 }

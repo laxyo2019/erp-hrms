@@ -24,7 +24,7 @@
 			<div class="col-4 form-group">
 				<label for="leave_{{$index->id}}">{{ucwords($index->name)}} ( in days )</label>
 				<input type="text" class="form-control" name="leave[]"
-				autocomplete="off" id="leave_{{$index->id}}" value="{{$index->count}}">
+				autocomplete="off" id="leave_{{$index->id}}" value="0">
 				<input type="hidden" name="id[]" value="{{$index->id}}">
 
 				@error('leave_{{$user->leave_mast_id}}')

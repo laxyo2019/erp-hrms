@@ -68,6 +68,8 @@ Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
 
 
 Route::resource('/hrd/leaves', 'HRD\LeavesController');
+
+Route::get('/approve_leave/{leave_id}', 'HRD\LeavesController@approve_leave');
 Route::resource('/hrd/rules', 'HRD\LeavesController');
 
 //  Employee Leaves

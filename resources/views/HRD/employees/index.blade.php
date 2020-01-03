@@ -4,7 +4,7 @@
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 24px">Employees
-					<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+					{{-- <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a> --}}
 					<span class="ml-2">
 						<button class="btn btn-sm btn-info"  data-toggle="modal" data-target="#import-modal" style="font-size:13px" >
 							<form action="{{route('employees.import')}}" method="POST" enctype="multipart/form-data">

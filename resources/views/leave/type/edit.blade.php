@@ -32,7 +32,7 @@
 					</div>
 					<div class="col-6 form-group">
 						<label for="total_leaves">Total leaves</label>
-						<input type="text" class="form-control" name="total_leaves" autocomplete="off" id="total_leaves" value="{{$leave_type->count}}">
+						<input type="text" class="form-control" name="total_leaves" autocomplete="off" id="total_leaves" value="{{$leave_type->total}}">
 						@error('total_leaves')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
@@ -69,7 +69,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-6 form-group">
 						<label for="max_days_inmonth">Maximum days in a month</label>
 						<input type="text" class="form-control" name="max_days_inmonth"
 						autocomplete="off" id="max_days_inmonth" value="{{$leave_type->max_days_month}}">
@@ -79,7 +79,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-6 form-group">
 						<label for="max_apply_month">Can be applied max in month</label>
 						<input type="text" class="form-control" name="max_apply_month"
 						autocomplete="off" id="max_apply_month" value="{{$leave_type->max_apply_month}}">
@@ -89,7 +89,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-6 form-group">
 						<label for="max_apply_year">Can be applied max in year</label>
 						<input type="text" class="form-control" name="max_apply_year"
 						autocomplete="off" id="max_apply_year" value="{{$leave_type->max_apply_year}}">

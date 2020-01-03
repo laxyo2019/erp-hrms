@@ -41,7 +41,7 @@
 			      	@enderror
 				</div>
 				@foreach($employee as $user)
-					<div class="col-4 form-group">
+					<div class="col-6 form-group">
 						<label for="leave_{{$user->leave_mast_id}}">{{$user->leaves->name}} ( in days )</label>
 						<input type="text" class="form-control" name="leave[]"
 						autocomplete="off" id="leave_{{$user->leave_mast_id}}" value="{{$user->current_bal}}">
