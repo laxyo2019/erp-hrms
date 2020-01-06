@@ -25,7 +25,7 @@
 	</div>
 	<div class="col-6" >
 		<h4>Max days in month</h4>
-		<div>{{!empty($leave_type->max_days_month) ? $leave_type->maxdb_debug(debug)							ays_month : 'As Many as Available.'}}</div>
+		<div>{{!empty($leave_type->max_days_month) ? $leave_type->days_month : 'As Many as Available.'}}</div>
 	</div>
 </div>
 <div class="row card-body text-center">

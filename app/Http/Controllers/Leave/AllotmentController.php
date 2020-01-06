@@ -19,7 +19,7 @@ class AllotmentController extends Controller
 							}])->where('emp_mast.leave_allotted', '=', 1)
 							->whereNull('deleted_at')
 							->get();
-	
+
 		return view('leave.allotment.index', compact('allotments'));
 	}
 
@@ -40,32 +40,36 @@ class AllotmentController extends Controller
 
     public function store(Request $request){
 
-    	//return $request->leave[0];
+    	//return $request->all();
     	$exists = LeaveAllotment::where('emp_id', $request->emp_id)->get();
 
     	if(count($exists) == 0){
-
-	    	$leave_type = LeaveMast::all(['id', 'total'])->toArray();
-
-	    	//return $leave_type[0]['count'];
 
 	    	for($i=0; $i<count($request->leave); $i++){
 
 	    		$allotted = new LeaveAllotment;
 
-	    		$allotted->leave_mast_id= $request->id[$i];
+	    		$allotted->leave_mast_id= $request->leave[$i];
 	    		$allotted->emp_id		= $request->emp_id;
 	    		$allotted->start 		= $request->start;
 	    		$allotted->end 			= $request->ends;
-	    		$allotted->initial_bal 	= $request->leave[$i];
-	    		$allotted->current_bal 	= $request->leave[$i];
 	    		$allotted->save();
 	    	}
 
 	    	$employee = EmployeeMast::find( $request->emp_id);
 		    $employee->leave_allotted = 1;
 		    $employee->save();
-	    }
+	    }/*else{//If allotted but holded then change status on both table
+
+	    	LeaveAllotment::where('emp_id', $request->emp_id)
+
+    		->update(['status' => 1]);
+
+    		$employee = EmployeeMast::find( $request->emp_id);
+	    	$employee->leave_allotted = 1;
+	    	$employee->save();
+
+	    }*/
 
 	    return back()->with('success', 'Leave allotted successfully.');
     }
@@ -85,10 +89,10 @@ class AllotmentController extends Controller
 
     public function update(Request $request,$id){
 
+
     	$this->validate($request, [
 	    	'start'		=>	'required',
-	    	'ends'		=>	'required',
-	    	'leave.*'	=>	'required|numeric|between:0,99.99'
+	    	'ends'		=>	'required'
     	]);
 
 		$count	= count($request->id);
@@ -122,15 +126,19 @@ class AllotmentController extends Controller
     }
 
     //Hold employee leaves
-    public function hold( $id){
+    public function hold($id){
 
-    	
-    	LeaveAllotment::where('emp_id', $id)->delete();
-
-    	$employee = EmployeeMast::find($id);
-    	$employee->leave_allotted = null;
-    	$employee->save();
+    	LeaveAllotment::where('emp_id', $id)
+    		->update(['status' => 0]);
 
     	return back()->with('success', 'Leave holded.');
+    }
+
+    public function reallot($id){
+
+    	LeaveAllotment::where('emp_id', $id)
+    		->update(['status' => 1]);
+
+    	return back()->with('success', 'Leave Re-Allotted.');
     }
 }

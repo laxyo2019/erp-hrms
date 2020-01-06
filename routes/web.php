@@ -27,7 +27,8 @@ Route::resource('/leave-management/types', 'Leave\LeaveTypeController');
 //Leave Allotments
 Route::resource('/leave-management/allotments', 'Leave\AllotmentController');
 //Hold leaves or Reset
-Route::post('leave-management/hold/{id}', 'Leave\AllotmentController@hold')->name('hold.leave');
+Route::get('leave-management/hold/{id}', 'Leave\AllotmentController@hold')->name('hold.leave');
+Route::get('leave-management/reallot/{id}', 'Leave\AllotmentController@reallot')->name('reallot.leave');
 Route::resource('/leave-management/holidays', 'Leave\HolidayController');
 
 /*
@@ -69,7 +70,7 @@ Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
 
 Route::resource('/hrd/leaves', 'HRD\LeavesController');
 
-Route::get('/approve_leave/{leave_id}', 'HRD\LeavesController@approve_leave');
+Route::post('/approve_leave/{leave_id}', 'HRD\LeavesController@approve_leave');
 Route::resource('/hrd/rules', 'HRD\LeavesController');
 
 //  Employee Leaves

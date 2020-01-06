@@ -52,7 +52,6 @@
 									<th>ID <input type="checkbox" id="checkedall"></th>
 									<th>Employee Name </th>
 									<th>Employee Code</th>
-									<!-- <th>Company</th> -->
 									<th>Grade Code</th>
 									<th>Designation</th>
 									<th>Leaves</th>
@@ -72,7 +71,7 @@
 									<td>@if($employee->grade!=null) {{$employee->grade->name}} @endif</td>
 									<td>{{$employee->designation['desg_name']}}</td>
 									<td>
-		@if(empty($employee->leave_allotted))
+		@if($employee->leave_allotted == 0)
 			<button class="btn btn-sm btn-info ml-2 modalAllot" data-id="{{$employee->id}}">
 	        	<span style="font-size: 12px">Allot</span>
 	        </button>
@@ -89,14 +88,7 @@
 			    </div>
 			</div>
 		@else
-<button class="btn btn-sm btn-danger ml-2">
-	<form action="{{route('hold.leave',$employee->id)}}" method="POST" id="holdLeave{{ $employee->id}}">
-		@csrf
-		
-		<a href="javascript:$('#holdLeave{{$employee->id}}').submit();" style="color: white" onclick="return confirm('Are you sure?')">Hold</i></a>			
-	</form>
-</button>
-
+			Allotted
 		@endif
 									</td>
 									<td ><span class="btn btn-success active-enactive" id="{{$employee->id}}"> @if('{{$employee->active ==1}}') {{'Active'}}</span> </span> @else <span class=" btn btn-danger">{{'Inactive'}}@endif </td>

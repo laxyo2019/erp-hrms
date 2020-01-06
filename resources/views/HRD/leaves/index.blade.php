@@ -7,16 +7,17 @@
 				<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
 			</div>
 		</div>
-		@if($message = Session::get('success'))
+		
+		<div class="row mt-1 ">
+			<div class="col-md-12 col-xl-12">
+				<div class="card">
+					<div class="card-body table-responsive">
+						@if($message = Session::get('success'))
 			<div class="alert alert-success alert-block">
 				<button type="button" class="close" data-dismiss="alert" >×</button>
 				{{$message}}
 			</div>
 		@endif 
-		<div class="row mt-1 ">
-			<div class="col-md-12 col-xl-12">
-				<div class="card">
-					<div class="card-body table-responsive">
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
@@ -76,15 +77,27 @@
 									</td>
 									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
 									<td class='d-flex' style="border-bottom:none">
-									{{-- edit by kishan............ --}}
-									
-										@if($request->status == null)
-											<span class="ml-2">
-
-	<a href="{{url('approve_leave',$request->id)}}" class=" btn-sm btn-success approve">Approve</a>											
-	<a href="" class=" btn-sm btn-danger decline">Decline</a>											
-
-	{{-- <form action="{{url('hrd/leaves')}}" method="POST" id="ression1">
+							
+@if($request->approver_id == null)
+	<span class="ml-2">
+		@foreach($actions as $data)
+			<form action="{{url('approve_leave',$request->id)}}" method="POST" id="ression">
+			@csrf
+			<input type="hidden" name="leave_request" value="{{$request->id}}">
+			<input type="hidden" name="action_id" value="{{$data->id}}">
+			<button  class=" btn-sm btn-success approve">{{$data->name}}</button>
+			</form>
+		@endforeach		
+	
+	</span>
+@else
+		<div class="col-sm-12">
+			<strong>{{ ucwords($request['approvalaction']->name) }} </strong> <br>By <u>({{$request['approve_name']->emp_name}})</u>
+			
+			
+		</div>
+@endif
+{{-- <form action="{{url('hrd/leaves')}}" method="POST" id="ression1">
 		@csrf
 		<input type="hidden" name="leave_request_id" value="{{$request->id}}">
 		<input type="hidden" name="approval_action_id" value="{{$action->id}}">
@@ -95,15 +108,8 @@
 			<button type="submit"  class="btn btn-success approved1" id='approved'>{{$action->name}}</button>
 		<br><strong style="color:grey;" class="pending"> Pending</strong>
 	</form> --}}
-	</span>
-	{{-- @endif --}}
-	@else
-		<div class="col-sm-12">
-			<strong>{{ ucwords($request['approvalaction']->name) }}d </strong> <br>By <u>({{$request->approve_name->UserName->name}})</u>
-			@break
-		</div>
-	@endif
-									{{-- edd edit by kishan............ --}}
+{{--  --}}
+	
 								</tr>
 							 @endforeach
 							</tbody>
@@ -113,7 +119,6 @@
 			</div>
 		</div>
 	</main>
-{{-- Created by kishan developer............ --}}
 <script>
 $(document).ready(function(){
     $(".reason-decline").click(function(){

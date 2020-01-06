@@ -37,19 +37,21 @@ class LeavesController extends Controller
    {
 
       $emp        = EmployeeMast::find(Auth::user()->emp_id)
-                          ->first();
+                      ->first();
       $employee   = EmployeeMast::with(['leaveapplies','UserName','approve_name'])
-                          ->orderBy('created_at', 'DESC')
-                          ->where('id', Auth::user()->emp_id)
-                          ->latest()
-                          ->first();
+                      ->orderBy('created_at', 'DESC')
+                      ->where('id', Auth::user()->emp_id)
+                      ->latest()
+                      ->first();
 
       $balance    = EmployeeMast::with('allotments.leaves')
-                          ->where('id', Auth::user()->emp_id)
-                          ->latest()
-                          ->first();
+                      ->where('id', Auth::user()->emp_id)
+                      ->latest()
+                      ->first();
 
       $parent_id  = EmployeeMast::find(Auth::user()->emp_id)->parent_id;
+
+//      return $employee;
 
       return view('employee.leaves.index', compact('employee', 'balance'));
    }
@@ -72,11 +74,25 @@ class LeavesController extends Controller
        }else{
          $reports_to = null;
        }
-     $leave_type = LeaveMast::all();
-     return view('employee.leaves.create', compact('leave_type', 'reports_to'));
+
+
+      //Get all allotted Leaves of current employee.
+      $allotment = LeaveAllotment::where('emp_id', Auth::user()->emp_id)
+                ->get();
+
+      $leaves = [];
+
+      foreach($allotment as $data){
+
+        $leaves[] = LeaveMast::where('id', $data->leave_mast_id)
+                      ->first();
+      }
+
+      return view('employee.leaves.create', compact('leaves', 'reports_to'));
    }
 
    public function balance(Request $request){
+
 
       //Get leave type
 
@@ -90,6 +106,7 @@ class LeavesController extends Controller
                               ->where('leave_mast_id', $leave->id)
                               ->first();
 
+      //return $data['user_bal']->initial_bal;
       //Get holidays
       $holidays = Holiday::all();
 
@@ -186,10 +203,9 @@ class LeavesController extends Controller
 
    public function store(Request $request)
    {
-
     //return $request->all();
 
-     $data =  $request->validate([
+     $data = $request->validate([
          'leave_type_id' => 'required',
          'reports_to'    => 'required',
          'start_date'    => 'required',
@@ -207,32 +223,46 @@ class LeavesController extends Controller
       $leaveData = LeaveMast::where('id', $request->leave_type_id)
                   ->first();
 
+      //$without_pay =  LeaveMast::where('id', $request->leave_type_id)
+      //->first()->without_pay;
+
+    if($leaveData->without_pay == 1){
+
+      if($btnId == 'multiBtn'){
+
+         $endDate = $request->validate([
+            'end_date' => 'required',
+         ]);
+
+        $data['end_date'] = $endDate['end_date'];
+
+      }elseif($btnId == 'halfBtn'){
+
+         $dayStatus = $request->validate([
+            'day_status'  => 'required',
+         ]);
+          $data['day_status'] = $dayStatus['day_status'];
+      }
+    }
 
       //If min leave starts from half day
-      
+
       if($leaveData->min_apply_once == 0.5){
-        //return 2;
 
-         if($leaveData->max_apply_once == 0.5){
+        if($leaveData->max_apply_once == 0.5){
 
-          //return 3;
-            $dayStatus = $request->validate([
-                  'day_status'  => 'required',
+          $dayStatus = $request->validate([
+
+            'day_status'  => 'required',
             ]);
 
-            //return ([1, $request->day_status]);
-             $data['day_status'] = $dayStatus['day_status'];
-
-             //return $data['day_status'];
+            $data['day_status'] = $dayStatus['day_status'];
          }
 
          if($leaveData->max_apply_once > 1 || $leaveData->max_apply_once == null )
          {
-          //return $btnId;
-            if($btnId == 'multiBtn'){
 
-          //return 6;
-              //return ([2, $request->day_status]);
+            if($btnId == 'multiBtn'){
 
                $endDate =$request->validate([
                   'end_date' => 'required',
@@ -240,8 +270,6 @@ class LeavesController extends Controller
               $data['end_date'] = $endDate['end_date'];
 
             }elseif($btnId == 'halfBtn'){
-
-              //return ([3, $request->day_status]);
 
                $dayStatus = $request->validate([
                   'day_status'  => 'required',
@@ -309,7 +337,7 @@ class LeavesController extends Controller
       }
 
 
-
+      //return $request->all();
     
 
     //return $data;
@@ -366,8 +394,11 @@ class LeavesController extends Controller
       $file_ext = $request->file('file_path')->extension();
       $filename = $id.'_'.time().'_leaves.'.$file_ext;
       $path     = $request->file('file_path')->storeAs($dir, $filename);
+      
     }else{
+
       $path = null;
+
     }
 
     $leaveapply = new LeaveApply;

@@ -21,12 +21,18 @@
 	      	@enderror
 		</div>
 		@foreach($leaves as $index)
-			<div class="col-4 form-group">
-				<label for="leave_{{$index->id}}">{{ucwords($index->name)}} ( in days )</label>
-				<input type="text" class="form-control" name="leave[]"
+			<div class="col-3 form-group">
+				<label for="leave_{{$index->id}}">{{ucwords($index->name)}}</label>
+				<div class="toggle lg row col-12">
+    				<div class="form-check form-check-inline mr-0">
+						<label>
+							<input type="checkbox" name="leave[]" value="{{$index->id}}" ><span class="button-indecator"></span>
+						</label>
+					</div>
+    			</div>
+				{{-- <input type="text" class="form-control" name="leave[]"
 				autocomplete="off" id="leave_{{$index->id}}" value="0">
-				<input type="hidden" name="id[]" value="{{$index->id}}">
-
+				<input type="hidden" name="leave[{{$index->id}}]" value="{{$index->id}}"> --}}
 				@error('leave_{{$user->leave_mast_id}}')
 		          <span class="text-danger" role="alert">
 		            <strong>* {{ $message }}</strong>

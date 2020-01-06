@@ -26,12 +26,19 @@ class LeavesController extends Controller
 
         $user           = User::find(Auth::user()->id);
         $permissions    = $user->getAllPermissions();
+
+        $actions = ApprovalAction::all();
     	
         $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvalaction'])
                             ->orderBy('id', 'DESC')
                             ->get();
 
-        return view('HRD.leaves.index', compact('leave_request', 'permissions'));
+        //return EmployeeMast::find(Auth::user()->emp_id);
+        //return $leave_request[0];
+
+        //return $leave_request;
+
+        return view('HRD.leaves.index', compact('leave_request', 'permissions', 'actions'));
 	}
 
 	public function edit($id){
@@ -39,10 +46,16 @@ class LeavesController extends Controller
 	}
 
 
-    public function approve_leave($leave_id){
-        $leaveApp  = LeaveApply::find($leave_id);
-        $leave_mast = LeaveMast::find($leaveApp->leave_type_id);
+    public function approve_leave(Request $request, $leave_id){
 
+
+        //return $request->all();
+        $leaveApp  = LeaveApply::find($leave_id);
+        $leaveApp->approver_id = Auth::user()->emp_id;
+        $leaveApp->status = $request->action_id;
+        $leaveApp->save();
+
+        $leave_mast = LeaveMast::find($leaveApp->leave_type_id);
 
         $allotment = LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
                     ->where('emp_id', $leaveApp->emp_id)
@@ -94,28 +107,28 @@ class LeavesController extends Controller
             'paid_count'     => $paid_leave,
             'unpaid_count'   => $unpaid_leave,
             'approver_remark'=> null,
-            'actions'        => '16'
+            'actions'        => $request->action_id
         ];
 
         LeaveApprovalDetail::create($data);
 
-        return $data;
+        return back()->with('success', 'Status updated');
 
 
     }
 
     public function store(Request $request){
-
-
-        // return $data;
-        
-
+      
+        //return $request->all();
         //Update Leave application status
 
         $leave  = LeaveApply::findOrFail($request->leave_request_id);
         $leave->approver_id = Auth::id();
         $leave->status      = $request->approval_action_id;
         $leave->save();
+
+        //Leave without pay
+
 
         //Update user leave balance from allotment table if APPROVED
 

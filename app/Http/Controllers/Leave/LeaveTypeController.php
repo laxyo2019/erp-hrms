@@ -26,7 +26,6 @@ class LeaveTypeController extends Controller
     public function create(){
 
     	return view('leave.type.create');
-
     }
 
     public function store(Request $request){
@@ -34,20 +33,22 @@ class LeaveTypeController extends Controller
         $this->validate($request, 
         [
             'leave_name'        => 'required',
-            'total_leaves'      => 'required',
-            'min_apply_once'    => 'required|numeric|between:0,99.99',
+            'total_leaves'      => 'nullable|numeric|between:0,99.99',
+            'min_apply_once'    => 'nullable|numeric|between:0,99.99',
             'max_apply_once'    => 'nullable|numeric|between:0,99.99',
             'max_days_inmonth'  => 'nullable|numeric|between:0,99.99',
             'max_apply_month'   => 'nullable|numeric',
             'max_apply_year'    => 'nullable|numeric|between:0,99.99',
         ]);
 
-    	$carry = $request->carry;
+    	/*$carry = $request->carry;
 
     	if(empty($request->carry)){
     		$carry = 0;
             //return 1;
-    	}
+    	}else{
+            $carry = 1;
+        }*/
 
     	$leaves = new LeaveMast;
 
@@ -58,8 +59,8 @@ class LeaveTypeController extends Controller
     	$leaves->max_days_month		=	$request->max_days_inmonth;
     	$leaves->max_apply_month	=	$request->max_apply_month;
     	$leaves->max_apply_year		=	$request->max_apply_year;
-    	//$leave->carry_forward       =   $request->carry;
-        //$leave->docs_required       =   $request->docs_required;
+    	$leaves->carry_forward       =   $request->carry;
+        $leaves->docs_required       =   $request->docs_required;
     	$leaves->save();
 
     	return redirect()->route('types.index')->with('success', 'Updated record successfully.');
@@ -85,7 +86,7 @@ class LeaveTypeController extends Controller
         $this->validate($request, 
         [
             'leave_name'        => 'required',
-            'total_leaves'      => 'required|numeric|between:0,99.99',
+            'total_leaves'      => 'nullable|numeric|between:0,99.99',
             'min_apply_once'    => 'nullable|numeric|between:0,99.99',
             'max_apply_once'    => 'nullable|numeric|between:0,99.99|gte:min_apply_once',
             'max_days_inmonth'  => 'nullable|numeric|between:0,99.99',
@@ -94,7 +95,6 @@ class LeaveTypeController extends Controller
             'carry'             => 'nullable'
         ]);
 
-        //return 524;
         $leave = LeaveMast::findOrFail($id);
         $leave->name            =  $request->leave_name;
         $leave->total           =  $request->total_leaves;

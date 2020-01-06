@@ -100,7 +100,8 @@ class EmployeeMast extends Model
  	}
 
  	public function approve_name(){
-        return $this->belongsTo('App\user', 'reports_to','id');
+      return $this->belongsTo('App\Models\Employees\EmployeeMast', 'approver_id','id');
   }
+
     		
 }

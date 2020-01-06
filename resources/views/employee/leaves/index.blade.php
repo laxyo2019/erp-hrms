@@ -1,15 +1,17 @@
 @extends('layouts.master')
 @section('content')
-{{-- . /usr/bin/libreoffice --}}
 	<main class="app-content">
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 24px">Leaves
-					
-					<span class="ml-2">
-						<a href="{{url('employee/leaves/create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
-						<span class="fa fa-plus "></span> Apply for Leave</a>
-					</span>
+					@if(count($balance['allotments']) != 0)
+						@if($balance['allotments'][0]->status == 1)
+							<span class="ml-2">
+								<a href="{{url('employee/leaves/create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
+								<span class="fa fa-plus "></span> Apply for Leave</a>
+							</span>
+						@endif
+					@endif
 						<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></h1>
 
 					<div class="row d-flex justify-content-center ">
@@ -93,7 +95,12 @@
 										 	</strong>
 										 </div>
 										 <div>
-										 	<u>@if($leaveapply->approve_name){{'By'.' ' }}({{$leaveapply->approve_name->UserName->name}})
+						<u>@if(!empty($leaveapply->approve_name) )
+	{{'By'.' ' }}
+	({{$leaveapply['approve_name']->name}})
+
+	
+
 											</u>@endif
 										 </div>
 										 
@@ -115,7 +122,9 @@
 										 	</strong>
 										 </div>
 										 <div>
-										 	<u>@if($leaveapply->approve_name){{'By'.' ' }}({{$leaveapply->approve_name->UserName->name}})
+	<u>@if($leaveapply->approve_name){{'By'.' ' }}
+		{{-- ({{$leaveapply->approve_name->UserName->name}}) --}}
+		{{$leaveapply['approve_name']->emp_name}}
 											</u>@endif
 										 </div>
 										{{-- {{empty($leaveapply['approvalaction']->name) ? 'Decline'  : strtoupper($leaveapply['approvalaction']->name)}} --}}
@@ -163,6 +172,7 @@
 				</div>
 			</div>
 		</div>
+		<?php //dd($employee['leaveapplies'][1]['approve_name']->emp_name); ?>
 </main>
 
 <script type="text/javascript">

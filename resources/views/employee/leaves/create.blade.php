@@ -36,7 +36,7 @@
 						</label>
 						<select name="leave_type_id" id="leave_type" class="custom-select">
 							<option value="">Select</option>
-							@foreach($leave_type as $leave_types)
+							@foreach($leaves as $leave_types)
 								<option value="{{$leave_types->id}}" {{old('leave_type_id') == $leave_types->id ? 'selected' : ''}}>{{ucwords($leave_types->name)}}</option>
 							@endforeach
 						</select>
@@ -146,11 +146,11 @@
 					</label>
 					<input type="file"  class="form-control-file" name="file_path">
 					</div>
-				<!-- @error('file_path')
+				{{-- @error('file_path')
 			          <span class="text-danger" role="alert">
 			            <strong>* {{ $message }}</strong>
 			          </span>
-			      	@enderror -->
+			      	@enderror  --}}
 				</div>
 
 				<div class="col-6 form-group">
@@ -177,7 +177,13 @@
 				</div>
 			</div>
 		</form>
+
+		<div id="information">
+			
+		</div>
 	</div>
+
+	
 </main>
 <script>
 $(document).ready(function(){
@@ -368,8 +374,6 @@ $(document).ready(function(){
 
 /****************************/
 
-
-	    
 /*******New Code*******/
 
 
@@ -381,13 +385,15 @@ if(leave_id != ''){
 
 }
 
+
+
 var btnId = "{{old('btnId')}}";
 
 if(btnId !=''){
 	btnChange(btnId);
 }
 
-$('#multiBtn, #fullBtn,#halfBtn').on('click',function(e){
+$('#multiBtn, #fullBtn, #halfBtn').on('click',function(e){
 	e.preventDefault();
 	var btnId = $(this).attr('id');
 	btnChange(btnId);
@@ -430,9 +436,65 @@ function leaveIDChange(leave_id){
 					$('#btnId').val('multiBtn');
 					var btnId = 'multiBtn';
 					btnChange(btnId);
-		
 
+				}else{
+					checkHalf(res);
 				}
+
+				//console.log(res.user_bal.initial_bal)
+
+				if(btnId == 'multiBtn'){
+
+					$('#end_date').on('change', function(){
+						var duration = $('#duration').val();
+						if(duration > res.user_bal.initial_bal  ){
+							alert('You don\'t have enough leaves.');
+							$('#start_date').val('');
+							$('#end_date').val('');
+							$('#duration').val('');
+						}
+					});
+				} 
+
+				$('#multiBtn').on('click', function(){
+
+					$('#end_date').on('change', function(){
+						var duration = $('#duration').val();
+						if(duration > res.user_bal.initial_bal  ){
+							alert('You don\'t have enough leaves.');
+							$('#start_date').val('');
+							$('#end_date').val('');
+							$('#duration').val('');
+						}
+					});
+
+				});
+				$('#fullBtn').on('click', function(){
+
+					$('#start_date').on('change', function(){
+						var duration = $('#duration').val();
+						if(duration > res.user_bal.initial_bal  ){
+							alert('You don\'t have enough leaves.');
+							$('#start_date').val('');
+							$('#end_date').val('');
+							$('#duration').val('');
+						}
+					});
+					
+				});
+				$('#halfBtn').on('click', function(){
+
+					$('#start_date').on('change', function(){
+						var duration = $('#duration').val();
+						if(0.5 > res.user_bal.initial_bal  ){
+							alert('You don\'t have enough leaves.');
+							$('#start_date').val('');
+							$('#end_date').val('');
+							$('#duration').val('');
+						}
+					});
+					
+				});
 
 				if(res.docs_required != null){
 					$('#doc_element').removeClass('d-none');
@@ -467,7 +529,7 @@ function btnChange(btnId){
 		$('#btnId').val(btnId);
 		$('#endDate').removeClass('d-none');
 		$('#checkday').addClass('d-none');
-		//alert(56)
+		
 		// multiHolidays();
 
 		//On changing date
@@ -546,6 +608,8 @@ function checkHalf(res){  //min apply half
 		 $('#btnId').val('multiBtn');
 		 var btnId = 'multiBtn';
 		btnChange(btnId);
+
+
 		$('#halfBtn').removeClass('d-none');
 		$('#fullBtn').removeClass('d-none');
 		$('#multiBtn').removeClass('d-none');
@@ -640,6 +704,7 @@ function checkOnce(res){ //min apply one
 		}
 		
 	});
+
 
 
 	$('#start_date').on('change', function(){

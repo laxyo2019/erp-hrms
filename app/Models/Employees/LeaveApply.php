@@ -22,7 +22,7 @@ class LeaveApply extends Model
     }
 
     public function approvalaction(){
-        return $this->belongsTo('App\Models\Spatie\Permission', 'status');
+        return $this->belongsTo('App\Models\Master\ApprovalAction', 'status');
     }
     
     public function approve_name(){
