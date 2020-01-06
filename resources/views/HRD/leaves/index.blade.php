@@ -88,6 +88,7 @@
 			<input type="hidden" name="action_id" value="{{$data->id}}" id="action">
 			<button  class=" btn-sm btn-success approve">{{$data->name}}</button>
 			</form>
+		</span>
 		@endforeach
 
 	@else
