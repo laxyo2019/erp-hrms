@@ -79,14 +79,13 @@
 									<td class='d-flex' style="border-bottom:none">
 							
 	@if($request->approver_id == null)
-	
 		@foreach($actions as $data)
 		<span class="ml-2">
 			<form action="{{url('approve_leave',$request->id)}}" method="POST" id="ression">
 			@csrf
 			<input type="hidden" name="leave_request" value="{{$request->id}}">
-			<input type="hidden" name="action_id" value="{{$data->id}}" id="action">
-			<button  class=" btn-sm btn-success approve">{{$data->name}}</button>
+			<input type="hidden" name="action_id" value="{{$data->id}}" >
+			<button  class="btn-sm" id="{{$data->name}}">{{$data->name}}</button>
 			</form>
 		</span>
 		@endforeach
@@ -123,6 +122,8 @@
 <script>
 $(document).ready(function(){
 
+	('#')
+
     $(".reason-decline").click(function(){
 
   		var reason;
@@ -141,7 +142,21 @@ $(document).ready(function(){
 	    }
 	  });
   });
+
+
 </script>
+<style type="text/css">
+	#Approved
+	{
+		background: green;
+		color: white;
+	}
+	#Declined
+	{
+		background: #ff1414;
+		color: white;
+	}
+</style>
 {{-- End created by kishan developer............ --}}
 <script>	
 	$(document).ready(function(){
@@ -157,6 +172,8 @@ $(document).ready(function(){
 				}
 			})
 		})
+
+
 	});
 </script>
 
