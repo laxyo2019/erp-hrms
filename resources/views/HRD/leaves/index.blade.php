@@ -157,7 +157,7 @@ $(document).ready(function(){
 		color: white;
 	}
 </style>
-{{-- End created by kishan developer............ --}}
+
 <script>	
 	$(document).ready(function(){
 		$('.modalReq').on('click', function(e){
