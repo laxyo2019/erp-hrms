@@ -78,19 +78,19 @@
 									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
 									<td class='d-flex' style="border-bottom:none">
 							
-@if($request->approver_id == null)
-	<span class="ml-2">
+	@if($request->approver_id == null)
+	
 		@foreach($actions as $data)
+		<span class="ml-2">
 			<form action="{{url('approve_leave',$request->id)}}" method="POST" id="ression">
 			@csrf
 			<input type="hidden" name="leave_request" value="{{$request->id}}">
-			<input type="hidden" name="action_id" value="{{$data->id}}">
+			<input type="hidden" name="action_id" value="{{$data->id}}" id="action">
 			<button  class=" btn-sm btn-success approve">{{$data->name}}</button>
 			</form>
-		@endforeach		
-	
-	</span>
-@else
+		@endforeach
+
+	@else
 		<div class="col-sm-12">
 			<strong>{{ ucwords($request['approvalaction']->name) }} </strong> <br>By <u>({{$request['approve_name']->emp_name}})</u>
 			
@@ -121,6 +121,7 @@
 	</main>
 <script>
 $(document).ready(function(){
+
     $(".reason-decline").click(function(){
 
   		var reason;
