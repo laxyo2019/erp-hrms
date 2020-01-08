@@ -14,17 +14,18 @@
 				<hr>
 			</div>
 		</div>
-		@if($message = Session::get('success'))
-      <div class="alert alert-success alert-block">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        {{$message}}
-      </div>
-    @endif
+		
 			<div class="row">
       <div class="col-md-12 col-xl-12">
         <div class="card shadow-xs">
           
           <div class="card-body table-responsive">
+            @if($message = Session::get('success'))
+              <div class="alert alert-success alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{$message}}
+              </div>
+            @endif
             <table class="table table-striped table-hover">
               <thead>
                 <tr class="text-center">
@@ -38,18 +39,21 @@
               @foreach($roles as $index)
               <tr class="text-center">
                 <td>{{++$count}}</td>
-                <td>{{$index->name}}</td>
-                <td class="d-flex" >
-                  <span >
+                <td >{{$index->name}}</td>
+                <td >
+                  <div class="row">
+                    
+                  <div class="col" align="right">
                       <a href="{{route('roles.edit',$index->id)}}" class="btn btn-sm btn-info">Edit Permission</a>
-                  </span>
-                  <span class="ml-2">
+                  </div>
+                  <div  class="col" align="left">
                     <form  action="{{route('roles.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
                       @csrf
                       @method('DELETE')
                       <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
                       </form>
-                    </span>
+                    </div>
+                    </div>
                   </td>
               </tr>
               @endforeach

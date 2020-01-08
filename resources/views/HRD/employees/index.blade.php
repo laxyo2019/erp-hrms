@@ -55,7 +55,7 @@
 									<th>Grade Code</th>
 									<th>Designation</th>
 									<th>Leaves</th>
-									<th>Status</th>
+									{{-- <th>Status</th> --}}
 
 									<th>Action</th>
 								</tr>
@@ -71,35 +71,38 @@
 									<td>@if($employee->grade!=null) {{$employee->grade->name}} @endif</td>
 									<td>{{$employee->designation['desg_name']}}</td>
 									<td>
-		@if($employee->leave_allotted == 0)
-			<button class="btn btn-sm btn-info ml-2 modalAllot" data-id="{{$employee->id}}">
-	        	<span style="font-size: 12px">Allot</span>
-	        </button>
-			<div class="modal fade" id="allotmentsModal" role="dialog">
-				<div class="modal-dialog modal-lg" >
-					<div class="modal-content" >
-						<div class="modal-header">
-							<h4 class="modal-title">Leaves Allotments</h4>
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-						</div>
-						<div class="modal-body table-responsive" id="modalform">
-						</div>
-			        </div>
-			    </div>
-			</div>
-		@else
-			Allotted
-		@endif
+									@if($employee->leave_allotted == 0)
+										<button class="btn btn-sm btn-info ml-2 modalAllot" data-id="{{$employee->id}}">
+								        	<span style="font-size: 12px">Allot</span>
+								        </button>
+										<div class="modal fade" id="allotmentsModal" role="dialog">
+											<div class="modal-dialog modal-lg" >
+												<div class="modal-content" >
+													<div class="modal-header">
+														<h4 class="modal-title">Leaves Allotments</h4>
+														<button type="button" class="close" data-dismiss="modal">&times;</button>
+													</div>
+													<div class="modal-body table-responsive" id="modalform">
+													</div>
+										        </div>
+										    </div>
+										</div>
+									@else
+										Allotted
+									@endif
 									</td>
-									<td ><span class="btn btn-success active-enactive" id="{{$employee->id}}"> @if('{{$employee->active ==1}}') {{'Active'}}</span> </span> @else <span class=" btn btn-danger">{{'Inactive'}}@endif </td>
+									{{-- <td ><span class="btn btn-success active-enactive" id="{{$employee->id}}"> 
+										@if('{{$employee->active ==1}}') 
+									Active</span> </span> 
+										@else <span class=" btn btn-danger">
+											Inactive
+										@endif </td> --}}
 									<td class='d-flex' style="border-bottom:none">
 										<span>
 											<a href="{{route('employee.view-details',['id'=>$employee->id,'view'=>'personal'])}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>
 										</span>
 										<span class="ml-2">
-											{{-- Edit by kishan developer --}}
-											<a href="{{route('employee.show_page',['id'=>$employee->id,'tab'=>'personal'])}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
-											{{-- End edit by kishan developer --}}
+										<a href="{{route('employee.show_page',['id'=>$employee->id,'tab'=>'personal'])}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 										</span>
 										<span class="ml-2">
 											<form action="{{route('employees.destroy',$employee->id)}}" method="POST" id="delform_{{ $employee->id}}">
@@ -162,22 +165,8 @@ $(document).ready(function(){
     		}
     	})
 	});
-	/*for active inactive employee*/
-	// $(".active-enactive").click(function(){
-	// 	var id = $(this).val();
-	// 	alert(id);
-	// 	exit();
-	// 	id = '4';
-	// 	$.ajax({
- //    		type:'POST',
- //    		url:'{{route('employee.active-inactive')}}',
- //    		headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
- //    		data:{id:id},
- //    		success:function(data){
- //    			alert(data);
- //    		}
- //    	})
-	// });
+/***/
+	
 	
 /*select all employee using checkbox*/
 	var clicked = false;

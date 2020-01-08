@@ -19,7 +19,7 @@ class CreateEmployeeTables extends Migration
           $table->string('emp_code', 15)->nullable();
           $table->unsignedInteger('comp_id')->nullable();
           $table->unsignedInteger('dept_id')->nullable();
-          $table->unsignedInteger('desg_id');
+          $table->unsignedInteger('desg_id')->nullable();
           $table->unsignedInteger('grade_id')->nullable();
           $table->string('emp_name', 50);
           $table->string('emp_img', 200)->default('emp_default_image.png');
@@ -47,6 +47,7 @@ class CreateEmployeeTables extends Migration
           $table->date('join_dt')->nullable();
           $table->date('leave_dt')->nullable();
           $table->integer('active')->default(1);
+          $table->integer('leave_allotted')->nullable();
           $table->timestamps();
           $table->softDeletes();			
         });
@@ -56,8 +57,8 @@ class CreateEmployeeTables extends Migration
           $table->unsignedInteger('emp_id');
           $table->string('name', 100);
           $table->string('email', 100)->nullable();
-          $table->text('address');
-          $table->string('aadhar_no', 20);
+          $table->text('address')->nullable();
+          $table->string('aadhar_no', 20)->nullable();
           $table->string('contact', 20)->nullable();
           $table->text('addr')->nullable();
           $table->string('file_path',200)->nullable(); // aadhar
@@ -80,11 +81,11 @@ class CreateEmployeeTables extends Migration
         Schema::create('emp_bank_details', function (Blueprint $table) { //mul rows
           $table->increments('id');
           $table->unsignedInteger('emp_id');
-          $table->string('acc_holder', 50);
-          $table->string('acc_no', 50);
-          $table->string('bank_name', 50);
-          $table->string('ifsc', 50);
-          $table->string('branch_name', 50);
+          $table->string('acc_holder', 50)->nullable();
+          $table->string('acc_no', 50)->nullable();
+          $table->string('bank_name', 50)->nullable();
+          $table->string('ifsc', 50)->nullable();
+          $table->string('branch_name', 50)->nullable();
           $table->string('file_path',200)->nullable();
           $table->text('note')->nullbale();
           $table->boolean('is_primary')->default(0);
@@ -95,7 +96,7 @@ class CreateEmployeeTables extends Migration
         Schema::create('emp_academics', function (Blueprint $table) { //mul rows
           $table->increments('id');
           $table->unsignedInteger('emp_id');
-          $table->string('domain_of_study',90);
+          $table->string('domain_of_study',90)->nullable();
           $table->string('name_of_unversity', 90)->nullable();
           $table->string('completed_in_year', 4)->nullable();
           $table->string('grade_or_pct', 10)->nullable();
@@ -105,16 +106,6 @@ class CreateEmployeeTables extends Migration
           $table->softDeletes();
         });
 
-        Schema::create('emp_family', function (Blueprint $table) {
-          $table->increments('id');
-          $table->unsignedInteger('emp_id');
-          $table->string('relation',50);
-          $table->string('name',10);
-          $table->string('occ',50);
-          $table->string('contact',15);
-          $table->timestamps();
-          $table->softDeletes();
-        });
 
         Schema::create('emp_assets', function (Blueprint $table) {
           $table->increments('id');
@@ -151,12 +142,24 @@ class CreateEmployeeTables extends Migration
           $table->increments('id');
           $table->unsignedInteger('emp_id');
           $table->unsignedInteger('doc_type_id');
-          $table->text('file_path');
-          $table->string('remarks');
+          $table->text('file_path')->nullable();
+          $table->string('remarks')->nullable();
           $table->char('doc_status', 1);  //S (submitted), P (provided)
           $table->timestamps();
           $table->softDeletes();
         });
+
+
+        /*Schema::create('emp_family', function (Blueprint $table) {
+          $table->increments('id');
+          $table->unsignedInteger('emp_id');
+          $table->string('relation',50);
+          $table->string('name',10);
+          $table->string('occ',50);
+          $table->string('contact',15);
+          $table->timestamps();
+          $table->softDeletes();
+        });*/
 
     }
 
@@ -172,9 +175,10 @@ class CreateEmployeeTables extends Migration
       Schema::dropIfExists('emp_events');
       Schema::dropIfExists('emp_bank_details');
       Schema::dropIfExists('emp_academics');
-      Schema::dropIfExists('emp_family');
       Schema::dropIfExists('emp_assets');
       Schema::dropIfExists('emp_exp');
       Schema::dropIfExists('emp_docs');
+
+      //Schema::dropIfExists('emp_family');
     }
 }

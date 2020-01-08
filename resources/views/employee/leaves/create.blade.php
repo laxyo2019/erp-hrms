@@ -37,7 +37,7 @@
 						<select name="leave_type_id" id="leave_type" class="custom-select">
 							<option value="">Select</option>
 							@foreach($leaves as $leave_types)
-								<option value="{{$leave_types->id}}" {{old('leave_type_id') == $leave_types->id ? 'selected' : ''}}>{{ucwords($leave_types->name)}}</option>
+<option value="{{$leave_types->id}}" {{old('leave_type_id') == $leave_types->id ? 'selected' : ''}} >{{ucwords($leave_types->name)}}</option>
 							@endforeach
 						</select>
 					</div>

@@ -59,8 +59,8 @@ class LeaveTypeController extends Controller
     	$leaves->max_days_month		=	$request->max_days_inmonth;
     	$leaves->max_apply_month	=	$request->max_apply_month;
     	$leaves->max_apply_year		=	$request->max_apply_year;
-    	$leaves->carry_forward       =   $request->carry;
-        $leaves->docs_required       =   $request->docs_required;
+    	$leaves->carry_forward      =   $request->carry;
+        $leaves->docs_required      =   $request->docs_required;
     	$leaves->save();
 
     	return redirect()->route('types.index')->with('success', 'Updated record successfully.');
@@ -105,6 +105,8 @@ class LeaveTypeController extends Controller
         $leave->max_apply_year  =  $request->max_apply_year;
         $leave->carry_forward   =  $request->carry;
         $leave->docs_required   =  $request->docs_required;
+        $leave->without_pay     =  $request->without_pay;
+        $leave->dont_show       =  $request->dont_show;
         $leave->save();
 
     	return back()->with('success', 'Updated successfully.');

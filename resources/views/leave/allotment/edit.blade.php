@@ -17,7 +17,7 @@
 				{{$message}}
 			</div>
 		@endif
-		<div><h4>{{$name->emp_name}}</h4></div><hr>
+		<div><h4>{{ucwords($name->emp_name)}}</h4></div><hr>
 		<form action="{{route('allotments.update', $name->id)}}" method="POST" enctype="multipart/form-data">
 			@csrf
 			@method('PATCH')
@@ -42,7 +42,7 @@
 				</div>
 				@foreach($employee as $user)
 					<div class="col-6 form-group">
-						<label for="leave_{{$user->leave_mast_id}}">{{$user->leaves->name}} ( in days )</label>
+						<label for="leave_{{$user->leave_mast_id}}">{{ucwords($user->leaves->name)}} ( In days )</label>
 						<input type="text" class="form-control" name="leave[]"
 						autocomplete="off" id="leave_{{$user->leave_mast_id}}" value="{{$user->current_bal}}">
 						<input type="hidden" name="id[]" value="{{$user->leave_mast_id}}">

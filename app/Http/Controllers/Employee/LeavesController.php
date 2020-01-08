@@ -67,6 +67,7 @@ class LeavesController extends Controller
      //$desig = Designation::find(3)->approvals;
      $reports_id = EmployeeMast::find(Auth::user()->emp_id)->reports_to;
        if(!empty($reports_id)){
+
          //for logged in user's reports to
          $reports_to = EmployeeMast::where('id', $reports_id)
                    ->select('id', 'emp_name')
@@ -88,7 +89,11 @@ class LeavesController extends Controller
                       ->first();
       }
 
-      return view('employee.leaves.create', compact('leaves', 'reports_to'));
+      //return $allotment[0]->initial_bal;
+
+      //return LeaveAllotment::with('leaves')
+                //->get();
+      return view('employee.leaves.create', compact('leaves', 'reports_to', 'allotment'));
    }
 
    public function balance(Request $request){

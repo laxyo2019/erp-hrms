@@ -99,8 +99,6 @@
 				          </span>
 				      	@enderror
 					</div>
-				</div>
-				<div class="row">
 					<div class="col-4 form-group">
 						<div><h5>Can be carry forward</h5></div>
             			<div class="toggle lg row col-12">
@@ -111,6 +109,8 @@
 							</div>
             			</div>
 					</div>
+				</div>
+				<div class="row">
 					<div class="col-4 form-group">
 						<div><h5>Document required</h5></div>
             			<div class="toggle lg row col-12">
@@ -122,11 +122,21 @@
             			</div>
 					</div>
 					<div class="col-4 form-group">
-						<div><h5>Leave w/o Pay</h5></div>
+						<div><h5>Is it LWP?</h5></div>
             			<div class="toggle lg row col-12">
             				<div class="form-check form-check-inline mr-0">
 								<label>
-									<input type="checkbox" name="docs_required" value="1" {{!empty($leave_type->without_pay) ? 'checked' : ''}}><span class="button-indecator"></span>
+									<input type="checkbox" name="without_pay" value="1" {{!empty($leave_type->without_pay) ? 'checked' : ''}}><span class="button-indecator"></span>
+								</label>
+							</div>
+            			</div>
+					</div>
+					<div class="col-4 form-group">
+						<div><h5>Dont Show</h5></div>
+            			<div class="toggle lg row col-12">
+            				<div class="form-check form-check-inline mr-0">
+								<label>
+									<input type="checkbox" name="dont_show" value="1" {{!empty($leave_type->dont_show) ? 'checked' : ''}}><span class="button-indecator"></span>
 								</label>
 							</div>
             			</div>

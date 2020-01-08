@@ -148,7 +148,7 @@ $(document).ready(function(){
 <style type="text/css">
 	#Approved
 	{
-		background: green;
+		background: #0cac0c;;
 		color: white;
 	}
 	#Declined

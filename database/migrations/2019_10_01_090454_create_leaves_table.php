@@ -13,38 +13,47 @@ class CreateLeavesTable extends Migration
      */
     public function up()
     {
-      
-
-      Schema::create('leave_mast', function (Blueprint $table) {
+      Schema::create('approval_actions_mast', function (Blueprint $table){
           $table->bigIncrements('id');
-          $table->integer('leave_period_id');
-      		$table->string('name');
-      		$table->decimal('count',10,5);
-      		$table->integer('generates_in');  // (days count)
-					$table->decimal('max_apply_once',10,5);
-					$table->decimal('min_apply_once',10,5);
-					$table->decimal('max_days_month',10,5);
-					$table->integer('max_apply_month');  // (how many times, user can apply)
-					$table->integer('max_apply_year');
-					$table->boolean('carry_forward');
+          $table->string('name');
+          $table->text('description')->nullable();
           $table->timestamps();
           $table->softDeletes();
       });
 
-      
+      Schema::create('leave_mast', function (Blueprint $table) {
+          $table->bigIncrements('id');
+      		$table->string('name');
+      		$table->decimal('total',8,2)->nullable();
+      		$table->integer('generates_after')->nullable();  // (days count)
+					$table->decimal('max_apply_once',8,2)->nullable();
+					$table->decimal('min_apply_once',8,2)->nullable();
+					$table->decimal('max_days_month',8,2)->nullable();
+					$table->integer('max_apply_month')->nullable();// (how many times, user can apply)
+					$table->integer('max_apply_year')->nullable();
+					$table->boolean('carry_forward')->nullable();
+          $table->integer('docs_required')->nullable();
+          $table->integer('without_pay')->nullable();
+          $table->integer('dont_show')->nullable();
+          $table->timestamps();
+          $table->softDeletes();
+      });
 
       Schema::create('emp_leave_applies', function (Blueprint $table) {
           $table->bigIncrements('id');
           $table->integer('emp_id');
-          $table->integer('leave_type');
+          $table->integer('reports_to');
+          $table->integer('leave_type_id');
+          $table->char('day_status', 1)->nullable();
           $table->date('from');
-          $table->date('to');
-          $table->decimal('count',10,5);
-          $table->text('reason');
+          $table->date('to')->nullable();
+          $table->decimal('count',8,2);
+          $table->text('reason')->nullable();
           $table->string('file_path', 200)->nullable();
-          $table->text('addr_during_leave');
-          $table->string('contact_no',12);
-          $table->char('status',1)->nullable();
+          $table->text('addr_during_leave')->nullable();
+          $table->string('contact_no',12)->nullable();
+          $table->integer('approver_id')->nullable();
+          $table->char('status',20)->nullable();
           $table->text('applicant_remark')->nullable();
           $table->text('approver_remark')->nullable();
           $table->text('hr_remark')->nullable();
@@ -52,22 +61,16 @@ class CreateLeavesTable extends Migration
           $table->softDeletes();
       });
 
-
 			Schema::create('emp_leave_allotment', function (Blueprint $table) {
           $table->bigIncrements('id');
           $table->integer('leave_mast_id');
+          $table->integer('emp_id');
+          $table->integer('status')->default(1);
           $table->date('start');
           $table->date('end');
-      		$table->integer('emp_id');
-      		$table->integer('leave_type');
-      		$table->decimal('initial_bal',10,5);
-      		$table->decimal('current_bal',10,5);
-      		$table->integer('generates_in');  // (days count)
-					$table->decimal('max_apply_once',10,5);
-					$table->decimal('min_apply_once',10,5);
-					$table->decimal('max_days_month',10,5);
-					$table->integer('max_apply_month');  // (how many times, user can apply)
-					$table->integer('max_apply_year');
+          $table->decimal('initial_bal',8,2)->nullable();
+          $table->decimal('current_bal',8,2)->nullable();
+      		$table->integer('generated_at')->nullable();  // (days count)
           $table->timestamps();
           $table->softDeletes();
       });
@@ -76,32 +79,31 @@ class CreateLeavesTable extends Migration
           $table->bigIncrements('id');
           $table->string('title');
           $table->date('date');
-          $table->string('desc');
+          $table->string('desc')->nullable();
           $table->timestamps();
           $table->softDeletes();
       });
+
+      Schema::create('leave_approval_detail', function (Blueprint $table){
+          $table->bigIncrements('id');
+          $table->integer('leave_apply_id');
+          $table->integer('emp_id');
+          $table->integer('approver_id');
+          $table->string('actions');
+          $table->string('paid_count ')->nullable();
+          $table->string('unpaid_count ')->nullable();
+          $table->string('approver_remark')->nullable();
+          $table->timestamps();
+          $table->softDeletes();
+      });
+
+/*****
 
       Schema::create('activity', function (Blueprint $table){
           $table->bigIncrements('id');
           $table->string('title');
           $table->string('desc');
       });
-
-      
-
-      Schema::create('leave_approval_detail', function (Blueprint $table){
-          $table->bigIncrements('id');
-          $table->integer('leave_apply_id');
-          $table->integer('approver_id');
-          $table->string('actions');
-          $table->string('approver_remark');
-          $table->timestamps();
-          $table->softDeletes();
-      });
-
-      
-
-      /*
 
       Schema::create('leave_period', function(Blueprint $table) {
           $table->bigIncrements('id');
@@ -133,11 +135,7 @@ class CreateLeavesTable extends Migration
           $table->softDeletes();
       });
 
-      Schema::create('approval_actions_mast', function (Blueprint $table){
-          $table->bigIncrements('id');
-          $table->string('name');
-          $table->text('description');
-      });
+      
 
       Schema::create('approval_setup_mast', function (Blueprint $table){
           $table->bigIncrements('id');
@@ -163,7 +161,9 @@ class CreateLeavesTable extends Migration
           $table->text('description')->nullable();
           $table->timestamps();
           $table->softDeletes();
-      });*/
+      });
+******/
+
     }
     /**
      * Reverse the migrations.
@@ -173,25 +173,21 @@ class CreateLeavesTable extends Migration
     public function down()
     {
       
+      Schema::dropIfExists('approval_actions_mast');
       Schema::dropIfExists('leave_mast');
       Schema::dropIfExists('emp_leave_applies');
       Schema::dropIfExists('emp_leave_allotment');
       Schema::dropIfExists('holidays');
-      Schema::dropIfExists('activity');
-      
-      Schema::dropIfExists('approval_detail');
-      
-      
+      Schema::dropIfExists('leave_approval_detail');
 
 
-      /*
+/***
       Schema::dropIfExists('approval_designation');
       Schema::dropIfExists('leave_approval_mast');
-      Schema::dropIfExists('approval_actions_mast');
       Schema::dropIfExists('approval_setup_mast');
+      Schema::dropIfExists('activity'); 
       Schema::dropIfExists('permission_alias');
       Schema::dropIfExists('leave_type_mast');
-
-      */
+***/
     }
 }

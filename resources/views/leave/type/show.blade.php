@@ -11,7 +11,7 @@
 <div class="row card-body text-center">
 	<div class="col-6" >
 		<h4>Generates After</h4>
-		<div>{{$leave_type->generates_in}}</div>
+		<div>{{$leave_type->generates_after}}</div>
 	</div>
 	<div class="col-6" >
 		<h4>Can be applied min once</h4>

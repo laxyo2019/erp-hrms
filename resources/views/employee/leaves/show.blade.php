@@ -31,7 +31,7 @@
 	</div>
 	<div class="col-6" >
 		<h4>Status</h4>
-		<div>{{!empty($leave_req['approvalaction']->name) ? ucwords($leave_req['approvalaction']->name).'d' : 'Pending' }}</div>
+		<div>{{!empty($leave_req['approvalaction']->name) ? ucwords($leave_req['approvalaction']->name) : 'Pending' }}</div>
 	</div>
 </div>
 <div class="row card-body text-center">

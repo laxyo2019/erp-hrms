@@ -16,7 +16,9 @@
 
 					<div class="row d-flex justify-content-center ">
 						@php if(!empty($balance['allotments'])){ @endphp
-						@foreach($balance['allotments'] as $index)					
+						@foreach($balance['allotments'] as $index)	
+
+						@if(empty($index['leaves']->dont_show))				
 						<div class="col-sm-3">
 							<div class="column card-body">
 								<center>
@@ -30,6 +32,7 @@
 								</center>
 							</div>
 						</div>
+						@endif
 						@endforeach
 						 @php } @endphp
 						<div class="clearfix" style="margin-top:20px;margin-bottom:30px;"></div>
@@ -42,7 +45,6 @@
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
 					<div class="card-body table-responsive">
-						
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
@@ -111,14 +113,13 @@
 										 	</strong>
 										 </div>
 										 <div>
-										 	<u>@if($leaveapply->approve_name){{'By'.' ' }}	({{$leaveapply->approve_name->UserName->name}})
+				<u>@if($leaveapply->approve_name){{'By'.' ' }}	({{$leaveapply->approve_name->UserName->name}})
 											</u>@endif
 										 </div>
 									@elseif($leaveapply->status !='')
-										  
-										 <div >
-										 	<strong style="color: green;">
-										 		{{strtoupper('Approved')}}
+										 <div>
+											<strong style="color: green;">
+											APPROVED
 										 	</strong>
 										 </div>
 										 <div>

@@ -45,7 +45,7 @@
                                     <td>{{$index['allotments'][0]->end}}</td>
                                     <td>
                                       @foreach($index->allotments as $leave)
-                                        <div>{{$leave['leaves']->name}} <span style="float: right">{{$leave->current_bal}}</span></div>
+                                        <div>{{ucwords($leave['leaves']->name)}} <span style="float: right">{{$leave->current_bal}}</span></div>
                                         <hr>
                                       @endforeach
                                     </td>

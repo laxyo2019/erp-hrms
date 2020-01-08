@@ -33,11 +33,6 @@ class LeavesController extends Controller
                             ->orderBy('id', 'DESC')
                             ->get();
 
-        //return EmployeeMast::find(Auth::user()->emp_id);
-        //return $leave_request[0];
-
-        //return $leave_request;
-
         return view('HRD.leaves.index', compact('leave_request', 'permissions', 'actions'));
 	}
 
@@ -45,11 +40,8 @@ class LeavesController extends Controller
 
 	}
 
-
     public function approve_leave(Request $request, $leave_id){
 
-
-        //return $request->all();
         $leaveApp  = LeaveApply::find($leave_id);
         $leaveApp->approver_id = Auth::user()->emp_id;
         $leaveApp->status = $request->action_id;

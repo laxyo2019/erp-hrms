@@ -20,6 +20,7 @@ class AllotmentController extends Controller
 							->whereNull('deleted_at')
 							->get();
 
+		//return $allotments;
 		return view('leave.allotment.index', compact('allotments'));
 	}
 
@@ -59,6 +60,7 @@ class AllotmentController extends Controller
 	    	$employee = EmployeeMast::find( $request->emp_id);
 		    $employee->leave_allotted = 1;
 		    $employee->save();
+		    
 	    }/*else{//If allotted but holded then change status on both table
 
 	    	LeaveAllotment::where('emp_id', $request->emp_id)
