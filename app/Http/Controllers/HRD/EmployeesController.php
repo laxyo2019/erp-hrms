@@ -54,7 +54,7 @@ class EmployeesController extends Controller
 	  $vdata = request()->validate([
 			'name' => 'required|max:50',
 			'email' => 'required|email|max:50',
-			'contact' => 'required|max:10',
+			'contact' => 'required|max:10|numeric',
 		],[
 			'contact.required' => 'The contact number field is required.',
 			'contact.max' => 'The contact number may not be greater than 10 digits.',
@@ -194,8 +194,8 @@ class EmployeesController extends Controller
   public function save_personal(Request $request,$id){
 	  $vdata = request()->validate([
 			'full_name'      => 'required|max:45',
-			'contact_number' => 'nullable',
-			'alternate_contact_number' => 'nullable',
+			'contact_number' => 'nullable|numeric',
+			'alternate_contact_number' => 'nullable|numeric',
 			'email'          => 'nullable|email|max:50',
 			'alternate_email'=> 'nullable|email|max:50',
 		]);
@@ -282,7 +282,7 @@ class EmployeesController extends Controller
     $document->doc_type_id  = $vdata['doc_title'];
     $document->file_path    = $path;
     $document->doc_status   = $vdata['doc_status'];
-    $document->remark       = $request->remarks;
+    $document->remarks       = $request->remarks;
     $document->date         = date('Y-m-d', time());
     $document->save();
     return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'documents'])->with('success', 'Updated successfully.');
@@ -439,7 +439,7 @@ public function viewDetails($id, $view)
         'nominee_name'  => 'required',
         'email'         => 'nullable|email',
         'aadhaar_no'    => 'required|max:20',
-        'contact'       => 'nullable|string',
+        'contact'       => 'nullable|numeric',
         'relation'      => 'nullable',
       ]);
 

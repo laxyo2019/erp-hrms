@@ -16,7 +16,7 @@
 			<form action="{{ route('employees.nominee', ['id' => $employee->id]) }}" method="POST" enctype="multipart/form-data">
 				@csrf
 				<div class="row">
-					<div class="col-4 form-group">
+					<div class="col-6 form-group">
 						<label for="">Nominee's Name</label>
 						<input type="text" class="form-control" name="nominee_name" value="{{old('nominee_name')}}">
 						@error('nominee_name')
@@ -25,7 +25,7 @@
 		          </span>
 		      	@enderror
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-6 form-group">
 						<label for="">Nominee's Email</label>
 						<input type="email" class="form-control" name="email" value="{{ old('email') }}">
 						@error('email')
@@ -34,7 +34,7 @@
 		          </span>
 		      	@enderror
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-6 form-group">
 						<label for="">Nominee's Aadhaar no.</label>
 						<input type="text" class="form-control" name="aadhaar_no" value="{{ old('aadhaar_no') }}">
 						@error('aadhaar_no')
@@ -43,7 +43,7 @@
 		          </span>
 		      	@enderror
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-6 form-group">
 						<label for="">Nominee's Contact</label>
 						<input type="text" class="form-control contact" name="contact" value="{{ old('contact')}}">
 						@error('contact')
@@ -52,7 +52,7 @@
 		          </span>
 		      	@enderror
 					</div>
-						<div class="col-4">
+						<div class="col-6">
 						<div class="form-group">
 							<label for="">Nominee's Relation</label>
 							<input type="text" class="form-control" name="relation" value="{{ old('relation') }}">
@@ -63,9 +63,9 @@
 			      	@enderror
 						</div>
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-6 form-group">
 						<label for="file_path">Upload Documents</label>
-    					<input type="file" name="file_path" class="form-group-file" id="file_path" value="{{ old('file_path')}}">
+    					<input type="file" name="file_path" class="form-control-file" id="file_path" value="{{ old('file_path')}}">
 					</div>
 					</div>
 					<div class="col-12 form-group ">
@@ -89,9 +89,9 @@
 						<th>Nominee's Aadhaar No.</th>
 						<th>Nominee's Contact</th>
 						<th>Nominee's Relation</th>
-						@can('download documents')
+						{{-- @can('download documents') --}}
 							<th>Nominee's Document</th>
-						@endcan
+						{{-- @endcan --}}
 						<th>Nominee's Address</th>
 						<th class="text-center">Actions</th>
 					</tr>
@@ -105,9 +105,9 @@
 						<td>{{$nominees->aadhar_no}}</td>
 						<td>{{$nominees->contact}}</td>
 						<td>{{$nominees->relation}}</td>
-						@can('download documents')
+						{{-- @can('download documents') --}}
 							<td><a href="{{route('employees.download', ['db_table' => 'emp_nominee', $nominees->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
-						@endcan
+						{{-- @endcan --}}
 						<td>{{$nominees->addr}}</td>
 						<td>
 						<form action="{{ route('employee.delete_row', ['db_table' => 'emp_nominee' ,$nominees->id]) }}" method="GET" id="delform_{{ $nominees->id }}">

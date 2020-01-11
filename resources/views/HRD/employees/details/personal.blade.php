@@ -84,7 +84,7 @@
 						<div class="col-6 form-group">
 							<div class="col-4">
 							<label for="">Blood Group</label>
-							<select name="blood_group" class="form-control">
+							<select name="blood_group" class="custom-select form-control">
 									@foreach($blood_groups as $row)
 										<option value="{{$row}}" {{old('blood_group',$employee->blood_grp) == $row ? 'selected' : ''}} >
 											{{ $row }}

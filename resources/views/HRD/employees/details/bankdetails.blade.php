@@ -97,31 +97,32 @@
 						<th>IFSC Code</th>
 						<th>Branch</th>
 						<th>Primary</th>
-						@can('download documents')
+						{{-- @can('download documents') --}}
 							<th>Attachment</th>
-						@endcan
+						{{-- @endcan --}}
 						<th>Note</th>
 						<th class="text-center">Actions</th>
 					</tr>
 				</thead>
 				<tbody id="experiencesTbody">
+					@php $count = 1; @endphp
 					@foreach($employee->bankdetails as $bank_details)
 				<tr>
-					<td>{{ $bank_details->id }}</td>
+					<td>{{ $count++ }}</td>
 					<td>{{ $bank_details->acc_holder }}</td>
 					<td>{{ $bank_details->acc_no }}</td>
 					<td>{{ $bank_details->bank_name }}</td>
 					<td>{{ $bank_details->ifsc }}</td>
 					<td>{{ $bank_details->branch_name }}</td>
 					<td>{{ $bank_details->is_primary }}</td>
-					@can('download documents')
+					{{-- @can('download documents') --}}
 						<td>@if(!empty($bank_details->file_path))
 							<a href="{{ route('employees.download', ['db_table'=>'emp_bank_details', $bank_details->id]) }}" ><i class="fa fa-arrow-down"></i>download</a>
 							@else
 								Not uploaded
 							@endif
 						</td>
-					@endcan
+					{{-- @endcan --}}
 					<td>{{ $bank_details->note }}</td>
 					<td>
 			<form action="{{ route('employee.delete_row', ['db_table' => 'emp_bank_details', $bank_details->id]) }}" method="GET" id="delform_{{$bank_details->id}}">

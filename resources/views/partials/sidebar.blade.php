@@ -2,8 +2,8 @@
 <aside class="app-sidebar">
   <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image">
     <div>
-      <p class="app-sidebar__user-name">{{ ucwords(auth()->user()->name) }}</p>
-      <p class="app-sidebar__user-designation">Admin Access</p>
+      <h4 class=""><span style="margin-right: 10px">{{ ucwords(auth()->user()->name) }}</span></h4>
+      {{-- <p class="app-sidebar__user-designation">Admin Access</p> --}}
     </div>
   </div>
   <ul class="app-menu">
@@ -46,9 +46,11 @@
         @endrole
           {{-- <li class={{call_user_func_array('Request::is', (array)['hrd/approvals*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('approvals.index')}}"><i class="icon fa fa-angle-double-right"></i>Approvals</a></li> --}}
           
-          <li class={{call_user_func_array('Request::is', (array)['hrd/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('leaves.index')}}"><i class="icon fa fa-angle-double-right"></i>Leaves Request</a></li>
+          {{-- <li class={{call_user_func_array('Request::is', (array)['hrd/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('leaves.index')}}"><i class="icon fa fa-angle-double-right"></i>Leaves Request</a></li>
+
+           --}}
           @unlessrole('team lead')
-        <li  id="nav" class="treeview{{call_user_func_array('Request::is', (array)['hrd*','leave*','types*','allotments*','holidays*']) ? 'is-expanded' : 'active_subtab'}}"><a class="treeview-item" href="#"><i class="icon fa fa-angle-double-right"></i>Leaves Management</a>
+       {{--  <li  id="nav" class="treeview{{call_user_func_array('Request::is', (array)['hrd*','leave*','types*','allotments*','holidays*']) ? 'is-expanded' : 'active_subtab'}}"><a class="treeview-item" href="#"><i class="icon fa fa-angle-double-right"></i>Leaves Management</a>
         </li>
         <ul id="togal" style="display: none;">
           <li class={{call_user_func_array('Request::is', (array)['leave-management/type*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('types.index')}}"></i> Leave Type</a>
@@ -60,7 +62,7 @@
           <li class={{call_user_func_array('Request::is', (array)['leave-management/apptoval-actions*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('approval-action.index')}}"></i>Approval Actions</a>
             </li>
 
-        </ul>
+        </ul> --}}
         @endrole
           {{-- <li class={{call_user_func_array('Request::is', (array)['hrd/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('rules.index')}}"><i class="icon fa fa-angle-double-right"></i>Leaves Rules</a></li> --}}
       </ul>
@@ -119,6 +121,7 @@
 
     {{-- User's role & permissions --}}
     
+    @role('admin')
     <li class="treeview {{call_user_func_array('Request::is', (array)['acl*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-shopping-cart "></i><span class="app-menu__label">ACL</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
         <li class={{call_user_func_array('Request::is', (array)['acl/permissions*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('permissions.index')}}"><i class="icon fa fa-angle-double-right"></i>Permissions</a></li>
@@ -129,7 +132,7 @@
           <li class="{{call_user_func_array('Request::is', (array)['expenses/tours*']) ? 'active_subtab' : ''}}"><a class="treeview-item" href="{{route('tours.index')}}"><i class="icon fa fa-angle-double-right"></i> Tours</a></li> --}}
       </ul>
     </li>
-    
+      @endrole
     @endrole
   </ul>
 </aside>

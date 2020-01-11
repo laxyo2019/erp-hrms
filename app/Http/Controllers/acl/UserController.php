@@ -16,8 +16,9 @@ use App\Models\Employees\EmployeeMast;
 class UserController extends Controller
 {
     public function index(){
+
     	$users = User::all();
-        //return $users;
+
     	return view('acl.users.index', compact('users'));
     }
 
@@ -31,19 +32,19 @@ class UserController extends Controller
 
     	$user = User::find( $request->id);
 
-/********Add user as an employee if not exists*******/
+/******Add user as an employee if not exists*****/
         if(empty($user->emp_id)){
             $employee = EmployeeMast::create([
                         'emp_name' => $user->name,
                         'email'    => $user->email ]);
 
-/****After creating employee take id and update users's emp_id*********/
+/*After creating employee take id and update users's emp_id***/
             $user->emp_id = $employee->id;
             $user->save();
 
         }
 
-    	return 'User added as an Employee.';
+    	return 'User added as an employee';
     }
 
     public function edit( $id){
@@ -68,7 +69,7 @@ class UserController extends Controller
             $permissions_given[] = $data->id;
         }
 
-    	/*
+    /*
     	return ([$user, $role, $roles]);
     	return $role['pivot']->role_id;
         $role   = $user->roles()->first();
@@ -79,7 +80,7 @@ class UserController extends Controller
     	}
     	return $permissionId;
     	return $permission[2]->id;
-    	*/
+    */
 
     	return view('acl.users.edit', compact('user', 'roles', 'roles_given', 'permissions', 'permissions_given', 'employee'));
     }

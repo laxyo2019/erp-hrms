@@ -34,8 +34,8 @@
 			@csrf
 			@method('PATCH')
 			<div class="row">
-				<div class="col-12" style="text-align: center;">
-					<input type="text" name="name" value="{{old('name', $user->name)}}" style="width:50%;">
+				<div class="col-12" align="center">
+					<input type="text" class="form-control" name="name" value="{{old('name', $user->name)}}" style="width:50%;">
 					@error('name')
 					<small class="form-text text-muted " role="alert" id="emailHelp">	
 						<strong style="color: red;">* {{ $message }}</strong>
@@ -80,7 +80,6 @@
 $(document).ready(function(){
 	$('.employee').on('click', function(e){
 		var user_id = {{$user->id}};
-		//alert(emp_id)
 		$.ajax({
             type: 'POST',
 			url: '{{ route("users.store")}}',
@@ -88,6 +87,9 @@ $(document).ready(function(){
 			data: {'id':user_id },
 			success:function(data){
 				alert(data);
+
+				$('.employee').hide();
+
 			}
 		})
 	});

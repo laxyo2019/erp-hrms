@@ -23,14 +23,14 @@
 		<h4>Company Location</h4>
 		<div>{{$exp->comp_loc}}</div>
 	</div>
-	@can('download documents')
+	{{-- @can('download documents') --}}
 	<div class="col-6" >
 		<h4>Certificate</h4>
 		<div>
 			<td><a href="{{route('employees.download', ['db_table' => 'emp_exp', $exp->id])}}"><i class="fa fa-arrow-down"></i>Download</a></td>
 		</div>
 	</div>
-	@endcan
+	{{-- @endcan --}}
 </div>
 <div class="row card-body text-center">
 	<div class="col-6" >

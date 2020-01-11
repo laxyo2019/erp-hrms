@@ -144,6 +144,7 @@ class CreateEmployeeTables extends Migration
           $table->unsignedInteger('doc_type_id');
           $table->text('file_path')->nullable();
           $table->string('remarks')->nullable();
+          $table->date('date');
           $table->char('doc_status', 1);  //S (submitted), P (provided)
           $table->timestamps();
           $table->softDeletes();
