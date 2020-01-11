@@ -4,7 +4,7 @@ namespace App\Http\Controllers\HRD;
 
 use App\Http\Controllers\Controller;
 use App\Models\EmployeeMast;
-use App\Models\Approval;
+use App\Models\Master\ApprovalAction;
 use Illuminate\Http\Request;
 use App\Models\Master\ActivityMast;
 use App\Models\Master\DeptMast;
@@ -18,8 +18,8 @@ class ApprovalsController extends Controller
      */
     public function index()
     {
-      //$data['approvals'] = Approval::all();
-      return view('HRD.approvals.index');
+        $actions = ApprovalAction::all();
+        return view('HRD.approvals.index', compact('actions'));
     }
 
     /**
@@ -29,11 +29,8 @@ class ApprovalsController extends Controller
      */
     public function create()
     {
-    	//$employees = EmployeeMast::whereIn('comp_code',['000','001','002'])->get();
-        $activity   = ActivityMast::where('name', 'leave')->first();
-        $department = DeptMast::where('deleted_at', null)->get();
 
-        return view('HRD.approvals.create',compact('activity', 'department'));
+        return view('HRD.approvals.create');
     }
 
     /**
@@ -44,7 +41,13 @@ class ApprovalsController extends Controller
      */
     public function store(Request $request)
     {
-        //return $request->options;
+       $action = new ApprovalAction;
+       $action->name       = $request->name;
+       $action->description= $request->desc;  
+       $action->reverse    = $request->reverse; 
+       $action->save();
+
+       return redirect('approval-action')->with('success', 'Action created successfully.');
     }
 
     /**
@@ -53,9 +56,10 @@ class ApprovalsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show( $id)
     {
-        //
+        
+        
     }
 
     /**
@@ -64,9 +68,10 @@ class ApprovalsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit( $id)
     {
-        return 'edit';
+        $actions = ApprovalAction::findOrFail($id);
+        return view('HRD.approvals.edit', compact('actions'));
     }
 
     /**
@@ -78,7 +83,13 @@ class ApprovalsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $actions = ApprovalAction::findOrFail( $id);
+        $actions->name        = $request->name;
+        $actions->description = $request->desc;
+        $actions->reverse     = $request->reverse;
+        $actions->save();
+
+        return redirect('approval-action')->with('success', 'Record updated successfully');
     }
 
     /**
@@ -87,8 +98,10 @@ class ApprovalsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy( $id)
     {
-        return 'destroy';
+        ApprovalAction::findOrFail( $id)->delete();
+
+        return back()->with('success', 'Record deleted successfully');
     }
 }

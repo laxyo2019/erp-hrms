@@ -13,8 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
-    ];
+            Commands\UpdateLeaveBalance::class
+            ];
 
     /**
      * Define the application's command schedule.
@@ -24,8 +24,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('leave:update')
+                  ->monthlyOn(1, '0:00')
+                  ->timezone('Asia/Kolkata');;
+
+                  //->monthlyOn(4, '15:00');
     }
 
     /**

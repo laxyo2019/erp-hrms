@@ -16,9 +16,9 @@
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				{{$message}}
 			</div>
-		@endif 
+		@endif
 		<div><h5>Write role name</h5></div><hr>
-		<form action="{{route('roles.store')}}" method="POST" enctype="multipart/form-data">
+		<form action="{{route('roles.store')}}" method="POST">
 			@csrf
 			<div class="row">
 				<div class="col-12" style="text-align: center;">
@@ -31,6 +31,7 @@
 				</div>			
 			</div>
 			<br>
+			@if(count($permissions) != 0)
 			<div><h5>SET PERMISSIONS FOR USER</h5></div><hr>
 			<div class="toggle lg row col-12">
 			@foreach($permissions as $data)
@@ -41,10 +42,11 @@
 				</div>
 			@endforeach
 			</div>
+			@endif
 			<br><br>
     		<div class="col-12 form-group text-center">
-				<button class="btn btn-info btn-sm m-2" style="width: 30%">Save</button>
-				<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Clear</a>
+				<button class="btn btn-info btn-sm m-2" style="width: 20%">Save</button>
+				<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 20%">Clear</a>
 			</div>
 		</form>
 	</div>

@@ -14,18 +14,46 @@ class UsersTableSeeder extends Seeder
     {
       DB::table('users')->insert([
       	[
-          'name' => 'Ayush Likhar',
-          'email' => 'alikhar@laxyo.in',
-          'password' => bcrypt('laxyo123'),
-          'emp_id' => 6,
-          'created_at' => now(),
-          'updated_at' => now()
-        ],
-      	[
-            'name' => 'Y Sir',
-            'email' => 'ysir@laxyo.in',
+
+          'name'      => 'mr. yogesh sharma',
+          'email'     => 'admin@laxyo.in',
+          'password'  => bcrypt('12345678'),
+          'emp_id'    => 1,
+          'created_at'=> now(),
+          
+        ]
+      ]);
+
+      DB::table('emp_mast')->insert([
+        [
+          'id'        => 1,
+          'emp_name'  => 'mr. yogesh sharma',
+          'email'     => 'admin@laxyo.in',
+          'created_at'=> now(),
+        ]
+      ]);
+
+      DB::table('roles')->insert([
+        [
+          'id'        => 1,
+          'name'      => 'admin',
+          'guard_name'=> 'web',
+          'created_at'=> now(),
+        ]
+      ]);
+
+      DB::table('model_has_roles')->insert([
+        [
+          'role_id'    => 1,
+          'model_type'=> 'App\User',
+          'model_id'   => 1,
+        ]
+      ]);
+      	/*[
+            'name' => 'Ayush Likhar',
+            'email' => 'alikhar@laxyo.in',
             'password' => bcrypt('laxyo123'),
-            'emp_id' => 1,
+            'emp_id' => 6,
             'created_at' => now(),
             'updated_at' => now()
         ],
@@ -60,7 +88,7 @@ class UsersTableSeeder extends Seeder
             'emp_id' => 5,
             'created_at' => now(),
             'updated_at' => now()
-        ]
-    	]);
+        ]*/
+    	
     }
 }

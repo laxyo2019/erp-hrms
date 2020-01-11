@@ -51,8 +51,8 @@
 					</div>
 		    	</div>
 		    		<div class="col-12 form-group text-center">
-						<button class="btn btn-info btn-sm m-2" style="width: 30%">   Save   </button>
-						<a class="btn btn-danger btn-sm" style="width: 30%" href="javascript:location.reload()">Clear  </a>
+						<button class="btn btn-info btn-sm m-2" style="width: 20%">   Save   </button>
+						<a class="btn btn-danger btn-sm" style="width: 20%" href="javascript:location.reload()">Clear  </a>
 					</div>
 				</div>
 			</form>

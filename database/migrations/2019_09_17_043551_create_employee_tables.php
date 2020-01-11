@@ -15,7 +15,7 @@ class CreateEmployeeTables extends Migration
     {
         Schema::create('emp_mast', function (Blueprint $table) { //single row
           $table->increments('id');
-          $table->unsignedInteger('parent_id')->nullable();
+          $table->unsignedInteger('reports_to')->nullable();
           $table->string('emp_code', 15)->nullable();
           $table->unsignedInteger('comp_id')->nullable();
           $table->unsignedInteger('dept_id')->nullable();

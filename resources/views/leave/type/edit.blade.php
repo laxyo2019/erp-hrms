@@ -39,6 +39,16 @@
 				          </span>
 				      	@enderror
 					</div>
+					<div class="col-6 form-group">
+						<label for="generate_after">Generate days</label>
+						<input type="text" class="form-control" name="generate_days"
+						autocomplete="off" id="generate_days" value="{{$leave_type->generate_days}}">
+						@error('generate_days')
+				          <span class="text-danger" role="alert">
+				            <strong>* {{ $message }}</strong>
+				          </span>
+				      	@enderror
+					</div>
 					{{-- <div class="col-6 form-group">
 						<label for="generate_after">Generate after</label>
 						<input type="text" class="form-control" name="generate_after"
@@ -99,7 +109,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-3 form-group">
 						<div><h5>Can be carry forward</h5></div>
             			<div class="toggle lg row col-12">
             				<div class="form-check form-check-inline mr-0">
@@ -109,9 +119,7 @@
 							</div>
             			</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-4 form-group">
+					<div class="col-3 form-group">
 						<div><h5>Document required</h5></div>
             			<div class="toggle lg row col-12">
             				<div class="form-check form-check-inline mr-0">
@@ -121,7 +129,7 @@
 							</div>
             			</div>
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-3 form-group">
 						<div><h5>Is it LWP?</h5></div>
             			<div class="toggle lg row col-12">
             				<div class="form-check form-check-inline mr-0">
@@ -131,8 +139,8 @@
 							</div>
             			</div>
 					</div>
-					<div class="col-4 form-group">
-						<div><h5>Dont Show</h5></div>
+					<div class="col-3 form-group">
+						<div><h5>Dont Show(to employee)</h5></div>
             			<div class="toggle lg row col-12">
             				<div class="form-check form-check-inline mr-0">
 								<label>

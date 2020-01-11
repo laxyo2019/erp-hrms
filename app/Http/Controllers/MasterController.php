@@ -57,8 +57,8 @@ class MasterController extends Controller
 							'bg_color'		=> '#28a745',
 							'count'			=> DB::table('emp_type_mast')->get()->count()
 							),
-				
-				/*array(
+/*
+				array(
 							'table_name'	=> 'leave_type_mast',
 							'display_name'	=> 'Leave Type',
 							'icon'			=> 'fa fa-users',

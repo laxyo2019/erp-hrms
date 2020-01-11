@@ -71,25 +71,33 @@
 									<td>@if($employee->grade!=null) {{$employee->grade->name}} @endif</td>
 									<td>{{$employee->designation['desg_name']}}</td>
 									<td>
-									@if($employee->leave_allotted == 0)
-										<button class="btn btn-sm btn-info ml-2 modalAllot" data-id="{{$employee->id}}">
-								        	<span style="font-size: 12px">Allot</span>
-								        </button>
-										<div class="modal fade" id="allotmentsModal" role="dialog">
-											<div class="modal-dialog modal-lg" >
-												<div class="modal-content" >
-													<div class="modal-header">
-														<h4 class="modal-title">Leaves Allotments</h4>
-														<button type="button" class="close" data-dismiss="modal">&times;</button>
-													</div>
-													<div class="modal-body table-responsive" id="modalform">
-													</div>
-										        </div>
-										    </div>
-										</div>
-									@else
-										Allotted
-									@endif
+
+{{-- hide allotment button if leave is not created --}}
+@if(count($leaves) == null)
+	
+	No leaves to assign
+
+@else
+	@if($employee->leave_allotted == 0)
+	<button class="btn btn-sm btn-info ml-2 modalAllot" data-id="{{$employee->id}}">
+	<span style="font-size: 12px">Allot</span>
+	</button>
+	<div class="modal fade" id="allotmentsModal" role="dialog">
+	<div class="modal-dialog modal-lg" >
+	<div class="modal-content" >
+		<div class="modal-header">
+	<h4 class="modal-title">Leaves Allotments</h4>
+	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	</div>
+	<div class="modal-body table-responsive" id="modalform">
+	</div>
+	</div>
+	</div>
+	</div>
+	@else
+	Allotted
+	@endif
+@endif
 									</td>
 									{{-- <td ><span class="btn btn-success active-enactive" id="{{$employee->id}}"> 
 										@if('{{$employee->active ==1}}') 

@@ -90,46 +90,54 @@
 									</td>
 									<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>
 									<td>
-									@if($leaveapply->status =='17' )
-										<div >
-										 	<strong style="color: red;">
-										 		DECLINE
-										 	</strong>
-										 </div>
-										 <div>
-						<u>@if(!empty($leaveapply->approve_name) )
+{{-- @if($leaveapply->status =='17' )
+	<div >
+	<strong style="color: red;">
+	DECLINE
+	</strong>
+	</div>
+	<div>
+	<u>@if(!empty($leaveapply->approve_name) )
 	{{'By'.' ' }}
 	({{$leaveapply['approve_name']->name}})
-
-	
-
-											</u>@endif
-										 </div>
+	</u>@endif
+	</div> 
+--}}
 										 
-									@elseif(empty($leaveapply->status))
-										 <div >
-										 	<strong style="color: grey;">
-										 		{{strtoupper('pending')}}
-										 	</strong>
-										 </div>
-										 <div>
-				<u>@if($leaveapply->approve_name){{'By'.' ' }}	({{$leaveapply->approve_name->UserName->name}})
-											</u>@endif
-										 </div>
-									@elseif($leaveapply->status !='')
-										 <div>
-											<strong style="color: green;">
-											APPROVED
-										 	</strong>
-										 </div>
-										 <div>
-	<u>@if($leaveapply->approve_name){{'By'.' ' }}
-		{{-- ({{$leaveapply->approve_name->UserName->name}}) --}}
-		{{$leaveapply['approve_name']->emp_name}}
-											</u>@endif
-										 </div>
-										{{-- {{empty($leaveapply['approvalaction']->name) ? 'Decline'  : strtoupper($leaveapply['approvalaction']->name)}} --}}
-									@endif
+						@if(empty($leaveapply->status))
+							 <div >
+							 	<strong style="color: grey;">
+							 		PENDING
+							 	</strong>
+							 </div>
+							<div>
+								<u>
+							@if($leaveapply->approve_name)
+								{{'By'.' ' }}	({{$leaveapply->approve_name->UserName->name}})
+							@endif </u>
+								</div>
+							@elseif($leaveapply->status == 1)
+								<div>
+									<strong style="color: green;">
+										APPROVED
+									</strong>
+								</div>
+							@elseif($leaveapply->status == 2)
+								<div>
+									<strong style="color: red;">
+										DECLINED
+									</strong>
+								</div>
+							@endif
+						<div>
+							<u>
+								@if($leaveapply->approve_name)
+									{{'By'.' ' }}
+									{{$leaveapply['approve_name']->emp_name}}
+								@endif</u>
+						</div>
+							{{-- {{empty($leaveapply['approvalaction']->name) ? 'Decline'  : strtoupper($leaveapply['approvalaction']->name)}} --}}
+	
 										
 									</td>
 									

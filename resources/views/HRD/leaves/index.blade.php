@@ -7,17 +7,16 @@
 				<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
 			</div>
 		</div>
-		
 		<div class="row mt-1 ">
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
 					<div class="card-body table-responsive">
 						@if($message = Session::get('success'))
-			<div class="alert alert-success alert-block">
-				<button type="button" class="close" data-dismiss="alert" >×</button>
-				{{$message}}
-			</div>
-		@endif 
+							<div class="alert alert-success alert-block">
+								<button type="button" class="close" data-dismiss="alert" >×</button>
+								{{$message}}
+							</div>
+						@endif 
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
@@ -28,13 +27,13 @@
 									<th>LEAVE PERIOD</th>
 									<th>DURATION</th>
 									<th>POSTED ON</th>
-									{{-- <th>STATUS</th> --}}
+									<th>Reverse Leave</th>
 									<th style="text-align: center;">ACTIONS</th>
 								</tr>
 							</thead>
 							<tbody>
 							@php $count = 0; @endphp
-							@foreach($leave_request as $request) 
+							@foreach($leave_request as $request)
 								<tr>
 									<td>{{++$count}} </td>
 									<td>{{ucwords($request['employee']->emp_name)}}</td>
@@ -76,25 +75,41 @@
 									@endif						
 									</td>
 									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
+									<td>
+
+@if(!empty($request->status))
+	@foreach($actions as $data)
+		@if(!empty($data->reverse))
+			<span class="ml-2">
+				<form action="" method="POST" id="ression">
+				@csrf
+				<input type="hidden" name="leave_request" value="{{$request->id}}">
+				<input type="hidden" name="action_id" value="{{$data->id}}" >
+				<button  class="btn-sm" id="reverse" disabled><i class="fa fa-undo" aria-hidden="true"></i>{{ucwords($data->name)}}</button>
+				</form>
+			</span>
+		@endif
+	@endforeach
+@endif								</td>
 									<td class='d-flex' style="border-bottom:none">
 							
 	@if($request->approver_id == null)
 		@foreach($actions as $data)
+		@if(empty($data->reverse))
 		<span class="ml-2">
 			<form action="{{url('approve_leave',$request->id)}}" method="POST" id="ression">
 			@csrf
 			<input type="hidden" name="leave_request" value="{{$request->id}}">
 			<input type="hidden" name="action_id" value="{{$data->id}}" >
-			<button  class="btn-sm" id="{{$data->name}}">{{$data->name}}</button>
+			<button  class="btn-sm" id="{{$data->name}}">{{ucwords($data->name)}}</button>
 			</form>
 		</span>
+		@endif
 		@endforeach
 
 	@else
 		<div class="col-sm-12">
-			<strong>{{ ucwords($request['approvalaction']->name) }} </strong> <br>By <u>({{$request['approve_name']->emp_name}})</u>
-			
-			
+			<strong>{{ ucwords($request['approvalaction']->name) }} </strong> <br>By <u>({{ucwords($request['approve_name']->emp_name)}})</u>			
 		</div>
 @endif
 {{-- <form action="{{url('hrd/leaves')}}" method="POST" id="ression1">
@@ -146,14 +161,19 @@ $(document).ready(function(){
 
 </script>
 <style type="text/css">
-	#Approved
+	#approve
 	{
 		background: #0cac0c;;
 		color: white;
 	}
-	#Declined
+	#decline
 	{
 		background: #ff1414;
+		color: white;
+	}
+	#reverse
+	{
+		background: #3375ca;
 		color: white;
 	}
 </style>

@@ -17,6 +17,7 @@ class CreateLeavesTable extends Migration
           $table->bigIncrements('id');
           $table->string('name');
           $table->text('description')->nullable();
+          $table->smallInteger('reverse')->nullable();
           $table->timestamps();
           $table->softDeletes();
       });
@@ -24,7 +25,8 @@ class CreateLeavesTable extends Migration
       Schema::create('leave_mast', function (Blueprint $table) {
           $table->bigIncrements('id');
       		$table->string('name');
-      		$table->decimal('total',8,2)->nullable();
+      		$table->decimal('total',8,2)->default('0.0');
+          $table->decimal('generate_days',8,2)->default('0.0');
       		$table->integer('generates_after')->nullable();  // (days count)
 					$table->decimal('max_apply_once',8,2)->nullable();
 					$table->decimal('min_apply_once',8,2)->nullable();
@@ -35,6 +37,34 @@ class CreateLeavesTable extends Migration
           $table->integer('docs_required')->nullable();
           $table->integer('without_pay')->nullable();
           $table->integer('dont_show')->nullable();
+          $table->timestamps();
+          $table->softDeletes();
+      });
+
+      Schema::create('emp_leave_allotment', function (Blueprint $table) {
+          $table->bigIncrements('id');
+          $table->integer('leave_mast_id');
+          $table->integer('emp_id');
+          $table->integer('status')->default(1);
+          $table->date('start');
+          $table->date('end');
+          $table->decimal('initial_bal',8,2)->default('0.0');
+          $table->decimal('current_bal',8,2)->default('0.0');
+          $table->date('generated_at')->nullable();
+          $table->timestamps();
+          $table->softDeletes();
+      });
+
+      Schema::create('leave_allotment_detail', function (Blueprint $table) {
+          $table->bigIncrements('id');
+          $table->integer('leave_mast_id');
+          $table->integer('emp_id');
+          $table->smallInteger('status')->default(1);
+          $table->date('start');
+          $table->date('end');
+          $table->decimal('initial_bal',8,2)->default('0.0');
+          $table->decimal('current_bal',8,2)->default('0.0');
+          $table->date('generated_at')->nullable();  // (days count)
           $table->timestamps();
           $table->softDeletes();
       });
@@ -53,24 +83,10 @@ class CreateLeavesTable extends Migration
           $table->text('addr_during_leave')->nullable();
           $table->string('contact_no',12)->nullable();
           $table->integer('approver_id')->nullable();
-          $table->char('status',20)->nullable();
+          $table->integer('status')->nullable();
           $table->text('applicant_remark')->nullable();
           $table->text('approver_remark')->nullable();
           $table->text('hr_remark')->nullable();
-          $table->timestamps();
-          $table->softDeletes();
-      });
-
-			Schema::create('emp_leave_allotment', function (Blueprint $table) {
-          $table->bigIncrements('id');
-          $table->integer('leave_mast_id');
-          $table->integer('emp_id');
-          $table->integer('status')->default(1);
-          $table->date('start');
-          $table->date('end');
-          $table->decimal('initial_bal',8,2)->nullable();
-          $table->decimal('current_bal',8,2)->nullable();
-      		$table->integer('generated_at')->nullable();  // (days count)
           $table->timestamps();
           $table->softDeletes();
       });
@@ -90,8 +106,8 @@ class CreateLeavesTable extends Migration
           $table->integer('emp_id');
           $table->integer('approver_id');
           $table->string('actions');
-          $table->string('paid_count ')->nullable();
-          $table->string('unpaid_count ')->nullable();
+          $table->string('paid_count')->nullable();
+          $table->string('unpaid_count')->nullable();
           $table->string('approver_remark')->nullable();
           $table->timestamps();
           $table->softDeletes();

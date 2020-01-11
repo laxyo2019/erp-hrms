@@ -24,6 +24,7 @@ use App\Imports\EmployeesImport;
 use App\Exports\EmployeesExport;
 use App\Exports\ErrorEmployeeExport;
 use App\Models\Employees\LeaveAllotment;
+use App\Models\Master\LeaveMast;
 use Session;
 
 class EmployeesController extends Controller
@@ -35,7 +36,11 @@ class EmployeesController extends Controller
   public function index()
   {		
 		$employees = EmployeeMast::with('company','grade','designation')->orderBy('id', 'DESC')->get();
-    return view('HRD.employees.index',compact('employees'));
+
+    $leaves = LeaveMast::all();
+
+  
+    return view('HRD.employees.index',compact('employees', 'leaves'));
   }
 
   public function insert_employee(Request $request){

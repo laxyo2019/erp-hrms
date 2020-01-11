@@ -224,8 +224,8 @@
 							</select>
 						</div>--}}
 					<div class="col-12 form-group text-center">
-						<button class="btn btn-info btn-sm" style="width: 30%">Update</button>
-						<a class="btn btn-danger btn-sm" style="width: 30%" href="javascript:location.reload()">Cancel</a>
+						<button class="btn btn-info btn-sm" style="width: 20%">Update</button>
+						<a class="btn btn-danger btn-sm" style="width: 20%" href="javascript:location.reload()">Cancel</a>
 					</div>
 				</div>
 				<input type="hidden" name="form_type" id="form_type" value="official">

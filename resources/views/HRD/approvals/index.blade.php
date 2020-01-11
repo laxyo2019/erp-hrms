@@ -9,71 +9,54 @@
 						<a href="{{route('approvals.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
 							<span class="fa fa-plus "></span> Add New</a>
 					</span>
-					<span class="ml-2">
-						<button  class="btn btn-sm btn-info"  data-toggle="modal" data-target="#import-modal" style="font-size:13px">
-							<span class="fa fa-upload"></span> Import
-						</button>
-					</span>
-					<span class="ml-2">
-						<a href="#" class="btn btn-sm btn-primary" style="font-size:13px">
-							<span class="fa fa-download"></span> Export
-						</a>
-					</span>
 				</h1>
 				<hr>
 			</div>
 		</div>
-		@if($message = Session::get('success'))
-			<div class="alert alert-success">
-				{{$message}}
-			</div>
-		@endif 
-			<div class="row ">
+		<div class="row ">
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
 					<div class="card-body table-responsive">
+						@if($message = Session::get('success'))
+                        <div class="alert alert-success alert-block">
+                          <button type="button" class="close" data-dismiss="alert">×</button>
+                          {{$message}}
+                        </div>
+                      @endif
 						<table class="table table-stripped table-bordered">
 							<thead>
 								<tr>
-									<th>ID</th>
-									<th>Title</th>
-									<th>Can Approve</th>
-									<th>Can Decline</th>
-									<th>Can Delete</th>
-									<th>Can Cancel</th>
-									<th>Can Hold</th>
-									<th>Can Edit</th>
+									<th>#</th>
+									<th>Name</th>
 									<th>Description</th>
-									<th>Action</th>
+									<th>Reverse Action</th>
+									<th>Actions</th>
 								</tr>
 							</thead>
 							<tbody>
-							{{-- @foreach($approvals as $approval) --}}
+							@php $count = 1;@endphp
+							@foreach($actions as $data)
 								<tr>
-									<td>12</td>
-									<td>12</td>
-									<td>12</td>
-									<td>12</td>
-									<td>12</td>
-									<td>12</td>
-									<td>12</td>
-									<td>12</td>
-									<td>12</td>
-
+									<td>{{$count++}}</td>
+									<td>{{ucwords($data->name)}}</td>
+									<td>{{$data->description}}</td>
+									<td>{{$data->reverse == 1 ? 'Yes' : ''}}</td>
 									<td class='d-flex'>
-										{{-- <span>
-												<a href="{{route('approvals.edit',$approval->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
+										<span>
+											<a href="{{route('approval-action.edit',$data->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 										</span>
 										<span class="ml-2">
-											<form action="{{route('approvals.destroy',$approval->id)}}" method="POST" id="delform_{{ $approval->id}}">
+											<form  action="{{route('approval-action.destroy',$data->id)}}" method="POST" id="delform_{{ $data->id}}">
 													@csrf
-													@method('DELETE')
-												<a href="javascript:$('#delform_{{$approval->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>			
+												@method('DELETE')
+												<a href="javascript:$('#delform_{{ $data->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
+										
 											</form>
-										</span> --}}
+										</span>
+										
 									</td>
 								</tr>
-							{{-- @endforeach --}}
+							@endforeach
 							</tbody>
 						</table>
 					</div>

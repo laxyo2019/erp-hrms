@@ -22,28 +22,29 @@ Route::resource('/information', 'InformationController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
 
+
+//Delete Employees Info
+
+Route::get('/hrd/employees/delete_row/{db_table}/{id}', 'HRD\EmployeesController@delete_row')->name('employee.delete_row');
+
+/************Leave Management**************/
+
+//Type
+
 Route::resource('/leave-management/types', 'Leave\LeaveTypeController');
 
+
 //Leave Allotments
+
 Route::resource('/leave-management/allotments', 'Leave\AllotmentController');
+
 //Hold leaves or Reset
 Route::get('leave-management/hold/{id}', 'Leave\AllotmentController@hold')->name('hold.leave');
 Route::get('leave-management/reallot/{id}', 'Leave\AllotmentController@reallot')->name('reallot.leave');
+
+
+//Holidays
 Route::resource('/leave-management/holidays', 'Leave\HolidayController');
-
-/*
-Spatie Roles & Permissions
-*/
-
-// Route::group(['middleware' => ['role:manager']], function () {
-    
-	Route::resource('acl/permissions', 'acl\PermissionController');
-	Route::resource('acl/roles', 'acl\RoleController');
-	Route::resource('acl/users', 'acl\UserController');
-	Route::get('acl/user/create/{id}', 'acl\UserController@create')->name('assign.role');
-	
-/*});*/
-
 
 //Export Import holidays
 
@@ -52,21 +53,30 @@ Route::get('holidays/export', 'Leave\HolidayController@export')->name('export.ho
 
 Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_page')->name('employee.show_page');
 
+Route::resource('approval-action', 'HRD\ApprovalsController');
+
+/*
+Spatie Roles & Permissions
+*/
+  
+	Route::resource('acl/permissions', 'acl\PermissionController');
+	Route::resource('acl/roles', 'acl\RoleController');
+	Route::resource('acl/users', 'acl\UserController');
+	Route::get('acl/user/create/{id}', 'acl\UserController@create')->name('assign.role');
+
+
+
 /*	create by kishan for export data using checkbox or unchecheked and view  enployee details and active inactive */
+
 Route::get('/hrd/employees/view-details/{id}/{view}','HRD\EmployeesController@viewDetails')->name('employee.view-details');
-
 Route::post('/hrd/employees/save_session','HRD\EmployeesController@save_session')->name('employee.save_session');
-
 Route::post('/hrd/employees/activeInactive','HRD\EmployeesController@activeInactive')->name('employee.active-inactive');
-
-
 
 //...................................//
 
 Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
 
 //HRD LEAVES
-
 
 Route::resource('/hrd/leaves', 'HRD\LeavesController');
 
@@ -88,9 +98,7 @@ Route::get('/employee/apply_leaves/{id}','Employee\LeavesController@apply_leaves
 //Route::post('/hrd/employees/leave-allotment/{id}', 'Leave\AllotmentController@store')->name('alloting.leave');
 
 
-//Delete Employees Info
 
-Route::get('/hrd/employees/delete_row/{db_table}/{id}', 'HRD\EmployeesController@delete_row')->name('employee.delete_row');
 
 
 Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_designation')->name('employees.fetch_designation');
@@ -110,6 +118,21 @@ Route::prefix('hrd')->namespace('HRD')->group(function () {
 	Route::post('/employee/save_nominee/{id}', 'EmployeesController@save_nominee')->name('employees.nominee');
 	Route::post('/employees/save_bankdetails/{id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
 });
+
+// HRD module
+Route::get('employees/export/', 'HRD\EmployeesController@export')->name('employees.export');
+
+Route::resource('/settings/expense_in_user','Settings\ExpenseUserController');
+Route::resource('/settings/expense_permit_user','Settings\ExpensePermitUserController');
+Route::resource('/settings/categories','Settings\CategoryController');
+Route::resource('/settings/designations','Settings\DesignationController');
+Route::resource('/settings/statuses','Settings\StatusController');
+Route::resource('/settings/grades','Settings\GradesController');
+
+
+
+//Expanses
+
 Route::post('/expenses/accounts','Expenses\PaymentsController@account_mast')->name('account_mast');
 Route::post('/expenses/vendor_mast','Expenses\PaymentsController@vendor_mast')->name('vendor_mast');
 Route::get('payments/export/', 'Expenses\PaymentsController@export')->name('payments.export');
@@ -121,16 +144,6 @@ Route::get('expenses/tour/approve/{id}','Expenses\ToursController@approve')->nam
 Route::get('expenses/tour/start/{id}','Expenses\ToursController@start')->name('tour.start');
 Route::get('expenses/tour/end/{id}','Expenses\ToursController@end')->name('tour.end');
 Route::get('expenses/tour/decline/{id}','Expenses\ToursController@decline')->name('tour.decline');
-// HRD module
-Route::get('employees/export/', 'HRD\EmployeesController@export')->name('employees.export');
-
-Route::resource('/settings/expense_in_user','Settings\ExpenseUserController');
-Route::resource('/settings/expense_permit_user','Settings\ExpensePermitUserController');
-Route::resource('/settings/categories','Settings\CategoryController');
-Route::resource('/settings/designations','Settings\DesignationController');
-Route::resource('/settings/statuses','Settings\StatusController');
-Route::resource('/settings/grades','Settings\GradesController');
-
 
 //start Tendar section routing
 
@@ -156,6 +169,8 @@ Route::group(['prefix' => 'tenders', 'namespace' => 'Tender'], function ()  {
 });
 
 //end Tendar section routing
+
+/*************************************/
 
 // Master CRUD
 Route::get('settings/mast_entity/{db_table}', 'MasterController@index')->name('mast_entity.all');

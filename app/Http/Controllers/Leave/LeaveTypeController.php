@@ -30,6 +30,7 @@ class LeaveTypeController extends Controller
 
     public function store(Request $request){
 
+
         $this->validate($request, 
         [
             'leave_name'        => 'required',
@@ -41,19 +42,11 @@ class LeaveTypeController extends Controller
             'max_apply_year'    => 'nullable|numeric|between:0,99.99',
         ]);
 
-    	/*$carry = $request->carry;
-
-    	if(empty($request->carry)){
-    		$carry = 0;
-            //return 1;
-    	}else{
-            $carry = 1;
-        }*/
 
     	$leaves = new LeaveMast;
-
     	$leaves->name 				= 	strtolower($request->leave_name);
     	$leaves->total 				=	$request->total_leaves;
+        $leaves->generate_days      =   $request->generate_days;
     	$leaves->max_apply_once		=	$request->max_apply_once;
     	$leaves->min_apply_once		=	$request->min_apply_once;
     	$leaves->max_days_month		=	$request->max_days_inmonth;
@@ -61,6 +54,8 @@ class LeaveTypeController extends Controller
     	$leaves->max_apply_year		=	$request->max_apply_year;
     	$leaves->carry_forward      =   $request->carry;
         $leaves->docs_required      =   $request->docs_required;
+        $leaves->without_pay        =   $request->without_pay;
+        $leaves->dont_show          =   $request->dont_show;
     	$leaves->save();
 
     	return redirect()->route('types.index')->with('success', 'Updated record successfully.');
@@ -98,6 +93,7 @@ class LeaveTypeController extends Controller
         $leave = LeaveMast::findOrFail($id);
         $leave->name            =  $request->leave_name;
         $leave->total           =  $request->total_leaves;
+        $leave->generate_days   =  $request->generate_days;
         $leave->max_apply_once  =  $request->max_apply_once;
         $leave->min_apply_once  =  $request->min_apply_once;
         $leave->max_days_month  =  $request->max_days_inmonth;

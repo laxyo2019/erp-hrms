@@ -36,8 +36,11 @@
 						</label>
 						<select name="leave_type_id" id="leave_type" class="custom-select">
 							<option value="">Select</option>
-							@foreach($leaves as $leave_types)
-<option value="{{$leave_types->id}}" {{old('leave_type_id') == $leave_types->id ? 'selected' : ''}} >{{ucwords($leave_types->name)}}</option>
+							@foreach($allotment as $leave_types)
+							<option value="{{$leave_types['leaves']->id}}" {{old('leave_type_id') == $leave_types['leaves']->id ? 'selected' : ''}}
+								{{-- Disable all leaves if initial balance is 0.0 and that leave type's total is 0.0 --}}
+								{{$leave_types->initial_bal == 0.0 && $leave_types['leaves']->total != 0.0 ? 'disabled' : ''}} 
+								>{{ucwords($leave_types['leaves']->name)}}</option>
 							@endforeach
 						</select>
 					</div>
@@ -172,8 +175,8 @@
 			      	@enderror -->
 				</div>
 				<div class="col-12 form-group text-center">
-					<button class="btn btn-info btn-sm m-2" id="submit" style="width: 30%">Save</button>
-					<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Clear</a>
+					<button class="btn btn-info btn-sm m-2" id="submit" style="width: 20%">Save</button>
+					<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 20%">Clear</a>
 				</div>
 			</div>
 		</form>
@@ -441,7 +444,7 @@ function leaveIDChange(leave_id){
 					checkHalf(res);
 				}
 
-				//console.log(res.user_bal.initial_bal)
+				//Employee cant apply leave if he dont have balance
 
 				if(btnId == 'multiBtn'){
 
@@ -452,6 +455,8 @@ function leaveIDChange(leave_id){
 							$('#start_date').val('');
 							$('#end_date').val('');
 							$('#duration').val('');
+
+
 						}
 					});
 				} 
@@ -461,10 +466,13 @@ function leaveIDChange(leave_id){
 					$('#end_date').on('change', function(){
 						var duration = $('#duration').val();
 						if(duration > res.user_bal.initial_bal  ){
-							alert('You don\'t have enough leaves.');
-							$('#start_date').val('');
-							$('#end_date').val('');
-							$('#duration').val('');
+							
+							if(empty(res.without_pay)){
+								alert('You don\'t have enough leaves.');
+								$('#start_date').val('');
+								$('#end_date').val('');
+								$('#duration').val('');
+							}
 						}
 					});
 
@@ -474,10 +482,13 @@ function leaveIDChange(leave_id){
 					$('#start_date').on('change', function(){
 						var duration = $('#duration').val();
 						if(duration > res.user_bal.initial_bal  ){
-							alert('You don\'t have enough leaves.');
-							$('#start_date').val('');
-							$('#end_date').val('');
-							$('#duration').val('');
+							
+							if(empty(res.without_pay)){
+								alert('You don\'t have enough leaves.');
+								$('#start_date').val('');
+								$('#end_date').val('');
+								$('#duration').val('');
+							}
 						}
 					});
 					
@@ -487,10 +498,13 @@ function leaveIDChange(leave_id){
 					$('#start_date').on('change', function(){
 						var duration = $('#duration').val();
 						if(0.5 > res.user_bal.initial_bal  ){
-							alert('You don\'t have enough leaves.');
-							$('#start_date').val('');
-							$('#end_date').val('');
-							$('#duration').val('');
+
+							if(empty(res.without_pay)){
+								alert('You don\'t have enough leaves.');
+								$('#start_date').val('');
+								$('#end_date').val('');
+								$('#duration').val('');
+							}
 						}
 					});
 					
@@ -704,9 +718,6 @@ function checkOnce(res){ //min apply one
 		}
 		
 	});
-
-
-
 	$('#start_date').on('change', function(){
 		var btnId =$('#btnId').val();
 		if(btnId == 'fullBtn'){

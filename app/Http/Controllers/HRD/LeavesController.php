@@ -28,10 +28,12 @@ class LeavesController extends Controller
         $permissions    = $user->getAllPermissions();
 
         $actions = ApprovalAction::all();
-    	
+
         $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvalaction'])
                             ->orderBy('id', 'DESC')
                             ->get();
+
+        //return $leave_request;
 
         return view('HRD.leaves.index', compact('leave_request', 'permissions', 'actions'));
 	}
@@ -92,20 +94,29 @@ class LeavesController extends Controller
             }
         }
 
-        $data = [
+        /*$data = [
             'leave_apply_id' => $leave_id,
             'emp_id'         => $leaveApp->emp_id,
             'approver_id'    => Auth::user()->emp_id,
+            'actions'        => $request->action_id,
             'paid_count'     => $paid_leave,
             'unpaid_count'   => $unpaid_leave,
             'approver_remark'=> null,
-            'actions'        => $request->action_id
-        ];
+            
+        ];*/
 
-        LeaveApprovalDetail::create($data);
+
+        $approval_history = new LeaveApprovalDetail;
+        $approval_history->leave_apply_id = $leave_id;
+        $approval_history->emp_id         = $leaveApp->emp_id;
+        $approval_history->approver_id    = Auth::user()->emp_id;
+        $approval_history->actions        = $request->action_id;
+        $approval_history->paid_count     = $paid_leave;
+        $approval_history->unpaid_count   = $unpaid_leave;
+        $approval_history->approver_remark= null;
+        $approval_history->save();
 
         return back()->with('success', 'Status updated');
-
 
     }
 

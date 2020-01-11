@@ -38,6 +38,16 @@
 				          </span>
 				      	@enderror
 					</div>
+					<div class="col-6 form-group">
+						<label for="generate_after">Generate days</label>
+						<input type="text" class="form-control" name="generate_days"
+						autocomplete="off" id="generate_days" value="{{old('generate_days')}}">
+						@error('generate_days')
+				          <span class="text-danger" role="alert">
+				            <strong>* {{ $message }}</strong>
+				          </span>
+				      	@enderror
+					</div>
 					{{-- <div class="col-6 form-group">
 						<label for="generate_after">Generate after</label>
 						<input type="text" class="form-control" name="generate_after" id="generate_after" value="{{old('generate_after')}}">
@@ -92,7 +102,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-3 form-group">
 						<div><h5>Can be carry forward</h5></div>
             			<div class="toggle lg row col-12">
             				<div class="form-check form-check-inline mr-0">
@@ -102,7 +112,7 @@
 							</div>
             			</div>
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-3 form-group">
 						<div><h5>Document required</h5></div>
             			<div class="toggle lg row col-12">
             				<div class="form-check form-check-inline mr-0">
@@ -112,7 +122,7 @@
 							</div>
             			</div>
 					</div>
-					<div class="col-4 form-group">
+					<div class="col-3 form-group">
 						<div><h5>Is it LWP?</h5></div>
             			<div class="toggle lg row col-12">
             				<div class="form-check form-check-inline mr-0">
@@ -121,10 +131,9 @@
 								</label>
 							</div>
             			</div>
-            			
 					</div>
-					<div class="col-4 form-group">
-						<div><h5>Dont Show</h5></div>
+					<div class="col-3 form-group">
+						<div><h5>Dont Show(to employee)</h5></div>
             			<div class="toggle lg row col-12">
             				<div class="form-check form-check-inline mr-0">
 								<label>
@@ -135,8 +144,8 @@
 					</div>
 		    	</div>
 		    		<div class="col-12 form-group text-center">
-						<button class="btn btn-info btn-sm m-2" style="width: 30%">Save</button>
-						<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Clear</a>
+						<button class="btn btn-info btn-sm m-2" style="width: 20%">Save</button>
+						<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 20%">Clear</a>
 					</div>
 				</div>
 			</form>

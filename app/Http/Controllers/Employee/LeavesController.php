@@ -49,9 +49,9 @@ class LeavesController extends Controller
                       ->latest()
                       ->first();
 
-      $parent_id  = EmployeeMast::find(Auth::user()->emp_id)->parent_id;
+      $parent_id  = EmployeeMast::find(Auth::user()->emp_id)              ->parent_id;
 
-//      return $employee;
+      $leaves = LeaveMast::all();
 
       return view('employee.leaves.index', compact('employee', 'balance'));
    }
@@ -78,7 +78,8 @@ class LeavesController extends Controller
 
 
       //Get all allotted Leaves of current employee.
-      $allotment = LeaveAllotment::where('emp_id', Auth::user()->emp_id)
+      $allotment = LeaveAllotment::with('leaves')
+                    ->where('emp_id', Auth::user()->emp_id)
                 ->get();
 
       $leaves = [];
@@ -89,7 +90,7 @@ class LeavesController extends Controller
                       ->first();
       }
 
-      //return $allotment[0]->initial_bal;
+      //return $allotment;
 
       //return LeaveAllotment::with('leaves')
                 //->get();
@@ -127,6 +128,7 @@ class LeavesController extends Controller
       $data['max_apply_year']   = $leave->max_apply_year;
       $data['carry_forward']    = $leave->carry_forward;
       $data['docs_required']    = $leave->docs_required;
+      $data['without_pay']      = $leave->without_pay;
       $data['holidays']         = $holidays;
       
 

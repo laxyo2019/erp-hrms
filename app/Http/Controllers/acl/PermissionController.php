@@ -35,19 +35,10 @@ class PermissionController extends Controller
     public function store(Request $request){
 
     	$this->validate($request, [
-    		'permission'      => 'required',
-            'permission_alias'=> 'required'
+    		'permission'      => 'required'
     		]);
 
     	$permission = Permission::create(['name' => $request->permission]);
-
-        //Create Alias (short code) for permissions
-
-        $palias = new PermissionAlias;
-        $palias->permission_id  = $permission->id;
-        $palias->alias          = $request->permission_alias;
-        $palias->save();
-
 
     	return redirect()->route('permissions.index')->with('success', 'Permission Created.');
     }
