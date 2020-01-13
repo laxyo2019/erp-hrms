@@ -27,6 +27,11 @@ Route::resource('/employee/leaves','Employee\LeavesController');
 
 Route::get('/hrd/employees/delete_row/{db_table}/{id}', 'HRD\EmployeesController@delete_row')->name('employee.delete_row');
 
+/*******Leave Request**********/
+
+Route::post('leave-request/reverse/{user_id}', 'HRD\LeavesController@reverse')->name('reverse.leave');
+
+
 /************Leave Management**************/
 
 //Type
@@ -55,14 +60,13 @@ Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_p
 
 Route::resource('approval-action', 'HRD\ApprovalsController');
 
-/*
-Spatie Roles & Permissions
-*/
+
+/*******ACL********/
   
-	Route::resource('acl/permissions', 'acl\PermissionController');
-	Route::resource('acl/roles', 'acl\RoleController');
-	Route::resource('acl/users', 'acl\UserController');
-	Route::get('user/create/{id}', 'acl\UserController@assign')->name('assign.role');
+Route::resource('acl/permissions', 'acl\PermissionController');
+Route::resource('acl/roles', 'acl\RoleController');
+Route::resource('acl/users', 'acl\UserController');
+Route::get('user/create/{id}', 'acl\UserController@assign')->name('assign.role');
 
 
 
@@ -131,42 +135,45 @@ Route::resource('/settings/grades','Settings\GradesController');
 
 
 
-//Expanses
+/**/
+ //Expanses
 
-//Route::post('/expenses/accounts','Expenses\PaymentsController@account_mast')->name('account_mast');
-//Route::post('/expenses/vendor_mast','Expenses\PaymentsController@vendor_mast')->name('vendor_mast');
-//Route::get('payments/export/', 'Expenses\PaymentsController@export')->name('payments.export');
-//Route::post('payments/imports/', 'Expenses\PaymentsController@import')->name('payments.imports');
+	//Route::post('/expenses/accounts','Expenses\PaymentsController@account_mast')->name('account_mast');
+	//Route::post('/expenses/vendor_mast','Expenses\PaymentsController@vendor_mast')->name('vendor_mast');
+	//Route::get('payments/export/', 'Expenses\PaymentsController@export')->name('payments.export');
+	//Route::post('payments/imports/', 'Expenses\PaymentsController@import')->name('payments.imports');
 
-//Tours
-//Route::get('expenses/tour/tour_stages/{id}','Expenses\ToursController@tour_stages')->name('tour.tour_stages');
-//Route::get('expenses/tour/approve/{id}','Expenses\ToursController@approve')->name('tour.approve');
-//Route::get('expenses/tour/start/{id}','Expenses\ToursController@start')->name('tour.start');
-//Route::get('expenses/tour/end/{id}','Expenses\ToursController@end')->name('tour.end');
-//Route::get('expenses/tour/decline/{id}','Expenses\ToursController@decline')->name('tour.decline');
+	//Tours
+	//Route::get('expenses/tour/tour_stages/{id}','Expenses\ToursController@tour_stages')->name('tour.tour_stages');
+	//Route::get('expenses/tour/approve/{id}','Expenses\ToursController@approve')->name('tour.approve');
+	//Route::get('expenses/tour/start/{id}','Expenses\ToursController@start')->name('tour.start');
+	//Route::get('expenses/tour/end/{id}','Expenses\ToursController@end')->name('tour.end');
+	//Route::get('expenses/tour/decline/{id}','Expenses\ToursController@decline')->name('tour.decline');
 
-//start Tendar section routing
+	//start Tendar section routing
 
-//Route::resource('/tender_master', 'Tender\TenderController');
-//Route::post('tender_master/{type}', 'Tender\TenderController@getForm');
-//Route::post('tender_details/', 'Tender\TenderController@save_details');
-//Route::post('delete_reco/', 'Tender\TenderController@delete_reco');
-//Route::post('update_meeting/', 'Tender\TenderController@update_meeting');
+	//Route::resource('/tender_master', 'Tender\TenderController');
+	//Route::post('tender_master/{type}', 'Tender\TenderController@getForm');
+	//Route::post('tender_details/', 'Tender\TenderController@save_details');
+	//Route::post('delete_reco/', 'Tender\TenderController@delete_reco');
+	//Route::post('update_meeting/', 'Tender\TenderController@update_meeting');
 
-//Start Tender Type Controller  
+	//Start Tender Type Controller  
 
-//Route::resource('/tender_type', 'Tender\TenderTypeController');
+	//Route::resource('/tender_type', 'Tender\TenderTypeController');
 
-//End Tender Type Controller
+	//End Tender Type Controller
 
-//Start Tender Categoty Controller
+	//Start Tender Categoty Controller
 
-//Route::resource('/tender_category', 'Tender\TenderCategoryController');
+	//Route::resource('/tender_category', 'Tender\TenderCategoryController');
 
-//End Tender Categoty Controller
-//Route::group(['prefix' => 'tenders', 'namespace' => 'Tender'], function ()  {
-	
-//});
+	//End Tender Categoty Controller
+	//Route::group(['prefix' => 'tenders', 'namespace' => 'Tender'], function ()  {
+
+	//});
+
+/**/
 
 //end Tendar section routing
 
@@ -193,3 +200,4 @@ Route::post('import', 'HRD\EmployeesController@import')->name('employees.import'
 
 /******User Registration******/
 Route::get('auth/create', 'UserController@create');
+

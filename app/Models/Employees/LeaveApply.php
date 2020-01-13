@@ -33,5 +33,9 @@ class LeaveApply extends Model
 
         return $this->belongsTo('App\Models\Employees\EmployeeMast', 'reports_to');
     }
-    
+
+
+    public function approvaldetail(){
+        return $this->hasOne('App\Models\Employees\LeaveApprovalDetail', 'leave_apply_id');
+    }
 }

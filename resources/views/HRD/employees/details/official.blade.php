@@ -24,7 +24,7 @@
 							<select name="comp_id" class="form-control">
 								<option value="">Select Company</option>
 									@foreach($meta['comp_mast'] as $company)
-										<option value="{{$company->id}}" {{old('comp_id', $employee->comp_id) == $company->id ? 'selected' : ''}} >{{$company->name}}</option>
+										<option value="{{$company->id}}" {{old('comp_id', $employee->comp_id) == $company->id ? 'selected' : ''}} >{{ucwords($company->name)}}</option>
 									@endforeach
 							</select>
 							@error('comp_id')
@@ -38,7 +38,7 @@
 							<select name="dept_id" class="form-control">
 								<option value="">Select Department</option>
 									@foreach($meta['dept_mast'] as $department)
-										<option value="{{$department->id}}" {{old('comp_id', $employee->dept_id) == $department->id ? 'selected' : ''}} >{{$department->name}}</option>
+										<option value="{{$department->id}}" {{old('comp_id', $employee->dept_id) == $department->id ? 'selected' : ''}} >{{ucwords($department->name)}}</option>
 									@endforeach
 							</select>
 							@error('comp_id')
@@ -50,9 +50,9 @@
 						<div class="col-6 form-group">
 							<label for="">Employee Type</label>
 							<select name="emp_type" id="" class="form-control">
-								<option value="">-- Select Type --</option>
+								<option value=""> Select Type </option>
 								@foreach($meta['emp_types'] as $emp_type)
-								<option value="{{$emp_type->id}}" {{old('emp_type', $employee->emp_type) == $emp_type->id ? 'selected' : ''}}>{{$emp_type->name}}</option>
+								<option value="{{$emp_type->id}}" {{old('emp_type', $employee->emp_type) == $emp_type->id ? 'selected' : ''}}>{{ucwords($emp_type->name)}}</option>
 								@endforeach
 							</select>
 							@error('emp_type')
@@ -64,9 +64,9 @@
 						<div class="col-6 form-group">
 							<label for="">Employee Status</label>
 							<select name="emp_status" id="" class="form-control">
-								<option value="">-- Select Status --</option>
+								<option value="">Select Status </option>
 								@foreach($meta['emp_statuses'] as $emp_status)
-								<option value="{{$emp_status->id}}" {{old('emp_status',$employee->emp_status) == $emp_status->id ? 'selected' : ''}}>{{$emp_status->name}}</option>
+								<option value="{{$emp_status->id}}" {{old('emp_status',$employee->emp_status) == $emp_status->id ? 'selected' : ''}}>{{ucwords($emp_status->name)}}</option>
 								@endforeach
 							</select>
 							@error('emp_status')
@@ -111,7 +111,7 @@
 							<select name="designation" class="form-control" id="">
 								<option value="">Select designation</option>	
 									@foreach($meta['designation'] as $designation)
-										<option value="{{$designation->id}}" {{old('designation',$employee->desig_id) == $designation->id ? 'selected' : ''}} >{{$designation->name}}</option>
+										<option value="{{$designation->id}}" {{old('designation',$employee->desig_id) == $designation->id ? 'selected' : ''}} >{{ucwords($designation->name)}}</option>
 									@endforeach
 							</select>			
 						</div>
@@ -120,7 +120,7 @@
 							<select name="reports_to" class="form-control" id="">
 								<option value="">Select User</option>	
 									@foreach($meta['emp_mast'] as $index)
-										<option value="{{$index->id}}" {{old('reports_to',$employee->reports_to) == $index->id ? 'selected' : ''}} {{$index->id == $employee->id ? 'disabled' : ''}}>{{$index->emp_name}}</option>
+										<option value="{{$index->id}}" {{old('reports_to',$employee->reports_to) == $index->id ? 'selected' : ''}} {{$index->id == $employee->id ? 'disabled' : ''}}>{{ucwords($index->emp_name)}}</option>
 									@endforeach
 							</select>			
 						</div>

@@ -122,7 +122,6 @@ class LeavesController extends Controller
 
     public function store(Request $request){
       
-        //return $request->all();
         //Update Leave application status
 
         $leave  = LeaveApply::findOrFail($request->leave_request_id);
@@ -167,6 +166,15 @@ class LeavesController extends Controller
 
         $document = LeaveApply::findOrFail($id)->file_path;
         return Storage::download($document);
+    }
+
+    public function reverse(Request $request){
+
+        $detail = LeaveApply::with(['approvaldetail', 'leavetype'])
+            ->where('id', $request->leave_request)
+            ->first();
+
+        LeaveApprovalDetail::where('id')
     }
 
 }

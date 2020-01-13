@@ -105,9 +105,10 @@ class CreateLeavesTable extends Migration
           $table->integer('leave_apply_id');
           $table->integer('emp_id');
           $table->integer('approver_id');
-          $table->string('actions');
-          $table->string('paid_count')->nullable();
-          $table->string('unpaid_count')->nullable();
+          $table->integer('actions');
+          $table->decimal('paid_count', 8,2)->nullable();
+          $table->decimal('unpaid_count', 8,2)->nullable();
+          $table->decimal('carry', 8,2)->nullable();
           $table->string('approver_remark')->nullable();
           $table->timestamps();
           $table->softDeletes();

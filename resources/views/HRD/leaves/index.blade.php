@@ -81,11 +81,11 @@
 	@foreach($actions as $data)
 		@if(!empty($data->reverse))
 			<span class="ml-2">
-				<form action="" method="POST" id="ression">
+				<form action="{{route('reverse.leave', $request->id)}}" method="POST" id="ression">
 				@csrf
 				<input type="hidden" name="leave_request" value="{{$request->id}}">
 				<input type="hidden" name="action_id" value="{{$data->id}}" >
-				<button  class="btn-sm" id="reverse" disabled><i class="fa fa-undo" aria-hidden="true"></i>{{ucwords($data->name)}}</button>
+				<button  class="btn-sm" id="reverse"><i class="fa fa-undo" aria-hidden="true"></i> {{ucwords($data->name)}}</button>
 				</form>
 			</span>
 		@endif

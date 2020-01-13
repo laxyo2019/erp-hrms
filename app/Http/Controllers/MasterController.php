@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Session;
+
 
 class MasterController extends Controller
 {
@@ -241,4 +243,5 @@ class MasterController extends Controller
 		$data = DB::table($db_table)->where('id', $id)->update(['deleted_at' => date('Y-m-d H:i:s',time())]);
 		return redirect()->route('mast_entity.all',['db_table'=>$db_table]);    
 	}
+
 }

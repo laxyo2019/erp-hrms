@@ -21,7 +21,7 @@
 	      	@enderror
 		</div>
 		@foreach($leaves as $index)
-			<div class="col-3 form-group">
+			<div class="col form-group">
 				<label for="leave_{{$index->id}}">{{ucwords($index->name)}}</label>
 				<div class="toggle lg row col-12">
     				<div class="form-check form-check-inline mr-0">
