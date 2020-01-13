@@ -5,10 +5,10 @@
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 24px">Manage Users
           <a href="{{ route('users.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-          {{-- <span class="ml-2">
+          <span class="ml-2">
             <a href="{{route('users.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
             <span class="fa fa-plus "></span> Add User</a>
-          </span> --}}
+          </span>
 		    </h1>
 		    <hr>
 			</div>

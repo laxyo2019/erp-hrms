@@ -62,7 +62,7 @@ Spatie Roles & Permissions
 	Route::resource('acl/permissions', 'acl\PermissionController');
 	Route::resource('acl/roles', 'acl\RoleController');
 	Route::resource('acl/users', 'acl\UserController');
-	Route::get('acl/user/create/{id}', 'acl\UserController@create')->name('assign.role');
+	Route::get('user/create/{id}', 'acl\UserController@assign')->name('assign.role');
 
 
 
@@ -189,3 +189,7 @@ Route::get('hrd/employees/download/{db_table}/{id}', 'HRD\EmployeesController@do
 //Import Export
 
 Route::post('import', 'HRD\EmployeesController@import')->name('employees.import');
+
+
+/******User Registration******/
+Route::get('auth/create', 'UserController@create');

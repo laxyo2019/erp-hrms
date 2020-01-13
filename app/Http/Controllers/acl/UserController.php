@@ -30,7 +30,29 @@ class UserController extends Controller
     //Add as an employee
     public function store(Request $request){
 
-    	$user = User::find( $request->id);
+        $request->validate([
+
+            'name'      => 'required',
+            'email'     => 'required|unique:users',
+            'password'  => 'required|confirmed'
+
+        ]);
+
+        $user = new User;
+        $user->name     = $request->name;
+        $user->email    = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        return redirect('acl/users')->with('success', 'User added successfully.');
+    }
+
+
+    //Update users detail and assign role
+
+    public function assign(Request $request){
+
+        $user = User::find( $request->id);
 
 /******Add user as an employee if not exists*****/
         if(empty($user->emp_id)){
@@ -44,7 +66,7 @@ class UserController extends Controller
 
         }
 
-    	return 'User added as an employee';
+        return 'User added as an employee';
     }
 
     public function edit( $id){
