@@ -39,7 +39,7 @@
               @foreach($roles as $index)
               <tr class="text-center">
                 <td>{{++$count}}</td>
-                <td >{{$index->name}}</td>
+                <td >{{ucwords($index->name)}}</td>
                 <td >
                   <div class="row">
                     

@@ -14,9 +14,9 @@ Route::get('/', 'HomeController@index')->name('home');
 Auth::routes();
 // Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('/expenses/bills','Expenses\BillsController');
-Route::resource('/expenses/vendors','Expenses\VendorsController');
-Route::resource('/expenses/tours','Expenses\ToursController');
+//Route::resource('/expenses/bills','Expenses\BillsController');
+//Route::resource('/expenses/vendors','Expenses\VendorsController');
+//Route::resource('/expenses/tours','Expenses\ToursController');
 Route::resource('/hrd/approvals','HRD\ApprovalsController');
 Route::resource('/information', 'InformationController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
@@ -133,40 +133,40 @@ Route::resource('/settings/grades','Settings\GradesController');
 
 //Expanses
 
-Route::post('/expenses/accounts','Expenses\PaymentsController@account_mast')->name('account_mast');
-Route::post('/expenses/vendor_mast','Expenses\PaymentsController@vendor_mast')->name('vendor_mast');
-Route::get('payments/export/', 'Expenses\PaymentsController@export')->name('payments.export');
-Route::post('payments/imports/', 'Expenses\PaymentsController@import')->name('payments.imports');
+//Route::post('/expenses/accounts','Expenses\PaymentsController@account_mast')->name('account_mast');
+//Route::post('/expenses/vendor_mast','Expenses\PaymentsController@vendor_mast')->name('vendor_mast');
+//Route::get('payments/export/', 'Expenses\PaymentsController@export')->name('payments.export');
+//Route::post('payments/imports/', 'Expenses\PaymentsController@import')->name('payments.imports');
 
 //Tours
-Route::get('expenses/tour/tour_stages/{id}','Expenses\ToursController@tour_stages')->name('tour.tour_stages');
-Route::get('expenses/tour/approve/{id}','Expenses\ToursController@approve')->name('tour.approve');
-Route::get('expenses/tour/start/{id}','Expenses\ToursController@start')->name('tour.start');
-Route::get('expenses/tour/end/{id}','Expenses\ToursController@end')->name('tour.end');
-Route::get('expenses/tour/decline/{id}','Expenses\ToursController@decline')->name('tour.decline');
+//Route::get('expenses/tour/tour_stages/{id}','Expenses\ToursController@tour_stages')->name('tour.tour_stages');
+//Route::get('expenses/tour/approve/{id}','Expenses\ToursController@approve')->name('tour.approve');
+//Route::get('expenses/tour/start/{id}','Expenses\ToursController@start')->name('tour.start');
+//Route::get('expenses/tour/end/{id}','Expenses\ToursController@end')->name('tour.end');
+//Route::get('expenses/tour/decline/{id}','Expenses\ToursController@decline')->name('tour.decline');
 
 //start Tendar section routing
 
-Route::resource('/tender_master', 'Tender\TenderController');
-Route::post('tender_master/{type}', 'Tender\TenderController@getForm');
-Route::post('tender_details/', 'Tender\TenderController@save_details');
-Route::post('delete_reco/', 'Tender\TenderController@delete_reco');
-Route::post('update_meeting/', 'Tender\TenderController@update_meeting');
+//Route::resource('/tender_master', 'Tender\TenderController');
+//Route::post('tender_master/{type}', 'Tender\TenderController@getForm');
+//Route::post('tender_details/', 'Tender\TenderController@save_details');
+//Route::post('delete_reco/', 'Tender\TenderController@delete_reco');
+//Route::post('update_meeting/', 'Tender\TenderController@update_meeting');
 
 //Start Tender Type Controller  
 
-Route::resource('/tender_type', 'Tender\TenderTypeController');
+//Route::resource('/tender_type', 'Tender\TenderTypeController');
 
 //End Tender Type Controller
 
 //Start Tender Categoty Controller
 
-Route::resource('/tender_category', 'Tender\TenderCategoryController');
+//Route::resource('/tender_category', 'Tender\TenderCategoryController');
 
 //End Tender Categoty Controller
-Route::group(['prefix' => 'tenders', 'namespace' => 'Tender'], function ()  {
+//Route::group(['prefix' => 'tenders', 'namespace' => 'Tender'], function ()  {
 	
-});
+//});
 
 //end Tendar section routing
 

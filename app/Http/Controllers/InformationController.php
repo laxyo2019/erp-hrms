@@ -29,6 +29,11 @@ class InformationController extends Controller
 
     public function update(Request $request, $id){
 
+        $request->validate([
+            'emp_name'  => 'required'
+        ]);
+
+
     	if($id == Auth::user()->emp_id){
 
     		EmployeeMast::where('id', $id)

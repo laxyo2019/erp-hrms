@@ -50,7 +50,8 @@
 
            --}}
           @unlessrole('team lead')
-       {{--  <li  id="nav" class="treeview{{call_user_func_array('Request::is', (array)['hrd*','leave*','types*','allotments*','holidays*']) ? 'is-expanded' : 'active_subtab'}}"><a class="treeview-item" href="#"><i class="icon fa fa-angle-double-right"></i>Leaves Management</a>
+{{--  
+          <li  id="nav" class="treeview{{call_user_func_array('Request::is', (array)['hrd*','leave*','types*','allotments*','holidays*']) ? 'is-expanded' : 'active_subtab'}}"><a class="treeview-item" href="#"><i class="icon fa fa-angle-double-right"></i>Leaves Management</a>
         </li>
         <ul id="togal" style="display: none;">
           <li class={{call_user_func_array('Request::is', (array)['leave-management/type*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('types.index')}}"></i> Leave Type</a>
@@ -62,19 +63,20 @@
           <li class={{call_user_func_array('Request::is', (array)['leave-management/apptoval-actions*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('approval-action.index')}}"></i>Approval Actions</a>
             </li>
 
-        </ul> --}}
+        </ul> 
+ --}}
         @endrole
           {{-- <li class={{call_user_func_array('Request::is', (array)['hrd/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('rules.index')}}"><i class="icon fa fa-angle-double-right"></i>Leaves Rules</a></li> --}}
       </ul>
     @endhasrole
     {{-- Employees tab --}}
-    @php  @endphp
-    <li class="treeview {{call_user_func_array('Request::is', (array)['employee*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">Employee</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+
+{{--     <li class="treeview {{call_user_func_array('Request::is', (array)['employee*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">Employee</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
       <li class={{call_user_func_array('Request::is', (array)['employee/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{url('employee/leaves')}}"><i class="icon fa fa-angle-double-right"></i>Apply Leave</a></li>
       </ul>
     </li>
-    @php  @endphp
+ --}}
     @unlessrole('employee|team lead')
     {{-- end of module --}}
 

@@ -38,18 +38,20 @@
               <tr class="text-center">
                 <td>{{++$count}}</td>
                 <td>{{ucwords($index->name)}}</td>
-                <td class="d-flex " >
-                    <span>
+                <td  >
+                  <div class="row">
+                    <div class="col" align="right">
                         <a href="{{route('permissions.edit',$index->id)}}" class="btn btn-sm btn-info">EDIT</a>
-                    </span>
-                    <span class="ml-2">
+                    </div>
+                    <div class="col" align="left">
                       <form  action="{{route('permissions.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
                           @csrf
                         @method('DELETE')
                         <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
                     
                       </form>
-                    </span>
+                    </div>
+                    </div>
                   </td>
               </tr>
               @endforeach

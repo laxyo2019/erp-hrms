@@ -37,12 +37,14 @@
                 @foreach($users as $index)
                     <tr class="text-center" >
                       <td>{{++$count}}</td>
-                      <td>{{$index->name}}</td>
+                      <td>{{ucwords($index->name)}}</td>
                       <td>{{$index->email}}</td>
-                      <td class="d-flex" >
-                        <span>
+                      <td  >
+                        <div class="row">
+                          <div class="col" align="right">
                           <a href="{{route('users.edit',$index->id)}}" class="btn btn-sm btn-info">EDIT</a>
-                        </span>
+                          </div>
+                        
                         {{-- @if(!empty($index->emp_id))
                           <span class="ml-2">
                           <form action="{{route('assign.user',$index->id)}}" method="POST" id="assign_{{ $index->id}}">
@@ -51,13 +53,15 @@
                           </form>
                           </span>
                           @endif --}}
-                        <span class="ml-2">
+                        
+                          <div class="col" align="left">
                           <form  action="{{route('users.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
                             @csrf
                             @method('DELETE')
                             <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
                           </form>
-                        </span>
+                          </div>
+                        </div>
                       </td>
                     </tr>
                 @endforeach
