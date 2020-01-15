@@ -12,7 +12,6 @@ use App\Models\Master\ApprovalAction;
 use App\Models\Master\Designation;
 use Spatie\Permission\Models\Role ;
 use Spatie\Permission\Models\Permission;
-use App\Models\Spatie\PermissionAlias;
 
 class PermissionController extends Controller
 {
@@ -45,22 +44,18 @@ class PermissionController extends Controller
 
     public function edit( $id){
     	$permission = Permission::where('id', $id)->first();
-        $permission_alias = PermissionAlias::where('permission_id', $permission->id)->first();
 
-    	return view('acl.permissions.edit', compact('permission', 'permission_alias'));
+    	return view('acl.permissions.edit', compact('permission'));
     }
 
     public function update(Request $request, $id){
 
     	$this->validate($request, [
-    		'permission'        => 'required',
-            'permission_alias'  => 'required'
+    		'permission'        => 'required'
     		]);
 
     	$permission = Permission::where('id', $id)
     			         ->update(['name' =>  $request->permission]);
-        PermissionAlias::where('permission_id', $id)
-                        ->update(['alias' => $request->permission_alias]);
 
 
         return redirect()->route('permissions.index')->with('success', 'Permission updated successfully.');
@@ -70,7 +65,6 @@ class PermissionController extends Controller
     public function destroy( $id){
     	
     	Permission::findOrFail($id)->delete();
-        PermissionAlias::where('permission_id', $id)->delete();
     	return redirect()->route('permissions.index')->with('success', 'Permission deleted.');
     }
 }

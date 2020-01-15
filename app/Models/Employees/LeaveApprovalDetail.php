@@ -9,6 +9,7 @@ class LeaveApprovalDetail extends Model
 {
     use SoftDeletes;
     protected $table = 'leave_approval_detail';
+    protected $fillable =	['id', 'leave_apply_id', 'emp_id', 'approver_id', 'actions', 'paid_count', 'unpaid_count', 'carry', 'approver_remark'];
     protected $guarded = [];
     
 }

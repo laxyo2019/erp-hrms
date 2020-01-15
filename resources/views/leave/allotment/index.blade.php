@@ -44,10 +44,10 @@
                                     <td>{{$index['allotments'][0]->start}}</td>
                                     <td>{{$index['allotments'][0]->end}}</td>
                                     <td>
-                                      @foreach($index->allotments as $leave)
-                                        <div>{{ucwords($leave['leaves']->name)}} <span style="float: right">{{$leave->current_bal}}</span></div>
-                                        <hr>
-                                      @endforeach
+@foreach($index->allotments as $leave)
+    <div>{{ucwords($leave['leaves']->name)}} <span style="float: right">{{$leave->initial_bal}}</span></div>
+    <hr>
+@endforeach
                                     </td>
                                     <td class='d-flex ' style="border-bottom:none">
   <span class="ml-2 text-center">

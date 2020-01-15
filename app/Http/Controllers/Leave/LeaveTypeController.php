@@ -42,11 +42,10 @@ class LeaveTypeController extends Controller
             'max_apply_year'    => 'nullable|numeric|between:0,99.99',
         ]);
 
-
     	$leaves = new LeaveMast;
     	$leaves->name 				= 	strtolower($request->leave_name);
     	$leaves->total 				=	$request->total_leaves;
-        $leaves->generate_days      =   $request->generate_days;
+        $leaves->generate_days      =   $request->generate_days == null ? 0.0 : $request->generate_days;
     	$leaves->max_apply_once		=	$request->max_apply_once;
     	$leaves->min_apply_once		=	$request->min_apply_once;
     	$leaves->max_days_month		=	$request->max_days_inmonth;
@@ -93,7 +92,7 @@ class LeaveTypeController extends Controller
         $leave = LeaveMast::findOrFail($id);
         $leave->name            =  $request->leave_name;
         $leave->total           =  $request->total_leaves;
-        $leave->generate_days   =  $request->generate_days;
+        $leave->generate_days   =  $request->generate_days == null ? 0.0 : $request->generate_days;
         $leave->max_apply_once  =  $request->max_apply_once;
         $leave->min_apply_once  =  $request->min_apply_once;
         $leave->max_days_month  =  $request->max_days_inmonth;

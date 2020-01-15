@@ -43,15 +43,12 @@ class UpdateLeaveBalance extends Command
      */
     public function handle()
     {
-        //DB::table('holidays')
-        //  ->where('id', 1)
-        //  ->update(['desc' => '654sfs684dff']);
-
         $leaves = LeaveMast::all();
 
         foreach($leaves as $data){
 
-            LeaveAllotment::where('leave_mast_id', $data->id)->increment('initial_bal', $data->generate_days);
+            LeaveAllotment::where('leave_mast_id', $data->id)
+                ->increment('initial_bal', $data->generate_days);
       }
 
 

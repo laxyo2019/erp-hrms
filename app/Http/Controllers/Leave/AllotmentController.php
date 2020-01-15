@@ -91,7 +91,6 @@ class AllotmentController extends Controller
 
     public function update(Request $request,$id){
 
-
     	$this->validate($request, [
 	    	'start'		=>	'required',
 	    	'ends'		=>	'required'
@@ -106,7 +105,7 @@ class AllotmentController extends Controller
 			$data = [
 					'start'			=>	$request->start,
 					'end'			=>	$request->ends,
-					'current_bal'	=>	$request->leave[$x]
+					'initial_bal'	=>	$request->leave[$x]
 					];
 
 			LeaveAllotment::where('emp_id',$id)->where('leave_mast_id',$request->id[$x])->update($data);

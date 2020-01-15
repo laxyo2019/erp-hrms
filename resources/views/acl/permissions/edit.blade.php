@@ -22,7 +22,7 @@
 			@csrf
 			@method('PATCH')
 			<div class="row">
-				<div class="col-6" style="text-align: center;">
+				<div class="col-6" align="center">
 					<label for="permission">Permission Name</label>
 					<input type="text" id="permission" class="form-control" name="permission" value="{{old('permission', $permission->name)}}" >
 					@error('permission')
@@ -31,7 +31,7 @@
 				      </small>
 			      	@enderror
 				</div>	
-				<div class="col-6" style="text-align: center;">
+				{{-- <div class="col-6" style="text-align: center;">
 					<label for="permission_alias">Permission Alias</label>
 					<input type="text" id="permission_alias" class="form-control" name="permission_alias" value="{{$permission_alias->alias}}" >
 					@error('permission_alias')
@@ -39,7 +39,7 @@
 				          	*{{ $message }}
 				      </small>
 			      	@enderror
-				</div>			
+				</div>	 --}}		
 			</div>
 			<br><br>
     		<div class="col-12 form-group text-center">

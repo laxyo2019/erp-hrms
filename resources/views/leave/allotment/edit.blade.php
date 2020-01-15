@@ -40,11 +40,12 @@
 			          </span>
 			      	@enderror
 				</div>
+				
 				@foreach($employee as $user)
 					<div class="col-6 form-group">
 						<label for="leave_{{$user->leave_mast_id}}">{{ucwords($user->leaves->name)}} ( In days )</label>
 						<input type="text" class="form-control" name="leave[]"
-						autocomplete="off" id="leave_{{$user->leave_mast_id}}" value="{{$user->current_bal}}">
+						autocomplete="off" id="leave_{{$user->leave_mast_id}}" value="{{$user->initial_bal}}">
 						<input type="hidden" name="id[]" value="{{$user->leave_mast_id}}">
 
 						@error('leave_{{$user->leave_mast_id}}')

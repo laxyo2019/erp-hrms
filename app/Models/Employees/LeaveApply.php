@@ -10,7 +10,7 @@ class LeaveApply extends Model
     use SoftDeletes;
 
     protected $table = 'emp_leave_applies';
-    //protected $with	 =	['approve_name', 'leavetype', 'employee']; //It will be called everytime when LeaveApply model is used.
+    //protected $with =	['approve_name', 'leavetype', 'employee']; //It will be called everytime when LeaveApply model is used.
 
     public function employee(){
 
@@ -33,7 +33,6 @@ class LeaveApply extends Model
 
         return $this->belongsTo('App\Models\Employees\EmployeeMast', 'reports_to');
     }
-
 
     public function approvaldetail(){
         return $this->hasOne('App\Models\Employees\LeaveApprovalDetail', 'leave_apply_id');

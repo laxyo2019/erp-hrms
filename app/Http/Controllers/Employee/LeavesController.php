@@ -427,11 +427,11 @@ class LeavesController extends Controller
     $leaveapply->save();
       
     //Deduct leave when employee apply for it & add if declined
-    /*$leave = LeaveAllotment::where([
+    $leave = LeaveAllotment::where([
                   ['emp_id', Auth::user()->emp_id],
                   ['leave_mast_id', $request->leave_type_id]])
                   ->limit(1)
-                  ->decrement('current_bal', $request->duration);*/
+                  ->decrement('current_bal', $request->count);
 
 
     return redirect('employee/leaves')->with('success','Applied successfully');
