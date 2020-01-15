@@ -22,6 +22,9 @@ Route::resource('/information', 'InformationController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
 
+//Assign as Employee and role
+
+
 
 //Delete Employees Info
 
@@ -66,7 +69,7 @@ Route::resource('approval-action', 'HRD\ApprovalsController');
 Route::resource('acl/permissions', 'acl\PermissionController');
 Route::resource('acl/roles', 'acl\RoleController');
 Route::resource('acl/users', 'acl\UserController');
-Route::get('user/create/{id}', 'acl\UserController@assign')->name('assign.role');
+Route::post('user/assign/', 'acl\UserController@assign')->name('assign.role');
 
 
 

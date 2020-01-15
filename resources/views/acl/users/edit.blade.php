@@ -82,7 +82,7 @@ $(document).ready(function(){
 		var user_id = {{$user->id}};
 		$.ajax({
             type: 'POST',
-			url: '{{ route("users.store")}}',
+			url: '{{ route("assign.role")}}',
 			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			data: {'id':user_id },
 			success:function(data){
