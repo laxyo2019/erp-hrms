@@ -78,6 +78,9 @@
 									<td>
 
 @if(!empty($request->status))
+	
+@if($request['approvaldetail']->carry == null)
+
 	@foreach($actions as $data)
 		@if(!empty($data->reverse))
 			<span class="ml-2">
@@ -90,6 +93,10 @@
 			</span>
 		@endif
 	@endforeach
+@else
+	Reversed
+@endif
+
 @endif								</td>
 									<td class='d-flex' style="border-bottom:none">
 							
@@ -109,7 +116,7 @@
 
 	@else
 		<div class="col-sm-12">
-			<strong>{{ ucwords($request['approvalaction']->name) }} </strong> <br>By <u>({{ucwords($request['approve_name']->emp_name)}})</u>			
+			<strong>{{ ucwords($request['approvalaction']->name) }} </strong> <br>by <u>{{ucwords($request['approve_name']->emp_name)}}</u>			
 		</div>
 @endif
 {{-- <form action="{{url('hrd/leaves')}}" method="POST" id="ression1">

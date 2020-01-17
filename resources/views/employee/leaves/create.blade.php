@@ -450,12 +450,11 @@ function leaveIDChange(leave_id){
 
 					$('#end_date').on('change', function(){
 						var duration = $('#duration').val();
-						if(duration > res.user_bal.initial_bal  ){
+						if(duration > res.user_bal.initial_bal ){
 							alert('You don\'t have enough leaves.');
 							$('#start_date').val('');
 							$('#end_date').val('');
 							$('#duration').val('');
-
 
 						}
 					});
@@ -467,12 +466,12 @@ function leaveIDChange(leave_id){
 						var duration = $('#duration').val();
 						if(duration > res.user_bal.initial_bal  ){
 							
-							if(empty(res.without_pay)){
+							//if(empty(res.without_pay)){
 								alert('You don\'t have enough leaves.');
 								$('#start_date').val('');
 								$('#end_date').val('');
 								$('#duration').val('');
-							}
+							//}
 						}
 					});
 
@@ -483,12 +482,12 @@ function leaveIDChange(leave_id){
 						var duration = $('#duration').val();
 						if(duration > res.user_bal.initial_bal  ){
 							
-							if(empty(res.without_pay)){
+							//if(empty(res.without_pay)){
 								alert('You don\'t have enough leaves.');
 								$('#start_date').val('');
 								$('#end_date').val('');
 								$('#duration').val('');
-							}
+							//}
 						}
 					});
 					
@@ -497,14 +496,15 @@ function leaveIDChange(leave_id){
 
 					$('#start_date').on('change', function(){
 						var duration = $('#duration').val();
-						if(0.5 > res.user_bal.initial_bal  ){
+						//alert(res.user_bal.initial_bal)
+						if(res.user_bal.initial_bal < 0.50 ){
 
-							if(empty(res.without_pay)){
+							//if(empty(res.without_pay)){
 								alert('You don\'t have enough leaves.');
 								$('#start_date').val('');
 								$('#end_date').val('');
 								$('#duration').val('');
-							}
+							//}
 						}
 					});
 					
@@ -543,9 +543,6 @@ function btnChange(btnId){
 		$('#btnId').val(btnId);
 		$('#endDate').removeClass('d-none');
 		$('#checkday').addClass('d-none');
-		
-		// multiHolidays();
-
 		//On changing date
 
 	}

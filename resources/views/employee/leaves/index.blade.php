@@ -25,7 +25,7 @@
 									<div class="card " style="min-height:150px;background-image: linear-gradient(to bottom,#31c54a, #6fb183);color: white;">
 									<br>
 									<h3>{{ucwords($index['leaves']->name)}}</h3>
-									<h1>{{$index->current_bal}}</h1>
+									<h1>{{$index->initial_bal}}</h1>
 									<br>
 									{{-- dd(index->current_bal); --}}
 									</div>
@@ -113,7 +113,7 @@
 							<div>
 								<u>
 							@if($leaveapply->approve_name)
-								{{'By'.' ' }}	({{$leaveapply->approve_name->UserName->name}})
+								By	({{$leaveapply->approve_name->UserName->name}})
 							@endif </u>
 								</div>
 							@elseif($leaveapply->status == 1)
@@ -132,14 +132,12 @@
 						<div>
 							<u>
 								@if($leaveapply->approve_name)
-									{{'By'.' ' }}
-									{{$leaveapply['approve_name']->emp_name}}
+									by
+									{{ucwords($leaveapply['approve_name']->emp_name)}}
 								@endif</u>
 						</div>
 							{{-- {{empty($leaveapply['approvalaction']->name) ? 'Decline'  : strtoupper($leaveapply['approvalaction']->name)}} --}}
-	
-										
-									</td>
+								</td>
 									
 									<td class='d-flex' style="border-bottom:none">
 										<button class="btn btn-sm btn-info modalLeave ml-2" data-id="{{$leaveapply->id}}">
@@ -164,11 +162,11 @@
 											<a href="{{url('employee/leaves/'.$leaveapply->id.'/edit')}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 										</span>	 --}}									
 										<span class="ml-2">
-											<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
-													@csrf
-													@method('DELETE')
-												<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
-											</form>
+<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
+		@csrf
+		@method('DELETE')
+	<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
+</form>
 										</span> 
 										@endif
 									</td>
@@ -181,7 +179,6 @@
 				</div>
 			</div>
 		</div>
-		<?php //dd($employee['leaveapplies'][1]['approve_name']->emp_name); ?>
 </main>
 
 <script type="text/javascript">

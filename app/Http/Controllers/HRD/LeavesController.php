@@ -30,9 +30,11 @@ class LeavesController extends Controller
 
         $actions = ApprovalAction::all();
 
-        $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvalaction'])
+        $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvalaction', 'approvaldetail'])
                             ->orderBy('id', 'DESC')
                             ->get();        
+
+           //return $leave_request;
 
         return view('HRD.leaves.index', compact('leave_request', 'permissions', 'actions'));
 	}

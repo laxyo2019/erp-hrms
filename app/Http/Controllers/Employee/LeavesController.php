@@ -15,7 +15,6 @@ use App\Models\Master\Designation;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Employees\LeaveAllotment;
 use App\Models\Master\Holiday;
-use DateTime;
 use App\User;
 
 
@@ -99,20 +98,20 @@ class LeavesController extends Controller
 
    public function balance(Request $request){
 
-
       //Get leave type
 
       $leave    = LeaveMast::where('id', $request->leave_id)
                   ->orWhere('name', $request->leaveType)
                   ->first();
 
+      //return $leave;
+
       // Get user's balance of selected leave
 
       $data['user_bal'] = LeaveAllotment::where('emp_id', Auth::user()->emp_id)
-                              ->where('leave_mast_id', $leave->id)
-                              ->first();
+                          ->where('leave_mast_id', $leave->id)
+                          ->first();
 
-      //return $data['user_bal']->initial_bal;
       //Get holidays
       $holidays = Holiday::all();
 
@@ -210,6 +209,7 @@ class LeavesController extends Controller
 
    public function store(Request $request)
    {
+
     //return $request->all();
 
      $data = $request->validate([
@@ -343,10 +343,8 @@ class LeavesController extends Controller
         }
       }
 
-
-      //return $request->all();
-    
-
+/*
+    //return $request->all();
     //return $data;
     //return 'no error';
       
@@ -374,7 +372,7 @@ class LeavesController extends Controller
     //     'count'         => 'required',]);
     //   }
 
-       $id = Auth::user()->emp_id;
+       
 
     //   //Store full, first/second half day
 
@@ -391,8 +389,8 @@ class LeavesController extends Controller
     //       $request->second_half = 1;
     //       break;
     //   }
-
-
+*/
+    $id = Auth::user()->emp_id;
 
     //Uploading documents to hrmsupload directory
     if($request->hasFile('file_path')){
@@ -407,6 +405,7 @@ class LeavesController extends Controller
       $path = null;
 
     }
+
 
     $leaveapply = new LeaveApply;
     $leaveapply->emp_id            = $id;
@@ -431,15 +430,33 @@ class LeavesController extends Controller
                   ['emp_id', Auth::user()->emp_id],
                   ['leave_mast_id', $request->leave_type_id]])
                   ->limit(1)
-                  ->decrement('current_bal', $request->count);
+                  ->decrement('initial_bal', $request->duration);
 
 
     return redirect('employee/leaves')->with('success','Applied successfully');
     }
 
-    public function show($id)
+ 
+    public function download($id){
+        $document = LeaveApply::findOrFail($id)->file_path;
+        return Storage::download($document);
+    }
+
+    public function destroy($id)
     {
-        return view('employee.leaves.show');
+
+      $leave_app = LeaveApply::findOrFail($id);
+
+      Storage::delete($leave_app->file_path);
+        $leave_app->delete();
+
+      /**Add leave balance to employee if leave application is deleted**/
+
+      LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
+                      ->where('emp_id', $leave_app->emp_id)
+                      ->increment('initial_bal', $leave_app->count);
+        
+        return back()->with('success', 'Record deleted successfully');
     }
 
     public function showrequest(Request $request){
@@ -448,8 +465,14 @@ class LeavesController extends Controller
         return view('employee.leaves.show', compact('leave_req'));
     }
 
+  /*  
+    public function show($id)
+    {
+        return view('employee.leaves.show');
+    }
+   
     public function apply_leaves($id){
-    	return view('employee.leaves.apply');
+      return view('employee.leaves.apply');
     }
 
     public function applyform(){
@@ -459,7 +482,7 @@ class LeavesController extends Controller
         return view('employee.leaves.create');
     }
     
-    /*public function edit( $id)
+    public function edit( $id)
     {
         $leave_type   = LeaveMast::all();
         $leaves       = LeaveApply::where('id', $id)
@@ -512,37 +535,11 @@ class LeavesController extends Controller
         $leaveapply->save();
         return back()->with('success', 'Updated successfully');
     }
-*/
-    public function download($id){
-        $document = LeaveApply::findOrFail($id)->file_path;
-        return Storage::download($document);
-    }
 
-    public function destroy($id)
+   public function emp_leave()
     {
-        $leave_app = LeaveApply::findOrFail($id);
-
-        Storage::delete($leave_app->file_path);
-        $leave_app->delete();
-
-        /***Add leave balance to employee if leave application is deleted***/
-        /*LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
-                      ->where('emp_id', $leave_app->emp_id)
-                      ->increment('current_bal', $leave_app->count);
-        */
-        return back()->with('success', 'Record deleted successfully');
-    }
-
-    public function emp_leave()
-    {
-        $leave_type = DB::table('leave_type_mast')->get();
-        return 542;
+        $leave_type = DB::table('leave_mast')->get();
         return view('employee.leaves.leave',compact('leave_type'));
     }
-
-    /*public function balance(){
-      $allotted = EmployeeMast::find(Auth::user()->emp_id)->first();
-      $leaves = $allotted->leave_allotted;
-
-    }*/
+  */
 }

@@ -35,7 +35,7 @@ class CreateLeavesTable extends Migration
 					$table->integer('max_apply_year')->nullable();
 					$table->boolean('carry_forward')->nullable();
           $table->integer('docs_required')->nullable();
-          $table->integer('without_pay')->nullable();
+          $table->integer('without_pay')->default(0.0);
           $table->integer('dont_show')->nullable();
           $table->timestamps();
           $table->softDeletes();
