@@ -23,22 +23,23 @@ class CreateLeavesTable extends Migration
       });
 
       Schema::create('leave_mast', function (Blueprint $table) {
-          $table->bigIncrements('id');
-      		$table->string('name');
-      		$table->decimal('total',8,2)->default('0.0');
-          $table->decimal('generate_days',8,2)->default('0.0');
-      		$table->integer('generates_after')->nullable();  // (days count)
-					$table->decimal('max_apply_once',8,2)->nullable();
-					$table->decimal('min_apply_once',8,2)->nullable();
-					$table->decimal('max_days_month',8,2)->nullable();
-					$table->integer('max_apply_month')->nullable();// (how many times, user can apply)
-					$table->integer('max_apply_year')->nullable();
-					$table->boolean('carry_forward')->nullable();
-          $table->integer('docs_required')->nullable();
-          $table->integer('without_pay')->default(0.0);
-          $table->integer('dont_show')->nullable();
-          $table->timestamps();
-          $table->softDeletes();
+        $table->bigIncrements('id');
+    		$table->string('name');
+    		$table->decimal('total',8,2)->default('0.0');
+        $table->decimal('generate_days',8,2)->default('0.0');
+    		$table->integer('generates_after')->nullable();  // (days count)
+        $table->integer('carry')->nullable();
+				$table->decimal('max_apply_once',8,2)->nullable();
+				$table->decimal('min_apply_once',8,2)->nullable();
+				$table->decimal('max_days_month',8,2)->nullable();
+				$table->integer('max_apply_month')->nullable();// (how many times, user can apply)
+				$table->integer('max_apply_year')->nullable();
+				$table->boolean('carry_forward')->nullable();
+        $table->integer('docs_required')->nullable();
+        $table->integer('without_pay')->default(0.0);
+        $table->integer('dont_show')->nullable();
+        $table->timestamps();
+        $table->softDeletes();
       });
 
       Schema::create('emp_leave_allotment', function (Blueprint $table) {

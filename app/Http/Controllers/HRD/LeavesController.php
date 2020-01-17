@@ -32,9 +32,8 @@ class LeavesController extends Controller
 
         $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvalaction', 'approvaldetail'])
                             ->orderBy('id', 'DESC')
-                            ->get();        
-
-           //return $leave_request;
+                            ->where('emp_id', '<>', Auth::user()->emp_id)
+                            ->get();       
 
         return view('HRD.leaves.index', compact('leave_request', 'permissions', 'actions'));
 	}
@@ -96,7 +95,8 @@ class LeavesController extends Controller
             }
         }
 
-        /*$data = [
+    /*
+        $data = [
             'leave_apply_id' => $leave_id,
             'emp_id'         => $leaveApp->emp_id,
             'approver_id'    => Auth::user()->emp_id,
@@ -104,7 +104,8 @@ class LeavesController extends Controller
             'paid_count'     => $paid_leave,
             'unpaid_count'   => $unpaid_leave,
             'approver_remark'=> null,
-        ];*/
+        ];
+    */
 
         $approval_history = new LeaveApprovalDetail;
         $approval_history->leave_apply_id = $leave_id;
@@ -169,6 +170,9 @@ class LeavesController extends Controller
 
     public function reverse(Request $request){
 
+        LeaveApply::where('id', $request->leave_request)
+                ->update(['carry'=> 1]);
+        
         $detail = LeaveApply::with(['approvaldetail', 'leavetype'])
             ->where('id', $request->leave_request)
             ->first();
@@ -196,7 +200,6 @@ class LeavesController extends Controller
             'carry'           => $detail->count,
             'approver_remark' => $detail->approver_remark,
         ]);
-
 
         return back()->with('success', 'Reversed leaves successfully.');
     }
