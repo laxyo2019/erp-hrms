@@ -20,6 +20,7 @@
 	          </span>
 	      	@enderror
 		</div>
+
 		@foreach($leaves as $index)
 			<div class="col form-group">
 				<label for="leave_{{$index->id}}">{{ucwords($index->name)}}</label>
@@ -30,9 +31,7 @@
 						</label>
 					</div>
     			</div>
-				{{-- <input type="text" class="form-control" name="leave[]"
-				autocomplete="off" id="leave_{{$index->id}}" value="0">
-				<input type="hidden" name="leave[{{$index->id}}]" value="{{$index->id}}"> --}}
+				
 				@error('leave_{{$user->leave_mast_id}}')
 		          <span class="text-danger" role="alert">
 		            <strong>* {{ $message }}</strong>
@@ -58,3 +57,8 @@ $(document).ready(function(){
 		});
 });
 </script>
+
+
+{{-- <input type="text" class="form-control" name="leave[]"
+				autocomplete="off" id="leave_{{$index->id}}" value="0">
+				<input type="hidden" name="leave[{{$index->id}}]" value="{{$index->id}}"> --}}

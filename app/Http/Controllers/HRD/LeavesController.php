@@ -44,6 +44,10 @@ class LeavesController extends Controller
 
     public function approve_leave(Request $request, $leave_id){
 
+        /*$request->validate([
+           'reason' => 'sometimes|required']);
+        */ 
+        //return $request->all();
         $leaveApp  = LeaveApply::find($leave_id);
         $leaveApp->approver_id = Auth::user()->emp_id;
         $leaveApp->status      = $request->action_id;
@@ -114,15 +118,14 @@ class LeavesController extends Controller
         $approval_history->actions        = $request->action_id;
         $approval_history->paid_count     = $paid_leave;
         $approval_history->unpaid_count   = $unpaid_leave;
-        $approval_history->approver_remark= null;
+        $approval_history->approver_remark= $request->reason;
         $approval_history->save();
-
         return back()->with('success', 'Status updated');
 
     }
 
     public function store(Request $request){
-      
+      return 6;
         //Update Leave application status
 
         $leave  = LeaveApply::findOrFail($request->leave_request_id);

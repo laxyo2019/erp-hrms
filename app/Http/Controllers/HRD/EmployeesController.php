@@ -37,7 +37,8 @@ class EmployeesController extends Controller
   {		
 		$employees = EmployeeMast::with('company','grade','designation')->orderBy('id', 'DESC')->get();
 
-    $leaves = LeaveMast::all();
+    $leaves = LeaveMast::where('id','1')->get();
+    //return $leaves;
 
   
     return view('HRD.employees.index',compact('employees', 'leaves'));

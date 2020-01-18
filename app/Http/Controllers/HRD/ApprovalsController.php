@@ -18,7 +18,7 @@ class ApprovalsController extends Controller
      */
     public function index()
     {
-        $actions = ApprovalAction::all();
+        $actions = ApprovalAction::orderBy('id', 'asc')->get();
         return view('HRD.approvals.index', compact('actions'));
     }
 
@@ -29,7 +29,6 @@ class ApprovalsController extends Controller
      */
     public function create()
     {
-
         return view('HRD.approvals.create');
     }
 
@@ -41,10 +40,15 @@ class ApprovalsController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required'
+        ]);
+        
        $action = new ApprovalAction;
        $action->name       = $request->name;
        $action->description= $request->desc;  
-       $action->reverse    = $request->reverse; 
+       $action->reverse    = $request->reverse;
+       $action->reason     = $request->reason;
        $action->save();
 
        return redirect('approval-action')->with('success', 'Action created successfully.');
@@ -83,10 +87,15 @@ class ApprovalsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required'
+        ]);
+
         $actions = ApprovalAction::findOrFail( $id);
         $actions->name        = $request->name;
         $actions->description = $request->desc;
         $actions->reverse     = $request->reverse;
+        $actions->reason      = $request->reason;
         $actions->save();
 
         return redirect('approval-action')->with('success', 'Record updated successfully');

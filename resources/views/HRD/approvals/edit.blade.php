@@ -27,12 +27,22 @@
 							</div>
 						</div> 
 						<div class="row">
-							<div class="col-6 form-group">
+							<div class="col-4 form-group">
 								<div>Reverse action</div>
 		            			<div class="toggle lg row col-12">
 		            				<div class="form-check form-check-inline mr-0">
 										<label>
 	<input type="checkbox" name="reverse" value="1" {{$actions->reverse == 1 ? 'checked' : '' }}><span class="button-indecator"></span>
+										</label>
+									</div>
+		            			</div>
+							</div>
+							<div class="col-4 form-group">
+								<div>Reason required</div>
+		            			<div class="toggle lg row col-12">
+		            				<div class="form-check form-check-inline mr-0">
+										<label>
+											<input type="checkbox" name="reason" value="1" {{$actions->reason == 1 ? 'checked' : ''}}><span class="button-indecator"></span>
 										</label>
 									</div>
 		            			</div>

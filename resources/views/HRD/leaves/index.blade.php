@@ -82,7 +82,7 @@
 	@if($request->carry == null)
 
 		@foreach($actions as $data)
-			@if(!empty($data->reverse))
+			@if(!empty($data->reverse) )
 				<span class="ml-2">
 					<form action="{{route('reverse.leave', $request->id)}}" method="POST" id="ression">
 					@csrf
@@ -108,12 +108,15 @@
 			@csrf
 			<input type="hidden" name="leave_request" value="{{$request->id}}">
 			<input type="hidden" name="action_id" value="{{$data->id}}" >
-			<button  class="btn-sm" id="{{$data->name}}">{{ucwords($data->name)}}</button>
+			@if($data->reason)
+				<input type="hidden" name="reason" value="" id="reason">
+			@endif
+			<button  class="btn-sm actions {{$data->name}}" id="{{$data->reason}}">{{ucwords($data->name)}}</button>
 			</form>
 		</span>
 		@endif
+		
 		@endforeach
-
 	@else
 		<div class="col-sm-12">
 			<strong>{{ ucwords($request['approvalaction']->name) }} </strong> <br>by <u>{{ucwords($request['approve_name']->emp_name)}}</u>			
@@ -144,9 +147,29 @@
 <script>
 $(document).ready(function(){
 
-	('#')
+	/*var txt = prompt('Please enter reason.');
 
-    $(".reason-decline").click(function(){
+		if(txt != null){
+			$('#reason').attr('value', txt);
+		}
+	*/
+
+	$('.actions').on('click',function(){
+		var btn = $(this).attr('id');
+
+		if(btn == 1){
+
+			var txt = prompt('Please enter reason.');
+
+			if(txt != null){
+				$('#reason').attr('value', txt);
+			}else{
+				return false;
+			}
+
+		}
+	});
+    /*$(".reason-decline").click(function(){
 
   		var reason;
   		var text = prompt("Please enter the reason","Enter the reason");
@@ -157,7 +180,10 @@ $(document).ready(function(){
 			$('input[name="reason"]').val(reason);
 		}
 		
-	});
+	});*/
+
+
+
 	$(".approved1").click(function(){
 	    if (!confirm("Do you want to approve")){
 	      return false;
@@ -168,12 +194,12 @@ $(document).ready(function(){
 
 </script>
 <style type="text/css">
-	#approve
+	.approve
 	{
 		background: #0cac0c;;
 		color: white;
 	}
-	#decline
+	.decline
 	{
 		background: #ff1414;
 		color: white;

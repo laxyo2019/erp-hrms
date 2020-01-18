@@ -30,7 +30,7 @@ class AllotmentController extends Controller
 						->select('id', 'emp_name')
 						->first();
 
-		$leaves 	= LeaveMast::all();
+		$leaves 	= LeaveMast::orderBy('id', 'asc')->get();
 		$sessionStarts	= date('Y-m-d');
 		$sessionEnds	= date('Y-m-d', strtotime('Dec 31'));
 

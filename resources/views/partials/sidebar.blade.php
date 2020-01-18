@@ -117,6 +117,8 @@
         <li class={{call_user_func_array('Request::is', (array)['leave-management/type*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('types.index')}}"><i class="icon fa fa-angle-double-right"></i>Leave Type</a></li>
         <li class={{call_user_func_array('Request::is', (array)['leave-management/allotment*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('allotments.index')}}"><i class="icon fa fa-angle-double-right"></i>Leave Allotment</a></li>
         <li class={{call_user_func_array('Request::is', (array)['leave-management/holidays*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('holidays.index')}}"><i class="icon fa fa-angle-double-right"></i>Holidays</a></li>
+        <li class={{call_user_func_array('Request::is', (array)['leave-management/apptoval-actions*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('approval-action.index')}}"><i class="icon fa fa-angle-double-right"></i>Approval Actions</a>
+            </li> 
       </ul>
     </li> 
 

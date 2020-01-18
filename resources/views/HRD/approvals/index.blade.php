@@ -6,7 +6,7 @@
 				<h1 style="font-size: 24px">Approvals
 					<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
 					<span class="ml-2">
-						<a href="{{route('approvals.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
+						<a href="{{route('approval-action.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
 							<span class="fa fa-plus "></span> Add New</a>
 					</span>
 				</h1>
@@ -30,6 +30,7 @@
 									<th>Name</th>
 									<th>Description</th>
 									<th>Reverse Action</th>
+									<th>Reason Required</th>
 									<th>Actions</th>
 								</tr>
 							</thead>
@@ -41,6 +42,7 @@
 									<td>{{ucwords($data->name)}}</td>
 									<td>{{$data->description}}</td>
 									<td>{{$data->reverse == 1 ? 'Yes' : ''}}</td>
+									<td>{{$data->reason == 1 ? 'Yes' : ''}}</td>
 									<td class='d-flex'>
 										<span>
 											<a href="{{route('approval-action.edit',$data->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>

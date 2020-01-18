@@ -12,7 +12,7 @@
 */
 Route::get('/', 'HomeController@index')->name('home');
 Auth::routes();
-Route::resource('/hrd/approvals','HRD\ApprovalsController');
+//Route::resource('/hrd/approvals','HRD\ApprovalsController');
 Route::resource('/information', 'InformationController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
