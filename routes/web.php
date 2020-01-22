@@ -18,6 +18,12 @@ Auth::routes(['register' => false]);
 Route::resource('/information', 'InformationController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
+
+
+Route::group(['middleware' => ['role:admin|hr manager']], function() {
+
+
+//
 Route::resource('/hrd/leaves', 'HRD\LeavesController');
 Route::resource('/leave-management/types', 'Leave\LeaveTypeController');
 Route::resource('/leave-management/allotments', 'Leave\AllotmentController');
@@ -31,6 +37,37 @@ Route::resource('/settings/grades','Settings\GradesController');
 //Delete Employees Info
 
 Route::get('/hrd/employees/delete_row/{db_table}/{id}', 'HRD\EmployeesController@delete_row')->name('employee.delete_row');
+
+
+
+//Employee Save or Update Methods
+Route::prefix('hrd')->namespace('HRD')->group(function () {
+	Route::post('/employees/{type}', 'EmployeesController@getForm');
+	Route::post('/employees/insert_employee','EmployeesController@insert_employee');
+	Route::post('/employee/save_main/{id}', 'EmployeesController@save_main')->name('employees.main');
+	Route::post('/employee/save_personal/{id}', 'EmployeesController@save_personal')->name('employees.personal');
+	Route::post('/employee/save_official/{id}', 'EmployeesController@save_official')->name('employees.official');
+	Route::post('/employee/save_academics/{id}', 'EmployeesController@save_academics')->name('employees.academics');
+	Route::post('/employee/save_experience/{id}', 'EmployeesController@save_experience')->name('employees.experience');
+	Route::post('/employee/save_documents/{id}', 'EmployeesController@save_documents')->name('employees.documents');
+	Route::post('/employee/save_nominee/{id}', 'EmployeesController@save_nominee')->name('employees.nominee');
+	Route::post('/employees/save_bankdetails/{id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
+});
+
+// HRD > Employees Module
+Route::get('employees/export/', 'HRD\EmployeesController@export')->name('employees.export');
+
+//Download documents
+
+Route::get('hrd/employees/download/{db_table}/{id}', 'HRD\EmployeesController@downloadDocs')->name('employees.download');
+
+//Import Export
+
+Route::post('import', 'HRD\EmployeesController@import')->name('employees.import');
+
+});
+
+/*************************************/
 
 /*******Leave Request**********/
 
@@ -70,10 +107,6 @@ Route::group(['middleware' => ['role:admin']], function() {
 
 });
 
-Route::group(['middleware' => ['role:super-admin']], function () {
-    //
-});
-
 /*	create by kishan for export data using checkbox or unchecheked and view  enployee details and active inactive */
 
 Route::get('/hrd/employees/view-details/{id}/{view}','HRD\EmployeesController@viewDetails')->name('employee.view-details');
@@ -87,7 +120,6 @@ Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
 //HRD LEAVES
 
 
-
 Route::post('/approve_leave/{leave_id}', 'HRD\LeavesController@approve_leave');
 
 
@@ -99,36 +131,7 @@ Route::get('balance', 'Employee\LeavesController@balance');
 
 Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_designation')->name('employees.fetch_designation');
 
-Route::group(['middleware' => ['role:admin']], function() {
 
-//Employee Save or Update Methods
-Route::prefix('hrd')->namespace('HRD')->group(function () {
-	Route::post('/employees/{type}', 'EmployeesController@getForm');
-	Route::post('/employees/insert_employee','EmployeesController@insert_employee');
-	Route::post('/employee/save_main/{id}', 'EmployeesController@save_main')->name('employees.main');
-	Route::post('/employee/save_personal/{id}', 'EmployeesController@save_personal')->name('employees.personal');
-	Route::post('/employee/save_official/{id}', 'EmployeesController@save_official')->name('employees.official');
-	Route::post('/employee/save_academics/{id}', 'EmployeesController@save_academics')->name('employees.academics');
-	Route::post('/employee/save_experience/{id}', 'EmployeesController@save_experience')->name('employees.experience');
-	Route::post('/employee/save_documents/{id}', 'EmployeesController@save_documents')->name('employees.documents');
-	Route::post('/employee/save_nominee/{id}', 'EmployeesController@save_nominee')->name('employees.nominee');
-	Route::post('/employees/save_bankdetails/{id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
-});
-
-// HRD > Employees Module
-Route::get('employees/export/', 'HRD\EmployeesController@export')->name('employees.export');
-
-//Download documents
-
-Route::get('hrd/employees/download/{db_table}/{id}', 'HRD\EmployeesController@downloadDocs')->name('employees.download');
-
-//Import Export
-
-Route::post('import', 'HRD\EmployeesController@import')->name('employees.import');
-
-});
-
-/*************************************/
 
 // Master CRUD
 Route::get('settings/mast_entity/{db_table}', 'MasterController@index')->name('mast_entity.all');

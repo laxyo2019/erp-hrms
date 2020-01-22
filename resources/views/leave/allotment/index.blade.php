@@ -36,8 +36,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php $count = 0; @endphp
-                            @if(count($allotments[0]['allotments']) != null)
+                            @php $count = 0; 
+                                //dd($allotments);
+                            @endphp
+                            @if(count($allotments) != null)
                             @foreach($allotments as $index)
                                 <tr class="text-center">
                                     <td>{{++$count}}</td>

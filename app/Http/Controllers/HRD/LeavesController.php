@@ -193,7 +193,8 @@ class LeavesController extends Controller
         LeaveApply::where('id', $request->leave_request)
                 ->update([
                     'status' => $request->action_id,
-                    'carry'  => 1]);
+                    'carry'  => 1,
+                    'approver_id' => Auth::user()->emp_id]);
 
         //Find leave applicaiton with id
 
