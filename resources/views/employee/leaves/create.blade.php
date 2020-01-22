@@ -190,14 +190,152 @@
 </main>
 <script>
 $(document).ready(function(){
-	$('.datepicker').datepicker({
+	$('.start').datepicker({
 		orientation: "bottom",
 		format: "yyyy-mm-dd",
 		autoclose: true,
 		todayHighlight: true,
 		startDate: '-0m',
+		onSelect: function(dateText) {
+	        console.log("Selected date: " + dateText + "; input's current value: " + this.value);
+	    }
+		
+	})
+	.on("change", function(event) {
+		var btnId =	$('#btnId').val();
+		var leave_id = $('#leave_type').val();
+
+		if(btnId == 'fullBtn'){
+			$('#duration').val(1);
+
+		}else if(btnId == 'halfBtn'){
+			$('#duration').val('Half Day');
+		}
+
+		if(btnId == 'fullBtn' || btnId == 'halfBtn'){
+			$.ajax({
+				type:'get',
+				url: '/balance/',
+				data:{'leave_id': leave_id},
+				success: function(res){
+					
+					var duration = $('#duration').val();
+					if(btnId == 'fullBtn'){
+							if(duration > res.user_bal.initial_bal  ){
+						if(res.without_pay == 0){
+							alert('You don\'t have enough leaves.');
+							$('#start_date').val('');
+							$('#end_date').val('');
+							$('#duration').val('');
+						}
+						}	
+					}else{
+						if(0.50 > res.user_bal.initial_bal  ){
+						//alert(3)
+							if(res.without_pay == 0){
+								alert('You don\'t have enough leaves.');
+								$('#start_date').val('');
+								$('#end_date').val('');
+								$('#duration').val('');
+							}
+						}
+					}
+				
+					
+
+
+				}
+			});
+		}
+	});
+
+	$(".end").datepicker({
+		orientation: "bottom",
+		format: "yyyy-mm-dd",
+		autoclose: true,
+		todayHighlight: true,
+	    onSelect: function(dateText) {
+	        console.log("Selected date: " + dateText + "; input's current value: " + this.value);
+	    }
+	})
+	.on("change", function(event) {
+
+		var start = $('#start_date').val();
+		var end   = $('#end_date').val();
+		var btnId =	$('#btnId').val();
+		var leave_id = $('#leave_type').val();
+		if(btnId == 'multiBtn'){
+			if( Date.parse(start) >= Date.parse(end) ){ 
+
+				alert('End date should be greater.');
+				$('.end').val('');
+				$('#duration').val('');
+				$('#count').val('');
+			
+			}else{
+
+				var OneDay	= 1000 * 60 * 60 * 24;
+				var first	= new Date(start);
+	          	var last	= new Date(end);
+	          	
+	 			var difference_ms = Math.abs(first - last);
+				var count = Math.round(difference_ms/OneDay)+1;
+				//console.log(count)
+				$.ajax({
+					type:'POST',
+					url: "{{route('holiday.check')}}",
+					headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+					data: {'start': start, 'end': end},
+					success:function(res){
+						//alert(res)
+						if(res != 0 ){
+							$('.rule_alert').show();
+						}else{
+							$('.rule_alert').hide();
+						}
+						
+					}
+				})
+
+				if(count == 'NaN'){
+					$('#duration').val('');
+
+				}else{
+					$('#duration').val(count);
+
+				}
+				$.ajax({
+					type:'get',
+					url: '/balance/',
+					data:{'leave_id': leave_id},
+					success: function(res){
+				
+						var duration = $('#duration').val();
+						if(duration > res.user_bal.initial_bal ){
+							if(res.without_pay == 0){
+								alert('You don\'t have enough leaves.');
+								$('#start_date').val('');
+								$('#end_date').val('');
+								$('#duration').val('');
+								
+							}
+						}
+					
+					}
+				});
+				
+			}
+
+
+		}
+
+		
 		
 	});
+
+
+
+
 
 /************Old Code********/
 		//Hide full & half day for Privilege leave
@@ -393,6 +531,7 @@ if(leave_id != ''){
 var btnId = "{{old('btnId')}}";
 
 if(btnId !=''){
+
 	btnChange(btnId);
 }
 
@@ -403,16 +542,16 @@ $('#multiBtn, #fullBtn, #halfBtn').on('click',function(e){
 })
 
 
-	$('#leave_type').on('change', function(){
-		var leave_id = $(this).children("option:selected").val();
-		// var name  = $(this).children("option:selected").text();
-		// var leaveType = name.trim().toLowerCase();
-		leaveIDChange(leave_id);		
+$('#leave_type').on('change', function(){
+	var leave_id = $(this).children("option:selected").val();
+	// var name  = $(this).children("option:selected").text();
+	// var leaveType = name.trim().toLowerCase();
+	leaveIDChange(leave_id);	
 	});
-});
 
 
 function leaveIDChange(leave_id){
+
 	if (leave_id) {
 		$.ajax({
 			type:'get',
@@ -444,71 +583,70 @@ function leaveIDChange(leave_id){
 					checkHalf(res);
 				}
 
-				//Employee cant apply leave if he dont have balance
+			// Employee cant apply leave if he dont have balance
 
-				if(btnId == 'multiBtn'){
+				// if(btnId == 'multiBtn'){
+				
+				// 	$('#end_date').on('change', function(){
 
-					$('#end_date').on('change', function(){
-						var duration = $('#duration').val();
-						if(duration > res.user_bal.initial_bal ){
-							alert('You don\'t have enough leaves.');
-							$('#start_date').val('');
-							$('#end_date').val('');
-							$('#duration').val('');
+				// 		var duration = $('#duration').val();
 
-						}
-					});
-				} 
+				// 		if(duration > res.user_bal.initial_bal ){
+				// 			alert('You don\'t have enough leaves.');
+				// 			$('#start_date').val('');
+				// 			$('#end_date').val('');
+				// 			$('#duration').val('');
+				// 		}
+				// 	});
+				// }
 
-				$('#multiBtn').on('click', function(){
+				// $('#multiBtn').on('click', function(){
 
-					$('#end_date').on('change', function(){
-						var duration = $('#duration').val();
-						if(duration > res.user_bal.initial_bal  ){
+				// 	$('#end_date').on('change', function(){
+						
+				// 		var duration = $('#duration').val();
+				// 		if(duration > res.user_bal.initial_bal  ){
 							
-							//if(empty(res.without_pay)){
-								alert('You don\'t have enough leaves.');
-								$('#start_date').val('');
-								$('#end_date').val('');
-								$('#duration').val('');
-							//}
-						}
-					});
+				// 			if(res.without_pay == 0){
+				// 				alert('You don\'t have enough leaves.');
+				// 				$('#start_date').val('');
+				// 				$('#end_date').val('');
+				// 				$('#duration').val('');
+				// 			}
+				// 		}
+				// 	});
 
-				});
-				$('#fullBtn').on('click', function(){
+				// });
+				// $('#fullBtn').on('click', function(){
+				// 	$('#start_date').on('change', function(){
 
-					$('#start_date').on('change', function(){
-						var duration = $('#duration').val();
-						if(duration > res.user_bal.initial_bal  ){
-							
-							//if(empty(res.without_pay)){
-								alert('You don\'t have enough leaves.');
-								$('#start_date').val('');
-								$('#end_date').val('');
-								$('#duration').val('');
-							//}
-						}
-					});
+				// 		var duration = $('#duration').val();
+
+				// 		if(duration > res.user_bal.initial_bal  ){
+				// 			if(res.without_pay == 0){
+				// 				alert('You don\'t have enough leaves.');
+				// 				$('#start_date').val('');
+				// 				$('#end_date').val('');
+				// 				$('#duration').val('');
+				// 			}
+				// 		}
+				// 	});
+				// });
+				// $('#halfBtn').on('click', function(){
+				// 	$('#start_date').on('change', function(){
+				// 		var duration = $('#duration').val();
+				// 		if(res.user_bal.initial_bal < 0.50 ){
+
+				// 			if(res.without_pay == 0){
+				// 				alert('You don\'t have enough leaves.');
+				// 				$('#start_date').val('');
+				// 				$('#end_date').val('');
+				// 				$('#duration').val('');
+				// 			}
+				// 		}
+				// 	});
 					
-				});
-				$('#halfBtn').on('click', function(){
-
-					$('#start_date').on('change', function(){
-						var duration = $('#duration').val();
-						//alert(res.user_bal.initial_bal)
-						if(res.user_bal.initial_bal < 0.50 ){
-
-							//if(empty(res.without_pay)){
-								alert('You don\'t have enough leaves.');
-								$('#start_date').val('');
-								$('#end_date').val('');
-								$('#duration').val('');
-							//}
-						}
-					});
-					
-				});
+			// });
 
 				if(res.docs_required != null){
 					$('#doc_element').removeClass('d-none');
@@ -522,8 +660,10 @@ function leaveIDChange(leave_id){
 }
 
 function btnChange(btnId){
+	
 	var leave_id = $('#leave_type').val();
 	var old_leave_id = "{{old('leave_type_id')}}"
+
 	if(old_leave_id == leave_id){
 		$('#start_date').val('{{old('start_date')}}');
 		$('#end_date').val('{{old('end_date')}}');
@@ -543,16 +683,16 @@ function btnChange(btnId){
 		$('#btnId').val(btnId);
 		$('#endDate').removeClass('d-none');
 		$('#checkday').addClass('d-none');
-		//On changing date
 
 	}
+
 	else if(btnId == 'fullBtn'){
 		$('#btnId').val(btnId);
 		$('#fullBtn').addClass('active');
 		$('#halfBtn, #multiBtn').removeClass('active');
 		$('#endDate').addClass('d-none');
 		$('#checkday').addClass('d-none');
-		// fullHoliday();
+		
 
 	}else if(btnId == 'halfBtn'){
 		$('#btnId').val(btnId);
@@ -560,13 +700,12 @@ function btnChange(btnId){
 		$('#fullBtn, #multiBtn').removeClass('active');
 		$('#endDate').addClass('d-none');
 		$('#checkday').removeClass('d-none');
-		// halfDay();
+
 	}
 }
 
-
 function checkHalf(res){  //min apply half
-
+	
 	if(res.max_apply_once == 0.5){
 		$('#halfBtn').addClass('active');
 		$('#fullBtn, #multiBtn').removeClass('active');
@@ -628,8 +767,8 @@ function checkHalf(res){  //min apply half
 
 		//Default values for tab fields as in
 		// multiple, full_Day, half_day
-		 $('#btnId').val('multiBtn');
-		 var btnId = 'multiBtn';
+		$('#btnId').val('multiBtn');
+		var btnId = 'multiBtn';
 		
 		btnChange(btnId);
 		$('#halfBtn').removeClass('d-none');
@@ -662,75 +801,6 @@ function checkOnce(res){ //min apply one
 }
 
 
-
-	$('#end_date').on('change',function(){
-		var start = $('#start_date').val();
-		var end   = $('#end_date').val();
-		var btnId =$('#btnId').val();
-		
-		if(btnId == 'multiBtn'){
-			if( Date.parse(start) >= Date.parse(end) ){ 
-
-			alert('End date should be greater.');
-			$('.end').val('');
-			$('#duration').val('');
-			$('#count').val('');
-			
-		}else{
-
-			var OneDay	= 1000 * 60 * 60 * 24;
-			var first	= new Date(start);
-          	var last	= new Date(end);
-          	
- 			var difference_ms = Math.abs(first - last);
-			var count = Math.round(difference_ms/OneDay)+1;
-			//console.log(count)
-			$.ajax({
-				type:'POST',
-				url: "{{route('holiday.check')}}",
-				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-				data: {'start': start, 'end': end},
-				success:function(res){
-					//alert(res)
-					if(res != 0 ){
-						$('.rule_alert').show();
-					}else{
-						$('.rule_alert').hide();
-					}
-					
-				}
-			})
-
-
-
-			if(count == 'NaN'){
-				$('#duration').val('');
-
-			}else{
-				$('#duration').val(count);
-
-			}
-			
-		}
-		}
-		
-	});
-	$('#start_date').on('change', function(){
-		var btnId =$('#btnId').val();
-		if(btnId == 'fullBtn'){
-			$('#duration').val(1);
-
-		}else if(btnId == 'halfBtn'){
-			$('#duration').val('Half Day');
-		}
-
-	})
-
-//$('#day').attr('name', 'full_day');
-//$('#day').attr('name', 'half_day');
-
-//function TypeOfDay(){}
-
-/***************Count days********************/
+});
 </script>
 @endsection

@@ -59,13 +59,13 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach($employee as $leaveapply)
-								@endforeach
-							@php $count = 0;
-								if(!empty($employee['leaveapplies'])){
-							@endphp
-								@foreach($employee['leaveapplies'] as $leaveapply)
-								<tr>{{empty($leaveapply['approvalaction']->name)}}
+								{{-- @foreach($employee as $leaveapply)
+								@endforeach --}}
+							@php $count = 0; @endphp
+								@if( !empty($leaves) )
+								{{-- {{dd($leaves)}} --}}
+								@foreach($leaves as $leaveapply)
+								<tr>{{-- {{empty($leaveapply['approvalaction']->name)}} --}}
 									<td>{{++$count}}</td>
 									<td>{{ucwords($leaveapply['leavetype']->name)}}</td>
 									<td>@php 
@@ -105,37 +105,27 @@
 --}}
 										 
 						@if(empty($leaveapply->status))
-							 <div >
+							<div >
 							 	<strong style="color: grey;">
 							 		PENDING
-							 	</strong>
-							 </div>
-							<div>
-								<u>
-							@if($leaveapply->approve_name)
-								By	({{$leaveapply->approve_name->UserName->name}})
-							@endif </u>
-								</div>
-							@elseif($leaveapply->status == 1)
-								<div>
-									<strong style="color: green;">
-										APPROVED
-									</strong>
-								</div>
-							@elseif($leaveapply->status == 2)
-								<div>
-									<strong style="color: red;">
-										DECLINED
-									</strong>
-								</div>
-							@endif
-						<div>
+								</strong>
+							</div>
+						@else
+							<div >
+							 	<strong style="color: green;">
+							 		{{ucwords($leaveapply['approvalaction']->name)}} 
+							 	</strong>by
+							 	<p>
+							 		{{ucwords($leaveapply['approve_name']->emp_name)}}</p>
+							</div>
+						@endif
+						{{-- <div>
 							<u>
 								@if($leaveapply->approve_name)
 									by
 									{{ucwords($leaveapply['approve_name']->emp_name)}}
 								@endif</u>
-						</div>
+						</div> --}}
 							{{-- {{empty($leaveapply['approvalaction']->name) ? 'Decline'  : strtoupper($leaveapply['approvalaction']->name)}} --}}
 								</td>
 									
@@ -172,7 +162,7 @@
 									</td>
 								</tr>
 								@endforeach
-								@php } @endphp
+								@endif
 							</tbody>
 						</table>
 					</div>

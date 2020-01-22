@@ -79,9 +79,10 @@
 
 @if(!empty($request->status))
 	
-	@if($request->carry == null)
+	@if($request->status == 1)
 
 		@foreach($actions as $data)
+
 			@if(!empty($data->reverse) )
 				<span class="ml-2">
 					<form action="{{route('reverse.leave', $request->id)}}" method="POST" id="ression">

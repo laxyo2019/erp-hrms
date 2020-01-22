@@ -35,24 +35,24 @@ class LeavesController extends Controller
    public function index()
    {
 
-      $emp        = EmployeeMast::find(Auth::user()->emp_id)
-                      ->first();
-      $employee   = EmployeeMast::with(['leaveapplies','UserName','approve_name'])
+      /*$employee   = EmployeeMast::with(['leaveapplies','UserName','approve_name'])
                       ->orderBy('created_at', 'DESC')
                       ->where('id', Auth::user()->emp_id)
                       ->latest()
-                      ->first();
+                      ->first();*/
+
+      $leaves  =  LeaveApply::where('emp_id', Auth::user()->emp_id)
+                ->with(['employee', 'approve_name', 'approvalaction', 'leavetype'])
+                ->get();
 
       $balance    = EmployeeMast::with('allotments.leaves')
                       ->where('id', Auth::user()->emp_id)
                       ->latest()
                       ->first();
 
-      $parent_id  = EmployeeMast::find(Auth::user()->emp_id)              ->parent_id;
 
-      $leaves = LeaveMast::all();
-
-      return view('employee.leaves.index', compact('employee', 'balance'));
+      //return $leaves;
+      return view('employee.leaves.index', compact('leaves', 'balance'));
    }
 
     /**
@@ -79,21 +79,12 @@ class LeavesController extends Controller
       //Get all allotted Leaves of current employee.
       $allotment = LeaveAllotment::with('leaves')
                     ->where('emp_id', Auth::user()->emp_id)
+                ->orderBy('leave_mast_id', 'asc')
                 ->get();
-
-      $leaves = [];
-
-      foreach($allotment as $data){
-
-        $leaves[] = LeaveMast::where('id', $data->leave_mast_id)
-                      ->first();
-      }
 
       //return $allotment;
 
-      //return LeaveAllotment::with('leaves')
-                //->get();
-      return view('employee.leaves.create', compact('leaves', 'reports_to', 'allotment'));
+      return view('employee.leaves.create', compact('reports_to', 'allotment'));
    }
 
    public function balance(Request $request){
@@ -213,14 +204,14 @@ class LeavesController extends Controller
     //return $request->all();
 
      $data = $request->validate([
-         'leave_type_id' => 'required',
-         'reports_to'    => 'required',
-         'start_date'    => 'required',
-         'reason'        => 'required',
-         'duration'      => 'required|string',
-         'contact_no'    => 'nullable',
-         'applicant_remark'=> 'nullable',
-         'address_leave'=> 'nullable'       
+         'leave_type_id'    => 'required',
+         'reports_to'       => 'required',
+         'start_date'       => 'required',
+         'reason'           => 'required',
+         'duration'         => 'required|string',
+         'contact_no'       => 'nullable',
+         'applicant_remark' => 'nullable',
+         'address_leave'    => 'nullable'       
 
       ]);
 
@@ -229,9 +220,6 @@ class LeavesController extends Controller
 
       $leaveData = LeaveMast::where('id', $request->leave_type_id)
                   ->first();
-
-      //$without_pay =  LeaveMast::where('id', $request->leave_type_id)
-      //->first()->without_pay;
 
     if($leaveData->without_pay == 1){
 
@@ -406,7 +394,6 @@ class LeavesController extends Controller
 
     }
 
-
     $leaveapply = new LeaveApply;
     $leaveapply->emp_id            = $id;
     $leaveapply->reports_to        = $request->reports_to;
@@ -425,13 +412,21 @@ class LeavesController extends Controller
     $leaveapply->hr_remark         = null;
     $leaveapply->save();
       
-    //Deduct leave when employee apply for it & add if declined
-    $leave = LeaveAllotment::where([
-                  ['emp_id', Auth::user()->emp_id],
-                  ['leave_mast_id', $request->leave_type_id]])
-                  ->limit(1)
-                  ->decrement('initial_bal', $request->duration);
+    //Deduct/Add leave based on without pay is active or not.
 
+    if($leaveData->without_pay != 1){
+      $leave = LeaveAllotment::where([
+                ['emp_id', Auth::user()->emp_id],
+                ['leave_mast_id', $request->leave_type_id]])
+                ->limit(1)
+                ->decrement('initial_bal', $request->duration);
+    }else{
+      LeaveAllotment::where([
+                ['emp_id', Auth::user()->emp_id],
+                ['leave_mast_id', $request->leave_type_id]])
+                ->limit(1)
+                ->increment('initial_bal', $request->duration);
+    }
 
     return redirect('employee/leaves')->with('success','Applied successfully');
     }
@@ -445,16 +440,26 @@ class LeavesController extends Controller
     public function destroy($id)
     {
 
-      $leave_app = LeaveApply::findOrFail($id);
-
+      $leave_app = LeaveApply::findOrFail($id);  
       Storage::delete($leave_app->file_path);
         $leave_app->delete();
 
       /**Add leave balance to employee if leave application is deleted**/
 
-      LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
-                      ->where('emp_id', $leave_app->emp_id)
-                      ->increment('initial_bal', $leave_app->count);
+      $leavesMast = LeaveMast::where('id', $leave_app->leave_type_id)
+        ->first();
+
+      //Increment/Decrement leaves based on pay or without pay
+
+      if($leavesMast->without_pay != 1){
+        LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
+              ->where('emp_id', $leave_app->emp_id)
+              ->increment('initial_bal', $leave_app->count);
+      }else{
+        LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
+              ->where('emp_id', $leave_app->emp_id)
+              ->decrement('initial_bal', $leave_app->count);
+      }
         
         return back()->with('success', 'Record deleted successfully');
     }

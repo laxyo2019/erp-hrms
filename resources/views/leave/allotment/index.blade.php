@@ -37,39 +37,42 @@
                         </thead>
                         <tbody>
                             @php $count = 0; @endphp
+                            @if(count($allotments[0]['allotments']) != null)
                             @foreach($allotments as $index)
                                 <tr class="text-center">
                                     <td>{{++$count}}</td>
                                     <td>{{ucwords($index->emp_name)}}</td>
                                     <td>{{$index['allotments'][0]->start}}</td>
                                     <td>{{$index['allotments'][0]->end}}</td>
+
                                     <td>
-@foreach($index->allotments as $leave)
-    <div>{{ucwords($leave['leaves']->name)}} <span style="float: right">{{$leave->initial_bal}}</span></div>
-    <hr>
-@endforeach
+                                    @foreach($index->allotments as $leave)
+                                        <div>{{ucwords($leave['leaves']->name)}} <span style="float: right">{{$leave->initial_bal}}</span></div>
+                                        <hr>
+                                    @endforeach
                                     </td>
                                     <td class='d-flex ' style="border-bottom:none">
-  <span class="ml-2 text-center">
-    <a href="{{route('allotments.edit', $index->id)}}" class="btn btn-sm btn-success">EDIT</i></a>
-  </span>
-  <span class="ml-2">
-    @if($index['allotments'][0]->status == 1)
-        <a href="{{route('hold.leave', $index->id)}}" class="btn btn-sm btn-info" onclick="return confirm('Are you sure?')">HOLD</a>
-    @else
-        <a href="{{route('reallot.leave', $index->id)}}" class="btn btn-sm btn-info" onclick="return confirm('Are you sure?')">Re-Allot</a>
-    @endif
-    </span>
-<span class="ml-2">
-    <form  action="{{route('allotments.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
-    @csrf
-    @method('DELETE')
-    <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
-    </form>
-</span>
+                                  <span class="ml-2 text-center">
+                                    <a href="{{route('allotments.edit', $index->id)}}" class="btn btn-sm btn-success">EDIT</i></a>
+                                  </span>
+        <span class="ml-2">
+         @if(!empty($index['allotments'][0]->status) ? $index['allotments'][0]->status:'' == 1)
+                                        <a href="{{route('hold.leave', $index->id)}}" class="btn btn-sm btn-info" onclick="return confirm('Are you sure?')">HOLD</a>
+                                    @else
+                                        <a href="{{route('reallot.leave', $index->id)}}" class="btn btn-sm btn-info" onclick="return confirm('Are you sure?')">Re-Allot</a>
+                                    @endif
+                                    </span>
+                                <span class="ml-2">
+                                    <form  action="{{route('allotments.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
+                                    </form>
+                                </span>
                                     </td>
                                 </tr>
                             @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div> 

@@ -11,8 +11,10 @@
 |
 */
 Route::get('/', 'HomeController@index')->name('home');
-Auth::routes();
+Auth::routes(['register' => false]);
+
 //Route::resource('/hrd/approvals','HRD\ApprovalsController');
+
 Route::resource('/information', 'InformationController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
@@ -59,12 +61,18 @@ Route::resource('approval-action', 'HRD\ApprovalsController');
 
 /*******ACL********/
   
-Route::resource('acl/permissions', 'acl\PermissionController');
-Route::resource('acl/roles', 'acl\RoleController');
-Route::resource('acl/users', 'acl\UserController');
-Route::post('user/assign/', 'acl\UserController@assign')->name('assign.role');
+Route::group(['middleware' => ['role:admin']], function() {
 
+	Route::resource('acl/permissions', 'acl\PermissionController');
+	Route::resource('acl/roles', 'acl\RoleController');
+	Route::resource('acl/users', 'acl\UserController');
+	Route::post('user/assign/', 'acl\UserController@assign')->name('assign.role');
 
+});
+
+Route::group(['middleware' => ['role:super-admin']], function () {
+    //
+});
 
 /*	create by kishan for export data using checkbox or unchecheked and view  enployee details and active inactive */
 
@@ -91,7 +99,7 @@ Route::get('balance', 'Employee\LeavesController@balance');
 
 Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_designation')->name('employees.fetch_designation');
 
-
+Route::group(['middleware' => ['role:admin']], function() {
 
 //Employee Save or Update Methods
 Route::prefix('hrd')->namespace('HRD')->group(function () {
@@ -107,9 +115,18 @@ Route::prefix('hrd')->namespace('HRD')->group(function () {
 	Route::post('/employees/save_bankdetails/{id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
 });
 
-// HRD module
+// HRD > Employees Module
 Route::get('employees/export/', 'HRD\EmployeesController@export')->name('employees.export');
 
+//Download documents
+
+Route::get('hrd/employees/download/{db_table}/{id}', 'HRD\EmployeesController@downloadDocs')->name('employees.download');
+
+//Import Export
+
+Route::post('import', 'HRD\EmployeesController@import')->name('employees.import');
+
+});
 
 /*************************************/
 
@@ -121,13 +138,6 @@ Route::post('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@
 Route::delete('settings/mast_entity/{db_table}/{id}', 'MasterController@destroy')->name('mast_entity.delete');
 
 
-//Download documents
-
-Route::get('hrd/employees/download/{db_table}/{id}', 'HRD\EmployeesController@downloadDocs')->name('employees.download');
-
-//Import Export
-
-Route::post('import', 'HRD\EmployeesController@import')->name('employees.import');
 
 
 /******User Registration******/

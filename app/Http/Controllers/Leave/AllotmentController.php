@@ -11,6 +11,10 @@ use App\Models\Employees\LeaveApply;
 
 class AllotmentController extends Controller
 {
+	public function __construct(){
+		
+		$this->middleware('auth');
+	}
 
 	public function index(){
 
@@ -20,7 +24,6 @@ class AllotmentController extends Controller
 							->whereNull('deleted_at')
 							->get();
 
-		//return $allotments;
 		return view('leave.allotment.index', compact('allotments'));
 	}
 

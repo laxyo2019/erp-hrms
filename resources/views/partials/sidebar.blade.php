@@ -71,9 +71,9 @@
     {{-- Employees tab --}}
 
     @if(session('leave')['allotment'] && session('leave')['reallotment'][0]->status == 1)
-    <li class="treeview {{call_user_func_array('Request::is', (array)['employee*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">Employee</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+    <li class="treeview {{call_user_func_array('Request::is', (array)['employee*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">Leaves</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
-      <li class={{call_user_func_array('Request::is', (array)['employee/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{url('employee/leaves')}}"><i class="icon fa fa-angle-double-right"></i>Apply Leave</a></li>
+      <li class={{call_user_func_array('Request::is', (array)['employee/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{url('employee/leaves')}}"><i class="icon fa fa-angle-double-right"></i>Apply</a></li>
       </ul>
     </li>
     @endif
