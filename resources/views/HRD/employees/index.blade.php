@@ -14,14 +14,14 @@
 							</form>
 						</button>
 					</span>
-					<span class="ml-2">
-						<a  class="btn btn-sm btn-primary export" style="font-size:13px" id="export">
-							<span class="fa fa-download"></span> Export Employees
-						</a>
-						<a hidden href="{{route('employees.export')}}" class="btn btn-sm btn-primary export" style="font-size:13px" id="exportone">
-							<span class="fa fa-download"></span> Export Employees
-						</a>
-					</span>
+<span class="ml-2">
+	<a  class="btn btn-sm btn-primary export" style="font-size:13px; color: white" id="export">
+		<span class="fa fa-download"></span> Export Employees
+	</a>
+	<a hidden href="{{route('employees.export')}}" class="btn btn-sm btn-primary export" style="font-size:13px" id="exportone">
+		<span class="fa fa-download"></span> Export Employeess
+	</a>
+</span>
 				</h1>
 				<hr>
 			</div>
@@ -55,7 +55,7 @@
 									<th>Grade Code</th>
 									<th>Designation</th>
 									<th>Leaves</th>
-									{{-- <th>Status</th> --}}
+									<th>Status</th>
 
 									<th>Action</th>
 								</tr>
@@ -99,12 +99,30 @@
 								@endif
 							@endif
 									</td>
-									{{-- <td ><span class="btn btn-success active-enactive" id="{{$employee->id}}"> 
-										@if('{{$employee->active ==1}}') 
-									Active</span> </span> 
-										@else <span class=" btn btn-danger">
-											Inactive
-										@endif </td> --}}
+									<td >
+						
+				<div class="row">
+				@if($employee['userName']->status == 0)
+                  	<div  class="col" align="center">
+                    <form  action="{{route('active', $employee->id)}}" method="POST" id="active_{{ $employee->id}}">
+                      @csrf
+                      <input type="hidden" name="flag" value="1">
+                      <a href="javascript:$('#active_{{ $employee->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Active employee ?')">Active</a>
+                      </form>
+                    </div>
+                @else
+                	<div class="col" align="center">
+                    <form  action="{{route('active', $employee->id)}}" method="POST" id="active_{{ $employee->id}}">
+                      @csrf
+                      <input type="hidden" name="flag" value="0">
+                      <a href="javascript:$('#active_{{ $employee->id}}').submit();" class="btn btn-sm btn-primary" onclick="return confirm('Inactive employee ?')">Inactive</a>
+                      </form>
+                    </div>
+                @endif
+				</div>
+
+                  </td>
+									
 									<td class='d-flex' style="border-bottom:none">
 										<span>
 											<a href="{{route('employee.view-details',['id'=>$employee->id,'view'=>'personal'])}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>
@@ -157,18 +175,21 @@ $(document).ready(function(){
 		});
 	});
 /*	create by kishan for export data using checkbox or unchecheked*/
+
     $("#export").click(function(){
     	var emp = [];
     	$.each($("input[name='checked']:checked"), function(){
         	emp.push($(this).val());
     	});
 
+    	//console.log(emp);
     	$.ajax({
     		type:'POST',
     		url:'{{route('employee.save_session')}}',
     		headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     		data:{id:emp},
     		success:function(data){
+
     			 window.location.href = $('#exportone').attr('href');
     		}
     	})

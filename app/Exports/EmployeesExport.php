@@ -16,6 +16,7 @@ class EmployeesExport implements FromQuery, WithMapping, WithHeadings, ShouldAut
 
 	public function query(){
 
+		
 		$array = session('ids');
 		if (!empty($array)) {
 			$employees = EmployeeMast::whereIn('id', $array);	
@@ -30,7 +31,7 @@ class EmployeesExport implements FromQuery, WithMapping, WithHeadings, ShouldAut
 	public function map($employees): array {
 		return [
 			$employees->id,
-			$employees->parent_id,
+			$employees->reports_to,
 			$employees->emp_code,
 			$employees->comp_id,
 			$employees->dept_id,
@@ -61,7 +62,10 @@ class EmployeesExport implements FromQuery, WithMapping, WithHeadings, ShouldAut
 			$employees->curr_esi,
 			$employees->join_dt,
 			$employees->leave_dt,
-			$employees->active
+			$employees->active,
+			$employees->leave_allotted,
+			$employees->created_at,
+			$employees->deleted_at,
 			];
 	}
     
@@ -69,7 +73,7 @@ class EmployeesExport implements FromQuery, WithMapping, WithHeadings, ShouldAut
         
         return [
 			'id',
-			'parent_id',
+			'reports_to',
 			'emp_code',
 			'comp_id',
 			'dept_id',
@@ -100,7 +104,10 @@ class EmployeesExport implements FromQuery, WithMapping, WithHeadings, ShouldAut
 			'curr_esi',
 			'join_dt',
 			'leave_dt',
-			'active'
+			'active',
+			'leave_allotted',
+			'created_at',
+			'deleted_at'
 		];
 	}
 

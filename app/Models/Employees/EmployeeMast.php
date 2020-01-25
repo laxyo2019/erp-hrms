@@ -76,7 +76,7 @@ class EmployeeMast extends Model
  	// 	return $this->hasMany('App\Models\Employees\LeaveApply','id');
  	// }
  	public function UserName(){
- 		return $this->hasOne('App\User', 'id');
+ 		return $this->hasOne('App\User', 'emp_id');
  	}
 
  	public function emptype(){
@@ -103,5 +103,6 @@ class EmployeeMast extends Model
       return $this->belongsTo('App\Models\Employees\EmployeeMast', 'approver_id','id');
   }
 
+ 
     		
 }

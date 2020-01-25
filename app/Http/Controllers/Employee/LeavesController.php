@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Employees\LeaveAllotment;
 use App\Models\Master\Holiday;
 use App\User;
+use Carbon\Carbon;
+
 
 
 class LeavesController extends Controller
@@ -34,24 +36,17 @@ class LeavesController extends Controller
 
    public function index()
    {
-
-      /*$employee   = EmployeeMast::with(['leaveapplies','UserName','approve_name'])
-                      ->orderBy('created_at', 'DESC')
-                      ->where('id', Auth::user()->emp_id)
-                      ->latest()
-                      ->first();*/
-
-      $leaves  =  LeaveApply::where('emp_id', Auth::user()->emp_id)
+      
+      $leaves   =  LeaveApply::where('emp_id', Auth::user()->emp_id)
                 ->with(['employee', 'approve_name', 'approvalaction', 'leavetype'])
                 ->get();
 
-      $balance    = EmployeeMast::with('allotments.leaves')
+      $balance  = EmployeeMast::with('allotments.leaves')
                       ->where('id', Auth::user()->emp_id)
                       ->latest()
                       ->first();
+                      
 
-
-      //return $leaves;
       return view('employee.leaves.index', compact('leaves', 'balance'));
    }
 
@@ -88,6 +83,7 @@ class LeavesController extends Controller
    }
 
    public function balance(Request $request){
+
 
       //Get leave type
 
@@ -201,11 +197,12 @@ class LeavesController extends Controller
    public function store(Request $request)
    {
 
-    //return $request->all();
+      //return $request->all();
+      
 
      $data = $request->validate([
          'leave_type_id'    => 'required',
-         'reports_to'       => 'required',
+         //'reports_to'       => 'required',
          'start_date'       => 'required',
          'reason'           => 'required',
          'duration'         => 'required|string',
@@ -214,7 +211,6 @@ class LeavesController extends Controller
          'address_leave'    => 'nullable'       
 
       ]);
-
 
       $btnId = $request->btnId;
 
@@ -295,6 +291,7 @@ class LeavesController extends Controller
                $data['end_date'] = $endDate['end_date']; 
             }
          }
+      /************/
 
       if($leaveData->docs_required){
 
@@ -307,6 +304,54 @@ class LeavesController extends Controller
 
         $data['day_status'] = 3;
 
+        //return $request->all();
+
+        if($request->duration > 2 && $leaveData->without_pay != 1){
+          
+          //Get all sundays
+          $start = Carbon::parse($request->start_date)->next(Carbon::SUNDAY);
+          $end   = Carbon::parse($request->end_date);
+
+          $sundays = [];
+
+          for($i = $start; $i->lt($end); $i->addWeek() ){
+            $sundays[] = $i->format('Y-m-d');
+          }
+
+          //Get all Holidays
+          $holidays = Holiday::where('date', '>', $request->start_date)
+                        ->where('date', '<', $request->end_date )
+                        ->get();
+
+          $holidays_list = [];
+          foreach($holidays as $index){
+            $holidays_list[] = $index->date;
+          }
+
+          $balance = LeaveAllotment::where('leave_mast_id', $request->leave_type_id)
+                      ->where('emp_id', Auth::user()->emp_id)
+                      ->first();
+
+          $sandwich_days = array_unique(array_merge($sundays, $holidays_list));
+
+          $paid_count = $request->duration - count($sandwich_days);
+
+          $unpaid_count = $request->duration - $paid_count;
+
+          //return ([$paid_count, $unpaid_count]);
+        }else if($leaveData->without_pay == 1){
+
+          $paid_count   = 0.0;
+
+          $unpaid_count = $request->duration;
+
+        }else{
+          
+          $paid_count = $request->duration;
+
+          $unpaid_count = 0.0;
+        }
+
       }elseif($btnId == 'fullBtn'){
 
         $dayStatus = $request->validate([
@@ -314,6 +359,8 @@ class LeavesController extends Controller
                ]);
 
         $data['day_status'] = 2;
+        $paid_count = $request->duration;
+        $unpaid_count = 0.0;
 
       }elseif($btnId == 'halfBtn'){
 
@@ -322,6 +369,7 @@ class LeavesController extends Controller
                ]);
         $data['day_status'] = $dayStatus['day_status'];
 
+
         //Check if string then store half day(0.50)
         $type = gettype($request->duration);
 
@@ -329,6 +377,9 @@ class LeavesController extends Controller
 
           $request->duration = '0.50';
         }
+
+        $paid_count = $request->duration;
+        $unpaid_count = 0.0;
       }
 
 /*
@@ -406,20 +457,35 @@ class LeavesController extends Controller
     $leaveapply->file_path         = $path;
     $leaveapply->addr_during_leave = $request->address_leave;
     $leaveapply->contact_no        = $request->contact_no;
+    $leaveapply->paid_count        = $paid_count;
+    $leaveapply->unpaid_count      = $unpaid_count;
     $leaveapply->status            = null;
     $leaveapply->applicant_remark  = $request->applicant_remark;
-    $leaveapply->approver_remark   = null;
-    $leaveapply->hr_remark         = null;
     $leaveapply->save();
       
     //Deduct/Add leave based on without pay is active or not.
 
     if($leaveData->without_pay != 1){
+
+      //Decrement balance from initial_bal
       $leave = LeaveAllotment::where([
                 ['emp_id', Auth::user()->emp_id],
                 ['leave_mast_id', $request->leave_type_id]])
                 ->limit(1)
-                ->decrement('initial_bal', $request->duration);
+                ->decrement('initial_bal', $paid_count);
+
+      //Increment balance of initial_bal of without_pay
+      $without_payid = LeaveMast::where('without_pay', 1)
+                          ->first()
+                          ->id;
+
+
+      LeaveAllotment::where([
+                ['emp_id', Auth::user()->emp_id],
+                ['leave_mast_id', $without_payid]])
+                ->limit(1)
+                ->increment('initial_bal', $unpaid_count);
+
     }else{
       LeaveAllotment::where([
                 ['emp_id', Auth::user()->emp_id],
@@ -440,11 +506,11 @@ class LeavesController extends Controller
     public function destroy($id)
     {
 
-      $leave_app = LeaveApply::findOrFail($id);  
+      $leave_app = LeaveApply::findOrFail($id);
       Storage::delete($leave_app->file_path);
         $leave_app->delete();
 
-      /**Add leave balance to employee if leave application is deleted**/
+      /**Add leave balance back if leave application is deleted**/
 
       $leavesMast = LeaveMast::where('id', $leave_app->leave_type_id)
         ->first();
@@ -452,9 +518,22 @@ class LeavesController extends Controller
       //Increment/Decrement leaves based on pay or without pay
 
       if($leavesMast->without_pay != 1){
+
+        //Increment paid_count from initial bal
         LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
-              ->where('emp_id', $leave_app->emp_id)
-              ->increment('initial_bal', $leave_app->count);
+            ->where('emp_id', $leave_app->emp_id)
+            ->increment('initial_bal', $leave_app->paid_count);
+
+            
+        $withoutpay_id = LeaveMast::where('without_pay', 1)
+                          ->first()
+                          ->id;
+        //Decrement unpaid_count from initial_bal
+        LeaveAllotment::where('leave_mast_id', $withoutpay_id)
+            ->where('emp_id', $leave_app->emp_id)
+            ->decrement('initial_bal', $leave_app->unpaid_count);
+          
+        
       }else{
         LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
               ->where('emp_id', $leave_app->emp_id)

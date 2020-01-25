@@ -221,7 +221,8 @@ $(document).ready(function(){
 					
 					var duration = $('#duration').val();
 					if(btnId == 'fullBtn'){
-							if(duration > res.user_bal.initial_bal  ){
+
+							if(parseFloat(duration) > parseFloat(res.user_bal.initial_bal)  ){
 						if(res.without_pay == 0){
 							alert('You don\'t have enough leaves.');
 							$('#start_date').val('');
@@ -230,7 +231,7 @@ $(document).ready(function(){
 						}
 						}	
 					}else{
-						if(0.50 > res.user_bal.initial_bal  ){
+						if(0.50 > parseFloat(res.user_bal.initial_bal)  ){
 						//alert(3)
 							if(res.without_pay == 0){
 								alert('You don\'t have enough leaves.');
@@ -309,9 +310,13 @@ $(document).ready(function(){
 					url: '/balance/',
 					data:{'leave_id': leave_id},
 					success: function(res){
-				
+					
 						var duration = $('#duration').val();
-						if(duration > res.user_bal.initial_bal ){
+
+
+						//alert(parseFloat(res.user_bal.initial_bal)		)
+						if(parseFloat(duration) > parseFloat(res.user_bal.initial_bal) ){
+							//alert(res.user_bal.initial_bal);
 							if(res.without_pay == 0){
 								alert('You don\'t have enough leaves.');
 								$('#start_date').val('');

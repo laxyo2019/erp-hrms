@@ -37,9 +37,10 @@ class LeavesController extends Controller
         $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvalaction', 'approvaldetail'])
                             ->orderBy('id', 'DESC')
                             ->where('emp_id', '<>', Auth::user()->emp_id)
-                            ->get();       
+                            ->get();
+        
 
-        return view('HRD.leaves.index', compact('leave_request', 'permissions', 'actions'));
+        return view('HRD.leaves.index', compact('leave_request', 'actions'));
 	}
 
 	public function edit($id){
@@ -48,7 +49,6 @@ class LeavesController extends Controller
 
     public function approve_leave(Request $request, $leave_id){
 
-        //return $request->all();
         //Update leave aaplication status and approver' id.
         $leaveApp  = LeaveApply::find($leave_id);
         $leaveApp->approver_id = Auth::user()->emp_id;
@@ -62,57 +62,59 @@ class LeavesController extends Controller
 
         if($request->action_id == 1){
 
-            $allotment  = LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
-                        ->where('emp_id', $leaveApp->emp_id)
-                        ->first();
+        // 
+            //$allotment  = LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
+            //             ->where('emp_id', $leaveApp->emp_id)
+            //             ->first();
 
-             //from Leave applies table
-            $from         = $leaveApp->from;
-            $count        = $leaveApp->count;
+            //  //from Leave applies table
+            // $from         = $leaveApp->from;
+            // $count        = $leaveApp->count;
 
-            //from Leave allottment table
-            $generated_at = $allotment->generated_at;
-            $leave_bal    = $allotment->initial_bal;
+            // //from Leave allottment table
+            // $generated_at = $allotment->generated_at;
+            // $leave_bal    = $allotment->initial_bal;
 
-            if($count <= $leave_bal){
+            // if($count <= $leave_bal){
 
-                $paid_leave   = $count;
-                $unpaid_leave = 0;
-                // return "also available balance";
+            //     $paid_leave   = $count;
+            //     $unpaid_leave = 0;
+            //     // return "also available balance";
 
-            }else{
+            // }else{
 
-                $month = date('m',strtotime($from)) - date('m',strtotime($generated_at));
-                $leave_genrate = $leave_mast->total / 12 * $month ;
+            //     $month = date('m',strtotime($from)) - date('m',strtotime($generated_at));
+            //     $leave_genrate = $leave_mast->total / 12 * $month ;
              
 
-                if(date('Y-m-d', strtotime( "+".$month. " month", strtotime( $generated_at ) )) < $from ){
+            //     if(date('Y-m-d', strtotime( "+".$month. " month", strtotime( $generated_at ) )) < $from ){
 
-                   if($leaveApp->day_status == '3' || $leaveApp->day_status == '2'){
-                    $after_gen_bal  = floor($leave_bal + $leave_genrate);
-                    $unpaid_leave   =  $count - $after_gen_bal;             
-                    $paid_leave     = $count - $unpaid_leave;
-                    // return $    unpaid_leave;
-                   }else{
-                       $paid_leave  = $count; 
-                       $unpaid_leave = 0;
-                    } 
+            //        if($leaveApp->day_status == '3' || $leaveApp->day_status == '2'){
+            //         $after_gen_bal  = floor($leave_bal + $leave_genrate);
+            //         $unpaid_leave   =  $count - $after_gen_bal;             
+            //         $paid_leave     = $count - $unpaid_leave;
+            //         // return $    unpaid_leave;
+            //        }else{
+            //            $paid_leave  = $count; 
+            //            $unpaid_leave = 0;
+            //         } 
 
            
-                }else{ 
-                    $unpaid_leave = $count;
-                    $paid_leave = 0;
-                }
-            }
+            //     }else{ 
+            //         $unpaid_leave = $count;
+            //         $paid_leave = 0;
+            //     }
+            // }
+        //
         
             $approval_history = new LeaveApprovalDetail;
             $approval_history->leave_apply_id = $leave_id;
             $approval_history->emp_id         = $leaveApp->emp_id;
             $approval_history->approver_id    = Auth::user()->emp_id;
             $approval_history->actions        = $request->action_id;
-            $approval_history->paid_count     = $paid_leave;
-            $approval_history->unpaid_count   = $unpaid_leave;
-            $approval_history->approver_remark= $request->reason;
+            //$approval_history->paid_count     = $paid_leave;
+            //$approval_history->unpaid_count   = $unpaid_leave;
+            //$approval_history->approver_remark= $request->reason;
             $approval_history->save();
 
         }else{
@@ -120,10 +122,21 @@ class LeavesController extends Controller
             //Update leave balance if request declined.
 
             if($leave_mast->without_pay != 1){
+                
                 //Increment leave balance if declined
                 LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
                     ->where('emp_id', $leaveApp->emp_id)
-                    ->increment('initial_bal', $leaveApp->count);
+                    ->increment('initial_bal', $leaveApp->paid_count);
+
+                $withoutpay_id = LeaveMast::where('without_pay', 1)
+                    ->first()
+                    ->id;
+
+                //Decrement unpaid_count from initial_bal
+                LeaveAllotment::where('leave_mast_id', $withoutpay_id)
+                    ->where('emp_id', $leaveApp->emp_id)
+                    ->decrement('initial_bal', $leaveApp->unpaid_count);
+
             }else{
                 LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
                     ->where('emp_id', $leaveApp->emp_id)
@@ -190,6 +203,7 @@ class LeavesController extends Controller
     public function reverse(Request $request){
  
         //Update leave status and carry
+
         LeaveApply::where('id', $request->leave_request)
                 ->update([
                     'status' => $request->action_id,
@@ -206,7 +220,6 @@ class LeavesController extends Controller
 
         $leave = LeaveMast::where('id', $detail->leave_type_id)->first();
 
-        //
         if($leave->without_pay == 1){
             LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
                         ->where('emp_id', $detail->emp_id)

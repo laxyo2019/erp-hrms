@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,37 +21,41 @@ Route::resource('/employee/leaves','Employee\LeavesController');
 
 Route::group(['middleware' => ['role:admin|hr manager']], function() {
 
-
-//
-Route::resource('/hrd/leaves', 'HRD\LeavesController');
-Route::resource('/leave-management/types', 'Leave\LeaveTypeController');
-Route::resource('/leave-management/allotments', 'Leave\AllotmentController');
-Route::resource('/leave-management/holidays', 'Leave\HolidayController');
-Route::resource('/settings/categories','Settings\CategoryController');
-Route::resource('/settings/designations','Settings\DesignationController');
-Route::resource('/settings/statuses','Settings\StatusController');
-Route::resource('/settings/grades','Settings\GradesController');
+	Route::resource('/hrd/leaves', 'HRD\LeavesController');
+	Route::resource('/leave-management/types', 'Leave\LeaveTypeController');
+	Route::resource('/leave-management/allotments', 'Leave\AllotmentController');
+	Route::resource('/leave-management/holidays', 'Leave\HolidayController');
+	Route::resource('/settings/categories','Settings\CategoryController');
+	Route::resource('/settings/designations','Settings\DesignationController');
+	Route::resource('/settings/statuses','Settings\StatusController');
+	Route::resource('/settings/grades','Settings\GradesController');
 
 
-//Delete Employees Info
+	//Delete Employees Info
 
-Route::get('/hrd/employees/delete_row/{db_table}/{id}', 'HRD\EmployeesController@delete_row')->name('employee.delete_row');
+	Route::get('/hrd/employees/delete_row/{db_table}/{id}', 'HRD\EmployeesController@delete_row')->name('employee.delete_row');
 
 
 
-//Employee Save or Update Methods
-Route::prefix('hrd')->namespace('HRD')->group(function () {
-	Route::post('/employees/{type}', 'EmployeesController@getForm');
-	Route::post('/employees/insert_employee','EmployeesController@insert_employee');
-	Route::post('/employee/save_main/{id}', 'EmployeesController@save_main')->name('employees.main');
-	Route::post('/employee/save_personal/{id}', 'EmployeesController@save_personal')->name('employees.personal');
-	Route::post('/employee/save_official/{id}', 'EmployeesController@save_official')->name('employees.official');
-	Route::post('/employee/save_academics/{id}', 'EmployeesController@save_academics')->name('employees.academics');
-	Route::post('/employee/save_experience/{id}', 'EmployeesController@save_experience')->name('employees.experience');
-	Route::post('/employee/save_documents/{id}', 'EmployeesController@save_documents')->name('employees.documents');
-	Route::post('/employee/save_nominee/{id}', 'EmployeesController@save_nominee')->name('employees.nominee');
-	Route::post('/employees/save_bankdetails/{id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
+	//Employee Save or Update Methods
+	Route::prefix('hrd')->namespace('HRD')->group(function () {
+		Route::post('/employees/{type}', 'EmployeesController@getForm');
+		Route::post('/employees/insert_employee','EmployeesController@insert_employee');
+		Route::post('/employee/save_main/{id}', 'EmployeesController@save_main')->name('employees.main');
+		Route::post('/employee/save_personal/{id}', 'EmployeesController@save_personal')->name('employees.personal');
+		Route::post('/employee/save_official/{id}', 'EmployeesController@save_official')->name('employees.official');
+		Route::post('/employee/save_academics/{id}', 'EmployeesController@save_academics')->name('employees.academics');
+		Route::post('/employee/save_experience/{id}', 'EmployeesController@save_experience')->name('employees.experience');
+		Route::post('/employee/save_documents/{id}', 'EmployeesController@save_documents')->name('employees.documents');
+		Route::post('/employee/save_nominee/{id}', 'EmployeesController@save_nominee')->name('employees.nominee');
+		Route::post('/employees/save_bankdetails/{id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
+
+
 });
+
+//Employee Active/Inactive
+
+	Route::post('employee/active/{id}', 'acl\UserController@active')->name('active');
 
 // HRD > Employees Module
 Route::get('employees/export/', 'HRD\EmployeesController@export')->name('employees.export');
@@ -107,10 +110,10 @@ Route::group(['middleware' => ['role:admin']], function() {
 
 });
 
-/*	create by kishan for export data using checkbox or unchecheked and view  enployee details and active inactive */
+/*	create by kishan for export data using checkbox or unchecheked and view  enployee details*/
 
 Route::get('/hrd/employees/view-details/{id}/{view}','HRD\EmployeesController@viewDetails')->name('employee.view-details');
-Route::post('/hrd/employees/save_session','HRD\EmployeesController@save_session')->name('employee.save_session');
+Route::post('/hrd/employee/save_session','HRD\EmployeesController@save_session')->name('employee.save_session');
 Route::post('/hrd/employees/activeInactive','HRD\EmployeesController@activeInactive')->name('employee.active-inactive');
 
 //...................................//

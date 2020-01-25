@@ -96,25 +96,12 @@ class UserController extends Controller
             $permissions_given[] = $data->id;
         }
 
-    /*
-    	return ([$user, $role, $roles]);
-    	return $role['pivot']->role_id;
-        $role   = $user->roles()->first();
-		return User::role('team lead')->get();
-    	return $user->assignRole('Team Lead');
-    	foreach($per as $id){
-    		$permissionId[] = $id->id;
-    	}
-    	return $permissionId;
-    	return $permission[2]->id;
-    */
 
     	return view('acl.users.edit', compact('user', 'roles', 'roles_given', 'permissions', 'permissions_given', 'employee'));
     }
 
     public function update(Request $request, $id){
 
-//return ([$request->all(), $id]);
         $this->validate($request,
                 ['name' => 'required']);
 
@@ -154,5 +141,23 @@ class UserController extends Controller
             return redirect()->route('users.index')->with('success', 'User already Added.');
         }
 
+    }
+
+    public function active(Request $request, $id){
+
+        //if($request->flag == 0){
+            User::where('emp_id', $id)
+                ->update(['status' => $request->flag]);
+        /*}else{
+            User::where('emp_id', $id)
+                ->update('status', $flag);
+        }*/
+        if($request->flag == 1){
+            $status = 'activeted';
+        }else{
+            $status = 'inactiveted';
+        }
+
+        return back()->with('success', 'Employee '.$status.' successfully.');
     }
 }

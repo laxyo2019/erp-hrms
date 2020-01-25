@@ -83,6 +83,8 @@ class CreateLeavesTable extends Migration
           $table->string('file_path', 200)->nullable();
           $table->text('addr_during_leave')->nullable();
           $table->string('contact_no',12)->nullable();
+          $table->decimal('paid_count', 8,2)->nullable();
+          $table->decimal('unpaid_count', 8,2)->nullable();
           $table->integer('approver_id')->nullable();
           $table->integer('status')->nullable();
           $table->text('applicant_remark')->nullable();

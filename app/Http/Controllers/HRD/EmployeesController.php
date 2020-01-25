@@ -35,16 +35,15 @@ class EmployeesController extends Controller
 
   public function index()
   {		
-		$employees = EmployeeMast::with('company','grade','designation')->orderBy('id', 'DESC')->get();
+		$employees = EmployeeMast::with('company','grade','designation', 'UserName')->orderBy('id', 'DESC')->get();
 
     $leaves = LeaveMast::where('id','1')->get();
-    //return $leaves;
-
   
     return view('HRD.employees.index',compact('employees', 'leaves'));
   }
 
   public function insert_employee(Request $request){
+
   	$employee = new EmployeeMast();
   	$employee->emp_name = $request->name; //emp ID will updated in users
   	$employee->save();
@@ -466,8 +465,6 @@ public function viewDetails($id, $view)
 
     public function save_bankdetails(Request $request, $id){
 
-      //return $request->file('file_path');
-
       $vdata = request()->validate([
         'acc_holder'=> 'required',
         'acc_no'    => 'required',
@@ -619,12 +616,15 @@ public function viewDetails($id, $view)
 
   //Employees Export
     public function export(){
+      //return 654;
       return Excel::download(new EmployeesExport, 'employee.xlsx');      
     }
 
     public function save_session(Request $request){
-        $ids = $request->id;
-        Session::put('ids',$ids);
+        
+         $ids = $request->id;
+
+         Session::put('ids',$ids);
     }
 
     public function activeInactive(Request $request){
@@ -635,12 +635,18 @@ public function viewDetails($id, $view)
 
   public function import(Request $request){
 
-// dd($request);
-    $this->validate($request, [
-          'import' => 'required|mimes:xlsx,xls'
-          ]);
+   $request->validate([
+      'import' => 'required'
+   ]);
+    // $this->validate($request, [
+    //       'import' => 'required|mimes:xlsx,xls'
+    //       ]);
+
+
 
     $records = Excel::toCollection(new EmployeesImport, $request->file('import'));
+
+    // dd($records);
 
     $status = TRUE;
     $error  = [];
@@ -687,6 +693,7 @@ public function viewDetails($id, $view)
             $status = TRUE;
 
           }
+
         }
 
         if($status == TRUE){
@@ -700,6 +707,8 @@ public function viewDetails($id, $view)
             $status = TRUE;
 
           }
+
+
         }
 
         if($status = TRUE){
@@ -714,6 +723,8 @@ public function viewDetails($id, $view)
             $status = TRUE;
 
           }
+
+
         }
 
         if($status == TRUE){
@@ -725,19 +736,21 @@ public function viewDetails($id, $view)
 
             $status = TRUE;
           }
+
         }
 
         if($status == TRUE){
-
+          return 2;
           if($data['grade_id'] == ''){
 
-            $status = TRUE;
-            $data['grade_id'] = null;
+            $status = FALSE;
 
           }else{
 
             $status = TRUE;
           }
+
+          return ([$status]);
         }
 
         if($status == TRUE){
@@ -1015,6 +1028,7 @@ public function viewDetails($id, $view)
             $status = TRUE;
           }
         }
+
 
         if($status == TRUE){
 

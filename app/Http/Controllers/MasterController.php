@@ -52,7 +52,7 @@ class MasterController extends Controller
 			 	
 				array(
 							'table_name'	=> 'emp_status_mast',
-							'display_name'	=> 'Employee Statuses',
+							'display_name'	=> 'Employee Status',
 							'icon'			=> 'fa fa-street-view',
 							'bg_color'		=> '#3b35d2db',
 							'count'			=> DB::table('emp_status_mast')->get()->count()
@@ -164,7 +164,7 @@ class MasterController extends Controller
 					/**/
 					'dept_mast'				=>	'Departments',
 					'doc_type_mast'			=>	'Document Types',
-					'emp_status_mast'		=> 	'Employee Statuses',
+					'emp_status_mast'		=> 	'Employee Status',
 					'desg_mast'				=>  'Employee Designations',
 					'emp_type_mast'			=>  'Employee Types',
 					'emp_grade_mast'		=> 	'Employee Grades',
