@@ -8,6 +8,7 @@ use App\Models\Master\Holiday;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\HolidaysExport;
 use App\Imports\HolidaysImport;
+use App\Exports\ErrorHolidayExport;
 
 class HolidayController extends Controller
 {
@@ -83,48 +84,50 @@ class HolidayController extends Controller
 
     		foreach($record as $data){
 
+                if($status == true){
+
+                    if($data['title'] == ''){
+                        $status = false;
+                    }else{
+                        $status = true;
+                    }
+                }
+
+                if($status == true){
+
+                    if($data['date'] == ''){
+                        $status = false;
+                    }else{
+                        $status = true;
+                    }
+                }
+
+            /*
     			if($status == true ){
 
     				if($data['id'] == ''){
     					$status = false;
     				}else{
 
-    					/*if($data['id'] == Holiday::find($data['id'])->id){
+    					if($data['id'] == Holiday::find($data['id'])->id){
     						$status = false;
     					}else{
     						$status = true;
-    					}*/
+    					}
 
     					$status = true;
     				}
     			}
 
-    			if($status == true){
+                if($status == true){
 
-    				if($data['title'] == ''){
-    					$status = false;
-    				}else{
-    					$status = true;
-    				}
-    			}
-
-    			if($status == true){
-
-    				if($data['date'] == ''){
-    					$status = false;
-    				}else{
-    					$status = true;
-    				}
-    			}
-
-    			if($status == true){
-
-    				if($data['desc'] == ''){
-    					$status = false;
-    				}else{
-    					$status = true;
-    				}
-    			}
+                    if($data['desc'] == ''){
+                        $status = false;
+                    }else{
+                        $status = true;
+                    }
+                }
+            */
 
     			if($status == true){
 
@@ -149,7 +152,7 @@ class HolidayController extends Controller
     }
 
     public function export(){
-    	return Excel::download(new HolidaysExport, 'holidays.xlsx');
+    	return Excel::download(new HolidaysExport, 'holidaysExport.xlsx');
     }
 
     public function array_Data( $data){

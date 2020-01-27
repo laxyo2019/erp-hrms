@@ -11,7 +11,7 @@ class EmpAcademic extends Model
  protected $table = 'emp_academics';  
 
  public function employee(){
- 	 	return $this->belongsTo('App\Models\Employees\EmployeeMast');
+ 	 	return $this->belongsTo('App\Models\Employees\EmployeeMast', 'user_id');
  }
  
 }

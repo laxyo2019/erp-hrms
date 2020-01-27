@@ -35,42 +35,46 @@ class EmployeesController extends Controller
 
   public function index()
   {		
-		$employees = EmployeeMast::with('company','grade','designation', 'UserName')->orderBy('id', 'DESC')->get();
+
+		$employees = EmployeeMast::with('company','grade','designation')->orderBy('id', 'DESC')->get();
+
+    //return $employees;
 
     $leaves = LeaveMast::where('id','1')->get();
   
     return view('HRD.employees.index',compact('employees', 'leaves'));
   }
 
-  public function insert_employee(Request $request){
+  /*public function insert_employee(Request $request){
 
   	$employee = new EmployeeMast();
   	$employee->emp_name = $request->name; //emp ID will updated in users
   	$employee->save();
   	return redirect()->route('employees.index')->with('success','Employee Created successfully');
-  }
+  }*/
 
   public function save_main(Request $request,$id){
+
 	  $vdata = request()->validate([
-			'name' => 'required|max:50',
-			'email' => 'required|email|max:50',
-			'contact' => 'required|max:10|numeric',
+			'name'     => 'required|max:50',
+			'email'    => 'required|email|max:50',
+			'contact'  => 'required|max:10|numeric',
 		],[
 			'contact.required' => 'The contact number field is required.',
-			'contact.max' => 'The contact number may not be greater than 10 digits.',
+			'contact.max'      => 'The contact number may not be greater than 10 digits.',
 		]);
     
 		$employee = EmployeeMast::findOrfail($id);
 		$employee->emp_name = $vdata['name'];
-		$employee->email = $vdata['email'];
-		$employee->contact = $vdata['contact'];
+		$employee->email    = $vdata['email'];
+		$employee->contact  = $vdata['contact'];
 		$employee->save();
+    
 		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'main'])->with('success','Updated successfully.');
   }
 
-  public function save_academics(Request $request,$id){
+  public function save_academics(Request $request, $id){
 
-    //return $request->all();
 	  $vdata = request()->validate([
 			'domain_of_study'    => 'max:90',
 			'board_name'         => 'string|nullable|max:90',
@@ -143,7 +147,7 @@ class EmployeesController extends Controller
   }
 
   public function save_official(Request $request,$id){
-    //return $request->all();
+    
 	  $vdata = request()->validate([
 			/*'emp_code'  => 'string|max:15',
       'designation'=> 'nullable',*/
@@ -192,6 +196,7 @@ class EmployeesController extends Controller
   }
 
   public function save_personal(Request $request,$id){
+
 	  $vdata = request()->validate([
 			'full_name'      => 'required|max:45',
 			'contact_number' => 'nullable|numeric',
@@ -305,9 +310,6 @@ class EmployeesController extends Controller
       $meta['grade_mast']    = Grade::all();
       $meta['designation']   = Designation::where('deleted_at', null)->get();
       $meta['emp_mast']      = EmployeeMast::where('deleted_at', null)->get();
-      //return $meta['grade_mast'];  
-      //return $employee->id;
-      // dd($meta['comp_mast']);
     }
 
     if($tab == 'academics'){
@@ -631,22 +633,16 @@ public function viewDetails($id, $view)
       // dd($request->id);
      return EmployeeMast::where('id',$request->id)->update(array('active' => '0'));
     }
+
   //Employees Import
 
   public function import(Request $request){
 
-   $request->validate([
-      'import' => 'required'
-   ]);
-    // $this->validate($request, [
-    //       'import' => 'required|mimes:xlsx,xls'
-    //       ]);
-
-
+   $this->validate($request, [
+          'import' => 'required'
+          ]);
 
     $records = Excel::toCollection(new EmployeesImport, $request->file('import'));
-
-    // dd($records);
 
     $status = TRUE;
     $error  = [];
@@ -655,7 +651,7 @@ public function viewDetails($id, $view)
 
       foreach( $record as $data ){
 
-        if($status == TRUE){
+        //if($status == TRUE){
 
           if($data['id'] == ''){
 
@@ -663,96 +659,20 @@ public function viewDetails($id, $view)
 
           }else{
             
-            $status = TRUE;
+            if($data['emp_name'] == ''){
+
+               $status = FALSE;
+               
+             }else{
+
+               $status = TRUE;
+             }
 
           }
-
-        }
-        // if($status == TRUE){
-
-        //   if($data['parent_id'] == '' ){
-
-        //     $status = TRUE;
-        //     $data['parent_id'] = null;
-
-        //   }else{
-        //     $status = TRUE;
-
-        //   }
-        // }
-
-        if($status == TRUE){
-
-          if($data['emp_code'] == ''){
-
-            $status = TRUE;
-            $data['emp_code'] = null;
-
-          }else{
-
-            $status = TRUE;
-
-          }
-
-        }
-
-        if($status == TRUE){
-
-          if($data['comp_id'] == ''){
-            $status = TRUE;
-            $data['comp_id'] = null;
-
-          }else{
-
-            $status = TRUE;
-
-          }
-
-
-        }
-
-        if($status = TRUE){
-
-          if($data['dept_id'] == ''){
-
-            $status = TRUE;
-            $data['dept_id'] = null;
-
-          }else{
-
-            $status = TRUE;
-
-          }
-
-
-        }
-
-        if($status == TRUE){
-
-          if($data['desg_id'] == ''){
-
-            $status = FALSE;
-          }else{
-
-            $status = TRUE;
-          }
-
-        }
-
-        if($status == TRUE){
-          return 2;
-          if($data['grade_id'] == ''){
-
-            $status = FALSE;
-
-          }else{
-
-            $status = TRUE;
-          }
-
-          return ([$status]);
-        }
-
+          //return ([$status]);
+        //}
+        
+/*
         if($status == TRUE){
 
           if($data['emp_name'] == ''){
@@ -775,7 +695,102 @@ public function viewDetails($id, $view)
 
             $status = TRUE;
           }
+        }*/
+/*
+        if($status == TRUE){
+
+          if($data['email'] == ''){
+
+            $status = TRUE;
+            $data['email'] = null;
+          }else{
+
+            $status = TRUE;
+          }
         }
+
+
+   
+         if($status == TRUE){
+
+          if($data['parent_id'] == '' ){
+
+            $status = TRUE;
+            $data['parent_id'] = null;
+
+          }else{
+            $status = TRUE;
+
+          }
+         }
+
+        if($status == TRUE){
+
+          if($data['emp_code'] == ''){
+
+            $status = TRUE;
+            $data['emp_code'] = null;
+
+          }else{
+
+            $status = TRUE;
+
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['comp_id'] == ''){
+            $status = TRUE;
+            $data['comp_id'] = null;
+
+          }else{
+
+            $status = TRUE;
+
+          }
+        }
+
+        if($status = TRUE){
+
+          if($data['dept_id'] == ''){
+
+            $status = TRUE;
+            $data['dept_id'] = null;
+
+          }else{
+
+            $status = TRUE;
+
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['desg_id'] == ''){
+
+            $status = FALSE;
+          }else{
+
+            $status = TRUE;
+          }
+
+        }
+
+        if($status == TRUE){
+
+          if($data['grade_id'] == ''){
+
+            $status = TRUE;
+            $data['grade_id'] = null;
+
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        
 
         if($status == TRUE){
 
@@ -861,17 +876,7 @@ public function viewDetails($id, $view)
           }
         }
 
-        if($status == TRUE){
-
-          if($data['email'] == ''){
-
-            $status = TRUE;
-            $data['email'] = null;
-          }else{
-
-            $status = TRUE;
-          }
-        }
+        
 
         if($status == TRUE){
 
@@ -1029,7 +1034,6 @@ public function viewDetails($id, $view)
           }
         }
 
-
         if($status == TRUE){
 
           if($data['join_dt'] == ''){
@@ -1053,18 +1057,8 @@ public function viewDetails($id, $view)
             $status = TRUE;
           }
         }
-
-        if($status == TRUE){
-
-          if($data['active'] == ''){
-
-            $status = TRUE;
-            $data['active'] = 1;
-          }else{
-
-            $status = TRUE;
-          }
-        }
+*/
+        
 
         if($status == TRUE){
           
@@ -1084,13 +1078,16 @@ public function viewDetails($id, $view)
         }else if($status == FALSE){
           
           $error[] = $this->array_data($data);
+
+          return ([$error]);
         
         }
        
-        $status = TRUE;
+        //$status = TRUE;
 
       }
     }
+
 
     if(count($error) != 0){
 

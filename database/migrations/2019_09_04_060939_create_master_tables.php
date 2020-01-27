@@ -49,6 +49,7 @@ class CreateMasterTables extends Migration
 		  	 	$table->increments('id');
 		  	 	$table->string('account_code', 5)->default(10001);
 		  	 	$table->string('name', 100);
+		  	 	$table->decimal('entitled_amt', 8,2)->nullable();
 		  	 	$table->text('description')->nullable();
 			    $table->timestamps();
 			    $table->softDeletes();  

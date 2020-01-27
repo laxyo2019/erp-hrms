@@ -45,7 +45,7 @@ class CreateLeavesTable extends Migration
       Schema::create('emp_leave_allotment', function (Blueprint $table) {
           $table->bigIncrements('id');
           $table->integer('leave_mast_id');
-          $table->integer('emp_id');
+          $table->integer('user_id');
           $table->integer('status')->default(1);
           $table->date('start');
           $table->date('end');
@@ -59,7 +59,7 @@ class CreateLeavesTable extends Migration
       Schema::create('leave_allotment_detail', function (Blueprint $table) {
           $table->bigIncrements('id');
           $table->integer('leave_mast_id');
-          $table->integer('emp_id');
+          $table->integer('user_id');
           $table->smallInteger('status')->default(1);
           $table->date('start');
           $table->date('end');
@@ -72,7 +72,7 @@ class CreateLeavesTable extends Migration
 
       Schema::create('emp_leave_applies', function (Blueprint $table) {
           $table->bigIncrements('id');
-          $table->integer('emp_id');
+          $table->integer('user_id');
           $table->integer('reports_to');
           $table->integer('leave_type_id');
           $table->char('day_status', 1)->nullable();
@@ -106,7 +106,7 @@ class CreateLeavesTable extends Migration
       Schema::create('leave_approval_detail', function (Blueprint $table){
           $table->bigIncrements('id');
           $table->integer('leave_apply_id');
-          $table->integer('emp_id');
+          $table->integer('user_id');
           $table->integer('approver_id');
           $table->integer('actions');
           $table->decimal('paid_count', 8,2)->nullable();

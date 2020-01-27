@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Holiday extends Model
 {
-	use SoftDeletes;
-
 	protected $fillable = ['id', 'title', 'date', 'desc'];
     
 }

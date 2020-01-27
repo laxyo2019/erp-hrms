@@ -12,7 +12,7 @@ class LeaveAllotment extends Model
     protected $table = 'emp_leave_allotment';
 
     public function employees(){
-    	return $this->belongsTo('App\Models\Employees\EmployeeMast','emp_id');
+    	return $this->belongsTo('App\Models\Employees\EmployeeMast','user_id');
     }
 
     public function leaves(){

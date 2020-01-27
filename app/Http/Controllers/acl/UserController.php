@@ -32,58 +32,14 @@ class UserController extends Controller
     	return view('acl.users.create');
     }
 
-    //Add as an employee
-    public function store(Request $request){
-
-        $request->validate([
-
-            'name'      => 'required',
-            'email'     => 'required|unique:users',
-            'password'  => 'required|confirmed'
-
-        ]);
-
-        $user = new User;
-        $user->name     = $request->name;
-        $user->email    = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
-
-        return redirect('acl/users')->with('success', 'User added successfully.');
-    }
-
-
-    //Update users detail and assign role
-
-    public function assign(Request $request){
-
-        $user = User::find( $request->id);
-
-/******Add user as an employee if not exists*****/
-        if(empty($user->emp_id)){
-            $employee = EmployeeMast::create([
-                        'emp_name' => $user->name,
-                        'email'    => $user->email ]);
-
-/*After creating employee take id and update users's emp_id***/
-            $user->emp_id = $employee->id;
-            $user->save();
-
-        }
-
-        return 'User added as an employee';
-    }
-
     public function edit( $id){
     	
     	$user          = User::findOrFail($id);
-        $employee      = EmployeeMast::where('id', $id)->first();
+        $employee      = EmployeeMast::where('user_id', $id)->first();
     	$roles         = Role::all();
         $permissions   = Permission::all();
 
         $roles_given = [];
-
-        //return $user;
 
         //Get all roles
         foreach($user->roles as $index){
@@ -118,40 +74,12 @@ class UserController extends Controller
         return back()->with('success', 'User information updated.');
     }
 
-    public function destroy( $id){
-        
-        User::findOrFail($id)->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted.');
-    }
-
-    public function AssignUser($id){
-        
-        $user = User::findOrFail( $id);
-        
-        //Add user as an employee if not exists
-        if(empty($user->emp_id)){ 
-            $user_id = EmployeeMast::create([
-                        'emp_name'  => $user->name])->id;
-
-            $user->emp_id = $user_id;
-            $user->save();
-
-            return redirect()->route('users.index')->with('success', 'User added as an Employee.');
-        }else{
-            return redirect()->route('users.index')->with('success', 'User already Added.');
-        }
-
-    }
 
     public function active(Request $request, $id){
 
-        //if($request->flag == 0){
-            User::where('emp_id', $id)
+        User::where('emp_id', $id)
                 ->update(['status' => $request->flag]);
-        /*}else{
-            User::where('emp_id', $id)
-                ->update('status', $flag);
-        }*/
+        
         if($request->flag == 1){
             $status = 'activeted';
         }else{
@@ -159,5 +87,61 @@ class UserController extends Controller
         }
 
         return back()->with('success', 'Employee '.$status.' successfully.');
+    }
+
+        //Add as an employee
+    public function store(Request $request){
+
+        $request->validate([
+
+            'name'      => 'required',
+            'email'     => 'required|unique:users',
+            'password'  => 'required|confirmed'
+
+        ]);
+
+        $user = new User;
+        $user->name     = $request->name;
+        $user->email    = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        EmployeeMast::create([
+            'emp_name' => strtolower($request->name),
+            'email'    => strtolower($request->email),
+            'user_id'  => $user->id]);
+
+        return redirect('acl/users')->with('success', 'User added successfully.');
+    }
+
+    //Update users detail and assign role
+
+    public function assign(Request $request){
+
+    $user = User::find( $request->id);
+
+    /**Add user as an employee if not exists**/
+        if(empty($user->emp_id)){
+            $employee = EmployeeMast::create([
+                        'emp_name' => $user->name,
+                        'email'    => $user->email ]);
+
+    /*After creating employee take id and update users's emp_id*/
+            $user->emp_id = $employee->id;
+            $user->save();
+
+        }
+
+        return 'User added as an employee';
+    }
+
+
+    //Delete User (NOT Softdelete)
+    
+    public function destroy( $id){
+        
+        User::findOrFail($id)->delete();
+
+        return redirect()->route('users.index')->with('success', 'User deleted.');
     }
 }

@@ -99,8 +99,11 @@
 		  			<td>{{$row->name_of_unversity}}</td>
 		  			<td>{{$row->completed_in_year}}</td>
 		  			<td>{{$row->grade_or_pct}}</td>	
-		  			{{-- @can('download documents')	 --}}  			
-		  			<td><a href="{{route('employees.download', ['db_table' => 'emp_academics', $row->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
+		  			{{-- @can('download documents')	 --}}
+		  			<td>
+<a href="{{route('employees.download', ['db_table' => 'emp_academics', $row->id])}}"><i class="fa fa-arrow-down" >
+
+</i> Download</a></td>
 		  			{{-- @endcan --}}
 		  			<td>{{$row->note}}</td>
 		  			<td><form action="{{route('employee.delete_row', ['db_table' => 'emp_academics', $row->id])}}" method="GET" id="delform_{{$row->id}}">

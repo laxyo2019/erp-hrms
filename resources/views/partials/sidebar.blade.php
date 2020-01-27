@@ -1,5 +1,6 @@
 
 <aside class="app-sidebar">
+  
   <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image">
     <div>
       <h4 class=""><span style="margin-right: 10px">{{ ucwords(auth()->user()->name) }}</span></h4>
@@ -125,7 +126,7 @@
 
     {{-- User's role & permissions --}}
     
-    @role('admin')
+    {{-- @role('admin') --}}
     <li class="treeview {{call_user_func_array('Request::is', (array)['acl*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-shopping-cart "></i><span class="app-menu__label">ACL</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
         <li class={{call_user_func_array('Request::is', (array)['acl/permissions*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('permissions.index')}}"><i class="icon fa fa-angle-double-right"></i>Permissions</a></li>
@@ -136,7 +137,7 @@
           <li class="{{call_user_func_array('Request::is', (array)['expenses/tours*']) ? 'active_subtab' : ''}}"><a class="treeview-item" href="{{route('tours.index')}}"><i class="icon fa fa-angle-double-right"></i> Tours</a></li> --}}
       </ul>
     </li>
-      @endrole
+      {{-- @endrole --}}
     @endrole
   </ul>
 </aside>

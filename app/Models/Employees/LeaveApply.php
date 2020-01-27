@@ -14,7 +14,7 @@ class LeaveApply extends Model
 
     public function employee(){
 
-        return $this->belongsTo('App\Models\Employees\EmployeeMast', 'emp_id');
+        return $this->belongsTo('App\Models\Employees\EmployeeMast', 'user_id');
     }
 
     public function leavetype(){

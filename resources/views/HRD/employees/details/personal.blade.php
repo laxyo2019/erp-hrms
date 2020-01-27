@@ -24,22 +24,7 @@
 					@csrf
 				<div class="container-fluid">
 					<div class="row">
-						 {{-- <div class="col-2 form-group">
-							<label for="">Title</label>
-							<select name="emp_title" class="form-control">
-									@foreach($emp_titles as $row)
-										<option value="{{$row}}" {{old('emp_title',(explode(' ', $employee->emp_name, 2))[0]) == $row ? 'selected' : ''}} >
-											{{ $row }}
-										</option>
-									@endforeach
-							</select>
-							@error('emp_title')
-			                <span class="text-danger" role="alert">
-			                    <strong>{{ $message }}</strong>
-			                </span>
-			            	@enderror
-						</div>  --}}
-
+						 
 						<div class="col-6 form-group">
 							<label for="">Full Name</label>
 								<input type="text" class="form-control" name="full_name" value="{{old('full_name', $employee->emp_name)}}" />
@@ -138,36 +123,7 @@
 				                </span>
 				              @enderror
 						</div>
-						{{-- <div class="col-4 form-group">
-							<label for="">Gender</label>
-							<br>
-							<div class="row">
-								<input type="radio" class="mr-2 mt-1" name="emp_gender" value="M" autocomplete="off" {{old('emp_gender',$employee->emp_gender) == 'M' ? 'checked' : ''}}
-									> Male
-									<input type="radio" 
-									class="mr-2 mt-1 ml-3"
-									name="emp_gender" 
-									value="F" 
-									autocomplete="off"
-									{{old('emp_gender',$employee->emp_gender) == 'F' ? 'checked' : ''}}
-									> Female
-									<input type="radio" 
-									class="mr-2 mt-1 ml-3"
-									name="emp_gender" 
-									value="O" 
-									autocomplete="off"
-									{{old('emp_gender',$employee->emp_gender) == 'O' ? 'checked' : ''}}
-									> Other
-							</div>
-							@error('emp_gender')
-			                <span class="text-danger" role="alert">
-			                    <strong>{{ $message }}</strong>
-			                </span>
-			            	@enderror
-						</div> --}}
-					{{-- </div>
-					<hr/>
-					<div class="row"> --}}
+						
 						<div class="col-6 form-group">
 							<label>Current Residence</label>
 							<textarea onkeydown="match_addr('curr')" name="curr_addr" id="curr_addr" class="form-control" cols="30" rows="5">{{$employee->curr_addr}}</textarea>
@@ -204,8 +160,6 @@
 							<button class="btn btn-info btn-sm" style="width: 20%">Update</button>
 							<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 20%">Cancel</a>
 						</div>
-
-						
 					</div>
 					<input type="hidden" name="form_type" id="form_type" value="basic">
 				</div>
@@ -215,7 +169,54 @@
 	<div class="img_parent d-none">
 		<img src="{{asset('images/loading1.gif')}}" alt="">
 	</div>
+	{{-- <div class="col-2 form-group">
+							<label for="">Title</label>
+							<select name="emp_title" class="form-control">
+									@foreach($emp_titles as $row)
+										<option value="{{$row}}" {{old('emp_title',(explode(' ', $employee->emp_name, 2))[0]) == $row ? 'selected' : ''}} >
+											{{ $row }}
+										</option>
+									@endforeach
+							</select>
+							@error('emp_title')
+			                <span class="text-danger" role="alert">
+			                    <strong>{{ $message }}</strong>
+			                </span>
+			            	@enderror
+						</div>  --}}
+						{{-- <div class="col-4 form-group">
+							<label for="">Gender</label>
+							<br>
+							<div class="row">
+								<input type="radio" class="mr-2 mt-1" name="emp_gender" value="M" autocomplete="off" {{old('emp_gender',$employee->emp_gender) == 'M' ? 'checked' : ''}}
+									> Male
+									<input type="radio" 
+									class="mr-2 mt-1 ml-3"
+									name="emp_gender" 
+									value="F" 
+									autocomplete="off"
+									{{old('emp_gender',$employee->emp_gender) == 'F' ? 'checked' : ''}}
+									> Female
+									<input type="radio" 
+									class="mr-2 mt-1 ml-3"
+									name="emp_gender" 
+									value="O" 
+									autocomplete="off"
+									{{old('emp_gender',$employee->emp_gender) == 'O' ? 'checked' : ''}}
+									> Other
+							</div>
+							@error('emp_gender')
+			                <span class="text-danger" role="alert">
+			                    <strong>{{ $message }}</strong>
+			                </span>
+			            	@enderror
+						</div> --}}
+					{{-- </div>
+					<hr/>
+					<div class="row"> --}}
+
 </main>
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('.personal').addClass('active');

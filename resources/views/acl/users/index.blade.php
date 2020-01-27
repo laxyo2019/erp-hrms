@@ -41,7 +41,7 @@
                       <td>{{$index->email}}</td>
                       <td  >
                         <div class="row">
-                          <div class="col" align="right">
+                          <div class="col" align="center">
                           <a href="{{route('users.edit',$index->id)}}" class="btn btn-sm btn-info">EDIT</a>
                           </div>
                         
@@ -52,7 +52,7 @@
                             <a href="javascript:$('#assign_{{ $index->id}}').submit();" class="btn btn-sm btn-info" onclick="return confirm('Are you sure?')">Add as Employee</a>
                           </form>
                           </span>
-                          @endif --}}
+                          @endif 
                         
                           <div class="col" align="left">
                           <form  action="{{route('users.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
@@ -61,6 +61,7 @@
                             <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
                           </form>
                           </div>
+                          --}}
                         </div>
                       </td>
                     </tr>

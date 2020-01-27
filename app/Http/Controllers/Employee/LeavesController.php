@@ -37,12 +37,12 @@ class LeavesController extends Controller
    public function index()
    {
       
-      $leaves   =  LeaveApply::where('emp_id', Auth::user()->emp_id)
+      $leaves   =  LeaveApply::where('user_id', Auth::id())
                 ->with(['employee', 'approve_name', 'approvalaction', 'leavetype'])
                 ->get();
 
       $balance  = EmployeeMast::with('allotments.leaves')
-                      ->where('id', Auth::user()->emp_id)
+                      ->where('id', Auth::id())
                       ->latest()
                       ->first();
                       
@@ -59,7 +59,7 @@ class LeavesController extends Controller
    {
      //Many2Many relationship
      //$desig = Designation::find(3)->approvals;
-     $reports_id = EmployeeMast::find(Auth::user()->emp_id)->reports_to;
+     $reports_id = EmployeeMast::find(Auth::id())->reports_to;
        if(!empty($reports_id)){
 
          //for logged in user's reports to
@@ -73,11 +73,9 @@ class LeavesController extends Controller
 
       //Get all allotted Leaves of current employee.
       $allotment = LeaveAllotment::with('leaves')
-                    ->where('emp_id', Auth::user()->emp_id)
-                ->orderBy('leave_mast_id', 'asc')
-                ->get();
-
-      //return $allotment;
+                    ->where('emp_id', Auth::id())
+                    ->orderBy('leave_mast_id', 'asc')
+                    ->get();
 
       return view('employee.leaves.create', compact('reports_to', 'allotment'));
    }
@@ -95,7 +93,7 @@ class LeavesController extends Controller
 
       // Get user's balance of selected leave
 
-      $data['user_bal'] = LeaveAllotment::where('emp_id', Auth::user()->emp_id)
+      $data['user_bal'] = LeaveAllotment::where('emp_id', Auth::id())
                           ->where('leave_mast_id', $leave->id)
                           ->first();
 
@@ -104,7 +102,7 @@ class LeavesController extends Controller
 
       // Check leave applied by user
 
-      $user_applied_leaves = LeaveApply::where('emp_id', Auth::user()->emp_id)->get();
+      $user_applied_leaves = LeaveApply::where('emp_id', Auth::id())->get();
 
       $data['leave_bal']        = $leave->count;
       $data['min_apply_once']   = $leave->min_apply_once;
@@ -157,12 +155,12 @@ class LeavesController extends Controller
       }
       //find user and his leave balance
       $allotment  = LeaveAllotment::where([
-                        ['emp_id', Auth::user()->emp_id],
+                        ['emp_id', Auth::id()],
                         ['leave_mast_id', $request->leave_type],
                       ])->first();
 
       //Check how many time sick leave is applied
-      $casualcount = LeaveApply::where('emp_id', Auth::user()->emp_id)
+      $casualcount = LeaveApply::where('emp_id', Auth::id())
                         ->where('leave_type_id', 3)
                         ->whereBetween('created_at', [date('01-m-Y'), $request->end_date])
                         ->count();
@@ -329,7 +327,7 @@ class LeavesController extends Controller
           }
 
           $balance = LeaveAllotment::where('leave_mast_id', $request->leave_type_id)
-                      ->where('emp_id', Auth::user()->emp_id)
+                      ->where('emp_id', Auth::id())
                       ->first();
 
           $sandwich_days = array_unique(array_merge($sundays, $holidays_list));
@@ -429,7 +427,7 @@ class LeavesController extends Controller
     //       break;
     //   }
 */
-    $id = Auth::user()->emp_id;
+    $id = Auth::id();
 
     //Uploading documents to hrmsupload directory
     if($request->hasFile('file_path')){
@@ -469,7 +467,7 @@ class LeavesController extends Controller
 
       //Decrement balance from initial_bal
       $leave = LeaveAllotment::where([
-                ['emp_id', Auth::user()->emp_id],
+                ['emp_id', Auth::id()],
                 ['leave_mast_id', $request->leave_type_id]])
                 ->limit(1)
                 ->decrement('initial_bal', $paid_count);
@@ -481,14 +479,14 @@ class LeavesController extends Controller
 
 
       LeaveAllotment::where([
-                ['emp_id', Auth::user()->emp_id],
+                ['emp_id', Auth::id()],
                 ['leave_mast_id', $without_payid]])
                 ->limit(1)
                 ->increment('initial_bal', $unpaid_count);
 
     }else{
       LeaveAllotment::where([
-                ['emp_id', Auth::user()->emp_id],
+                ['emp_id', Auth::id()],
                 ['leave_mast_id', $request->leave_type_id]])
                 ->limit(1)
                 ->increment('initial_bal', $request->duration);

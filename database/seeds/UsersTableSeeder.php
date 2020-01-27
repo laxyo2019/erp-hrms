@@ -18,29 +18,31 @@ class UsersTableSeeder extends Seeder
           'name'      => 'mr. yogesh sharma',
           'email'     => 'admin@laxyo.in',
           'password'  => bcrypt('12345678'),
-          'emp_id'    => 1,
           'created_at'=> now(),
-          
         ]
       ]);
 
       DB::table('emp_mast')->insert([
         [
           'id'        => 1,
+          'status'    => 0,
+          'user_id'   => 1,
+          'role_id'   => 1 ,
           'emp_name'  => 'mr. yogesh sharma',
           'email'     => 'admin@laxyo.in',
+          'status'    => 0,
           'created_at'=> now(),
         ]
       ]);
 
-      DB::table('roles')->insert([
+      /*DB::table('roles')->insert([
         [
           'id'        => 1,
           'name'      => 'admin',
           'guard_name'=> 'web',
           'created_at'=> now(),
         ]
-      ]);
+      ]);*/
 
       DB::table('model_has_roles')->insert([
         [

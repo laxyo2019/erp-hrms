@@ -47,13 +47,16 @@ class GradesController extends Controller
 	   			'name'	=> 'required|string|max:50|unique:emp_grade_mast',
 	   			'amount'	=> 'required',
 	   		]);
+
     	$grade = new grade();
     	$grade->name = $data['name'];
-    	$grade->comp_id = 1;
+    	//$grade->comp_id = 1;
     	$grade->entitled_amt = $data['amount'];
-    	$grade->desc = $request->desc;
+    	$grade->description = $request->desc;
     	$grade->save();
+
   	 $data['grades'] = Grade::all();
+
      return view('settings.grades.index',$data);
     }
 
@@ -96,9 +99,11 @@ class GradesController extends Controller
       $grade = Grade::findOrFail($id);
       $grade->name = $request->name;
       $grade->entitled_amt = $request->amount;
-      $grade->desc = $request->desc;
+      $grade->description = $request->desc;
       $grade->save();
+
       $data['grades'] = Grade::all();
+      
     	return redirect()->route('grades.index')->with('success','Designation Updated Successfully');
     }
 

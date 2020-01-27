@@ -11,6 +11,6 @@ class LeaveMast extends Model
     protected $table = 'leave_mast';
 
     public function allotments(){
-    	return $this->hasMany('App\Models\Employees\LeaveAllotment', 'emp_id');
+    	return $this->hasMany('App\Models\Employees\LeaveAllotment', 'user_id');
     }
 }

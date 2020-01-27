@@ -16,10 +16,6 @@ class EmployeeMast extends Model
  		return $this->belongsTo('App\Models\Master\CompMast','comp_id');
  	}
 
- 	// public function tours(){
- 	// 	return $this->hasMany('App\Models\Tours','emp_id');
- 	// }
-
  	public function designation(){
  		return $this->belongsTo('App\Models\Master\Designation', 'desg_id');
  	}
@@ -32,36 +28,30 @@ class EmployeeMast extends Model
   {
      return date("d-m-Y", strtotime($value));
   }
- 	// public function user(){
- 	// 	return $this->hasOne('App\User','id');
- 	// }
-
- 	// public function stages(){
- 	// 	return $this->hasMany('App\Models\TourStages','emp_id');
- 	// }
+ 	
 
  	public function academics(){
- 		return $this->hasMany('App\Models\Employees\EmpAcademic','emp_id');
+ 		return $this->hasMany('App\Models\Employees\EmpAcademic','user_id');
  	}
 
  	public function experiences(){
- 		return $this->hasMany('App\Models\Employees\EmpExp','emp_id');
+ 		return $this->hasMany('App\Models\Employees\EmpExp','user_id');
  	}
 
  	public function documents(){
- 		return $this->hasMany('App\Models\Employees\EmpDocument', 'emp_id');
+ 		return $this->hasMany('App\Models\Employees\EmpDocument', 'user_id');
  	}
 
  	public function bankdetails(){
- 		return $this->hasMany('App\Models\Employees\EmpBankDetail', 'emp_id');
+ 		return $this->hasMany('App\Models\Employees\EmpBankDetail', 'user_id');
  	}
 
  	public function nominee(){
- 		return $this->hasMany('App\Models\Employees\EmpNominee', 'emp_id');
+ 		return $this->hasMany('App\Models\Employees\EmpNominee', 'user_id');
  	}
 
  	public function leaveapplies(){
- 		return $this->hasMany('App\Models\Employees\LeaveApply', 'emp_id');
+ 		return $this->hasMany('App\Models\Employees\LeaveApply', 'user_id');
  	}
 
  	public function department(){
@@ -69,14 +59,14 @@ class EmployeeMast extends Model
  	}
 
  	public function allotments(){
- 		return $this->hasMany('App\Models\Employees\LeaveAllotment', 'emp_id');
+ 		return $this->hasMany('App\Models\Employees\LeaveAllotment', 'user_id');
  	}
 
  	// public function approver_detail(){
  	// 	return $this->hasMany('App\Models\Employees\LeaveApply','id');
  	// }
  	public function UserName(){
- 		return $this->hasOne('App\User', 'emp_id');
+ 		return $this->hasOne('App\User', 'user_id');
  	}
 
  	public function emptype(){

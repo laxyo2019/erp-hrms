@@ -13,8 +13,13 @@ class CreateEmployeeTables extends Migration
      */
     public function up()
     {
-        Schema::create('emp_mast', function (Blueprint $table) { //single row
+        Schema::create('emp_mast', function (Blueprint $table) {
+          
+          //single row
           $table->increments('id');
+          $table->integer('user_id');
+          $table->integer('role_id');
+          $table->integer('status')->default(0);
           $table->unsignedInteger('reports_to')->nullable();
           $table->string('emp_code', 15)->nullable();
           $table->unsignedInteger('comp_id')->nullable();
@@ -54,7 +59,7 @@ class CreateEmployeeTables extends Migration
 
         Schema::create('emp_nominee', function (Blueprint $table) { //multiple rows
           $table->increments('id');
-          $table->unsignedInteger('emp_id');
+          $table->unsignedInteger('user_id');
           $table->string('name', 100);
           $table->string('email', 100)->nullable();
           $table->text('address')->nullable();
@@ -69,7 +74,7 @@ class CreateEmployeeTables extends Migration
 
         Schema::create('emp_events', function (Blueprint $table) { //mul rows
           $table->increments('id');
-          $table->unsignedInteger('emp_id');
+          $table->unsignedInteger('user_id');
           $table->unsignedInteger('event');
           $table->date('date');
           $table->string('file_path',200)->nullable();
@@ -95,7 +100,7 @@ class CreateEmployeeTables extends Migration
 
         Schema::create('emp_academics', function (Blueprint $table) { //mul rows
           $table->increments('id');
-          $table->unsignedInteger('emp_id');
+          $table->unsignedInteger('user_id');
           $table->string('domain_of_study',90)->nullable();
           $table->string('name_of_unversity', 90)->nullable();
           $table->string('completed_in_year', 4)->nullable();
@@ -122,7 +127,7 @@ class CreateEmployeeTables extends Migration
 
         Schema::create('emp_exp', function (Blueprint $table) {
           $table->increments('id');
-          $table->unsignedInteger('emp_id');
+          $table->unsignedInteger('user_id');
           $table->string('comp_name', 100);
           $table->string('job_type', 50)->nullable(); // Part-time, contract, full-time, etc
           $table->decimal('monthly_ctc', 8, 2)->nullable();
@@ -140,7 +145,7 @@ class CreateEmployeeTables extends Migration
 
         Schema::create('emp_docs', function (Blueprint $table) {
           $table->increments('id');
-          $table->unsignedInteger('emp_id');
+          $table->unsignedInteger('user_id');
           $table->unsignedInteger('doc_type_id');
           $table->text('file_path')->nullable();
           $table->string('remarks')->nullable();

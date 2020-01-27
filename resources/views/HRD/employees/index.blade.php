@@ -14,14 +14,14 @@
 							</form>
 						</button>
 					</span>
-<span class="ml-2">
-	<a  class="btn btn-sm btn-primary export" style="font-size:13px; color: white" id="export">
-		<span class="fa fa-download"></span> Export Employees
-	</a>
-	<a hidden href="{{route('employees.export')}}" class="btn btn-sm btn-primary export" style="font-size:13px" id="exportone">
-		<span class="fa fa-download"></span> Export Employeess
-	</a>
-</span>
+					<span class="ml-2">
+						<a  class="btn btn-sm btn-primary export" style="font-size:13px; color: white" id="export">
+							<span class="fa fa-download"></span> Export Employees
+						</a>
+						<a hidden href="{{route('employees.export')}}" class="btn btn-sm btn-primary export" style="font-size:13px" id="exportone">
+							<span class="fa fa-download"></span> Export Employeess
+						</a>
+					</span>
 				</h1>
 				<hr>
 			</div>
@@ -102,7 +102,7 @@
 									<td >
 						
 				<div class="row">
-				@if($employee['userName']->status == 0)
+				{{-- @if($employee['userName']->status == 0)
                   	<div  class="col" align="center">
                     <form  action="{{route('active', $employee->id)}}" method="POST" id="active_{{ $employee->id}}">
                       @csrf
@@ -118,7 +118,7 @@
                       <a href="javascript:$('#active_{{ $employee->id}}').submit();" class="btn btn-sm btn-primary" onclick="return confirm('Inactive employee ?')">Inactive</a>
                       </form>
                     </div>
-                @endif
+                @endif --}}
 				</div>
 
                   </td>

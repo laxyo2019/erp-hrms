@@ -29,14 +29,14 @@ class LeavesController extends Controller
 
     public function index(){
 
-        $user           = User::find(Auth::user()->id);
+        $user           = User::find(Auth::id());
         $permissions    = $user->getAllPermissions();
 
         $actions = ApprovalAction::orderBy('id', 'asc')->get();
 
         $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvalaction', 'approvaldetail'])
                             ->orderBy('id', 'DESC')
-                            ->where('emp_id', '<>', Auth::user()->emp_id)
+                            ->where('emp_id', '<>', Auth::id())
                             ->get();
         
 
@@ -51,7 +51,7 @@ class LeavesController extends Controller
 
         //Update leave aaplication status and approver' id.
         $leaveApp  = LeaveApply::find($leave_id);
-        $leaveApp->approver_id = Auth::user()->emp_id;
+        $leaveApp->approver_id = Auth::id();
         $leaveApp->status      = $request->action_id;
         $leaveApp->save();
 
@@ -110,7 +110,7 @@ class LeavesController extends Controller
             $approval_history = new LeaveApprovalDetail;
             $approval_history->leave_apply_id = $leave_id;
             $approval_history->emp_id         = $leaveApp->emp_id;
-            $approval_history->approver_id    = Auth::user()->emp_id;
+            $approval_history->approver_id    = Auth::id();
             $approval_history->actions        = $request->action_id;
             //$approval_history->paid_count     = $paid_leave;
             //$approval_history->unpaid_count   = $unpaid_leave;
@@ -208,7 +208,7 @@ class LeavesController extends Controller
                 ->update([
                     'status' => $request->action_id,
                     'carry'  => 1,
-                    'approver_id' => Auth::user()->emp_id]);
+                    'approver_id' => Auth::id()]);
 
         //Find leave applicaiton with id
 
@@ -233,7 +233,7 @@ class LeavesController extends Controller
         LeaveApprovalDetail::create([
             'leave_apply_id'  => $detail->id,
             'emp_id'          => $detail->emp_id,
-            'approver_id'     => Auth::user()->emp_id,
+            'approver_id'     => Auth::id(),
             'actions'         => $request->action_id,
             'paid_count'      => 0,
             'unpaid_count'    => 0,
