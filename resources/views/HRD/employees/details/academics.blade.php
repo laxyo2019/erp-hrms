@@ -9,7 +9,7 @@
 			{{$message}}
 		</div>
 		@endif
-	<form action="{{route('employees.academics', ['id'=>$employee->id])}}" method="POST" enctype="multipart/form-data">
+	<form action="{{route('employees.academics', ['user_id'=>$employee->user_id])}}" method="POST" enctype="multipart/form-data">
 		@csrf
 		<div class="row">
 	    <div class="col-6 form-group">
@@ -101,13 +101,13 @@
 		  			<td>{{$row->grade_or_pct}}</td>	
 		  			{{-- @can('download documents')	 --}}
 		  			<td>
-<a href="{{route('employees.download', ['db_table' => 'emp_academics', $row->id])}}"><i class="fa fa-arrow-down" >
+<a href="{{route('employees.download', ['db_table' => 'emp_academics', $row->user_id])}}"><i class="fa fa-arrow-down" >
 
 </i> Download</a></td>
 		  			{{-- @endcan --}}
 		  			<td>{{$row->note}}</td>
-		  			<td><form action="{{route('employee.delete_row', ['db_table' => 'emp_academics', $row->id])}}" method="GET" id="delform_{{$row->id}}">
-				<a href="javascript:$('#delform_{{$row->id}}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
+		  			<td><form action="{{route('employee.delete_row', ['db_table' => 'emp_academics', $row->user_id])}}" method="GET" id="delform_{{$row->user_id}}">
+				<a href="javascript:$('#delform_{{$row->user_id}}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
 				</form></td>
 
 		  		</tr>

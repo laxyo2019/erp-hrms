@@ -2,30 +2,33 @@
 
 namespace App\Http\Controllers\HRD;
 
-use App\Http\Controllers\Controller;
-use App\Models\Employees\EmpAcademic;
-use App\Models\Employees\EmpExp;
-use App\Models\Employees\EmployeeMast;
-use App\Models\Master\CompMast;
-use App\Models\Master\Designation;
-use App\Models\Master\EmpStatus;
-use App\Models\Master\EmpType;
+use DB;
+use Session;
+use App\User;
 use App\Models\Master\Grade;
 use Illuminate\Http\Request;
-use App\Models\Employees\EmpDocument;
-use App\Models\Master\DocTypeMast;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Employees\EmpNominee;
-use DB;
-use App\Models\Employees\EmpBankDetail;
+use App\Models\Master\EmpType;
+use App\Models\Master\CompMast;
 use App\Models\Master\DeptMast;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Employees\EmpExp;
+use App\Models\Master\EmpStatus;
+use App\Models\Master\LeaveMast;
 use App\Imports\EmployeesImport;
 use App\Exports\EmployeesExport;
+use App\Models\Master\Designation;
+use App\Models\Master\DocTypeMast;
+use App\Models\Employees\EmpNominee;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ErrorEmployeeExport;
+use App\Http\Controllers\Controller;
+use App\Models\Employees\EmpDocument;
+use App\Models\Employees\EmpAcademic;
+use App\Models\Employees\EmployeeMast;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Employees\EmpBankDetail;
 use App\Models\Employees\LeaveAllotment;
-use App\Models\Master\LeaveMast;
-use Session;
+
+
 
 class EmployeesController extends Controller
 {
@@ -37,8 +40,6 @@ class EmployeesController extends Controller
   {		
 
 		$employees = EmployeeMast::with('company','grade','designation')->orderBy('id', 'DESC')->get();
-
-    //return $employees;
 
     $leaves = LeaveMast::where('id','1')->get();
   
@@ -73,7 +74,98 @@ class EmployeesController extends Controller
 		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'main'])->with('success','Updated successfully.');
   }
 
-  public function save_academics(Request $request, $id){
+  public function save_personal(Request $request, $user_id){
+
+    //return $user_id;
+    $vdata = request()->validate([
+      'full_name'      => 'required|max:45',
+      'contact_number' => 'nullable|numeric',
+      'alternate_contact_number' => 'nullable|numeric',
+      'email'          => 'nullable|email|max:50',
+      'alternate_email'=> 'nullable|email|max:50',
+    ]);
+
+    /*** Directory structure ***/
+
+    if($request->hasFile('file_path')){
+      $dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
+      $file_ext = $request->file('file_path')->extension();
+      $filename = $id.'_'.time().'_personal.'.$file_ext;
+      $path     = $request->file('file_path')->storeAs($dir, $filename);
+    }else{
+      $path = 'emp_default_image.png';
+    }
+
+    EmployeeMast::where('user_id', $user_id)
+      ->update([
+        'emp_name'   => $vdata['full_name'],
+        'emp_gender' => $request->emp_gender,
+        'emp_dob'    => $request->emp_dob,
+        'blood_grp'  => $request->blood_group,
+        'curr_addr'  => $request->curr_addr,
+        'perm_addr'  => $request->perm_addr,
+        'contact'    => $vdata['contact_number'],
+        'alt_contact'=> $vdata['alternate_contact_number'],
+        'email'      => $vdata['email'],
+        'alt_email'  => $vdata['alternate_email'],
+        'driv_lic'   => $request->drive_lic
+      ]);
+
+    User::findOrfail($user_id)
+      ->update([
+        'name' => $vdata['full_name']
+      ]);
+
+    return redirect()->route('employee.show_page',['id'=>$user_id,'tab'=>'personal'])->with('success','Updated successfully.');
+  }
+
+  public function save_official(Request $request,$user_id){
+    
+    $vdata = request()->validate([
+
+      'aadhar_no' => 'string|nullable|max:20',
+      'pan_no'    => 'string|nullable|max:20',
+      'voter_id'  => 'string|nullable|max:20',
+      'old_pf'    => 'string|nullable|max:20',
+      'new_pf'    => 'string|nullable|max:20',
+      'driv_lic'  => 'string|nullable|max:20',
+      'old_uan'   => 'string|nullable|max:20',
+      'curr_uan'  => 'string|nullable|max:20',
+      'old_esi'   => 'string|nullable|max:20',
+      'curr_esi'  => 'string|nullable|max:20',
+    ]);
+
+    //return $request->all();
+
+    $employee = EmployeeMast::where('user_id', $user_id)
+      ->update([
+        'comp_id'    => $request->comp_id,
+        'dept_id'    => $request->dept_id,
+        'emp_type'   => $request->emp_type,
+        'reports_to' => $request->reports_to,
+        'emp_status' => $request->emp_status,
+        'join_dt'    => $request->join_dt,
+        'leave_dt'   => $request->leave_date,
+        'emp_code'   => $request->emp_code,
+        'grade_id'   => $request->emp_grade,
+        'desg_id'    => $request->designation,
+        'aadhar_no'  => $request->aadhar_no,
+        'pan_no'     => $request->pan_no,
+        'voter_id'   => $request->voter_id,
+        'driv_lic'   => $request->driv_lic,
+        'old_pf'     => $request->old_pf,
+        'curr_pf'    => $request->new_pf,
+        'old_uan'    => $request->old_uan,
+        'curr_uan'   => $request->curr_uan,
+        'old_esi'    => $request->old_esi,
+        'curr_esi'   => $request->curr_esi,
+      ]);
+      
+    return redirect()->route('employee.show_page',['user_id'=>$user_id,'tab'=>'official'])->with('success','Updated successfully.');
+  }
+
+
+  public function save_academics(Request $request, $user_id){
 
 	  $vdata = request()->validate([
 			'domain_of_study'    => 'max:90',
@@ -88,27 +180,29 @@ class EmployeesController extends Controller
 
       $dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
       $file_ext = $request->file('file_path')->extension();
-      $filename = $id.'_'.time().'_academic.'.$file_ext;
+      $filename = $user_id.'_'.time().'_academic.'.$file_ext;
       $path     = $request->file('file_path')->storeAs($dir, $filename);
+
     }else{
+
       $path = null;
+
     }
 		$employee = new EmpAcademic();
-		$employee->emp_id = $id;
-		$employee->domain_of_study    = $vdata['domain_of_study'];
-		$employee->name_of_unversity  = $vdata['board_name'];
-		$employee->completed_in_year  = $vdata['year_of_completion'];
-		$employee->grade_or_pct       = $vdata['grade_or_percent'];
-    $employee->file_path          = $path;
-		$employee->note               = $request->special_note;
+		$employee->user_id           = $user_id;
+		$employee->domain_of_study   = $vdata['domain_of_study'];
+		$employee->name_of_unversity = $vdata['board_name'];
+		$employee->completed_in_year = $vdata['year_of_completion'];
+		$employee->grade_or_pct      = $vdata['grade_or_percent'];
+    $employee->file_path         = $path;
+		$employee->note              = $request->special_note;
 		$employee->save();
 
-		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'academics'])->with('success','Updated successfully.');
+		return redirect()->route('employee.show_page',['user_id'=>$user_id,'tab'=>'academics'])->with('success','Updated successfully.');
   }
 
-  public function save_experience(Request $request,$id){
+  public function save_experience(Request $request,$user_id){
 
-// dd($request);
 	  $vdata = request()->validate([
 			'company_name' => 'required|max:100',
 			'job_type'     => 'max:50',
@@ -123,14 +217,14 @@ class EmployeesController extends Controller
 
       $dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
       $file_ext = $request->file('file_path')->extension();
-      $filename = $id.'_'.time().'_experience.'.$file_ext;
+      $filename = $user_id.'_'.time().'_experience.'.$file_ext;
       $path     = $request->file('file_path')->storeAs($dir, $filename);
     }else{
       $path = null;
     }
 
 		$academic = new EmpExp();
-		$academic->emp_id           = $id;
+		$academic->user_id          = $user_id;
 		$academic->comp_name        = $vdata['company_name'];
 		$academic->job_type         = $vdata['job_type'];
 		$academic->monthly_ctc      = $vdata['monthly_ctc'];
@@ -146,118 +240,9 @@ class EmployeesController extends Controller
 		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'experience'])->with('success','Updated successfully.');
   }
 
-  public function save_official(Request $request,$id){
-    
-	  $vdata = request()->validate([
-			/*'emp_code'  => 'string|max:15',
-      'designation'=> 'nullable',*/
-      'aadhar_no' => 'string|nullable|max:12',
-      'pan_no'    => 'string|nullable|max:20',
-      'voter_id'  => 'string|nullable|max:20',
-      'old_pf'    => 'string|nullable|max:20',
-      'new_pf'    => 'string|nullable|max:20',
-      'driv_lic'  => 'string|nullable|max:20',
-      'old_uan'   => 'string|nullable|max:20',
-      'curr_uan'  => 'string|nullable|max:20',
-      'old_esi'   => 'string|nullable|max:20',
-      'curr_esi'  => 'string|nullable|max:20',
-		]);
-
-    $employee = EmployeeMast::findOrfail($id);
-    $employee->comp_id    = $request->comp_id;
-    $employee->dept_id    = $request->dept_id;
-    $employee->emp_type   = $request->emp_type;
-    $employee->reports_to = $request->reports_to;
-    $employee->emp_status = $request->emp_status;
-    $employee->join_dt    = $request->join_date;
-    $employee->leave_dt   = $request->leave_date;
-    $employee->emp_code   = $request->emp_code;
-    $employee->grade_id   = $request->emp_grade;
-    $employee->desg_id   = $request->designation;
-    $employee->aadhar_no  = $request->aadhar_no;
-    $employee->pan_no     = $request->pan_no;
-    $employee->voter_id   = $request->voter_id;
-    $employee->driv_lic   = $request->driv_lic;
-    $employee->old_pf     = $request->old_pf;
-    $employee->curr_pf    = $request->new_pf;
-    $employee->old_uan    = $request->old_uan;
-    $employee->curr_uan   = $request->curr_uan;
-    $employee->old_esi    = $request->old_esi;
-    $employee->curr_esi   = $request->curr_esi;
-    $employee->save();
-  /*
-    
-    
-    
-    
-  */
-    
-		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'official'])->with('success','Updated successfully.');
-  }
-
-  public function save_personal(Request $request,$id){
-
-	  $vdata = request()->validate([
-			'full_name'      => 'required|max:45',
-			'contact_number' => 'nullable|numeric',
-			'alternate_contact_number' => 'nullable|numeric',
-			'email'          => 'nullable|email|max:50',
-			'alternate_email'=> 'nullable|email|max:50',
-		]);
-
-    /***** Directory structure *****/
-
-    if($request->hasFile('file_path')){
-      $dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
-      $file_ext = $request->file('file_path')->extension();
-      $filename = $id.'_'.time().'_personal.'.$file_ext;
-      $path     = $request->file('file_path')->storeAs($dir, $filename);
-    }else{
-      $path = 'emp_default_image.png';
-    }
-
-		$employee = EmployeeMast::findOrfail($id);
-		$employee->emp_name   = $vdata['full_name'];
-		$employee->emp_gender = $request->emp_gender;
-		$employee->emp_dob    = $request->emp_dob;
-		$employee->blood_grp  = $request->blood_group;
-		$employee->curr_addr  = $request->curr_addr;
-		$employee->perm_addr  = $request->perm_addr;
-		$employee->contact    = $vdata['contact_number'];
-		$employee->alt_contact= $vdata['alternate_contact_number'];
-		$employee->email      = $vdata['email'];
-		$employee->alt_email  = $vdata['alternate_email'];
-    $employee->driv_lic   = $request->drive_lic;
-		$employee->save();
-		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'personal'])->with('success','Updated successfully.');
-  }
-
-
-  /*public function save_nominee(Request $request, $id)
-  {
-    $vdata = request()->validate([
-      'nominee_name'  => 'required',
-      'email'         => 'email',
-      'adhar_no'      => 'required|digits:12',
-      'contact'       => 'regex:/^[0-9]+$/',
-      'relation'      => 'required',
-    ]);
-
-    $nominee = new EmpNominee;
-    $nominee->emp_id    = $id;
-    $nominee->name      = $vdata['nominee_name'];
-    $nominee->email     = $vdata['email'];
-    $nominee->aadhar_no = $vdata['adhar_no'];
-    $nominee->contact   = $vdata['contact'];
-    $nominee->addr      = $request->address;
-    $nominee->file_path = $request->file_path;
-    $nominee->relation  = $vdata['relation'];
-    $nominee->save();
-
-    return redirect()->route('employee.show_page', ['id' => $id, '  tab' => 'nominee'])->with('success', 'Updated Successfully.');
-  }
-*/
-  public function save_documents(Request $request, $id)
+  
+  
+  public function save_documents(Request $request, $user_id)
   {
     $vdata = request()->validate([
       'doc_title' => 'required',
@@ -266,43 +251,40 @@ class EmployeesController extends Controller
       'remarks'   => 'string|nullable'
     ]);
 
-    /*$var = EmployeeMast::findOrFail(1)->with('documents')->get();
-    //return $var[0]['documents'][15]->doctypemast->name;
-    return $var[0]['documents'][15];*/
-    
-
     if($request->file('file_path')){
         $doc_title= DB::table('doc_type_mast')->where('id', $vdata['doc_title'])->first();
     		$dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
     		$title    = str_replace(' ', '_', $doc_title->name);
     		$file_ext = $request->file('file_path')->extension();
-    		$filename = $id.'_'.time().'_'.$title.'.'.$file_ext;
+    		$filename = $user_id.'_'.time().'_'.$title.'.'.$file_ext;
     		$path     = $request->file('file_path')->storeAs($dir, $filename);
     }else{
       $path = null;
     }
 
     $document = new EmpDocument;
-    $document->emp_id       = $id;
+    $document->user_id       = $user_id;
     $document->doc_type_id  = $vdata['doc_title'];
     $document->file_path    = $path;
     $document->doc_status   = $vdata['doc_status'];
     $document->remarks       = $request->remarks;
     $document->date         = date('Y-m-d', time());
     $document->save();
-    return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'documents'])->with('success', 'Updated successfully.');
+    return redirect()->route('employee.show_page',['user_id'=>$user_id,'tab'=>'documents'])->with('success', 'Updated successfully.');
   }
 
   /*
     Toggle sections on employee detail page
   */
-  public function show_page($id, $tab)
+
+  public function show_page($user_id, $tab)
   {
   	$meta      = array();
-    $employee  = EmployeeMast::findOrFail($id);
+    $employee  = EmployeeMast::where('user_id', $user_id)->first();
     $path      = "HRD.employees.details.".$tab;
 
     if($tab == 'official'){
+
     	$meta['emp_types']     = EmpType::where('deleted_at', null)->get();
     	$meta['emp_statuses']  = EmpStatus::where('deleted_at', null)->get();
       $meta['comp_mast']     = CompMast::where('deleted_at', null)->get();
@@ -313,25 +295,39 @@ class EmployeesController extends Controller
     }
 
     if($tab == 'academics'){
-    	$employee = EmployeeMast::with('academics')->where('id',$id)->first();
-      // dd($employee);
+
+    	/*$employee = EmployeeMast::with('academics')
+                    ->where('user_id',16)
+                    ->get();*/
+
+      $employee = EmployeeMast::with('academics')
+                ->where('user_id', 16)
+                ->get();
+
+      //return $employee;
     }
 
     if($tab == 'experience'){
-    	$employee = EmployeeMast::with('experiences')->where('id',$id)->first();
+
+    	$employee = EmployeeMast::with('experiences')->where('user_id',$user_id)->first();
     }
 
     if($tab == 'documents'){
+
       $meta['doc_types'] = DocTypeMast::all();
-     $employee = EmployeeMast::with('documents')->where('id',$id)->first();
+
+      $employee = EmployeeMast::with('documents')
+                    ->where('user_id',16)
+                    ->first();
+
+      //return $user_id;
      
     }
 
     if($tab == 'nominee'){
 
-    $employee = EmployeeMast::with('nominee')->where('id',$id)->first();
+      $employee = EmployeeMast::with('nominee')->where('user_id',$user_id)->first();
     }
-  
 
     return view($path,compact('employee','meta'));
   }
@@ -354,21 +350,23 @@ public function viewDetails($id, $view)
     }
 
     if($view == 'academics'){
-      $employee = EmployeeMast::with('academics')->where('id',$id)->first();
+      $employee = EmployeeMast::with('academics')->where('user_id',$user_id)->first();
     }
 
     if($view == 'experience'){
-      $employee = EmployeeMast::with('experiences')->where('id',$id)->first();
+
+      $employee = EmployeeMast::with('experiences')->where('user_id',$user_id)->first();
     }
 
     if($view == 'documents'){
+
       $meta['doc_types'] = DocTypeMast::all();
-      $employee = EmployeeMast::with('documents')->where('id',$id)->first();
+      $employee = EmployeeMast::with('documents')->where('user_id',$user_id)->first();
      
     }
 
     if($view == 'nominee'){
-       $employee = EmployeeMast::with('nominee')->where('id',$id)->first();
+       $employee = EmployeeMast::with('nominee')->where('user_id',$user_id)->first();
     }
 
     return view($path,compact('employee','meta'));
@@ -413,119 +411,101 @@ public function viewDetails($id, $view)
     $employee->desg_id    = $request->emp_desg;
     $employee->save();
 
-      return back()->with('success','Updated successfully.');
-    
-			// $employee = EmployeeMast::findOrfail($id);
-			// $employee->emp_name   = $vdata['emp_title']." ".$vdata['full_name'];
-
-			// $employee->emp_gender = $request->emp_gender;
-			// $employee->emp_dob    = $request->emp_dob;
-			// $employee->blood_grp  = $request->blood_group;
-			// $employee->curr_addr  = $request->curr_addr;
-			// $employee->perm_addr  = $request->perm_addr;
-			// $employee->contact    = $vdata['Contact_number'];
-			// $employee->alt_contact= $vdata['alternate_contact_number'];
-			// $employee->email      = $vdata['email'];
-			// $employee->alt_email  = $vdata['alternate_email'];
-			// $employee->save();
-
-			// return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'personal'])->with('success','Updated successfully.');*/
+    return back()->with('success','Updated successfully.');
+  }
 
 
-    }
+  public function save_nominee(Request $request, $id){
+
+    $vdata = request()->validate([
+      'nominee_name'  => 'required',
+      'email'         => 'nullable|email',
+      'aadhaar_no'    => 'required|max:20',
+      'contact'       => 'nullable|numeric',
+      'relation'      => 'nullable',
+    ]);
+
+    $dir = 'hrms_uploads/'.date("Y").'/'.date("F");
+    $file_ext = $request->file('file_path')->extension();
+    $filename = $id.'_'.time().'_nominee.'.$file_ext;
+    $path = $request->file('file_path')->storeAs($dir, $filename);
+
+    $nominee = new EmpNominee;
+    $nominee->emp_id    = $id;
+    $nominee->name      = $vdata['nominee_name'];
+    $nominee->email     = $vdata['email'];
+    $nominee->aadhar_no = $vdata['aadhaar_no'];
+    $nominee->contact   = $vdata['contact'];
+    $nominee->addr      = $request->address;
+    $nominee->file_path = $path;
+    $nominee->relation  = $vdata['relation'];
+    $nominee->save();
+
+    return redirect()->route('employee.show_page', ['id' => $id, '  tab' => 'nominee'])->with('success', 'Updated successfully.');
+  }
 
 
-    public function save_nominee(Request $request, $id){
+  public function save_bankdetails(Request $request, $id){
 
-      $vdata = request()->validate([
-        'nominee_name'  => 'required',
-        'email'         => 'nullable|email',
-        'aadhaar_no'    => 'required|max:20',
-        'contact'       => 'nullable|numeric',
-        'relation'      => 'nullable',
+    $vdata = request()->validate([
+      'acc_holder'=> 'required',
+      'acc_no'    => 'required',
+      'bank_name' => 'required',
+      'ifsc'      => 'required',
+      'note'      => 'nullable|string'
+      ],
+      [
+        'acc_holder.required' => 'Account holder name is required.',
+        'acc_no.required'     => 'Account no is required',
+        'bank_name.required'  => 'Bank name is required',
+        'ifsc.required'       => 'IFSC code is required',
+        'branch.required'     => 'Branch name is required',
       ]);
 
+    //User input
+    $is_primary = $request->is_primary; 
+
+    if(empty($is_primary)){
+
+      $is_primary = 0;
+
+    }
+
+    if($request->file('file_path')){
       $dir = 'hrms_uploads/'.date("Y").'/'.date("F");
       $file_ext = $request->file('file_path')->extension();
-      $filename = $id.'_'.time().'_nominee.'.$file_ext;
+      $filename = $id.'_'.time().'_bank_detail.'.$file_ext;
       $path = $request->file('file_path')->storeAs($dir, $filename);
+    }else{
 
-      $nominee = new EmpNominee;
-      $nominee->emp_id    = $id;
-      $nominee->name      = $vdata['nominee_name'];
-      $nominee->email     = $vdata['email'];
-      $nominee->aadhar_no = $vdata['aadhaar_no'];
-      $nominee->contact   = $vdata['contact'];
-      $nominee->addr      = $request->address;
-      $nominee->file_path = $path;
-      $nominee->relation  = $vdata['relation'];
-      $nominee->save();
-
-      return redirect()->route('employee.show_page', ['id' => $id, '  tab' => 'nominee'])->with('success', 'Updated successfully.');
+      $path = null;
     }
 
+    $bankdetails              = new EmpBankDetail;
+    $bankdetails->emp_id      = $id;
+    $bankdetails->acc_holder  = $vdata['acc_holder'];
+    $bankdetails->acc_no      = $vdata['acc_no'];
+    $bankdetails->bank_name   = $vdata['bank_name'];
+    $bankdetails->ifsc        = $vdata['ifsc'];
+    $bankdetails->branch_name = $request->branch;
+    $bankdetails->file_path   = $path;
+    $bankdetails->is_primary  = $is_primary;
+    $bankdetails->note        = $vdata['note'];
+    $bankdetails->save();
 
-    public function save_bankdetails(Request $request, $id){
+    return back()->with('success', 'Updated successfully.');
+  }
 
-      $vdata = request()->validate([
-        'acc_holder'=> 'required',
-        'acc_no'    => 'required',
-        'bank_name' => 'required',
-        'ifsc'      => 'required',
-        'note'      => 'nullable|string'
-        ],
-        [
-          'acc_holder.required' => 'Account holder name is required.',
-          'acc_no.required'     => 'Account no is required',
-          'bank_name.required'  => 'Bank name is required',
-          'ifsc.required'       => 'IFSC code is required',
-          'branch.required'     => 'Branch name is required',
-        ]);
+  public function store(Request $request)
+  {
+      
+  }
 
-      //User input
-      $is_primary = $request->is_primary; 
-
-      if(empty($is_primary)){
-
-        $is_primary = 0;
-
-      }
-
-      if($request->file('file_path')){
-        $dir = 'hrms_uploads/'.date("Y").'/'.date("F");
-        $file_ext = $request->file('file_path')->extension();
-        $filename = $id.'_'.time().'_bank_detail.'.$file_ext;
-        $path = $request->file('file_path')->storeAs($dir, $filename);
-      }else{
-
-        $path = null;
-      }
-
-      $bankdetails              = new EmpBankDetail;
-      $bankdetails->emp_id      = $id;
-      $bankdetails->acc_holder  = $vdata['acc_holder'];
-      $bankdetails->acc_no      = $vdata['acc_no'];
-      $bankdetails->bank_name   = $vdata['bank_name'];
-      $bankdetails->ifsc        = $vdata['ifsc'];
-      $bankdetails->branch_name = $request->branch;
-      $bankdetails->file_path   = $path;
-      $bankdetails->is_primary  = $is_primary;
-      $bankdetails->note        = $vdata['note'];
-      $bankdetails->save();
-
-      return back()->with('success', 'Updated successfully.');
-    }
-
-    public function store(Request $request)
-    {
-        
-    }
-
-   public function getForm(Request $request, $type)
-   {
-   	$data['employee'] = EmployeeMast::findOrFail($request->emp_id);
+  public function getForm(Request $request, $type)
+  {
+  	$data['employee'] = EmployeeMast::findOrFail($request->emp_id);
     return view('HRD.employees.forms.'.$type,$data);
-   }
+  }
     
     /**
      * Show the form for editing the specified resource.
@@ -576,63 +556,63 @@ public function viewDetails($id, $view)
 	   	return redirect()->route('employees.index')->with('success','Employee details Updated Successfully');
     }
 */
-    public function fetch_designation(Request $request){
-    		$designations = Designation::where('comp_id',$request->comp_id)->get();
-    		return $designations;
+  public function fetch_designation(Request $request){
+  		$designations = Designation::where('comp_id',$request->comp_id)->get();
+  		return $designations;
 
+  }
+
+
+  public function delete_row($db_table, $id){
+
+    if($db_table == 'emp_academics'){
+      $academic = EmpAcademic::find($id);
+      $academic->delete();
+      Storage::delete($academic->file_path);
     }
 
-
-    public function delete_row($db_table, $id){
-
-      if($db_table == 'emp_academics'){
-        $academic = EmpAcademic::find($id);
-        $academic->delete();
-        Storage::delete($academic->file_path);
-      }
-
-      if($db_table == 'emp_exp'){
-        $experience = EmpExp::find($id);
-        $experience->delete();
-        Storage::delete($experience->file_path);
-      }
-      if($db_table == 'emp_nominee'){
-        $nominee = EmpNominee::find($id);
-        $nominee->delete();
-        Storage::delete($nominee->file_path);
-      }
-      if($db_table == 'emp_bank_details'){
-        $bankdetails = EmpBankDetail::find($id);
-        $bankdetails->delete();
-        Storage::delete($bankdetails->file_path);
-      }
-      if($db_table == 'emp_docs'){
-
-        $documents = EmpDocument::find($id);
-        $documents->delete();
-        Storage::delete($documents->file_path);
-      }
-      
-      return back()->with('success','Status deleted successfully.');
+    if($db_table == 'emp_exp'){
+      $experience = EmpExp::find($id);
+      $experience->delete();
+      Storage::delete($experience->file_path);
     }
+    if($db_table == 'emp_nominee'){
+      $nominee = EmpNominee::find($id);
+      $nominee->delete();
+      Storage::delete($nominee->file_path);
+    }
+    if($db_table == 'emp_bank_details'){
+      $bankdetails = EmpBankDetail::find($id);
+      $bankdetails->delete();
+      Storage::delete($bankdetails->file_path);
+    }
+    if($db_table == 'emp_docs'){
+
+      $documents = EmpDocument::find($id);
+      $documents->delete();
+      Storage::delete($documents->file_path);
+    }
+    
+    return back()->with('success','Status deleted successfully.');
+  }
 
   //Employees Export
-    public function export(){
-      //return 654;
-      return Excel::download(new EmployeesExport, 'employee.xlsx');      
-    }
+  public function export(){
+    //return 654;
+    return Excel::download(new EmployeesExport, 'employee.xlsx');      
+  }
 
-    public function save_session(Request $request){
-        
-         $ids = $request->id;
+  public function save_session(Request $request){
+      
+       $ids = $request->id;
 
-         Session::put('ids',$ids);
-    }
+       Session::put('ids',$ids);
+  }
 
-    public function activeInactive(Request $request){
-      // dd($request->id);
-     return EmployeeMast::where('id',$request->id)->update(array('active' => '0'));
-    }
+  public function activeInactive(Request $request){
+    // dd($request->id);
+   return EmployeeMast::where('id',$request->id)->update(array('active' => '0'));
+  }
 
   //Employees Import
 

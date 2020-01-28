@@ -41,28 +41,28 @@ Route::group(['middleware' => ['role:admin|hr manager']], function() {
 	Route::prefix('hrd')->namespace('HRD')->group(function () {
 		Route::post('/employees/{type}', 'EmployeesController@getForm');
 		Route::post('/employees/insert_employee','EmployeesController@insert_employee');
-		Route::post('/employee/save_main/{id}', 'EmployeesController@save_main')->name('employees.main');
-		Route::post('/employee/save_personal/{id}', 'EmployeesController@save_personal')->name('employees.personal');
-		Route::post('/employee/save_official/{id}', 'EmployeesController@save_official')->name('employees.official');
-		Route::post('/employee/save_academics/{id}', 'EmployeesController@save_academics')->name('employees.academics');
-		Route::post('/employee/save_experience/{id}', 'EmployeesController@save_experience')->name('employees.experience');
-		Route::post('/employee/save_documents/{id}', 'EmployeesController@save_documents')->name('employees.documents');
-		Route::post('/employee/save_nominee/{id}', 'EmployeesController@save_nominee')->name('employees.nominee');
-		Route::post('/employees/save_bankdetails/{id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
+		Route::post('/employee/save_main/{user_id}', 'EmployeesController@save_main')->name('employees.main');
+		Route::post('/employee/save_personal/{user_id}', 'EmployeesController@save_personal')->name('employees.personal');
+		Route::post('/employee/save_official/{user_id}', 'EmployeesController@save_official')->name('employees.official');
+		Route::post('/employee/save_academics/{user_id}', 'EmployeesController@save_academics')->name('employees.academics');
+		Route::post('/employee/save_experience/{user_id}', 'EmployeesController@save_experience')->name('employees.experience');
+		Route::post('/employee/save_documents/{user_id}', 'EmployeesController@save_documents')->name('employees.documents');
+		Route::post('/employee/save_nominee/{user_id}', 'EmployeesController@save_nominee')->name('employees.nominee');
+		Route::post('/employees/save_bankdetails/{user_id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
 
 
 });
 
 //Employee Active/Inactive
 
-	Route::post('employee/active/{id}', 'acl\UserController@active')->name('active');
+	Route::post('employee/active/{user_id}', 'acl\UserController@active')->name('active');
 
 // HRD > Employees Module
 Route::get('employees/export/', 'HRD\EmployeesController@export')->name('employees.export');
 
 //Download documents
 
-Route::get('hrd/employees/download/{db_table}/{id}', 'HRD\EmployeesController@downloadDocs')->name('employees.download');
+Route::get('hrd/employees/download/{db_table}/{user_id}', 'HRD\EmployeesController@downloadDocs')->name('employees.download');
 
 //Import Export
 

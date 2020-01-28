@@ -38,7 +38,7 @@
 								<tr>
 									<td>{{$status->id}}</td>
 									<td>{{$status->name}}</td>
-									<td>{{$status->desc}}</td>
+									<td>{{$status->description}}</td>
 									<td class="d-flex">
 										<span>
 												<a href="{{route('statuses.edit',$status->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>

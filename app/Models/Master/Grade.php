@@ -11,6 +11,6 @@ class Grade extends Model
   protected $table = 'emp_grade_mast'; 
 
   public function employees(){
-  	return $this->hasMany('App\Models\Employees\EmployeeMast');
+  	return $this->hasMany('App\Models\Employees\EmployeeMast', 'user_id');
   }
 }

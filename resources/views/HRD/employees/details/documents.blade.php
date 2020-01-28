@@ -12,7 +12,7 @@
 			{{$message}}
 		</div>
 		@endif 
-	<form action="{{route('employees.documents', ['id'=>$employee->id])}}" method="POST" enctype="multipart/form-data">
+	<form action="{{route('employees.documents', ['user_id'=>$employee->user_id])}}" method="POST" enctype="multipart/form-data">
 		@csrf
 		<div class="row">
 		    <div class="col-4 form-group">

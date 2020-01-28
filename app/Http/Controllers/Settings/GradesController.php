@@ -50,7 +50,6 @@ class GradesController extends Controller
 
     	$grade = new grade();
     	$grade->name = $data['name'];
-    	//$grade->comp_id = 1;
     	$grade->entitled_amt = $data['amount'];
     	$grade->description = $request->desc;
     	$grade->save();

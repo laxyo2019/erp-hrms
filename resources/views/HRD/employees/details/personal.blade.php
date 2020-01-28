@@ -20,7 +20,7 @@
 		</div>
 		@endif
 		<div id="form-area">
-				<form action="{{route('employees.personal', ['id'=>$employee->id])}}" method="POST" enctype="multipart/form-data">
+			<form action="{{route('employees.personal', ['id'=>$employee->user_id])}}" method="POST" enctype="multipart/form-data">
 					@csrf
 				<div class="container-fluid">
 					<div class="row">

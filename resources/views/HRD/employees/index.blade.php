@@ -4,7 +4,7 @@
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 24px">Employees
-					{{-- <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a> --}}
+					{{-- <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>--}}
 					<span class="ml-2">
 						<button class="btn btn-sm btn-info"  data-toggle="modal" data-target="#import-modal" style="font-size:13px" >
 							<form action="{{route('employees.import')}}" method="POST" enctype="multipart/form-data">
@@ -49,7 +49,7 @@
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
-									<th><input type="checkbox" id="checkedall"> ID </th>
+									<th><input type="checkbox" id="checkedall"> # </th>
 									<th>Employee Name </th>
 									<th>Employee Code</th>
 									<th>Grade Code</th>
@@ -64,7 +64,7 @@
 							@php $count = 0; @endphp
 							@foreach($employees as $employee)
 								<tr>
-									<td ><input type="checkbox" value="{{$employee->id}}" class="emp" name="checked"> {{++$count}} </td>
+									<td ><input type="checkbox" value="{{$employee->user_id}}" class="emp" name="checked"> {{$employee->user_id}} </td>
 									<td>{{ucwords($employee->emp_name)}}</td>
 									<td>{{$employee->emp_code}}</td>
 									{{-- <td>@if($employee->company!=null) {{$employee->company->comp_name}} @endif</td> --}}
@@ -79,7 +79,7 @@
 
 							@else
 								@if($employee->leave_allotted == 0)
-								<button class="btn btn-sm btn-info ml-2 modalAllot" data-id="{{$employee->id}}">
+								<button class="btn btn-sm btn-info ml-2 modalAllot" data-id="{{$employee->user_id}}">
 								<span style="font-size: 12px">Allot</span>
 								</button>
 								<div class="modal fade" id="allotmentsModal" role="dialog">
@@ -125,16 +125,18 @@
 									
 									<td class='d-flex' style="border-bottom:none">
 										<span>
-											<a href="{{route('employee.view-details',['id'=>$employee->id,'view'=>'personal'])}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>
+											<a href="{{route('employee.view-details',['id'=>$employee->user_id,'view'=>'personal'])}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>
 										</span>
 										<span class="ml-2">
-										<a href="{{route('employee.show_page',['id'=>$employee->id,'tab'=>'personal'])}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
+<a href="
+{{route('employee.show_page',['id'=>$employee->user_id,'tab'=>'personal'])}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 										</span>
 										<span class="ml-2">
-											<form action="{{route('employees.destroy',$employee->id)}}" method="POST" id="delform_{{ $employee->id}}">
+<form action="
+{{route('employees.destroy', ['id' => $employee->user_id])}}" method="POST" id="delform_{{ $employee->user_id}}">
 												@csrf
 												@method('DELETE')
-												<a href="javascript:$('#delform_{{$employee->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>			
+												<a href="javascript:$('#delform_{{$employee->user_id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>			
 											</form>
 										</span>
 									</td>

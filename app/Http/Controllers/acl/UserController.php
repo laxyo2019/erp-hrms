@@ -17,6 +17,7 @@ class UserController extends Controller
 {
 
     public function __construct(){
+
         $this->middleware('auth');
     }
 
@@ -89,7 +90,8 @@ class UserController extends Controller
         return back()->with('success', 'Employee '.$status.' successfully.');
     }
 
-        //Add as an employee
+    //Add as an employee
+    
     public function store(Request $request){
 
         $request->validate([
@@ -109,7 +111,7 @@ class UserController extends Controller
         EmployeeMast::create([
             'emp_name' => strtolower($request->name),
             'email'    => strtolower($request->email),
-            'user_id'  => $user->id]);
+            'user_id'  => $user->insertGetId()]);
 
         return redirect('acl/users')->with('success', 'User added successfully.');
     }

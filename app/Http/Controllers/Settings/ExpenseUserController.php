@@ -12,8 +12,8 @@ class ExpenseUserController extends Controller
 {
    	
    	public function create(){
+
    		$olduser_id = ExpenseInUser::select('emp_id')->get();
-   		// return $oldUser ;
 
    		$users = EmployeeMast::whereNotIn('emp_id',$olduser_id->toArray())->get();
 
@@ -22,7 +22,9 @@ class ExpenseUserController extends Controller
    		return view('settings.expense_user.create',compact('users','oldUsers'));
    	}
    	public function store(Request $request){
+
    		$users = $request->users;
+         
    		$grp_code = $request->grp_code;
 
    		$company_grp = CompGrpMast::find($grp_code);

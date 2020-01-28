@@ -217,12 +217,10 @@ class MasterController extends Controller
 
 	public function storeOrUpdate($method, $db_table, $id = null)
 	{
-		
-
 		switch ($method) {
 	    case "store":
 		    $vdata = request()->validate([
-					'name' => 'required|unique:'.$db_table,
+					'name' 		  => 'required|unique:'.$db_table,
 					'description' => 'nullable'
 				]);
 	      DB::table($db_table)

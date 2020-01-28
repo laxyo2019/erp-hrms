@@ -39,7 +39,7 @@
 								<tr>
 									<td>{{$grade->name}}</td>
 									<td>{{$grade->entitled_amt}}</td>
-									<td>{{$grade->desc}}</td>
+									<td>{{$grade->description}}</td>
 									<td class="d-flex">
 										<span>
 												<a href="{{route('grades.edit',$grade->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>

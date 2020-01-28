@@ -28,10 +28,9 @@ class EmployeeMast extends Model
   {
      return date("d-m-Y", strtotime($value));
   }
- 	
 
  	public function academics(){
- 		return $this->hasMany('App\Models\Employees\EmpAcademic','user_id');
+ 		return $this->hasMany('App\Models\Employees\EmpAcademic','user_id', 'user_id');
  	}
 
  	public function experiences(){
@@ -39,7 +38,7 @@ class EmployeeMast extends Model
  	}
 
  	public function documents(){
- 		return $this->hasMany('App\Models\Employees\EmpDocument', 'user_id');
+ 		return $this->hasMany('App\Models\Employees\EmpDocument', 'user_id', 'user_id');
  	}
 
  	public function bankdetails(){

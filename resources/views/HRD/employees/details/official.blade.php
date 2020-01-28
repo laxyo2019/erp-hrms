@@ -14,7 +14,7 @@
 		</div>
 		@endif 
 		<div id="form-area">
-			<form action="{{route('employees.official', ['id'=>$employee->id])}}" method="POST">
+			<form action="{{route('employees.official', ['id'=>$employee->user_id])}}" method="POST">
 				@csrf
 				<div class="container-fluid">
 					<div class="row">
@@ -75,15 +75,15 @@
 							</span>
 							@enderror
 						</div>
-						<div class="col-6 form-group">
-							<label for="">Joinning Date</label>
-							<input type="text" class="form-control datepicker" name="join_dt" value="{{old('join_dt', $employee->leave_dt)}}" autocomplete="off"/>
-							@error('join_dt')
-							<span class="text-danger" role="alert">
-								<strong>* {{ $message }}</strong>
-							</span>
-							@enderror
-						</div>
+<div class="col-6 form-group">
+	<label for="">Joinning Date</label>
+	<input type="text" class="form-control datepicker" name="join_dt" value="{{old('join_dt', $employee->join_dt)}}" autocomplete="off"/>
+	@error('join_dt')
+	<span class="text-danger" role="alert">
+		<strong>* {{ $message }}</strong>
+	</span>
+	@enderror
+</div>
 						<div class="col-6 form-group">
 							<label for="">Leave Date</label>
 							<input type="text" class="form-control datepicker" name="leave_date" value="{{old('leave_date', $employee->leave_dt)}}" autocomplete="off"/>
@@ -118,9 +118,9 @@
 						<div class="col-6 form-group">
 							<label for="name"><b>REPORTS TO</b> </label>
 							<select name="reports_to" class="form-control" id="">
-								<option value="">Select User</option>	
+								<option value="">Select User</option>
 									@foreach($meta['emp_mast'] as $index)
-										<option value="{{$index->id}}" {{old('reports_to',$employee->reports_to) == $index->id ? 'selected' : ''}} {{$index->id == $employee->id ? 'disabled' : ''}}>{{ucwords($index->emp_name)}}</option>
+										<option value="{{$index->user_id}}" {{old('reports_to',$employee->reports_to) == $index->user_id ? 'selected' : ''}} {{$index->user_id == $employee->user_id ? 'disabled' : ''}}>{{ucwords($index->emp_name)}}</option>
 									@endforeach
 							</select>			
 						</div>
@@ -184,7 +184,7 @@
 						
 						<div class="col-6 form-group">
 							<label for="">Old UAN Number</label>
-							<input type="text" name="old_uan" value="{{old('old_uan', $employee->old_esi)}}" class="form-control">
+							<input type="text" name="old_uan" value="{{old('old_uan', $employee->old_uan)}}" class="form-control">
 						</div> 
 						<div class="col-6 form-group">
 							<label for="">New UAN Number</label>
