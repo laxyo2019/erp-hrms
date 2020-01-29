@@ -4,11 +4,6 @@
 	<div class="row">
 		<div class="col-md-12 col-xl-12">
 			<h1 style="font-size: 24px">Leave Allotments
-                {{-- <a href="{{ route('allotments.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a> --}}
-                {{-- <span class="ml-2">
-                    <a href="{{route('types.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
-                    <span class="fa fa-plus "></span> Add New</a>
-                </span> --}}
 			</h1>
 			<hr>
 		</div>
@@ -55,20 +50,20 @@
                                     </td>
                                     <td class='d-flex ' style="border-bottom:none">
                                   <span class="ml-2 text-center">
-                                    <a href="{{route('allotments.edit', $index->id)}}" class="btn btn-sm btn-success">EDIT</i></a>
+                                    <a href="{{route('allotments.edit', $index->user_id)}}" class="btn btn-sm btn-success">EDIT</i></a>
                                   </span>
         <span class="ml-2">
          @if(!empty($index['allotments'][0]->status) ? $index['allotments'][0]->status:'' == 1)
-                                        <a href="{{route('hold.leave', $index->id)}}" class="btn btn-sm btn-info" onclick="return confirm('Are you sure?')">HOLD</a>
+                                        <a href="{{route('hold.leave', $index->user_id)}}" class="btn btn-sm btn-info" onclick="return confirm('Are you sure?')">HOLD</a>
                                     @else
-                                        <a href="{{route('reallot.leave', $index->id)}}" class="btn btn-sm btn-info" onclick="return confirm('Are you sure?')">Re-Allot</a>
+                                        <a href="{{route('reallot.leave', $index->user_id)}}" class="btn btn-sm btn-info" onclick="return confirm('Are you sure?')">Re-Allot</a>
                                     @endif
                                     </span>
                                 <span class="ml-2">
-                                    <form  action="{{route('allotments.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
+                                    <form  action="{{route('allotments.destroy',$index->user_id)}}" method="POST" id="delform_{{ $index->user_id}}">
                                     @csrf
                                     @method('DELETE')
-                                    <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
+                                    <a href="javascript:$('#delform_{{ $index->user_id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
                                     </form>
                                 </span>
                                     </td>

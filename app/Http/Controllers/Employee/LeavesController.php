@@ -2,83 +2,88 @@
 
 namespace App\Http\Controllers\Employee;
 
-use App\Http\Controllers\Controller;
-use App\Models\Employees\EmployeeMast;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Auth;
 use File;
-use App\Models\Employees\EmpLeave;
-use App\Models\Master\LeaveMast;
-use App\Models\Employees\LeaveApply;
-use App\Models\Master\Designation;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Employees\LeaveAllotment;
-use App\Models\Master\Holiday;
 use App\User;
 use Carbon\Carbon;
-
+use Illuminate\Http\Request;
+use App\Models\Master\Holiday;
+use App\Models\Master\LeaveMast;
+use App\Models\Master\Designation;
+use App\Models\Employees\EmpLeave;
+use Illuminate\Support\Facades\DB;
+use App\Models\Employees\LeaveApply;
+use App\Http\Controllers\Controller;
+use App\Models\Employees\EmployeeMast;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Employees\LeaveAllotment;
 
 
 class LeavesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  /**
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
 
-   public function __construct(){
+ public function __construct(){
 
-      $this->middleware('auth');
-      
-    }
+    $this->middleware('auth');
+    
+  }
 
-   public function index()
-   {
-      
-      $leaves   =  LeaveApply::where('user_id', Auth::id())
-                ->with(['employee', 'approve_name', 'approvalaction', 'leavetype'])
-                ->get();
+  public function index(){
 
-      $balance  = EmployeeMast::with('allotments.leaves')
-                      ->where('id', Auth::id())
-                      ->latest()
-                      ->first();
-                      
-
-      return view('employee.leaves.index', compact('leaves', 'balance'));
-   }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-   public function create()
-   {
-     //Many2Many relationship
-     //$desig = Designation::find(3)->approvals;
-     $reports_id = EmployeeMast::find(Auth::id())->reports_to;
-       if(!empty($reports_id)){
-
-         //for logged in user's reports to
-         $reports_to = EmployeeMast::where('id', $reports_id)
-                   ->select('id', 'emp_name')
-                   ->first();
-       }else{
-         $reports_to = null;
-       }
+    $leaves   =  LeaveApply::where('user_id', Auth::id())
+              ->with(['employee', 'approve_name', 'approvalaction', 'leavetype'])
+              ->get();
 
 
-      //Get all allotted Leaves of current employee.
-      $allotment = LeaveAllotment::with('leaves')
-                    ->where('emp_id', Auth::id())
-                    ->orderBy('leave_mast_id', 'asc')
-                    ->get();
 
-      return view('employee.leaves.create', compact('reports_to', 'allotment'));
-   }
+    $balance  = EmployeeMast::with('allotments.leaves')
+                  ->where('user_id', Auth::id())
+                  ->latest()
+                  ->first();
+
+    return view('employee.leaves.index', compact('leaves', 'balance'));
+  }
+
+  /**
+   * Show the form for creating a new resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function create()
+  {
+   //Many2Many relationship
+   //$desig = Designation::find(3)->approvals;
+
+    return EmployeeMast::with('UserName')
+                    ->where('id', Auth::id())
+                    ->first();
+
+   $reports_id = EmployeeMast::where('user_id', Auth::id());
+     if(!empty($reports_id)){
+
+       //for logged in user's reports to
+       $reports_to = EmployeeMast::where('user_id', $reports_id)
+                 ->select('id', 'user_id', 'emp_name')
+                 ->first();
+     }else{
+       $reports_to = null;
+     }
+
+     
+
+    //Get all allotted Leaves of current employee.
+    $allotment = LeaveAllotment::with('leaves')
+                  ->where('user_id', Auth::id())
+                  ->orderBy('leave_mast_id', 'asc')
+                  ->get();
+
+    return view('employee.leaves.create', compact('reports_to', 'allotment'));
+  }
 
    public function balance(Request $request){
 
@@ -88,8 +93,6 @@ class LeavesController extends Controller
       $leave    = LeaveMast::where('id', $request->leave_id)
                   ->orWhere('name', $request->leaveType)
                   ->first();
-
-      //return $leave;
 
       // Get user's balance of selected leave
 

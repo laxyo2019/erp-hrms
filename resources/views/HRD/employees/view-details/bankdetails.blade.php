@@ -1,5 +1,3 @@
-{{-- Created by kishan developer............ --}}
-
 @extends('layouts.master')
 @push('styles')
   <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
@@ -79,13 +77,13 @@
 			        		</div><br>
 			         
               </div>@endforeach
-{{-- >>>>>>> d653f27de7ca565a87df1f09c1eccf409aa23947 --}}
           	</div>
         	</div>
       	</div>
    	</main>
 <script>
 $(document).ready(function(){
+	
 	$('.bankdetails').addClass('active');
 	$('.datepicker').datepicker({
 		orientation: "bottom",

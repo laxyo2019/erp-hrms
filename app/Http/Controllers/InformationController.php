@@ -21,12 +21,13 @@ class InformationController extends Controller
     	$info = EmployeeMast::where('user_id', Auth::id())->with('department')->first();
 
     	return view('information.index', compact('info'));
-
     }
 
     public function edit( $id){
     	
     	$info = EmployeeMast::where('user_id', Auth::id())->first();
+
+        //return $info;
 
     	return view('information.edit', compact('info'));
     }

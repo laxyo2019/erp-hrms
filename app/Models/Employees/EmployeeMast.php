@@ -58,12 +58,9 @@ class EmployeeMast extends Model
  	}
 
  	public function allotments(){
- 		return $this->hasMany('App\Models\Employees\LeaveAllotment', 'user_id');
+ 		return $this->hasMany('App\Models\Employees\LeaveAllotment', 'user_id', 'user_id');
  	}
 
- 	// public function approver_detail(){
- 	// 	return $this->hasMany('App\Models\Employees\LeaveApply','id');
- 	// }
  	public function UserName(){
  		return $this->hasOne('App\User', 'user_id');
  	}

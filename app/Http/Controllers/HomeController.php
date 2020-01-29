@@ -31,12 +31,12 @@ class HomeController extends Controller
         //Hide employee leave request menu.
         
         $user = EmployeeMast::with('allotments')
-                    ->where('id', Auth::id())
+                    ->where('user_id', Auth::id())
                     ->first();
 
-        /*$leave['allotment']  = $user->leave_allotted;
+        $leave['allotment']  = $user->leave_allotted;
         $leave['reallotment']= $user['allotments'];
-        Session::put('leave', $leave);*/
+        Session::put('leave', $leave);
 
         return view('home');
     }

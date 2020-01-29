@@ -40,7 +40,7 @@
 			</div>
 		@endforeach
 	</div>
-	<input type="hidden" name="emp_id" value="{{$employee->id}}">
+	<input type="hidden" name="user_id" value="{{$employee->user_id}}">
 	<div class="col-12 form-group text-center">
 		<button class="btn btn-info btn-sm m-2" style="width: 40%">Save</button>
 	</div>

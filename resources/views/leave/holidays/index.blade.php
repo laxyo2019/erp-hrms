@@ -7,7 +7,7 @@
                     <a href="{{route('holidays.create')}}" class="btn btn-sm btn-success" style="font-size:13px">
                         <span class="fa fa-plus"></span> Add holiday</a>
 
-                    <a href="{{ route('holidays.index') }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+                    <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
                         <a href="{{route('export.holidays')}}" class="btn btn-sm btn-primary " style="font-size:13px">Export
                             <span class="fa fa-cloud-download"></span></a>
                         <form method="POST" action="{{route('import.holidays')}}" enctype="multipart/form-data">
@@ -52,6 +52,13 @@
                                       <span class="ml-2 text-center">
                                         <a href="{{route('holidays.edit', $index->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
                                       </span>
+                                      <span class="ml-2">
+                                    <form  action="{{route('holidays.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
+                                    </form>
+                                </span>
                                     </td>
                                 </tr>
                            @endforeach

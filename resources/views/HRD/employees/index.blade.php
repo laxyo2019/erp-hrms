@@ -4,7 +4,6 @@
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 24px">Employees
-					{{-- <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>--}}
 					<span class="ml-2">
 						<button class="btn btn-sm btn-info"  data-toggle="modal" data-target="#import-modal" style="font-size:13px" >
 							<form action="{{route('employees.import')}}" method="POST" enctype="multipart/form-data">
@@ -102,23 +101,23 @@
 									<td >
 						
 				<div class="row">
-				{{-- @if($employee['userName']->status == 0)
+				@if($employee->status == 0)
                   	<div  class="col" align="center">
-                    <form  action="{{route('active', $employee->id)}}" method="POST" id="active_{{ $employee->id}}">
+                    <form  action="{{route('active', $employee->user_id)}}" method="POST" id="active_{{ $employee->user_id}}">
                       @csrf
-                      <input type="hidden" name="flag" value="1">
-                      <a href="javascript:$('#active_{{ $employee->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Active employee ?')">Active</a>
+                      <input type="hidden" name="flag" value="">
+                      <a href="javascript:$('#active_{{ $employee->user_id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Activate employee ?')">Active</a>
                       </form>
                     </div>
                 @else
                 	<div class="col" align="center">
-                    <form  action="{{route('active', $employee->id)}}" method="POST" id="active_{{ $employee->id}}">
+                    <form  action="{{route('active', $employee->user_id)}}" method="POST" id="active_{{ $employee->user_id}}">
                       @csrf
-                      <input type="hidden" name="flag" value="0">
-                      <a href="javascript:$('#active_{{ $employee->id}}').submit();" class="btn btn-sm btn-primary" onclick="return confirm('Inactive employee ?')">Inactive</a>
+                      <input type="hidden" name="flag" value="{{date("Y-m-d H:i:s", time())}}">
+                      <a href="javascript:$('#active_{{ $employee->user_id}}').submit();" class="btn btn-sm btn-primary" onclick="return confirm('Deactivate employee ?')">Deactive</a>
                       </form>
                     </div>
-                @endif --}}
+                @endif
 				</div>
 
                   </td>
@@ -164,11 +163,11 @@ $(document).ready(function(){
 
 	$('.modalAllot').on('click', function(e){
         e.preventDefault();
-        var emp_id = $(this).data('id');	
+        var user_id = $(this).data('id');
 		$.ajax({
 			type: 'GET',
 			url: '{{route('allotments.create')}}'												,
-			data: {'emp_id': emp_id},
+			data: {'user_id': user_id},
 			//headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			success: function(data){
 				$('#allotmentsModal').modal('show');
@@ -184,12 +183,11 @@ $(document).ready(function(){
         	emp.push($(this).val());
     	});
 
-    	//console.log(emp);
     	$.ajax({
     		type:'POST',
     		url:'{{route('employee.save_session')}}',
     		headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    		data:{id:emp},
+    		data:{user_id:emp},
     		success:function(data){
 
     			 window.location.href = $('#exportone').attr('href');

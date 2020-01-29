@@ -59,8 +59,6 @@
 								</tr>
 							</thead>
 							<tbody>
-								{{-- @foreach($employee as $leaveapply)
-								@endforeach --}}
 							@php $count = 0; @endphp
 								@if( !empty($leaves) )
 								{{-- {{dd($leaves)}} --}}

@@ -27,7 +27,13 @@
 	<div class="col-6" >
 		<h4>Certificate</h4>
 		<div>
-			<td><a href="{{route('employees.download', ['db_table' => 'emp_exp', $exp->id])}}"><i class="fa fa-arrow-down"></i>Download</a></td>
+			<td>
+				@if($exp->file_path != null)
+				<a href="{{route('employees.download', ['db_table' => 'emp_exp', $exp->id])}}"><i class="fa fa-arrow-down"></i>Download</a>
+				@else
+					Not Available
+				@endif
+			</td>
 		</div>
 	</div>
 	{{-- @endcan --}}

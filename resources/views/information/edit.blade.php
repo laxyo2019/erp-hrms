@@ -18,7 +18,7 @@
 			</div>
 		@endif 
 		{{-- <div><h5>Write role name</h5></div><hr> --}}
-		<form action="{{route('information.update', $info->id)}}" method="POST" >
+		<form action="{{route('information.update', $info->user_id)}}" method="POST" >
 			@csrf
 			@method("PATCH")
 			<div class="row">

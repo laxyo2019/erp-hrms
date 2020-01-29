@@ -73,6 +73,14 @@ class HolidayController extends Controller
 
     }
 
+    public function destroy(Request $request, $id){
+        
+        $leave_type = Holiday::findOrFail($id);
+        $leave_type->delete();
+
+        return back()->with('success', 'Deleted successfully.');
+    }
+
     public function import(Request $request){
 
     	$records = Excel::toCollection(new HolidaysImport, $request->file('import'));

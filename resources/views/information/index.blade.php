@@ -18,7 +18,7 @@
                         <div class="post-media">  
                             <div class="row mb-4">
                                 <div class="col-md">
-                                    <form method="GET" action="{{route('information.edit', $info->id)}}">
+                                    <form method="GET" action="{{route('information.edit', $info->user_id)}}">
                                         <input type="submit" class="btn btn-info btn-sm " value="Update Info">
                                     </form>
                                 </div>

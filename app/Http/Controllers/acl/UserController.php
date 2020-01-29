@@ -78,13 +78,26 @@ class UserController extends Controller
 
     public function active(Request $request, $id){
 
-        User::where('emp_id', $id)
-                ->update(['status' => $request->flag]);
+        //set null for activation and timestamp for deactivation in users table and 0(deactivate) or 1(activation) in employee mast.
         
-        if($request->flag == 1){
-            $status = 'activeted';
+        User::where('id', $id)
+                ->update(['deleted_at' => $request->flag]);
+
+
+        if($request->flag == null){
+            $flag = 1;
         }else{
-            $status = 'inactiveted';
+            $flag = 0;
+        }
+
+        EmployeeMast::where('user_id', $id)
+                ->update(['status' => $flag]);
+
+        
+        if($request->flag == null){
+            $status = 'activated';
+        }else{
+            $status = 'dectivated';
         }
 
         return back()->with('success', 'Employee '.$status.' successfully.');
@@ -102,16 +115,19 @@ class UserController extends Controller
 
         ]);
 
-        $user = new User;
-        $user->name     = $request->name;
-        $user->email    = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
+        $user_id = User::create([
+                        'name'     => $request->name,
+                        'email'    => $request->email,
+                        'password' => bcrypt($request->password)
+                    ])->id;
 
-        EmployeeMast::create([
-            'emp_name' => strtolower($request->name),
-            'email'    => strtolower($request->email),
-            'user_id'  => $user->insertGetId()]);
+        //return $user_id;
+        $employee = new EmployeeMast;
+        $employee->emp_name = strtolower($request->name);
+        $employee->email    = strtolower($request->email);
+        $employee->user_id  = $user_id;
+        $employee->save();
+
 
         return redirect('acl/users')->with('success', 'User added successfully.');
     }

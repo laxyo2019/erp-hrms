@@ -19,18 +19,18 @@ class AllotmentController extends Controller
 	public function index(){
 
 		$allotments = EmployeeMast::with(['allotments'=>function($query){
-							$query->with('leaves');
-							}])->where('emp_mast.leave_allotted', '=', 1)
-							->whereNull('deleted_at')
-							->get();
+						$query->with('leaves');
+						}])->where('emp_mast.leave_allotted', '=', 1)
+						->whereNull('deleted_at')
+						->get();
 
 		return view('leave.allotment.index', compact('allotments'));
 	}
 
 	public function create(Request $request){
 		
-		$employee 	= EmployeeMast::where('id', $request->emp_id)
-						->select('id', 'emp_name')
+		$employee 	= EmployeeMast::where('user_id', $request->user_id)
+						->select('user_id', 'emp_name')
 						->first();
 
 		$leaves 	= LeaveMast::orderBy('id', 'asc')->get();
@@ -45,54 +45,42 @@ class AllotmentController extends Controller
     public function store(Request $request){
 
     	//return $request->all();
-    	$exists = LeaveAllotment::where('emp_id', $request->emp_id)->get();
+
+    	$exists = LeaveAllotment::where('user_id', $request->user_id)->get();
 
     	if(count($exists) == 0){
 
 	    	for($i=0; $i<count($request->leave); $i++){
 
 	    		$allotted = new LeaveAllotment;
-
 	    		$allotted->leave_mast_id= $request->leave[$i];
-	    		$allotted->emp_id		= $request->emp_id;
+	    		$allotted->user_id		= $request->user_id;
 	    		$allotted->start 		= $request->start;
 	    		$allotted->end 			= $request->ends;
 	    		$allotted->save();
 	    	}
 
-	    	$employee = EmployeeMast::find( $request->emp_id);
-		    $employee->leave_allotted = 1;
-		    $employee->save();
-		    
-	    }/*else{//If allotted but holded then change status on both table
-
-	    	LeaveAllotment::where('emp_id', $request->emp_id)
-
-    		->update(['status' => 1]);
-
-    		$employee = EmployeeMast::find( $request->emp_id);
-	    	$employee->leave_allotted = 1;
-	    	$employee->save();
-
-	    }*/
+	    	$employee = EmployeeMast::where('user_id', $request->user_id)->update([
+	    			'leave_allotted' => 1]);		    
+	    }
 
 	    return back()->with('success', 'Leave allotted successfully.');
     }
 
-    public function edit( $id){
+    public function edit( $user_id){
 
-    	$name 		= EmployeeMast::where('id', $id)
-    					->select('id', 'emp_name')
+    	$name 		= EmployeeMast::where('user_id', $user_id)
+    					->select('user_id', 'emp_name')
     					->first();
 
 		$employee 	= LeaveAllotment::with('leaves')
-						->where('emp_id', '=', $id)
+						->where('user_id', '=', $user_id)
 						->get();
 
     	return view('leave.allotment.edit', compact('name', 'employee'));
     }
 
-    public function update(Request $request,$id){
+    public function update(Request $request,$user_id){
 
     	$this->validate($request, [
 	    	'start'		=>	'required',
@@ -111,36 +99,35 @@ class AllotmentController extends Controller
 					'initial_bal'	=>	$request->leave[$x]
 					];
 
-			LeaveAllotment::where('emp_id',$id)->where('leave_mast_id',$request->id[$x])->update($data);
+			LeaveAllotment::where('user_id', $user_id)->where('leave_mast_id',$request->id[$x])->update($data);
 			$x++;
 		}
 
 		return redirect()->route('allotments.index')->with('success', 'Updated successfully.');
     }
 
-    public function destroy( $id){
+    public function destroy( $user_id){
 
-    	LeaveAllotment::where('emp_id', $id)->delete();
+    	LeaveAllotment::where('user_id', $user_id)->delete();
 
-    	$employee = EmployeeMast::find( $id);
-    	$employee->leave_allotted = null;
-    	$employee->save();
+    	EmployeeMast::where('user_id', $user_id)
+    		->update(['leave_allotted' => null]);
 
     	return redirect()->route('allotments.index')->with('success', 'Record deleted successfully.');
     }
 
     //Hold employee leaves
-    public function hold($id){
+    public function hold($user_id){
 
-    	LeaveAllotment::where('emp_id', $id)
+    	LeaveAllotment::where('user_id', $user_id)
     		->update(['status' => 0]);
 
     	return back()->with('success', 'Leave holded.');
     }
 
-    public function reallot($id){
+    public function reallot($user_id){
 
-    	LeaveAllotment::where('emp_id', $id)
+    	LeaveAllotment::where('user_id', $user_id)
     		->update(['status' => 1]);
 
     	return back()->with('success', 'Leave Re-Allotted.');

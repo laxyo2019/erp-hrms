@@ -18,7 +18,7 @@
 			</div>
 		@endif
 		<div><h4>{{ucwords($name->emp_name)}}</h4></div><hr>
-		<form action="{{route('allotments.update', $name->id)}}" method="POST" enctype="multipart/form-data">
+		<form action="{{route('allotments.update', $name->user_id)}}" method="POST" enctype="multipart/form-data">
 			@csrf
 			@method('PATCH')
 			<div class="row">
