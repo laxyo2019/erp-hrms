@@ -53,8 +53,8 @@
 									<th>Leave Period</th>
 									<th>Duration</th>
 									<th>Posted on</th>
-									<th>Status</th>
-									{{-- <th>Approver Remark</th> --}}
+									<th>Sub-Admin Approval</th>
+									<th>Admin Approval</th>
 									<th class="text-center">Actions</th>
 								</tr>
 							</thead>
@@ -100,7 +100,7 @@
 	({{$leaveapply['approve_name']->name}})
 	</u>@endif
 	</div> 
---}}
+
 										 
 						@if(empty($leaveapply->status))
 							<div >
@@ -117,6 +117,26 @@
 							 		{{ucwords($leaveapply['approve_name']->emp_name)}}</p>
 							</div>
 						@endif
+						--}}
+						@if($leaveapply->subadmin_approval == 0)
+							<div >
+							 	<strong style="color: grey;">
+							 		PENDING
+								</strong>
+							</div>
+						@elseif($leaveapply->subadmin_approval == 1)
+							<div >
+							 	<strong style="color: green;">
+							 		APPROVE
+								</strong>
+							</div>
+						@else
+							<div >
+							 	<strong style="color: red;">
+							 		DECLINE
+								</strong>
+							</div>
+						@endif
 						{{-- <div>
 							<u>
 								@if($leaveapply->approve_name)
@@ -125,6 +145,27 @@
 								@endif</u>
 						</div> --}}
 							{{-- {{empty($leaveapply['approvalaction']->name) ? 'Decline'  : strtoupper($leaveapply['approvalaction']->name)}} --}}
+								</td>
+								<td>
+									@if($leaveapply->admin_approval == 0)
+										<div >
+										 	<strong style="color: grey;">
+										 		PENDING
+											</strong>
+										</div>
+									@elseif($leaveapply->subadmin_approval == 1)
+										<div >
+										 	<strong style="color: green;">
+										 		APPROVE
+											</strong>
+										</div>
+									@else
+										<div >
+										 	<strong style="color: red;">
+										 		DECLINE
+											</strong>
+										</div>
+									@endif
 								</td>
 									
 									<td class='d-flex' style="border-bottom:none">

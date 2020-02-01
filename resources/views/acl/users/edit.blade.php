@@ -8,17 +8,17 @@
 		<div class="col-md-12 col-xl-12">
 			<h1 style="font-size: 24px">Edit User
               <a href="{{ route('users.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-				@if(empty($user->emp_id))
+				{{-- @if(empty($user->emp_id))
 					<button class="btn btn-sm btn-info ml-2 employee">
 	                  <span style="font-size: 12px">+ Add as Employee</span>
 	                </button>
-	            {{-- @else
+	            @else
 	            	@if(empty($employee->leave_allotted))
 						<button class="btn btn-sm btn-info ml-2 leave" id="leave">
 		                	<span style="font-size: 12px">+ Allot Leaves</span>
 		                </button>
-	                @endif --}}
-                @endif
+	                @endif 
+                @endif--}}
 			</h1>
 		</div>
 	</div>
@@ -78,7 +78,7 @@
 </main>
 <script>
 $(document).ready(function(){
-	$('.employee').on('click', function(e){
+	/*$('.employee').on('click', function(e){
 		var user_id = {{$user->id}};
 		$.ajax({
             type: 'POST',
@@ -93,7 +93,7 @@ $(document).ready(function(){
 			}
 		})
 	});
-	/*$('.leave').on('click', function(e){
+	$('.leave').on('click', function(e){
         e.preventDefault();
 		$.ajax({
 			type: 'POST',

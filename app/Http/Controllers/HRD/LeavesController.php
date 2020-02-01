@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers\HRD;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Master\LeaveTypeMast;
-use App\Models\Master\LeaveMast;
-use App\Models\Employees\LeaveApply;
-use App\Models\Employees\EmployeeMast;
-use App\Models\Employees\ApprovalSetup;
-use App\Models\Master\ApprovalAction;
-use App\Models\Employees\LeaveApprovalDetail;
-use App\Models\Employees\LeaveAllotment;
-use Spatie\Permission\Models\Permission;
-use App\Models\Spatie\ModelPermission;
-use Spatie\Permission\Models\Role;
-use App\Models\Spatie\ModelRole;
-use App\User;
 use DB;
 use Auth;
+use App\User;
+use Illuminate\Http\Request;
+use App\Models\Spatie\ModelRole;
+use App\Models\Master\LeaveMast;
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use App\Models\Master\LeaveTypeMast;
+use App\Models\Employees\LeaveApply;
+use App\Models\Master\ApprovalAction;
+use App\Models\Employees\EmployeeMast;
+use App\Models\Spatie\ModelPermission;
+use App\Models\Employees\ApprovalSetup;
+use App\Models\Employees\LeaveAllotment;
+use Spatie\Permission\Models\Permission;
+use App\Models\Employees\LeaveApprovalDetail;
 
 
 class LeavesController extends Controller
@@ -29,16 +29,12 @@ class LeavesController extends Controller
 
     public function index(){
 
-        $user           = User::find(Auth::id());
-        $permissions    = $user->getAllPermissions();
-
         $actions = ApprovalAction::orderBy('id', 'asc')->get();
 
         $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvalaction', 'approvaldetail'])
                             ->orderBy('id', 'DESC')
-                            ->where('emp_id', '<>', Auth::id())
+                            ->where('user_id', '<>', Auth::id())
                             ->get();
-        
 
         return view('HRD.leaves.index', compact('leave_request', 'actions'));
 	}
@@ -50,9 +46,11 @@ class LeavesController extends Controller
     public function approve_leave(Request $request, $leave_id){
 
         //Update leave aaplication status and approver' id.
+
         $leaveApp  = LeaveApply::find($leave_id);
         $leaveApp->approver_id = Auth::id();
         $leaveApp->status      = $request->action_id;
+        $leaveApp->reason      = $request->reason;
         $leaveApp->save();
 
 
@@ -109,7 +107,7 @@ class LeavesController extends Controller
         
             $approval_history = new LeaveApprovalDetail;
             $approval_history->leave_apply_id = $leave_id;
-            $approval_history->emp_id         = $leaveApp->emp_id;
+            $approval_history->user_id        = $leaveApp->user_id;
             $approval_history->approver_id    = Auth::id();
             $approval_history->actions        = $request->action_id;
             //$approval_history->paid_count     = $paid_leave;
@@ -125,7 +123,7 @@ class LeavesController extends Controller
                 
                 //Increment leave balance if declined
                 LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
-                    ->where('emp_id', $leaveApp->emp_id)
+                    ->where('user_id', $leaveApp->user_id)
                     ->increment('initial_bal', $leaveApp->paid_count);
 
                 $withoutpay_id = LeaveMast::where('without_pay', 1)
@@ -134,12 +132,12 @@ class LeavesController extends Controller
 
                 //Decrement unpaid_count from initial_bal
                 LeaveAllotment::where('leave_mast_id', $withoutpay_id)
-                    ->where('emp_id', $leaveApp->emp_id)
+                    ->where('user_id', $leaveApp->user_id)
                     ->decrement('initial_bal', $leaveApp->unpaid_count);
 
             }else{
                 LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
-                    ->where('emp_id', $leaveApp->emp_id)
+                    ->where('user_id', $leaveApp->user_id)
                     ->decrement('initial_bal', $leaveApp->count);
             }
 
@@ -201,14 +199,6 @@ class LeavesController extends Controller
     }
 
     public function reverse(Request $request){
- 
-        //Update leave status and carry
-
-        LeaveApply::where('id', $request->leave_request)
-                ->update([
-                    'status' => $request->action_id,
-                    'carry'  => 1,
-                    'approver_id' => Auth::id()]);
 
         //Find leave applicaiton with id
 
@@ -216,29 +206,36 @@ class LeavesController extends Controller
             ->where('id', $request->leave_request)
             ->first();
 
+        //Update leave status and carry
+
+        LeaveApply::where('id', $request->leave_request)
+                ->update([
+                    'status' => $request->action_id,
+                    'carry'  => 1,
+                    'approver_id' => Auth::id()]);        
+
         //Find Leave with Leave_type_id
 
         $leave = LeaveMast::where('id', $detail->leave_type_id)->first();
 
         if($leave->without_pay == 1){
             LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
-                        ->where('emp_id', $detail->emp_id)
+                        ->where('user_id', $detail->user_id)
                         ->decrement('initial_bal', $detail->count);
         }else{
             LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
-                        ->where('emp_id', $detail->emp_id)
+                        ->where('user_id', $detail->user_id)
                         ->increment('initial_bal', $detail->count);
         }
 
         LeaveApprovalDetail::create([
             'leave_apply_id'  => $detail->id,
-            'emp_id'          => $detail->emp_id,
+            'user_id'         => $detail->user_id,
             'approver_id'     => Auth::id(),
             'actions'         => $request->action_id,
             'paid_count'      => 0,
             'unpaid_count'    => 0,
-            'carry'           => $detail->count,
-            'approver_remark' => $detail->approver_remark,
+            'carry'           => $detail->count
         ]);
 
         return back()->with('success', 'Reversed leaves successfully.');

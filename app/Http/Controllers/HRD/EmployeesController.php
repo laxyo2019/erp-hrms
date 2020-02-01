@@ -137,8 +137,6 @@ class EmployeesController extends Controller
       'curr_esi'  => 'string|nullable|max:20',
     ]);
 
-    //return $request->all();
-
     $employee = EmployeeMast::where('user_id', $user_id)
       ->update([
         'comp_id'    => $request->comp_id,
@@ -162,10 +160,9 @@ class EmployeesController extends Controller
         'old_esi'    => $request->old_esi,
         'curr_esi'   => $request->curr_esi,
       ]);
-      
+
     return redirect()->route('employee.show_page',['user_id'=>$user_id,'tab'=>'official'])->with('success','Updated successfully.');
   }
-
 
   public function save_academics(Request $request, $user_id){
 
@@ -279,6 +276,7 @@ class EmployeesController extends Controller
 
   public function save_nominee(Request $request, $user_id){
 
+    //return $user_id;
     $vdata = request()->validate([
       'nominee_name'  => 'required',
       'email'         => 'nullable|email',
@@ -387,6 +385,7 @@ class EmployeesController extends Controller
       $employee = EmployeeMast::with('academics')
                 ->where('user_id', $user_id)
                 ->first();
+
     }
 
     if($tab == 'experience'){
@@ -399,16 +398,15 @@ class EmployeesController extends Controller
       $meta['doc_types'] = DocTypeMast::all();
 
       $employee = EmployeeMast::with('documents')
-                    ->where('user_id',16)
+                    ->where('user_id',$user_id)
                     ->first();
-
-      //return $user_id;
-     
     }
 
     if($tab == 'nominee'){
 
-      $employee = EmployeeMast::with('nominee')->where('user_id',$user_id)->first();
+      $employee = EmployeeMast::with('nominee')
+                    ->where('user_id',$user_id)
+                    ->first();
     }
 
     return view($path,compact('employee','meta'));
@@ -579,6 +577,8 @@ public function viewDetails($user_id, $view)
       Storage::delete($experience->file_path);
     }
     if($db_table == 'emp_nominee'){
+
+
       $nominee = EmpNominee::find($id);
       $nominee->delete();
       Storage::delete($nominee->file_path);
@@ -606,13 +606,13 @@ public function viewDetails($user_id, $view)
 
   public function save_session(Request $request){
       
-       $ids = $request->user_id;
+    $user_ids = $request->user_id;
 
-       Session::put('ids',$ids);
+    Session::put('user_ids',$user_ids);
   }
 
   public function activeInactive(Request $request){
-    // dd($request->id);
+
    return EmployeeMast::where('id',$request->id)->update(array('active' => '0'));
   }
 
@@ -732,7 +732,6 @@ public function viewDetails($user_id, $view)
 
           }
         }
-
         if($status = TRUE){
 
           if($data['dept_id'] == ''){
@@ -756,9 +755,7 @@ public function viewDetails($user_id, $view)
 
             $status = TRUE;
           }
-
         }
-
         if($status == TRUE){
 
           if($data['grade_id'] == ''){
@@ -771,9 +768,6 @@ public function viewDetails($user_id, $view)
             $status = TRUE;
           }
         }
-
-        
-
         if($status == TRUE){
 
           if($data['emp_gender'] == ''){
@@ -793,7 +787,6 @@ public function viewDetails($user_id, $view)
             $status = TRUE;
             $data['emp_dob'] = null;
           }else{
-
             $status = TRUE;
           }
         }
@@ -1040,8 +1033,6 @@ public function viewDetails($user_id, $view)
           }
         }
 */
-        
-
         if($status == TRUE){
           
          $data = $this->array_data($data);
@@ -1061,15 +1052,14 @@ public function viewDetails($user_id, $view)
           
           $error[] = $this->array_data($data);
 
-          return ([$error]);
+          //return ([$error]);
         
         }
        
-        //$status = TRUE;
+        $status = TRUE;
 
       }
     }
-
 
     if(count($error) != 0){
 
@@ -1113,29 +1103,29 @@ public function viewDetails($user_id, $view)
   public function array_data($data){
     return $data = [
                     'id'         => $data['id'],
-                    // 'parent_id'  => $data['parent_id'],
+                    // 'reports_to'  => $data['reports_to'],
                     'emp_code'   => $data['emp_code'],
-                    'comp_id'    => $data['comp_id'],
-                    'dept_id'    => $data['dept_id'],
-                    'desg_id'    => $data['desg_id'],
-                    'grade_id'   => $data['grade_id'],
+                    // 'comp_id'    => $data['comp_id'],
+                    // 'dept_id'    => $data['dept_id'],
+                    // 'desg_id'    => $data['desg_id'],
+                    // 'grade_id'   => $data['grade_id'],
                     'emp_name'   => $data['emp_name'],
-                    'emp_img'    => $data['emp_img'],
-                    'emp_gender' => $data['emp_gender'],
+                    //'emp_img'    => $data['emp_img'],
+                    //'emp_gender' => $data['emp_gender'],
                     'emp_dob'    => $data['emp_dob'],
                     'curr_addr'  => $data['curr_addr'],
                     'perm_addr'  => $data['perm_addr'],
-                    'blood_grp'  => $data['blood_grp'],
+                    //'blood_grp'  => $data['blood_grp'],
                     'contact'    => $data['contact'],
                     'alt_contact'=> $data['alt_contact'],
-                    'email'      => $data['email'],
+                    //'email'      => $data['email'],
                     'alt_email'  => $data['alt_email'],
                     'driv_lic'   => $data['driv_lic'],
                     'aadhar_no'  => $data['aadhar_no'],
                     'voter_id'   => $data['voter_id'],
                     'pan_no'     => $data['pan_no'],
-                    'emp_type'   => $data['emp_type'],
-                    'emp_status' => $data['emp_status'],
+                    //'emp_type'   => $data['emp_type'],
+                    //'emp_status' => $data['emp_status'],
                     'old_uan'    => $data['old_uan'],
                     'curr_uan'   => $data['curr_uan'],
                     'old_pf'     => $data['old_pf'],
@@ -1143,8 +1133,8 @@ public function viewDetails($user_id, $view)
                     'old_esi'    => $data['old_esi'],
                     'curr_esi'   => $data['curr_esi'],
                     'join_dt'    => $data['join_dt'],
-                    'leave_dt'   => $data['leave_dt'],
-                    'active'     => $data['active'],
+                    //'leave_dt'   => $data['leave_dt'],
+                    //'active'     => $data['active'],
                   ];
   }
 }

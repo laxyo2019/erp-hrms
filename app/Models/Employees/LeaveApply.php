@@ -14,7 +14,7 @@ class LeaveApply extends Model
 
     public function employee(){
 
-        return $this->belongsTo('App\Models\Employees\EmployeeMast', 'user_id');
+        return $this->belongsTo('App\Models\Employees\EmployeeMast', 'user_id', 'user_id');
     }
 
     public function leavetype(){
@@ -26,7 +26,7 @@ class LeaveApply extends Model
     }
     
     public function approve_name(){
-        return $this->belongsTo('App\Models\Employees\EmployeeMast', 'approver_id');
+        return $this->belongsTo('App\Models\Employees\EmployeeMast', 'approver_id', 'user_id');
     }
     
     public function reportsto(){

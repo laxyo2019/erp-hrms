@@ -9,76 +9,65 @@
 <div class="row mt-2">
   	<div class="col-md-12">
     	<div class="tile">
-			@if(!empty($employee->experiences))
-			@foreach($employee->experiences as $exp)
-				@php $count = 1;@endphp
-				<h4>Company - {{$count++}}</h4><hr>
-	           <div class="container-fluid">
-				 <div id="form-area">
-	              
-	               <div class="row col-12">
-	                <div class="col-4">
-						
-	                	<div class="form-group">
-							<label for=""><b>Company Name : </b></label>
-							<td>{{$exp->comp_name}}</td>
+    		<div class="container-fluid">
+				<div id="form-area">
+					@if(!empty($employee->experiences))
+						@php $count = 1;@endphp
+						@foreach($employee->experiences as $exp)
+						<h4>Company - {{$count++}}</h4><hr>
+						<div class="row">	
+		                	<div class="col-6 form-group">
+								<b>Company Name : </b>
+								<td>{{$exp->comp_name}}</td>
+							</div>
+							<div class="col-6 form-group">
+								<b>Job Type : </b>
+								<td>{{$exp->job_type}}</td>
+							</div>
+							<div class="col-6 form-group">
+								<b>Monthly CTC : </b>
+								<td>{{$exp->monthly_ctc}}</td>
+							</div> 
+							<div class="col-6 form-group">
+								<b>Designation : </b>
+								<td>{{$exp->desg}}</td>
+							</div>
+							<div class="col-6 form-group">
+								<b>Company Location : </b>
+								<td>{{$exp->comp_loc}}</td>
+							</div>
+							<div class="col-6 form-group">
+								<b>Company Email : </b>
+								<td>{{$exp->comp_email}}</td>
+							</div>
+							<div class="col-6 form-group">
+								<b>Company Website : </b>
+								<td>{{$exp->comp_website}}</td>
+							</div>
+							<div class="col-6 form-group">
+								<b>Documents : </b>
+								<td>{{$exp->comp_website}}</td>
+							</div>	
+							<div class="col-6 form-group">
+								<b>Start Date : </b>
+								<td>{{$exp->start_dt}}</td>
+							</div>
+							<div class="col-6 form-group">
+								<b>End Date : </b>
+								<td>{{$exp->end_dt}}</td>
+							</div>
+							<div class="col-6 form-group">
+								<b>Reason of Leaving : </b>
+								<td>{{$exp->domain_of_study}}</td>
+							</div>
 						</div>
-						<div class=" form-group">
-							<label for=""><b>Job Type : </b></label>
-							<td>{{$exp->job_type}}</td>
-						</div>
-						<div class=" form-group">
-							<label for=""><b>Monthly CTC : </b></label>
-							<td>{{$exp->monthly_ctc}}</td>
-						</div> 
-						<div class=" form-group">
-							<label for=""><b>Designation : </b></label>
-							<td>{{$exp->desg}}</td>
-						</div>	
-                    </div>
-                 	<div class="col-4">
-	                	<div class="form-group">
-							<label for=""><b>Company Location : </b></label>
-							<td>{{$exp->comp_loc}}</td>
-						</div>
-						<div class=" form-group">
-							<label for=""><b>Company Email : </b></label>
-							<td>{{$exp->comp_email}}</td>
-						</div>
-						<div class=" form-group">
-							<label for=""><b>Company Website : </b></label>
-							<td>{{$exp->comp_website}}</td>
-						</div>
-						<div class=" form-group">
-							<label for=""><b>Documents : </b></label>
-							<td>{{$exp->comp_website}}</td>
-						</div>	
-                    </div>
-                    <div class="col-4">
-	                	<div class="form-group">
-							<label for=""><b>Start Date : </b></label>
-							<td>{{$exp->start_dt}}</td>
-						</div>
-						<div class=" form-group">
-							<label for=""><b>End Date : </b></label>
-							<td>{{$exp->end_dt}}</td>
-						</div>
-						<div class=" form-group">
-							<label for=""><b>Reason of Leaving : </b></label>
-							<td>{{$exp->domain_of_study}}</td>
-						</div>	
-                    </div>
-                 </div>
-               </div><br>
-			  
-			 
-        </div>
-        @endforeach
-        @else
-			@endif
-      </div>
-   </div>
- </main>
+	        			@endforeach
+					@endif
+				</div>
+			</div>
+		</div>
+   	</div>
+</main>
 <script>
 $(document).ready(function(){
 	$('.experience').addClass('active');

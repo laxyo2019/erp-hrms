@@ -189,7 +189,6 @@ $(document).ready(function(){
     		headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     		data:{user_id:emp},
     		success:function(data){
-
     			 window.location.href = $('#exportone').attr('href');
     		}
     	})

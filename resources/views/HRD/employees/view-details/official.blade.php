@@ -65,7 +65,7 @@
                 </div>
                 <div class="row mb-4">
 	                <div class="col">
-	                  	<h4 class="page-header"><i class="fa fa-globe"></i> NECESSARY DOCUMENTS</h4>
+	                  	<h4 class="page-header" style="color: grey"><i class="fa fa-globe"></i> NECESSARY DOCUMENTS</h4>
 	                </div>
            		</div>
                 <div class="row col-12">
@@ -96,7 +96,7 @@
                 </div>
                 <div class="row mb-4">
 	                <div class="col">
-	                  	<h4 class="page-header"><i class="fa fa-globe"></i> EMPLOYEE PROVIDENT FUND INFORMATION</h4>
+	                  	<h4 class="page-header" style="color: grey"><i class="fa fa-globe"></i> EMPLOYEE PROVIDENT FUND INFORMATION</h4>
 	                </div>
 	            </div>
                 <div class="row col-12">

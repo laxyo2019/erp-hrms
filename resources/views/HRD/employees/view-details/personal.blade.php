@@ -13,11 +13,16 @@
       <section class="invoice">
 	        <div class="container-fluid">
 				<div id="form-area">
+					<div class="row mb-4">
+		                <div class="col">
+		                  	<h4 class="page-header" style="color: grey"><i class="fa fa-globe"></i> BASIC INFORMATION</h4>
+		                </div>
+	           		</div><hr>
 	              <div class="row col-12">
 	                <div class="col-4">
 	                	<div class="form-group">
 							<label for=""><b>Full Name : </b></label>
-							<td>{{empty($employee->emp_name)?'':$employee->emp_name}}</td>
+							<td>{{empty($employee->emp_name)?'':ucwords($employee->emp_name)}}</td>
 						</div>
 						<div class=" form-group">
 							<label for=""><b>Date of Birth : </b></label>
@@ -39,9 +44,9 @@
                  	</div>
 	                <div class="row mb-4">
 		                <div class="col">
-		                  	<h4 class="page-header"><i class="fa fa-globe"></i> CONTACT INFORMATION</h4>
+		                  	<h4 class="page-header" style="color: grey"><i class="fa fa-globe"></i> CONTACT INFORMATION</h4>
 		                </div>
-	           		</div>
+	           		</div><hr>
 	           		<div class="row col-12">
                     <div class="col-4">
 	                	<div class="form-group">

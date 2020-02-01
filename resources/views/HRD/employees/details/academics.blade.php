@@ -101,13 +101,15 @@
 		  			<td>{{$row->grade_or_pct}}</td>	
 		  			{{-- @can('download documents')	 --}}
 		  			<td>
-<a href="{{route('employees.download', ['db_table' => 'emp_academics', $row->user_id])}}"><i class="fa fa-arrow-down" >
-
-</i> Download</a></td>
+		  				@if($row->file_path != null)
+						<a href="{{route('employees.download', ['db_table' => 'emp_academics', $row->id])}}"><i class="fa fa-arrow-down" >
+						</i> Download</a>
+						@endif
+					</td>
 		  			{{-- @endcan --}}
 		  			<td>{{$row->note}}</td>
-		  			<td><form action="{{route('employee.delete_row', ['db_table' => 'emp_academics', $row->user_id])}}" method="GET" id="delform_{{$row->user_id}}">
-				<a href="javascript:$('#delform_{{$row->user_id}}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
+		  			<td><form action="{{route('employee.delete_row', ['db_table' => 'emp_academics', $row->id])}}" method="GET" id="delform_{{$row->id}}">
+				<a href="javascript:$('#delform_{{$row->id}}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
 				</form></td>
 
 		  		</tr>

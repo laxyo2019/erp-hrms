@@ -46,7 +46,7 @@ class EmployeeMast extends Model
  	}
 
  	public function nominee(){
- 		return $this->hasMany('App\Models\Employees\EmpNominee', 'user_id');
+ 		return $this->hasMany('App\Models\Employees\EmpNominee', 'user_id', 'user_id');
  	}
 
  	public function leaveapplies(){
@@ -62,7 +62,7 @@ class EmployeeMast extends Model
  	}
 
  	public function UserName(){
- 		return $this->hasOne('App\User', 'user_id');
+ 		return $this->hasOne('App\User', 'id', 'reports_to');
  	}
 
  	public function emptype(){

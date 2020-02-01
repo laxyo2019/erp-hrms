@@ -144,8 +144,6 @@ Route::post('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@
 Route::delete('settings/mast_entity/{db_table}/{id}', 'MasterController@destroy')->name('mast_entity.delete');
 
 
-
-
 /******User Registration******/
 Route::get('auth/create', 'UserController@create');
 

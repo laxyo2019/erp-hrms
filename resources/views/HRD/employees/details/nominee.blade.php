@@ -13,7 +13,7 @@
 		</div>
 		@endif 
 		
-			<form action="{{ route('employees.nominee', ['id' => $employee->id]) }}" method="POST" enctype="multipart/form-data">
+			<form action="{{ route('employees.nominee', ['user_id' => $employee->user_id]) }}" method="POST" enctype="multipart/form-data">
 				@csrf
 				<div class="row">
 					<div class="col-6 form-group">
@@ -106,7 +106,13 @@
 						<td>{{$nominees->contact}}</td>
 						<td>{{$nominees->relation}}</td>
 						{{-- @can('download documents') --}}
-							<td><a href="{{route('employees.download', ['db_table' => 'emp_nominee', $nominees->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
+							<td>
+							@if($nominees->file_path != null)
+							<a href="{{route('employees.download', ['db_table' => 'emp_nominee', $nominees->id])}}"><i class="fa fa-arrow-down" ></i> Download</a>
+							@else
+								Not Available
+							@endif
+							</td>
 						{{-- @endcan --}}
 						<td>{{$nominees->addr}}</td>
 						<td>

@@ -15,11 +15,10 @@ class EmployeesExport implements FromQuery, WithMapping, WithHeadings, ShouldAut
     use Exportable;
 
 	public function query(){
-
 		
-		$array = session('ids');
+		$array = session('user_ids');
 		if (!empty($array)) {
-			$employees = EmployeeMast::whereIn('id', $array);	
+			$employees = EmployeeMast::whereIn('user_id', $array);	
 			return $employees;
 		}else{
 		
@@ -31,29 +30,18 @@ class EmployeesExport implements FromQuery, WithMapping, WithHeadings, ShouldAut
 	public function map($employees): array {
 		return [
 			$employees->id,
-			$employees->reports_to,
 			$employees->emp_code,
-			$employees->comp_id,
-			$employees->dept_id,
-			$employees->desg_id,
-			$employees->grade_id,
 			$employees->emp_name,
-			$employees->emp_img,
-			$employees->emp_gender,
 			$employees->emp_dob,
 			$employees->curr_addr,
 			$employees->perm_addr,
-			$employees->blood_grp,
 			$employees->contact,
 			$employees->alt_contact,
-			$employees->email,
 			$employees->alt_email,
 			$employees->driv_lic,
 			$employees->aadhar_no,
 			$employees->voter_id,
 			$employees->pan_no,
-			$employees->emp_type,
-			$employees->emp_status,
 			$employees->old_uan,
 			$employees->curr_uan,
 			$employees->old_pf,
@@ -62,10 +50,6 @@ class EmployeesExport implements FromQuery, WithMapping, WithHeadings, ShouldAut
 			$employees->curr_esi,
 			$employees->join_dt,
 			$employees->leave_dt,
-			$employees->active,
-			$employees->leave_allotted,
-			$employees->created_at,
-			$employees->deleted_at,
 			];
 	}
     
@@ -73,29 +57,18 @@ class EmployeesExport implements FromQuery, WithMapping, WithHeadings, ShouldAut
         
         return [
 			'id',
-			'reports_to',
 			'emp_code',
-			'comp_id',
-			'dept_id',
-			'desg_id',
-			'grade_id',
 			'emp_name',
-			'emp_img',
-			'emp_gender',
 			'emp_dob',
 			'curr_addr',
 			'perm_addr',
-			'blood_grp',
 			'contact',
 			'alt_contact',
-			'email',
 			'alt_email',
 			'driv_lic',
 			'aadhar_no',
 			'voter_id',
 			'pan_no',
-			'emp_type',
-			'emp_status',
 			'old_uan',
 			'curr_uan',
 			'old_pf',
@@ -104,10 +77,6 @@ class EmployeesExport implements FromQuery, WithMapping, WithHeadings, ShouldAut
 			'curr_esi',
 			'join_dt',
 			'leave_dt',
-			'active',
-			'leave_allotted',
-			'created_at',
-			'deleted_at'
 		];
 	}
 

@@ -27,7 +27,7 @@ class LeavesController extends Controller
    * @return \Illuminate\Http\Response
    */
 
- public function __construct(){
+  public function __construct(){
 
     $this->middleware('auth');
     
@@ -36,10 +36,8 @@ class LeavesController extends Controller
   public function index(){
 
     $leaves   =  LeaveApply::where('user_id', Auth::id())
-              ->with(['employee', 'approve_name', 'approvalaction', 'leavetype'])
-              ->get();
-
-
+                  ->with(['employee', 'approve_name', 'approvalaction', 'leavetype'])
+                  ->get();
 
     $balance  = EmployeeMast::with('allotments.leaves')
                   ->where('user_id', Auth::id())
@@ -59,11 +57,11 @@ class LeavesController extends Controller
    //Many2Many relationship
    //$desig = Designation::find(3)->approvals;
 
-    return EmployeeMast::with('UserName')
-                    ->where('id', Auth::id())
+    $reports_to = EmployeeMast::with('UserName')
+                    ->where('user_id', Auth::id())
                     ->first();
-
-   $reports_id = EmployeeMast::where('user_id', Auth::id());
+  /*
+    $reports_id = EmployeeMast::where('user_id', Auth::id());
      if(!empty($reports_id)){
 
        //for logged in user's reports to
@@ -73,9 +71,7 @@ class LeavesController extends Controller
      }else{
        $reports_to = null;
      }
-
-     
-
+  */
     //Get all allotted Leaves of current employee.
     $allotment = LeaveAllotment::with('leaves')
                   ->where('user_id', Auth::id())
@@ -96,7 +92,7 @@ class LeavesController extends Controller
 
       // Get user's balance of selected leave
 
-      $data['user_bal'] = LeaveAllotment::where('emp_id', Auth::id())
+      $data['user_bal'] = LeaveAllotment::where('user_id', Auth::id())
                           ->where('leave_mast_id', $leave->id)
                           ->first();
 
@@ -105,7 +101,7 @@ class LeavesController extends Controller
 
       // Check leave applied by user
 
-      $user_applied_leaves = LeaveApply::where('emp_id', Auth::id())->get();
+      $user_applied_leaves = LeaveApply::where('user_id', Auth::id())->get();
 
       $data['leave_bal']        = $leave->count;
       $data['min_apply_once']   = $leave->min_apply_once;
@@ -117,7 +113,6 @@ class LeavesController extends Controller
       $data['docs_required']    = $leave->docs_required;
       $data['without_pay']      = $leave->without_pay;
       $data['holidays']         = $holidays;
-      
 
       return $data;
 
@@ -198,9 +193,6 @@ class LeavesController extends Controller
    public function store(Request $request)
    {
 
-      //return $request->all();
-      
-
      $data = $request->validate([
          'leave_type_id'    => 'required',
          //'reports_to'       => 'required',
@@ -230,10 +222,11 @@ class LeavesController extends Controller
 
       }elseif($btnId == 'halfBtn'){
 
-         $dayStatus = $request->validate([
+        $dayStatus = $request->validate([
             'day_status'  => 'required',
-         ]);
-          $data['day_status'] = $dayStatus['day_status'];
+        ]);
+
+        $data['day_status'] = $dayStatus['day_status'];
       }
     }
 
@@ -294,18 +287,16 @@ class LeavesController extends Controller
          }
       /************/
 
-      if($leaveData->docs_required){
+      /*if($leaveData->docs_required){
 
          $request->validate([
             'file_path' => 'required'
          ]);
-      }
+      }*/
 
       if($btnId == 'multiBtn'){
 
         $data['day_status'] = 3;
-
-        //return $request->all();
 
         if($request->duration > 2 && $leaveData->without_pay != 1){
           
@@ -330,7 +321,7 @@ class LeavesController extends Controller
           }
 
           $balance = LeaveAllotment::where('leave_mast_id', $request->leave_type_id)
-                      ->where('emp_id', Auth::id())
+                      ->where('user_id', Auth::id())
                       ->first();
 
           $sandwich_days = array_unique(array_merge($sundays, $holidays_list));
@@ -339,7 +330,6 @@ class LeavesController extends Controller
 
           $unpaid_count = $request->duration - $paid_count;
 
-          //return ([$paid_count, $unpaid_count]);
         }else if($leaveData->without_pay == 1){
 
           $paid_count   = 0.0;
@@ -430,14 +420,14 @@ class LeavesController extends Controller
     //       break;
     //   }
 */
-    $id = Auth::id();
+    $user_id = Auth::id();
 
     //Uploading documents to hrmsupload directory
     if($request->hasFile('file_path')){
 
       $dir      = 'hrms_uploads/'.date("Y").'/'.date("F").'/leave';
       $file_ext = $request->file('file_path')->extension();
-      $filename = $id.'_'.time().'_leaves.'.$file_ext;
+      $filename = $user_id.'_'.time().'_leaves.'.$file_ext;
       $path     = $request->file('file_path')->storeAs($dir, $filename);
       
     }else{
@@ -447,7 +437,7 @@ class LeavesController extends Controller
     }
 
     $leaveapply = new LeaveApply;
-    $leaveapply->emp_id            = $id;
+    $leaveapply->user_id           = $user_id;
     $leaveapply->reports_to        = $request->reports_to;
     $leaveapply->leave_type_id     = $request->leave_type_id;
     $leaveapply->day_status        = $data['day_status'];
@@ -459,8 +449,9 @@ class LeavesController extends Controller
     $leaveapply->addr_during_leave = $request->address_leave;
     $leaveapply->contact_no        = $request->contact_no;
     $leaveapply->paid_count        = $paid_count;
-    $leaveapply->unpaid_count      = $unpaid_count;
-    $leaveapply->status            = null;
+    //$leaveapply->unpaid_count      = $unpaid_count;
+    //$leaveapply->hr_approval       = $unpaid_count;
+    //$leaveapply->admin_approval    = $unpaid_count;
     $leaveapply->applicant_remark  = $request->applicant_remark;
     $leaveapply->save();
       
@@ -470,7 +461,7 @@ class LeavesController extends Controller
 
       //Decrement balance from initial_bal
       $leave = LeaveAllotment::where([
-                ['emp_id', Auth::id()],
+                ['user_id', Auth::id()],
                 ['leave_mast_id', $request->leave_type_id]])
                 ->limit(1)
                 ->decrement('initial_bal', $paid_count);
@@ -482,14 +473,14 @@ class LeavesController extends Controller
 
 
       LeaveAllotment::where([
-                ['emp_id', Auth::id()],
+                ['user_id', Auth::id()],
                 ['leave_mast_id', $without_payid]])
                 ->limit(1)
                 ->increment('initial_bal', $unpaid_count);
 
     }else{
       LeaveAllotment::where([
-                ['emp_id', Auth::id()],
+                ['user_id', Auth::id()],
                 ['leave_mast_id', $request->leave_type_id]])
                 ->limit(1)
                 ->increment('initial_bal', $request->duration);
@@ -506,7 +497,7 @@ class LeavesController extends Controller
 
     public function destroy($id)
     {
-
+      //return $id;
       $leave_app = LeaveApply::findOrFail($id);
       Storage::delete($leave_app->file_path);
         $leave_app->delete();
@@ -521,8 +512,9 @@ class LeavesController extends Controller
       if($leavesMast->without_pay != 1){
 
         //Increment paid_count from initial bal
+
         LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
-            ->where('emp_id', $leave_app->emp_id)
+            ->where('user_id', $leave_app->user_id)
             ->increment('initial_bal', $leave_app->paid_count);
 
             
@@ -531,13 +523,13 @@ class LeavesController extends Controller
                           ->id;
         //Decrement unpaid_count from initial_bal
         LeaveAllotment::where('leave_mast_id', $withoutpay_id)
-            ->where('emp_id', $leave_app->emp_id)
+            ->where('user_id', $leave_app->user_id)
             ->decrement('initial_bal', $leave_app->unpaid_count);
           
         
       }else{
         LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
-              ->where('emp_id', $leave_app->emp_id)
+              ->where('user_id', $leave_app->user_id)
               ->decrement('initial_bal', $leave_app->count);
       }
         

@@ -52,8 +52,8 @@
 							</span>
 				      	@enderror
 					</label>
-					<input type="text" id="reports_to" class="form-control" name="reports_to"	value="{{!empty($reports_to) ? $reports_to->emp_name : null}}" disabled>
-					<input type="hidden" name="reports_to" value="{{!empty($reports_to) ?$reports_to->id : null}}">
+<input type="text" id="reports_to" class="form-control" name="reports_to"	value="{{!empty($reports_to['UserName']) ? $reports_to['UserName']->name : null}}" disabled>
+					<input type="hidden" name="reports_to" value="{{!empty($reports_to['UserName']) ?$reports_to['UserName']->id : null}}">
 				</div>
 	    	</div>
 	    	<div class="row" style="padding-top: 1%">
@@ -149,11 +149,6 @@
 					</label>
 					<input type="file"  class="form-control-file" name="file_path">
 					</div>
-				{{-- @error('file_path')
-			          <span class="text-danger" role="alert">
-			            <strong>* {{ $message }}</strong>
-			          </span>
-			      	@enderror  --}}
 				</div>
 
 				<div class="col-6 form-group">
@@ -168,11 +163,11 @@
 				<div class="col-6 form-group">
 					<label for="address_leave">Address During Leave</label>
 					<textarea class="form-control" id="address_leave" name="address_leave">{{old('address_leave')}}</textarea>
-					<!-- @error('address_leave')
+					 @error('address_leave')
 			          <span class="text-danger" role="alert">
 			            <strong>* {{ $message }}</strong>
 			          </span>
-			      	@enderror -->
+			      	@enderror 
 				</div>
 				<div class="col-12 form-group text-center">
 					<button class="btn btn-info btn-sm m-2" id="submit" style="width: 20%">Save</button>
@@ -180,13 +175,9 @@
 				</div>
 			</div>
 		</form>
-
 		<div id="information">
-			
 		</div>
 	</div>
-
-	
 </main>
 <script>
 $(document).ready(function(){
@@ -199,11 +190,12 @@ $(document).ready(function(){
 		onSelect: function(dateText) {
 	        console.log("Selected date: " + dateText + "; input's current value: " + this.value);
 	    }
-		
+
 	})
 	.on("change", function(event) {
 		var btnId =	$('#btnId').val();
 		var leave_id = $('#leave_type').val();
+
 
 		if(btnId == 'fullBtn'){
 			$('#duration').val(1);
@@ -213,6 +205,7 @@ $(document).ready(function(){
 		}
 
 		if(btnId == 'fullBtn' || btnId == 'halfBtn'){
+
 			$.ajax({
 				type:'get',
 				url: '/balance/',
@@ -221,9 +214,9 @@ $(document).ready(function(){
 					
 					var duration = $('#duration').val();
 					if(btnId == 'fullBtn'){
-
+						//alert(res.user_bal.initial_bal)
 							if(parseFloat(duration) > parseFloat(res.user_bal.initial_bal)  ){
-						if(res.without_pay == 0){
+						if(res.without_pay != 1){
 							alert('You don\'t have enough leaves.');
 							$('#start_date').val('');
 							$('#end_date').val('');
@@ -231,9 +224,10 @@ $(document).ready(function(){
 						}
 						}	
 					}else{
+
 						if(0.50 > parseFloat(res.user_bal.initial_bal)  ){
 						//alert(3)
-							if(res.without_pay == 0){
+							if(res.without_pay != 1){
 								alert('You don\'t have enough leaves.');
 								$('#start_date').val('');
 								$('#end_date').val('');
@@ -265,6 +259,7 @@ $(document).ready(function(){
 		var end   = $('#end_date').val();
 		var btnId =	$('#btnId').val();
 		var leave_id = $('#leave_type').val();
+
 		if(btnId == 'multiBtn'){
 			if( Date.parse(start) >= Date.parse(end) ){ 
 
@@ -272,6 +267,7 @@ $(document).ready(function(){
 				$('.end').val('');
 				$('#duration').val('');
 				$('#count').val('');
+				$('.rule_alert').hide();
 			
 			}else{
 
@@ -313,15 +309,15 @@ $(document).ready(function(){
 					
 						var duration = $('#duration').val();
 
-
-						//alert(parseFloat(res.user_bal.initial_bal)		)
 						if(parseFloat(duration) > parseFloat(res.user_bal.initial_bal) ){
-							//alert(res.user_bal.initial_bal);
-							if(res.without_pay == 0){
+
+							if(res.without_pay != 1){
+
 								alert('You don\'t have enough leaves.');
 								$('#start_date').val('');
 								$('#end_date').val('');
 								$('#duration').val('');
+								$('.rule_alert').hide();
 								
 							}
 						}

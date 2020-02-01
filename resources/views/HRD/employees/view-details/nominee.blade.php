@@ -9,51 +9,53 @@
 <div class="row mt-2">
   	<div class="col-md-12">
     	<div class="tile">
-	           <div class="container-fluid">
-				 <div id="form-area">
+	        <div class="container-fluid">
+				<div id="form-area">
+				 	@php $count = 0; @endphp
 				 	@foreach($employee['nominee'] as $nominees)
-	              <div class="row col-12">
-	                <div class="col-4">
-	                	<div class="form-group">
-							<label for=""><b>Nominee's Name : </b></label>
-							<td>{{$nominees->name}}</td>
-						</div>
-					 	<div class=" form-group">
-							<label for=""><b>Nominee's Email : </b></label>
-							<td>{{$nominees->email}}</td>
-						</div>
-						<div class=" form-group">
-							<label for=""><b>Nominee's Aadhaar No. : </b></label>
-							<td>{{$nominees->aadhar_no}}</td>
-						</div>
-                    </div>
-                 	<div class="col-4">
-	                	<div class="form-group">
-							<label for=""><b>Nominee's Contact : </b></label>
-							<td>{{$nominees->contact}}</td>
-						</div>
-						<div class=" form-group">
-							<label for=""><b>Nominee's Relation : </b></label>
-							<td>{{$nominees->relation}}</td>
-						</div>	
-                    </div>
-                     <div class="col-4">
-                     	@can('download documents')
-		                	<div class="form-group">
-								<label for=""><b>Nominee's Documents : </b></label>
-								<td><a href="{{route('employees.download', ['db_table' => 'emp_nominee', $nominees->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
+				 		<h4>Nominee - {{++$count}}</h4><hr>
+		              	<div class="row col-12">
+			                <div class="col-4">
+			                	<div class="form-group">
+									<label for=""><b>Nominee's Name : </b></label>
+									<td>{{$nominees->name}}</td>
+								</div>
+							 	<div class=" form-group">
+									<label for=""><b>Nominee's Email : </b></label>
+									<td>{{$nominees->email}}</td>
+								</div>
+								<div class=" form-group">
+									<label for=""><b>Nominee's Aadhaar No. : </b></label>
+									<td>{{$nominees->aadhar_no}}</td>
+								</div>
+		                    </div>
+		                 	<div class="col-4">
+			                	<div class="form-group">
+									<label for=""><b>Nominee's Contact : </b></label>
+									<td>{{$nominees->contact}}</td>
+								</div>
+								<div class=" form-group">
+									<label for=""><b>Nominee's Relation : </b></label>
+									<td>{{$nominees->relation}}</td>
+								</div>	
+		                    </div>
+		                    <div class="col-4">
+		                     	@can('download documents')
+				                	<div class="form-group">
+										<label for=""><b>Nominee's Documents : </b></label>
+										<td><a href="{{route('employees.download', ['db_table' => 'emp_nominee', $nominees->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
+									</div>
+								@endcan
+								<div class=" form-group">
+									<label for=""><b>Nominee's Address : </b></label>
+									<td>{{$nominees->addr}}</td>
+								</div>
 							</div>
-						@endcan
-						<div class=" form-group">
-							<label for=""><b>Nominee's Address : </b></label>
-							<td>{{$nominees->addr}}</td>
-						</div>
-					</div>
-                </div><hr>
-		  		@endforeach
-          </div>
-        </div>
-      </div>
+	                	</div>
+		  			@endforeach
+          		</div>
+        	</div>
+      	</div>
     </main>
 <script>
 $(document).ready(function(){

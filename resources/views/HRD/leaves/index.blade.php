@@ -7,7 +7,7 @@
 				<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
 			</div>
 		</div>
-		<div class="row mt-1 ">
+		<div class="row mt-1 ">	
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
 					<div class="card-body table-responsive">
@@ -35,7 +35,7 @@
 							@php $count = 0; @endphp
 			
 							@foreach($leave_request as $request)
-			
+								{{-- @if() --}}
 								<tr>
 									<td>{{++$count}} </td>
 									<td>{{ucwords($request['employee']->emp_name)}}</td>
@@ -79,53 +79,56 @@
 									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
 									<td>
 
-									@if(!empty($request->status))
+			@if($request->admin_approval == 1)
+				<span class="ml-2">
+					<form action="{{route('reverse.leave', $request->id)}}" method="POST" id="ression">
+					@csrf
+					<input type="hidden" name="leave_request" value="{{$request->id}}">
+					<input type="hidden" name="action_id" value="{{$data->id}}" >
+					<button  class="btn-sm" id="reverse"><i class="fa fa-undo" aria-hidden="true"></i> {{ucwords($data->name)}}</button>
+					</form>
+				</span>
+			@endif
+		</td>
+
+<td class='d-flex' style="border-bottom:none">
+
+@if($request->subadmin_approval == 0 && auth()->user()->hasrole('hr manager'))
+	<button type="button" id="approve" class="btn btn-success btn-sm">APPROVE</button>
+	<button type="button" id="decline" class="btn btn-danger btn-sm ml-2">DECLINE</button>
+
+{{-- 
+	@foreach($actions as $data)
+		@if(empty($data->reverse))
+			<span class="ml-2">
+				<form action="{{url('approve_leave',$request->id)}}" method="POST" id="ression">
+					@csrf
+					<input type="hidden" name="leave_request" value="{{$request->id}}">
+					<input type="hidden" name="action_id" value="{{$data->id}}" >
+					@if($data->reason)
+					<input type="hidden" name="reason" value="" id="reason">
+					@endif
+					<button  class="btn-sm actions {{$data->name}}" id="{{$data->reason}}">{{ucwords($data->name)}}</button>
+				</form>
+			</span>
+		@endif
 										
-										@if($request->status == 1)
+	@endforeach 
+--}}
 
-											@foreach($actions as $data)
+@elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('admin'))
 
-												@if(!empty($data->reverse) )
-													<span class="ml-2">
-														<form action="{{route('reverse.leave', $request->id)}}" method="POST" id="ression">
-														@csrf
-														<input type="hidden" name="leave_request" value="{{$request->id}}">
-														<input type="hidden" name="action_id" value="{{$data->id}}" >
-														<button  class="btn-sm" id="reverse"><i class="fa fa-undo" aria-hidden="true"></i> {{ucwords($data->name)}}</button>
-														</form>
-													</span>
-												@endif
-											@endforeach
-										@elseif($request->carry == 1 )
-											Reversed
-										@endif
+	<button type="button" id="approve" class="btn btn-success btn-sm">ADMIN</button>
+	<button type="button" id="decline" class="btn btn-danger btn-sm ml-2">DECLINE</button>
+@endif
+{{--
+	<div class="col-sm-12">
+	<strong>{{ ucwords($request['approvalaction']->name) }} </strong> <br>by <u>{{ucwords($request['approve_name']->emp_name)}}</u>	
+	</div> 
+--}}
 
-									@endif								</td>
-									<td class='d-flex' style="border-bottom:none">
-							
-									@if($request->approver_id == null)
-										@foreach($actions as $data)
-										@if(empty($data->reverse))
-										<span class="ml-2">
-											<form action="{{url('approve_leave',$request->id)}}" method="POST" id="ression">
-											@csrf
-											<input type="hidden" name="leave_request" value="{{$request->id}}">
-											<input type="hidden" name="action_id" value="{{$data->id}}" >
-											@if($data->reason)
-												<input type="hidden" name="reason" value="" id="reason">
-											@endif
-											<button  class="btn-sm actions {{$data->name}}" id="{{$data->reason}}">{{ucwords($data->name)}}</button>
-											</form>
-										</span>
-										@endif
-										
-										@endforeach
-									@else
-										<div class="col-sm-12">
-											<strong>{{ ucwords($request['approvalaction']->name) }} </strong> <br>by <u>{{ucwords($request['approve_name']->emp_name)}}</u>			
-										</div>
-									@endif
-{{-- <form action="{{url('hrd/leaves')}}" method="POST" id="ression1">
+{{-- 
+	<form action="{{url('hrd/leaves')}}" method="POST" id="ression1">
 		@csrf
 		<input type="hidden" name="leave_request_id" value="{{$request->id}}">
 		<input type="hidden" name="approval_action_id" value="{{$action->id}}">
@@ -139,6 +142,7 @@
 {{--  --}}
 	
 								</tr>
+								{{-- @endif --}}
 							 @endforeach
 			
 							</tbody>
@@ -147,16 +151,10 @@
 				</div>
 			</div>
 		</div>
+		
 	</main>
 <script>
 $(document).ready(function(){
-
-	/*var txt = prompt('Please enter reason.');
-
-		if(txt != null){
-			$('#reason').attr('value', txt);
-		}
-	*/
 
 	$('.actions').on('click',function(){
 		var btn = $(this).attr('id');
@@ -173,7 +171,8 @@ $(document).ready(function(){
 
 		}
 	});
-    /*$(".reason-decline").click(function(){
+/*
+	$(".reason-decline").click(function(){
 
   		var reason;
   		var text = prompt("Please enter the reason","Enter the reason");
@@ -184,7 +183,8 @@ $(document).ready(function(){
 			$('input[name="reason"]').val(reason);
 		}
 		
-	});*/
+	});
+*/
 
 
 
