@@ -31,10 +31,25 @@ class LeavesController extends Controller
 
         $actions = ApprovalAction::orderBy('id', 'asc')->get();
 
-        $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvalaction', 'approvaldetail'])
-                            ->orderBy('id', 'DESC')
-                            ->where('user_id', '<>', Auth::id())
-                            ->get();
+        $user = Auth::user();
+        $role = $user->getRoleNames()->first();
+        
+        if($role == 'admin'){
+
+            $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvalaction', 'approvaldetail'])
+                ->orderBy('id', 'DESC')
+                ->where('user_id', '<>', Auth::id())
+            ->where('subadmin_approval', 1)
+            ->get();
+
+        }elseif($role == 'hr manager'){
+
+            $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvalaction', 'approvaldetail'])
+                ->orderBy('id', 'DESC')
+                ->where('user_id', '<>', Auth::id())
+                ->get();
+        }
+                            
 
         return view('HRD.leaves.index', compact('leave_request', 'actions'));
 	}
@@ -43,22 +58,19 @@ class LeavesController extends Controller
 
 	}
 
-    public function approve_leave(Request $request, $leave_id){
+    public function approve_leave(Request $request, $request_id){
 
         //Update leave aaplication status and approver' id.
 
-        $leaveApp  = LeaveApply::find($leave_id);
-        $leaveApp->approver_id = Auth::id();
-        $leaveApp->status      = $request->action_id;
+        $leaveApp  = LeaveApply::find($request_id);
         $leaveApp->reason      = $request->reason;
-        $leaveApp->save();
-
+        
 
         $leave_mast = LeaveMast::find($leaveApp->leave_type_id);
 
         //Check if ID 1(APPROVE)
 
-        if($request->action_id == 1){
+        if($request->action == 1){
 
         // 
             //$allotment  = LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
@@ -97,25 +109,40 @@ class LeavesController extends Controller
             //            $unpaid_leave = 0;
             //         } 
 
-           
             //     }else{ 
             //         $unpaid_leave = $count;
             //         $paid_leave = 0;
             //     }
             // }
-        //
+        //  
+            if(Auth::user()->hasrole('hr manager')){
+                
+                $leaveApp->subadmin_approval = $request->action;
+            }elseif(Auth::user()->hasrole('admin')){
+
+                $leaveApp->admin_approval = $request->action;
+            }
+
+            $leaveApp->save();
         
             $approval_history = new LeaveApprovalDetail;
-            $approval_history->leave_apply_id = $leave_id;
+            $approval_history->leave_apply_id = $request_id;
             $approval_history->user_id        = $leaveApp->user_id;
             $approval_history->approver_id    = Auth::id();
-            $approval_history->actions        = $request->action_id;
-            //$approval_history->paid_count     = $paid_leave;
-            //$approval_history->unpaid_count   = $unpaid_leave;
-            //$approval_history->approver_remark= $request->reason;
+            $approval_history->actions        = $request->action;
             $approval_history->save();
 
         }else{
+
+            if(Auth::user()->hasrole('hr manager')){
+
+                $leaveApp->subadmin_approval = $request->action;
+            }elseif(Auth::user()->hasrole('admin')){
+
+                $leaveApp->admin_approval = $request->action;
+            }
+            
+            $leaveApp->save();
 
             //Update leave balance if request declined.
 
@@ -147,7 +174,10 @@ class LeavesController extends Controller
             
         }
 
-        return back()->with('success', 'Status updated');
+        $res['request_id'] = $request_id;
+        $res['action']     = $request->action;
+
+        return $res;
 
     }
 

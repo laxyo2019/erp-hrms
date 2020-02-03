@@ -35,7 +35,6 @@
 							@php $count = 0; @endphp
 			
 							@foreach($leave_request as $request)
-								{{-- @if() --}}
 								<tr>
 									<td>{{++$count}} </td>
 									<td>{{ucwords($request['employee']->emp_name)}}</td>
@@ -81,12 +80,12 @@
 
 			@if($request->admin_approval == 1)
 				<span class="ml-2">
-					<form action="{{route('reverse.leave', $request->id)}}" method="POST" id="ression">
+					{{-- <form action="{{route('reverse.leave', $request->id)}}" method="POST" id="ression">
 					@csrf
 					<input type="hidden" name="leave_request" value="{{$request->id}}">
 					<input type="hidden" name="action_id" value="{{$data->id}}" >
 					<button  class="btn-sm" id="reverse"><i class="fa fa-undo" aria-hidden="true"></i> {{ucwords($data->name)}}</button>
-					</form>
+					</form> --}}
 				</span>
 			@endif
 		</td>
@@ -94,8 +93,16 @@
 <td class='d-flex' style="border-bottom:none">
 
 @if($request->subadmin_approval == 0 && auth()->user()->hasrole('hr manager'))
-	<button type="button" id="approve" class="btn btn-success btn-sm">APPROVE</button>
-	<button type="button" id="decline" class="btn btn-danger btn-sm ml-2">DECLINE</button>
+	<div class="msg_approve" hidden="">APPROVED</div>
+	<div class="msg_decline" hidden="">DECLINED</div>
+	<button type="button" id="approve" data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1">APPROVE</button>
+	<button type="button" id="decline" data-id="{{$request->id}}" class="btn btn-danger btn-sm ml-2 action" value="2">DECLINE</button>
+
+	{{-- @if($request->subadmin_approval == 1)
+		<div class="msg_approve" hidden="">APPROVED</div>
+	@elseif($request->subadmin_approval == 2){
+		<div class="msg_decline" hidden="">DECLINED</div>
+	@endif --}}
 
 {{-- 
 	@foreach($actions as $data)
@@ -116,10 +123,23 @@
 	@endforeach 
 --}}
 
-@elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('admin'))
+@elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('admin') && $request->admin_approval == 0 )
+	<div class="msg_approve" hidden="">APPROVED</div>
+	<div class="msg_decline" hidden="">DECLINED</div>
+	<button type="button" id="approve" data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1" >APPROVE</button>
+	<button type="button" id="decline" class="btn btn-danger btn-sm ml-2 action" value="2" data-id="{{$request->id}}">DECLINE</button>
 
-	<button type="button" id="approve" class="btn btn-success btn-sm">ADMIN</button>
-	<button type="button" id="decline" class="btn btn-danger btn-sm ml-2">DECLINE</button>
+@elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('admin') && $request->admin_approval == 1 )
+	<div class="msg_approve" >APPROVED</div>
+
+@elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('admin') && $request->admin_approval == 2 )
+	<div class="msg_decline">DECLINED</div>
+
+@elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('hr manager'))
+	<div class="msg_approve" >APPROVED</div>
+
+@elseif($request->subadmin_approval == 2 && auth()->user()->hasrole('hr manager'))
+	<div class="msg_decline">DECLINED</div>
 @endif
 {{--
 	<div class="col-sm-12">
@@ -142,7 +162,6 @@
 {{--  --}}
 	
 								</tr>
-								{{-- @endif --}}
 							 @endforeach
 			
 							</tbody>
@@ -155,6 +174,23 @@
 	</main>
 <script>
 $(document).ready(function(){
+
+	//Open detail view of leave requests.
+
+	$('.modalReq').on('click', function(e){
+		e.preventDefault();
+		var leave_id = $(this).data('id');
+		$.ajax({
+			type: 'GET',
+			url: '/hrd/leaves/'+leave_id,
+			success:function(res){
+				$('#detailTable').empty().html(res);
+				$('#reqModal').modal('show');
+			}
+		})
+	});
+
+	//Store remark while declineing requests.
 
 	$('.actions').on('click',function(){
 		var btn = $(this).attr('id');
@@ -171,22 +207,31 @@ $(document).ready(function(){
 
 		}
 	});
-/*
-	$(".reason-decline").click(function(){
 
-  		var reason;
-  		var text = prompt("Please enter the reason","Enter the reason");
-	    if (!text){
-	        return false;
-	    }else {
-			reason =  text;
-			$('input[name="reason"]').val(reason);
-		}
+	// Approve/Decline requests.
+
+	$('.action').on('click', function(){
 		
+		var action 		= $(this).val();
+		var request_id 	= $(this).data('id');
+
+		$.ajax({
+			type: 'POST',
+			url: "/approve_leave/"+request_id,
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			data: {'action':action},
+			//data: {action:'action', 'request_id:'request_id'},
+			success:function(res){
+				//alert(res.action);
+				$('#approve, #decline').attr('hidden', true);
+				if(res.action = 1){
+					$('.msg_approve').attr('hidden', false);
+				}else{
+					$('.msg_decline').attr('hidden', false);
+				}
+			}
+		})
 	});
-*/
-
-
 
 	$(".approved1").click(function(){
 	    if (!confirm("Do you want to approve")){
@@ -216,22 +261,7 @@ $(document).ready(function(){
 </style>
 
 <script>	
-	$(document).ready(function(){
-		$('.modalReq').on('click', function(e){
-			e.preventDefault();
-			var leave_id = $(this).data('id');
-			$.ajax({
-				type: 'GET',
-				url: '/hrd/leaves/'+leave_id,
-				success:function(res){
-					$('#detailTable').empty().html(res);
-					$('#reqModal').modal('show');
-				}
-			})
-		})
-
-
-	});
+	
 </script>
 
 @endsection
