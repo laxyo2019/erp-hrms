@@ -61,9 +61,8 @@
 							<tbody>
 							@php $count = 0; @endphp
 								@if( !empty($leaves) )
-								{{-- {{dd($leaves)}} --}}
 								@foreach($leaves as $leaveapply)
-								<tr>{{-- {{empty($leaveapply['approvalaction']->name)}} --}}
+								<tr>
 									<td>{{++$count}}</td>
 									<td>{{ucwords($leaveapply['leavetype']->name)}}</td>
 									<td>@php 
@@ -88,7 +87,8 @@
 									</td>
 									<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>
 									<td>
-{{-- @if($leaveapply->status =='17' )
+{{-- 
+	@if($leaveapply->status =='17' )
 	<div >
 	<strong style="color: red;">
 	DECLINE
@@ -117,34 +117,26 @@
 							 		{{ucwords($leaveapply['approve_name']->emp_name)}}</p>
 							</div>
 						@endif
-						--}}
-						@if($leaveapply->subadmin_approval == 0)
-							<div >
-							 	<strong style="color: grey;">
-							 		PENDING
-								</strong>
-							</div>
-						@elseif($leaveapply->subadmin_approval == 1)
-							<div >
-							 	<strong style="color: green;">
-							 		APPROVE
-								</strong>
-							</div>
-						@else
-							<div >
-							 	<strong style="color: red;">
-							 		DECLINE
-								</strong>
-							</div>
-						@endif
-						{{-- <div>
-							<u>
-								@if($leaveapply->approve_name)
-									by
-									{{ucwords($leaveapply['approve_name']->emp_name)}}
-								@endif</u>
-						</div> --}}
-							{{-- {{empty($leaveapply['approvalaction']->name) ? 'Decline'  : strtoupper($leaveapply['approvalaction']->name)}} --}}
+--}}
+									@if($leaveapply->subadmin_approval == 0)
+										<div >
+										 	<strong style="color: grey;">
+										 		PENDING
+											</strong>
+										</div>
+									@elseif($leaveapply->subadmin_approval == 1)
+										<div >
+										 	<strong style="color: green;">
+										 		APPROVE
+											</strong>
+										</div>
+									@else
+										<div >
+										 	<strong style="color: red;">
+										 		DECLINE
+											</strong>
+										</div>
+									@endif
 								</td>
 								<td>
 									@if($leaveapply->admin_approval == 0)
@@ -153,7 +145,7 @@
 										 		PENDING
 											</strong>
 										</div>
-									@elseif($leaveapply->subadmin_approval == 1)
+									@elseif($leaveapply->admin_approval == 1)
 										<div >
 										 	<strong style="color: green;">
 										 		APPROVE
@@ -186,18 +178,17 @@
 										        </div>
 										    </div>
 										</div>
-										@if(empty($leaveapply->status))
-										{{-- <span class="ml-2">
-											<a href="{{url('employee/leaves/'.$leaveapply->id.'/edit')}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
-										</span>	 --}}									
+										
+									@if($leaveapply->subadmin_approval == 0)
 										<span class="ml-2">
-<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
-		@csrf
-		@method('DELETE')
-	<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
-</form>
+											<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
+													@csrf
+													@method('DELETE')
+												<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
+											</form>
 										</span> 
-										@endif
+									@endif
+										
 									</td>
 								</tr>
 								@endforeach

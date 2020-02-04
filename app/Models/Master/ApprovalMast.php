@@ -12,6 +12,8 @@ class ApprovalMast extends Model
 
   protected $with = ['designation'];
 
+  protected $fillable = ['name', 'description'];
+  
   public function approval()
   {
     return $this->hasMany('App\Models\ApprovalTemplate');

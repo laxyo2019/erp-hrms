@@ -19,6 +19,7 @@ use App\Models\Employees\ApprovalSetup;
 use App\Models\Employees\LeaveAllotment;
 use Spatie\Permission\Models\Permission;
 use App\Models\Employees\LeaveApprovalDetail;
+use App\Models\Master\ApprovalMast;
 
 
 class LeavesController extends Controller
@@ -28,6 +29,7 @@ class LeavesController extends Controller
     }
 
     public function index(){
+
 
         $actions = ApprovalAction::orderBy('id', 'asc')->get();
 
@@ -39,8 +41,8 @@ class LeavesController extends Controller
             $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvalaction', 'approvaldetail'])
                 ->orderBy('id', 'DESC')
                 ->where('user_id', '<>', Auth::id())
-            ->where('subadmin_approval', 1)
-            ->get();
+                ->where('subadmin_approval', 1)
+                ->get();
 
         }elseif($role == 'hr manager'){
 
@@ -60,13 +62,13 @@ class LeavesController extends Controller
 
     public function approve_leave(Request $request, $request_id){
 
+
+        //return 1;
         //Update leave aaplication status and approver' id.
 
         $leaveApp  = LeaveApply::find($request_id);
-        $leaveApp->reason      = $request->reason;
-        
-
-        $leave_mast = LeaveMast::find($leaveApp->leave_type_id);
+        $leaveApp->reason = $request->reason;
+        $leaveApp->save();
 
         //Check if ID 1(APPROVE)
 
@@ -116,35 +118,55 @@ class LeavesController extends Controller
             // }
         //  
             if(Auth::user()->hasrole('hr manager')){
-                
-                $leaveApp->subadmin_approval = $request->action;
+
+                /**/
+
+                LeaveApply::findOrFail($request_id)
+                    ->update(['subadmin_approval' => $request->action]);
+
+                //Update record when application approve
+
+                $approval_history = new LeaveApprovalDetail;
+                $approval_history->leave_apply_id = $request_id;
+                $approval_history->user_id        = $leaveApp->user_id;
+                $approval_history->approver_id    = json_encode(
+                                                        ['hr' => Auth::id(),
+                                                         'admin' => 0]);
+                $approval_history->save();
+
             }elseif(Auth::user()->hasrole('admin')){
 
-                $leaveApp->admin_approval = $request->action;
-            }
+                LeaveApply::findOrFail($request_id)
+                        ->update(['admin_approval' => $request->action]);
 
-            $leaveApp->save();
-        
-            $approval_history = new LeaveApprovalDetail;
-            $approval_history->leave_apply_id = $request_id;
-            $approval_history->user_id        = $leaveApp->user_id;
-            $approval_history->approver_id    = Auth::id();
-            $approval_history->actions        = $request->action;
-            $approval_history->save();
+                //Update record when application approve
+
+                $detail = LeaveApprovalDetail::where('leave_apply_id', $request_id)->first();
+
+                $json = json_decode($detail['approver_id']);
+
+                LeaveApprovalDetail::where('leave_apply_id', $request_id)
+                    ->update([
+                        'approver_id' => json_encode(
+                                                  ['hr' => $json->hr,
+                                                  'admin' => Auth::id()])]);
+            }
 
         }else{
 
             if(Auth::user()->hasrole('hr manager')){
 
-                $leaveApp->subadmin_approval = $request->action;
+                LeaveApply::findOrFail($request_id)
+                        ->update(['subadmin_approval' => $request->action]);
+
             }elseif(Auth::user()->hasrole('admin')){
 
-                $leaveApp->admin_approval = $request->action;
+                LeaveApply::findOrFail($request_id)
+                        ->update(['admin_approval' => $request->action]);
             }
-            
-            $leaveApp->save();
 
             //Update leave balance if request declined.
+            $leave_mast = LeaveMast::find($leaveApp->leave_type_id)->first();
 
             if($leave_mast->without_pay != 1){
                 
@@ -157,10 +179,12 @@ class LeavesController extends Controller
                     ->first()
                     ->id;
 
-                //Decrement unpaid_count from initial_bal
-                LeaveAllotment::where('leave_mast_id', $withoutpay_id)
-                    ->where('user_id', $leaveApp->user_id)
-                    ->decrement('initial_bal', $leaveApp->unpaid_count);
+                if($leaveApp->unpaid_count != null){
+                //Decrement unpaid_count from initial_bal if leave added to unpaid count for leave without pay leave.
+                    LeaveAllotment::where('leave_mast_id', $withoutpay_id)
+                        ->where('user_id', $leaveApp->user_id)
+                        ->decrement('initial_bal', $leaveApp->unpaid_count);
+                }
 
             }else{
                 LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
@@ -168,10 +192,6 @@ class LeavesController extends Controller
                     ->decrement('initial_bal', $leaveApp->count);
             }
 
-
-            $leaveApp->approver_remark = $request->reason;
-            $leaveApp->save();
-            
         }
 
         $res['request_id'] = $request_id;

@@ -93,35 +93,12 @@
 <td class='d-flex' style="border-bottom:none">
 
 @if($request->subadmin_approval == 0 && auth()->user()->hasrole('hr manager'))
-	<div class="msg_approve" hidden="">APPROVED</div>
+	<h5><div class="msg_approve" hidden="">APPROVED</div></h5>
 	<div class="msg_decline" hidden="">DECLINED</div>
+
 	<button type="button" id="approve" data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1">APPROVE</button>
+
 	<button type="button" id="decline" data-id="{{$request->id}}" class="btn btn-danger btn-sm ml-2 action" value="2">DECLINE</button>
-
-	{{-- @if($request->subadmin_approval == 1)
-		<div class="msg_approve" hidden="">APPROVED</div>
-	@elseif($request->subadmin_approval == 2){
-		<div class="msg_decline" hidden="">DECLINED</div>
-	@endif --}}
-
-{{-- 
-	@foreach($actions as $data)
-		@if(empty($data->reverse))
-			<span class="ml-2">
-				<form action="{{url('approve_leave',$request->id)}}" method="POST" id="ression">
-					@csrf
-					<input type="hidden" name="leave_request" value="{{$request->id}}">
-					<input type="hidden" name="action_id" value="{{$data->id}}" >
-					@if($data->reason)
-					<input type="hidden" name="reason" value="" id="reason">
-					@endif
-					<button  class="btn-sm actions {{$data->name}}" id="{{$data->reason}}">{{ucwords($data->name)}}</button>
-				</form>
-			</span>
-		@endif
-										
-	@endforeach 
---}}
 
 @elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('admin') && $request->admin_approval == 0 )
 	<div class="msg_approve" hidden="">APPROVED</div>
@@ -133,13 +110,13 @@
 	<div class="msg_approve" >APPROVED</div>
 
 @elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('admin') && $request->admin_approval == 2 )
-	<div class="msg_decline">DECLINED</div>
+	<div class="msg_decline" >DECLINED</div>
 
 @elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('hr manager'))
 	<div class="msg_approve" >APPROVED</div>
 
 @elseif($request->subadmin_approval == 2 && auth()->user()->hasrole('hr manager'))
-	<div class="msg_decline">DECLINED</div>
+	<div class="msg_decline" >DECLINED</div>
 @endif
 {{--
 	<div class="col-sm-12">
@@ -147,19 +124,7 @@
 	</div> 
 --}}
 
-{{-- 
-	<form action="{{url('hrd/leaves')}}" method="POST" id="ression1">
-		@csrf
-		<input type="hidden" name="leave_request_id" value="{{$request->id}}">
-		<input type="hidden" name="approval_action_id" value="{{$action->id}}">
-		<input type="hidden" name="reason" value="">
-		@if($action->name == 'decline')
-			<button type="submit" class="btn btn-danger reason-decline" bootbox >{{$action->name}}</button>
-		@elseif($action->name == 'approve')
-			<button type="submit"  class="btn btn-success approved1" id='approved'>{{$action->name}}</button>
-		<br><strong style="color:grey;" class="pending"> Pending</strong>
-	</form> --}}
-{{--  --}}
+
 	
 								</tr>
 							 @endforeach
@@ -214,7 +179,7 @@ $(document).ready(function(){
 		
 		var action 		= $(this).val();
 		var request_id 	= $(this).data('id');
-
+		//alert([action, request_id]);
 		$.ajax({
 			type: 'POST',
 			url: "/approve_leave/"+request_id,
@@ -222,11 +187,13 @@ $(document).ready(function(){
 			data: {'action':action},
 			//data: {action:'action', 'request_id:'request_id'},
 			success:function(res){
-				//alert(res.action);
+
 				$('#approve, #decline').attr('hidden', true);
-				if(res.action = 1){
+				if(res.action == 1){
+
 					$('.msg_approve').attr('hidden', false);
 				}else{
+					
 					$('.msg_decline').attr('hidden', false);
 				}
 			}

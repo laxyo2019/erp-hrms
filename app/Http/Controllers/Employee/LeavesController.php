@@ -285,14 +285,6 @@ class LeavesController extends Controller
                $data['end_date'] = $endDate['end_date']; 
             }
          }
-      /************/
-
-      /*if($leaveData->docs_required){
-
-         $request->validate([
-            'file_path' => 'required'
-         ]);
-      }*/
 
       if($btnId == 'multiBtn'){
 
@@ -316,7 +308,9 @@ class LeavesController extends Controller
                         ->get();
 
           $holidays_list = [];
+
           foreach($holidays as $index){
+
             $holidays_list[] = $index->date;
           }
 
@@ -326,9 +320,9 @@ class LeavesController extends Controller
 
           $sandwich_days = array_unique(array_merge($sundays, $holidays_list));
 
-          $paid_count = $request->duration - count($sandwich_days);
+          $paid_count    = $request->duration - count($sandwich_days);
 
-          $unpaid_count = $request->duration - $paid_count;
+          $unpaid_count  = $request->duration - $paid_count;
 
         }else if($leaveData->without_pay == 1){
 
@@ -338,7 +332,7 @@ class LeavesController extends Controller
 
         }else{
           
-          $paid_count = $request->duration;
+          $paid_count   = $request->duration;
 
           $unpaid_count = 0.0;
         }
@@ -449,9 +443,7 @@ class LeavesController extends Controller
     $leaveapply->addr_during_leave = $request->address_leave;
     $leaveapply->contact_no        = $request->contact_no;
     $leaveapply->paid_count        = $paid_count;
-    //$leaveapply->unpaid_count      = $unpaid_count;
-    //$leaveapply->hr_approval       = $unpaid_count;
-    //$leaveapply->admin_approval    = $unpaid_count;
+    $leaveapply->unpaid_count      = $unpaid_count;
     $leaveapply->applicant_remark  = $request->applicant_remark;
     $leaveapply->save();
       
@@ -497,10 +489,9 @@ class LeavesController extends Controller
 
     public function destroy($id)
     {
-      //return $id;
+      
       $leave_app = LeaveApply::findOrFail($id);
-      Storage::delete($leave_app->file_path);
-        $leave_app->delete();
+      
 
       /**Add leave balance back if leave application is deleted**/
 
@@ -518,22 +509,26 @@ class LeavesController extends Controller
             ->increment('initial_bal', $leave_app->paid_count);
 
             
-        $withoutpay_id = LeaveMast::where('without_pay', 1)
-                          ->first()
-                          ->id;
-        //Decrement unpaid_count from initial_bal
-        LeaveAllotment::where('leave_mast_id', $withoutpay_id)
-            ->where('user_id', $leave_app->user_id)
-            ->decrement('initial_bal', $leave_app->unpaid_count);
-          
+        if($leave_app->unpaid_count != null ){
+          $withoutpay_id = LeaveMast::where('without_pay', 1)
+                            ->first()
+                            ->id;
+          //Decrement unpaid_count from initial_bal
+          LeaveAllotment::where('leave_mast_id', $withoutpay_id)
+              ->where('user_id', $leave_app->user_id)
+              ->decrement('initial_bal', $leave_app->unpaid_count);
+        }
         
       }else{
         LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
               ->where('user_id', $leave_app->user_id)
               ->decrement('initial_bal', $leave_app->count);
       }
-        
-        return back()->with('success', 'Record deleted successfully');
+      
+      Storage::delete($leave_app->file_path);
+      $leave_app->delete();
+
+      return back()->with('success', 'Record deleted successfully');
     }
 
     public function showrequest(Request $request){

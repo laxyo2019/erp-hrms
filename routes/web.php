@@ -96,8 +96,6 @@ Route::get('holidays/export', 'Leave\HolidayController@export')->name('export.ho
 
 Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_page')->name('employee.show_page');
 
-Route::resource('approval-action', 'HRD\ApprovalsController');
-
 
 /*******ACL********/
   

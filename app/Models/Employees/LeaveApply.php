@@ -11,6 +11,7 @@ class LeaveApply extends Model
 
     protected $table = 'emp_leave_applies';
     //protected $with =	['approve_name', 'leavetype', 'employee']; //It will be called everytime when LeaveApply model is used.
+    protected $fillable = ['user_id', 'reports_to', 'leave_type_id', 'day_status', 'from', 'to', 'count', 'reason', 'file_path', 'addr_during_leave', 'contact_no', 'subadmin_approval', 'admin_approval', 'applicant_remark', 'approver_remark', 'hr_remark', 'carry', 'paid_count', 'unpaid_count'];
 
     public function employee(){
 
