@@ -154,6 +154,8 @@ class LeavesController extends Controller
 
         }else{
 
+            //return 6465;
+
             if(Auth::user()->hasrole('hr manager')){
 
                 LeaveApply::findOrFail($request_id)
@@ -248,21 +250,29 @@ class LeavesController extends Controller
         return Storage::download($document);
     }
 
-    public function reverse(Request $request){
+    public function reverse($request_id){
 
+        //return $request_id;
         //Find leave applicaiton with id
 
         $detail = LeaveApply::with(['approvaldetail', 'leavetype'])
-            ->where('id', $request->leave_request)
+            ->where('id', $request_id)
             ->first();
 
         //Update leave status and carry
 
-        LeaveApply::where('id', $request->leave_request)
-                ->update([
-                    'status' => $request->action_id,
-                    'carry'  => 1,
-                    'approver_id' => Auth::id()]);        
+        if(Auth::user()->hasrole('hr manager')){
+
+            LeaveApply::where('id', $request_id)
+                    ->update([
+                        'subadmin_approval' => 3,
+                        'carry'  => $detail->count]);
+        }else{
+            LeaveApply::where('id', $request_id)
+                    ->update([
+                        'admin_approval' => 3,
+                        'carry'  => $detail->count]);
+        }
 
         //Find Leave with Leave_type_id
 
@@ -278,7 +288,8 @@ class LeavesController extends Controller
                         ->increment('initial_bal', $detail->count);
         }
 
-        LeaveApprovalDetail::create([
+        /*
+            LeaveApprovalDetail::create([
             'leave_apply_id'  => $detail->id,
             'user_id'         => $detail->user_id,
             'approver_id'     => Auth::id(),
@@ -286,9 +297,13 @@ class LeavesController extends Controller
             'paid_count'      => 0,
             'unpaid_count'    => 0,
             'carry'           => $detail->count
-        ]);
+            ]);
+        */
 
-        return back()->with('success', 'Reversed leaves successfully.');
+        LeaveApprovalDetail::where('leave_apply_id', $request_id)
+            ->update(['carry' => Auth::id()]);
+
+        return ;
     }
 
 }

@@ -53,8 +53,8 @@
 									<th>Leave Period</th>
 									<th>Duration</th>
 									<th>Posted on</th>
-									<th>Sub-Admin Approval</th>
-									<th>Admin Approval</th>
+									<th>HR APPROVAL</th>
+									<th>ADMIN APPROVAL</th>
 									<th class="text-center">Actions</th>
 								</tr>
 							</thead>
@@ -130,10 +130,16 @@
 										 		APPROVE
 											</strong>
 										</div>
+									@elseif($leaveapply->subadmin_approval == 2)
+										<div >
+										 	<strong style="color: #ff4545;">
+										 		DECLINE
+											</strong>
+										</div>
 									@else
 										<div >
-										 	<strong style="color: red;">
-										 		DECLINE
+										 	<strong style="color: #5858ff;">
+										 		REVERSED
 											</strong>
 										</div>
 									@endif
@@ -151,10 +157,16 @@
 										 		APPROVE
 											</strong>
 										</div>
+									@elseif($leaveapply->admin_approval == 2)
+										<div >
+										 	<strong style="color: #ff4545;">
+										 		DECLINE
+											</strong>
+										</div>
 									@else
 										<div >
-										 	<strong style="color: red;">
-										 		DECLINE
+										 	<strong style="color: #5858ff;">
+										 		REVERSED
 											</strong>
 										</div>
 									@endif
