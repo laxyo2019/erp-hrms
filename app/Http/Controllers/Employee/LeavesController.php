@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use App\Models\Master\Holiday;
 use App\Models\Master\LeaveMast;
 use App\Models\Master\Designation;
-use App\Models\Employees\EmpLeave;
 use Illuminate\Support\Facades\DB;
 use App\Models\Employees\LeaveApply;
 use App\Http\Controllers\Controller;
@@ -36,7 +35,8 @@ class LeavesController extends Controller
   public function index(){
 
     $leaves   =  LeaveApply::where('user_id', Auth::id())
-                  ->with(['employee', 'approve_name', 'approvalaction', 'leavetype'])
+                  ->with(['employee', 'approve_name', 'leavetype'])
+                  ->latest()
                   ->get();
 
     $balance  = EmployeeMast::with('allotments.leaves')

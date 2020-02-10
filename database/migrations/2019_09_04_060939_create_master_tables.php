@@ -13,23 +13,16 @@ class CreateMasterTables extends Migration
      */
     public function up()
     {
-      Schema::create('comp_mast', function (Blueprint $table) {
-  		$table->increments('id');
-  		$table->string('account_code', 5)->default(10001);
-        $table->string('name', 100);
-        $table->text('description')->nullable();
-        $table->timestamps();
-        $table->softDeletes();
-      });
-      Schema::create('dept_mast', function (Blueprint $table) {
-    	$table->increments('id');
-    	$table->string('account_code', 5)->default(10001);
-	    $table->string('name', 100);
-	    $table->string('description')->nullable();
-	    $table->timestamps();
-	    $table->softDeletes();
-      });
-  		Schema::create('desg_mast', function (Blueprint $table) {
+
+		Schema::create('hrms_dept_mast', function (Blueprint $table) {
+			$table->increments('id');
+			$table->string('account_code', 5)->default(10001);
+			$table->string('name', 100);
+			$table->string('description')->nullable();
+			$table->timestamps();
+			$table->softDeletes();
+		});
+  		Schema::create('hrms_desg_mast', function (Blueprint $table) {
 	        $table->increments('id');
 	        $table->string('account_code', 5)->default(10001);
 	        $table->string('name', 100);
@@ -37,74 +30,52 @@ class CreateMasterTables extends Migration
 	        $table->timestamps();
 	        $table->softDeletes();
     	});
-		  Schema::create('approval_mast', function (Blueprint $table) {
-			    $table->increments('id');
-			    $table->string('account_code', 5)->default(10001);
-			    $table->string('name', 100);
-			    $table->text('description')->nullable();
-			    $table->timestamps();
-			    $table->softDeletes();   
-		  });
-		  Schema::create('emp_grade_mast',function(Blueprint $table){
-		  	 	$table->increments('id');
-		  	 	$table->string('account_code', 5)->default(10001);
-		  	 	$table->string('name', 100);
-		  	 	$table->decimal('entitled_amt', 8,2)->nullable();
-		  	 	$table->text('description')->nullable();
-			    $table->timestamps();
-			    $table->softDeletes();  
-		  });
-		  Schema::create('emp_status_mast',function(Blueprint $table){
-	  	 	$table->increments('id');
-	  	 	$table->string('account_code', 5)->default(10001);
-	  	 	$table->string('name', 100);
-	  	 	$table->text('description')->nullable();
-		    $table->timestamps();
-		    $table->softDeletes();  
-		  });
-		  Schema::create('emp_type_mast',function(Blueprint $table){
-	  	 	$table->increments('id');
-	  	 	$table->string('account_code', 5)->default(10001);
-	  	 	$table->string('name', 100);
-	  	 	$table->text('description')->nullable();
-		    $table->timestamps();
-		    $table->softDeletes();  
-		  });
-		  Schema::create('emp_event_mast',function(Blueprint $table){
-	  	 	$table->increments('id');
-	  	 	$table->string('account_code', 5)->default(10001);
-	  	 	$table->string('name', 100);
-	  	 	$table->text('description')->nullable();
-		    $table->timestamps();
-		    $table->softDeletes();  
-		  });
-	   	Schema::create('asset_mast',function(Blueprint $table){
-	  	 	$table->increments('id');
-	  	 	$table->string('account_code', 5)->default(10001);
-	  	 	$table->string('name', 100);
-	  	 	$table->text('description')->nullable();
-		    $table->timestamps();
-		    $table->softDeletes();  
-		  });
-	    Schema::create('doc_type_mast',function(Blueprint $table){
-	  	 	$table->increments('id');
-	  	 	$table->string('account_code', 5)->default(10001);
-	  	 	$table->string('name', 100);
-	  	 	$table->text('description')->nullable();
-		    $table->timestamps();
-		    $table->softDeletes();
-		    });     
-		  Schema::create('approval_template', function (Blueprint $table) {
-			    $table->increments('id');
-			    $table->string('account_code', 5)->default(10001);
-			    $table->unsignedInteger('appr_id');
-			    $table->string('title', 100);
-			    $table->text('description')->nullable();
-			    $table->string('permits', 255);
-			    $table->integer('is_mandatory')->default(0);
-			    $table->timestamps();
-			    $table->softDeletes();   
-	  	});
+		  
+		Schema::create('hrms_emp_grade_mast',function(Blueprint $table){
+			$table->increments('id');
+			$table->string('account_code', 5)->default(10001);
+			$table->string('name', 100);
+			$table->decimal('entitled_amt', 8,2)->nullable();
+			$table->text('description')->nullable();
+			$table->timestamps();
+			$table->softDeletes();  
+		});
+		Schema::create('hrms_emp_status_mast',function(Blueprint $table){
+			$table->increments('id');
+			$table->string('account_code', 5)->default(10001);
+			$table->string('name', 100);
+			$table->text('description')->nullable();
+			$table->timestamps();
+			$table->softDeletes();  
+		});
+		Schema::create('hrms_emp_type_mast',function(Blueprint $table){
+			$table->increments('id');
+			$table->string('account_code', 5)->default(10001);
+			$table->string('name', 100);
+			$table->text('description')->nullable();
+			$table->timestamps();
+			$table->softDeletes();  
+		});
+
+		Schema::create('hrms_doc_type_mast',function(Blueprint $table){
+			$table->increments('id');
+			$table->string('account_code', 5)->default(10001);
+			$table->string('name', 100);
+			$table->text('description')->nullable();
+			$table->timestamps();
+			$table->softDeletes();
+		});     
+		Schema::create('hrms_approval_template', function (Blueprint $table) {
+			$table->increments('id');
+			$table->string('account_code', 5)->default(10001);
+			$table->unsignedInteger('appr_id');
+			$table->string('title', 100);
+			$table->text('description')->nullable();
+			$table->string('permits', 255);
+			$table->integer('is_mandatory')->default(0);
+			$table->timestamps();
+			$table->softDeletes();   
+		});
     }
 
     /**
@@ -114,13 +85,13 @@ class CreateMasterTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('approval_template');
-        Schema::dropIfExists('approval_mast');
-        Schema::dropIfExists('emp_status_mast');
-        Schema::dropIfExists('emp_grade_mast');
-        Schema::dropIfExists('emp_type_mast');
-        Schema::dropIfExists('emp_event_mast');
-        Schema::dropIfExists('asset_mast');
-        Schema::dropIfExists('doc_type_mast');
+
+    	Schema::dropIfExists('hrms_dept_mast');
+    	Schema::dropIfExists('hrms_desg_mast');
+        Schema::dropIfExists('hrms_approval_template');
+        Schema::dropIfExists('hrms_emp_status_mast');
+        Schema::dropIfExists('hrms_emp_grade_mast');
+        Schema::dropIfExists('hrms_emp_type_mast');
+        Schema::dropIfExists('hrms_doc_type_mast');
     }
 }

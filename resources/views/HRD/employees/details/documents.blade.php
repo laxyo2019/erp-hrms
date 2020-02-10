@@ -5,7 +5,7 @@
 @section('content')
 <main class="app-content">
 	@include ('HRD/employees/tabs')
-	<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid grey;">
+	<div style="margin-top: 1.5rem; padding: 1.5rem; " class="tile">
 		@if($message = Session::get('success'))
 		<div class="alert alert-success alert-block">
 		<button type="button" class="close" data-dismiss="alert">×</button>
@@ -56,18 +56,16 @@
 				@enderror
 		    </div>
 		</div>
-		<div class="row">
-	    
-		</div>
+		
 		<div class="row">
 	    <div class="col-8 form-group ">
 	    	<label for="">Remark</label>
 	    	<textarea name="remarks" id="remark" class="form-control" cols="10" rows="5">{{old('remark')}}</textarea>
 	    	@error('remarks')
-					<span class="text-danger" role="alert">
-						<strong>* {{ $message }}</strong>
-					</span>
-				@enderror
+				<span class="text-danger" role="alert">
+					<strong>* {{ $message }}</strong>
+				</span>
+			@enderror
 	    </div>
 	</div>
 	    <div class="row">
@@ -102,7 +100,7 @@
 			<td><a href="{{ route('employees.download', ['db_table'=>'emp_docs', 'id'=>$emp_documents->id]) }}" ><i class="fa fa-arrow-down"></i> Download</a>
 			</td>
 			{{-- @endcan --}}
-		  		<td>{{ $emp_documents->doc_status }}</td>
+		  		<td>{{ $emp_documents->doc_status == 's' ? 'Submitted' : 'Provided' }}</td>
 		  		<td>{{ $emp_documents->remark }}</td>
 		  		<td>
 				<form action="{{route('employee.delete_row', ['db_table'=>'emp_docs', 'id'=>$emp_documents->id])}}" method="GET" id="delform_{{ $emp_documents->id}}">

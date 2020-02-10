@@ -9,52 +9,54 @@
 		<div class="row mt-2">
   			<div class="col-md-12">
     			<div class="tile">
+    				<div class="container-fluid">
     				@php $count = 1;@endphp
     				@foreach($employee->bankdetails as $bank_details)
-    				    		<h4>Account - {{$count++}}</h4><hr>
-	        		<div class="container-fluid">
-							<div id="form-area">
+    				 <div class="row mb-3">
+	                		<span style="color: grey; font-size: 20px; font-weight: bold"><i class="fa fa-globe"></i> Account Details - {{$count++}}</span>
+           				</div><hr>	
+	        		
 						
 	              		<div class="row col-12">
-	                		<div class="col-4">
-	                			<div class="form-group">
+	                		
+	                			<div class="col-6 form-group">
 	                				<label for=""><b>Account Holder : </b></label>
-									<td>{{$bank_details->acc_holder}}</td>
+									<td>{{ucwords($bank_details->acc_holder)}}</td>
 								</div>
-    						</div>
-    						<div class="col-4">
-								<div class=" form-group">
+    						
+    						
+								<div class="col-6 form-group">
 									<label for=""><b>Account Number : </b></label>
 									<td>{{$bank_details->acc_no}}</td>
 								</div>	
-			                </div>
-			                <div class="col-4">
-								<div class=" form-group">
+			                
+			                
+								<div class="col-6 form-group">
 									<label for=""><b>Bank Name : </b></label>
-									<td>{{$bank_details->bank_name}}</td>
+									<td>{{ucwords($bank_details->bank_name)}}</td>
 								</div>	
-			                </div>
-			                <div class="col-4">
-								<div class=" form-group">
+			                
+			                
+								<div class="col-6 form-group">
 									<label for=""><b>IFSC Code : </b></label>
 									<td>{{$bank_details->ifsc}}</td>
 								</div>		
-			                </div>
-			                <div class="col-4">
-								<div class=" form-group">
+			                
+			                
+								<div class="col-6 form-group">
 									<label for=""><b>Branch : </b></label>
-									<td>{{$bank_details->branch_name}}</td>
+									<td>{{ucwords($bank_details->branch_name)}}</td>
 								</div>	
-			                </div>
-			                <div class="col-4">
-								<div class=" form-group">
+			                
+			                
+								<div class="col-6 form-group">
 									<label for=""><b>Primary : </b></label>
 									<td>{{$bank_details->is_primary}}</td>
 								</div> 		
-			                </div>
+			                
 			                @can('download documents')
-			                <div class="col-4">
-								<div class=" form-group">
+			                
+								<div class="col-6 form-group">
 									<label for=""><b>Document : </b></label>
 									<td>@if(!empty($bank_details->file_path))
 									<a href="{{ route('employees.download', ['db_table'=>'emp_bank_details', $bank_details->id]) }}" ><i class="fa fa-arrow-down"></i>download</a>
@@ -64,19 +66,20 @@
 									</td>
 								</div>
 										
-			                </div>
+			                
 			                @endcan
-			                <div class="col-4">
+			                
 								
-								<div class=" form-group">
+								<div class="col-6 form-group">
 									<label for=""><b>Note : </b></label>
 									<td>{{$bank_details->note}}</td>
 								</div>			
-			                </div>
+			                
 			              </div>      
-			        		</div><br>
+			        		<br>
 			         
-              </div>@endforeach
+              @endforeach
+              </div>
           	</div>
         	</div>
       	</div>

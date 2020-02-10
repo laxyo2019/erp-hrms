@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class EmpNominee extends Model
 {
 	use SoftDeletes;
-    protected $table = 'emp_nominee';
+    protected $table = 'hrms_emp_nominee';
 
     public function employee(){
     	

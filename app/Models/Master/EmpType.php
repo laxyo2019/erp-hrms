@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class EmpType extends Model
 {
   use SoftDeletes;
-  protected $table = 'emp_type_mast'; 
+  protected $table = 'hrms_emp_type_mast'; 
 }

@@ -31,7 +31,7 @@
                 @can('download documents')
                 <td><a href="{{ route('employees.download', ['db_table'=>'emp_docs', 'id'=>$emp_documents->id]) }}" ><i class="fa fa-arrow-down"></i> Download</a></td>
                 @endcan
-                <td>{{ $emp_documents->doc_status }}</td>
+                <td>{{ $emp_documents->doc_status == 's' ? 'Submitted' : 'Provided' }}</td>
                 <td>{{ $emp_documents->remark }}</td>
               </tr>
               @endforeach

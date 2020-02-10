@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountMast extends Model
 {
-   protected $table = 'account_mast';
+   protected $table = 'hrms_account_mast';
 }

@@ -271,6 +271,7 @@ class EmployeesController extends Controller
     $document->remarks       = $request->remarks;
     $document->date         = date('Y-m-d', time());
     $document->save();
+    
     return redirect()->route('employee.show_page',['user_id'=>$user_id,'tab'=>'documents'])->with('success', 'Updated successfully.');
   }
 
@@ -565,30 +566,30 @@ public function viewDetails($user_id, $view)
 
   public function delete_row($db_table, $id){
 
-    if($db_table == 'emp_academics'){
+    if($db_table == 'hrms_emp_academics'){
       $academic = EmpAcademic::find($id);
       $academic->delete();
       Storage::delete($academic->file_path);
     }
 
-    if($db_table == 'emp_exp'){
+    if($db_table == 'hrms_emp_exp'){
       $experience = EmpExp::find($id);
       $experience->delete();
       Storage::delete($experience->file_path);
     }
-    if($db_table == 'emp_nominee'){
+    if($db_table == 'hrms_emp_nominee'){
 
 
       $nominee = EmpNominee::find($id);
       $nominee->delete();
       Storage::delete($nominee->file_path);
     }
-    if($db_table == 'emp_bank_details'){
+    if($db_table == 'hrms_emp_bank_details'){
       $bankdetails = EmpBankDetail::find($id);
       $bankdetails->delete();
       Storage::delete($bankdetails->file_path);
     }
-    if($db_table == 'emp_docs'){
+    if($db_table == 'hrms_emp_docs'){
 
       $documents = EmpDocument::find($id);
       $documents->delete();

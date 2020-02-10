@@ -9,7 +9,7 @@ class EmpDocument extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'emp_docs';
+    protected $table = 'hrms_emp_docs';
     protected $with = ['doctypemast'];
 
     public function doctypemast(){

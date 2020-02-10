@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class DocTypeMast extends Model
 {
     use SoftDeletes;
-    protected $table = 'doc_type_mast';
+    protected $table = 'hrms_doc_type_mast';
 
 }

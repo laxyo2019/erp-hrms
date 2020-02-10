@@ -5,58 +5,55 @@
 @section('content')
 <main class="app-content">
 @include ('HRD/employees/view-tabs')
-<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid grey;">
-<div class="row mt-2">
-  	<div class="col-md-12">
-    	<div class="tile">
-	        <div class="container-fluid">
-				<div id="form-area">
-				 	@php $count = 0; @endphp
-				 	@foreach($employee['nominee'] as $nominees)
-				 		<h4>Nominee - {{++$count}}</h4><hr>
-		              	<div class="row col-12">
-			                <div class="col-4">
-			                	<div class="form-group">
-									<label for=""><b>Nominee's Name : </b></label>
-									<td>{{$nominees->name}}</td>
-								</div>
-							 	<div class=" form-group">
-									<label for=""><b>Nominee's Email : </b></label>
-									<td>{{$nominees->email}}</td>
-								</div>
-								<div class=" form-group">
-									<label for=""><b>Nominee's Aadhaar No. : </b></label>
-									<td>{{$nominees->aadhar_no}}</td>
-								</div>
-		                    </div>
-		                 	<div class="col-4">
-			                	<div class="form-group">
-									<label for=""><b>Nominee's Contact : </b></label>
-									<td>{{$nominees->contact}}</td>
-								</div>
-								<div class=" form-group">
-									<label for=""><b>Nominee's Relation : </b></label>
-									<td>{{$nominees->relation}}</td>
-								</div>	
-		                    </div>
-		                    <div class="col-4">
-		                     	@can('download documents')
-				                	<div class="form-group">
-										<label for=""><b>Nominee's Documents : </b></label>
-										<td><a href="{{route('employees.download', ['db_table' => 'emp_nominee', $nominees->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
-									</div>
-								@endcan
-								<div class=" form-group">
-									<label for=""><b>Nominee's Address : </b></label>
-									<td>{{$nominees->addr}}</td>
-								</div>
-							</div>
-	                	</div>
-		  			@endforeach
-          		</div>
-        	</div>
-      	</div>
-    </main>
+<div style="margin-top: 1.5rem; padding: 1.5rem;"  class="tile">
+	<div class="row mt-2">
+  		<div class="col-md-12">
+        	<div class="container-fluid">
+			 	@php $count = 0; @endphp
+			 	@foreach($employee['nominee'] as $nominees)
+			 	<div class="row ">
+	                <span style="color: grey; font-size: 20px;  font-weight: bold"><i class="fa fa-globe"></i> Nominee - {{++$count}}
+	                </span>
+           		</div>
+		 		<hr>
+              	<div class="row col-12">
+                	<div class="col-6 form-group">
+						<label for=""><b>Nominee's Name : </b></label>
+						{{$nominees->name}}
+					</div>
+				 	<div class="col-6 form-group">
+						<label for=""><b>Nominee's Email : </b></label>
+						{{$nominees->email}}
+					</div>
+					<div class="col-6 form-group">
+						<label for=""><b>Nominee's Aadhaar No. : </b></label>
+						{{$nominees->aadhar_no}}
+					</div>		                 	
+                	<div class="col-6 form-group">
+						<label for=""><b>Nominee's Contact : </b></label>
+						{{$nominees->contact}}
+					</div>
+					<div class="col-6 form-group">
+						<label for=""><b>Nominee's Relation : </b></label>
+						{{$nominees->relation}}
+					</div>		                    
+                 	@can('download documents')
+	                	<div class="form-group">
+							<label for=""><b>Nominee's Documents : </b></label>
+							<a href="{{route('employees.download', ['db_table' => 'emp_nominee', $nominees->id])}}"><i class="fa fa-arrow-down" ></i> Download</a>
+						</div>
+					@endcan
+					<div class=" form-group">
+						<label for=""><b>Nominee's Address : </b></label>
+						{{$nominees->addr}}
+					</div>	                	
+				</div>
+	  			@endforeach
+	  		</div>
+	  	</div>
+	</div>
+</div>
+</main>
 <script>
 $(document).ready(function(){
 	$('.nominee').addClass('active');

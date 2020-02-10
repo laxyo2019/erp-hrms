@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DeptMast extends Model
 {
-  protected $table = 'dept_mast'; 
+  protected $table = 'hrms_dept_mast'; 
  	
  	public function employees(){
  		return $this->hasMany('App\Models\Employees\EmployeeMast', 'comp_id');

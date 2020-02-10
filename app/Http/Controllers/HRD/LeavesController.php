@@ -11,15 +11,12 @@ use App\Models\Master\LeaveMast;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Models\Master\LeaveTypeMast;
-use App\Models\Employees\LeaveApply;
-use App\Models\Master\ApprovalAction;
+use App\Models\Employees\LeaveApply;    
 use App\Models\Employees\EmployeeMast;
 use App\Models\Spatie\ModelPermission;
-use App\Models\Employees\ApprovalSetup;
 use App\Models\Employees\LeaveAllotment;
 use Spatie\Permission\Models\Permission;
 use App\Models\Employees\LeaveApprovalDetail;
-use App\Models\Master\ApprovalMast;
 
 
 class LeavesController extends Controller
@@ -30,30 +27,26 @@ class LeavesController extends Controller
 
     public function index(){
 
-
-        $actions = ApprovalAction::orderBy('id', 'asc')->get();
-
         $user = Auth::user();
         $role = $user->getRoleNames()->first();
         
         if($role == 'admin'){
 
-            $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvalaction', 'approvaldetail'])
+            $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
                 ->orderBy('id', 'DESC')
                 ->where('user_id', '<>', Auth::id())
-                ->where('subadmin_approval', 1)
+                ->whereIn('subadmin_approval', [1, 3])
                 ->get();
 
         }elseif($role == 'hr manager'){
 
-            $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvalaction', 'approvaldetail'])
+            $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
                 ->orderBy('id', 'DESC')
                 ->where('user_id', '<>', Auth::id())
                 ->get();
         }
-                            
 
-        return view('HRD.leaves.index', compact('leave_request', 'actions'));
+        return view('HRD.leaves.index', compact('leave_request'));
 	}
 
 	public function edit($id){
@@ -63,7 +56,7 @@ class LeavesController extends Controller
     public function approve_leave(Request $request, $request_id){
 
 
-        //return 1;
+        //return $request->text;
         //Update leave aaplication status and approver' id.
 
         $leaveApp  = LeaveApply::find($request_id);
@@ -154,17 +147,20 @@ class LeavesController extends Controller
 
         }else{
 
-            //return 6465;
 
             if(Auth::user()->hasrole('hr manager')){
 
                 LeaveApply::findOrFail($request_id)
-                        ->update(['subadmin_approval' => $request->action]);
+                        ->update([
+                            'subadmin_approval' => $request->action,
+                            'approver_remark'   => $request->text]);
 
             }elseif(Auth::user()->hasrole('admin')){
 
                 LeaveApply::findOrFail($request_id)
-                        ->update(['admin_approval' => $request->action]);
+                        ->update([
+                            'admin_approval' => $request->action,
+                            'approver_remark'=> $request->text]);
             }
 
             //Update leave balance if request declined.
@@ -237,8 +233,7 @@ class LeavesController extends Controller
 
     public function show(Request $request, $leave_id){
 
-        $data = LeaveApply::with(['approvalaction'])
-                    ->where('id', $leave_id)
+        $data = LeaveApply::where('id', $leave_id)
                     ->first();
         
         return view('HRD.leaves.show', compact('data'));
@@ -251,9 +246,6 @@ class LeavesController extends Controller
     }
 
     public function reverse($request_id){
-
-        //return $request_id;
-        //Find leave applicaiton with id
 
         $detail = LeaveApply::with(['approvaldetail', 'leavetype'])
             ->where('id', $request_id)

@@ -7,8 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Master\DeptMast;
 use App\Models\Employees\EmployeeMast;
 use App\Models\Master\ActivityMast;
-use App\Models\Master\ApprovalSetup;
-use App\Models\Master\ApprovalAction;
 use App\Models\Master\Designation;
 use Spatie\Permission\Models\Role ;
 use Spatie\Permission\Models\Permission;

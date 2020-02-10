@@ -4,7 +4,6 @@ namespace App\Http\Controllers\HRD;
 
 use App\Http\Controllers\Controller;
 use App\Models\EmployeeMast;
-use App\Models\Master\ApprovalAction;
 use Illuminate\Http\Request;
 use App\Models\Master\ActivityMast;
 use App\Models\Master\DeptMast;

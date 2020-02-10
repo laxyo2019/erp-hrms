@@ -9,5 +9,5 @@ class EmpBankDetail extends Model
 {
 	use Softdeletes;
 
-    protected $table = 'emp_bank_details';
+    protected $table = 'hrms_emp_bank_details';
 }

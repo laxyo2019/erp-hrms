@@ -3,7 +3,7 @@
 	<main class="app-content">
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
-				<h1 style="font-size: 24px">Leaves Request 
+				<h1 style="font-size: 24px">LEAVE REQUESTS
 				<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
 			</div>
 		</div>
@@ -82,111 +82,111 @@
 									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
 									<td>
 	
-			@if($request->admin_approval == 1 && auth()->user()->hasrole('hr manager'))
-				<strong style="color: green;">APPROVED</strong>
-
-			@elseif($request->admin_approval == 2 && auth()->user()->hasrole('hr manager'))
-				<strong style="color: #ff4545;">DECLINED</strong>
-
-			@elseif($request->admin_approval == 3 && auth()->user()->hasrole('hr manager'))
-				<strong style="color: #5858ff;">REVERSED</strong>
-
-			@elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('admin'))
-				<strong style="color: green;">APPROVED</strong>
-
-			@elseif($request->admin_approval == 0 && auth()->user()->hasrole('hr manager'))
+			@if($request->admin_approval == 0 && auth()->user()->hasrole('hr manager'))
 				<strong style="color: grey;">PENDING</strong>
 
+			@elseif($request->admin_approval == 1 && auth()->user()->hasrole('hr manager'))
+				<strong class="apprv_msg">APPROVED</strong>
+
+			@elseif($request->admin_approval == 2 && auth()->user()->hasrole('hr manager'))
+				<strong class="dec_msg">DECLINED</strong>
+
+			@elseif($request->admin_approval == 3 && auth()->user()->hasrole('hr manager'))
+				<strong class="rev_msg">REVERSED</strong>
+
+			@elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('admin'))
+				<strong class="apprv_msg">APPROVED</strong>
+
+			@elseif($request->subadmin_approval == 3 && $request->admin_approval == 1 && auth()->user()->hasrole('admin'))
+				<strong class="rev_msg">REVERSED</strong>
 			@endif
 
 		</td>
 		
 <td class='d-flex' style="border-bottom:none">
 
+	{{-- SUB-ADMIN --}}
+
 {{-- 	Approve/Decline button for SubAdmin 	--}}
 
 @if($request->subadmin_approval == 0 && auth()->user()->hasrole('hr manager'))
-	<strong class="msg_approve" hidden="" style="color: green;">APPROVED</strong>
-	<strong class="msg_decline" hidden="" style="color: #ff4545;">DECLINED</strong>
 
-	<button type="button" id="approve" data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1">APPROVE</button>
+	<strong class="apprv_msg" hidden="" >APPROVED</strong>
+	<strong class="dec_msg" hidden="" >DECLINED</strong>
 
-	<button type="button" id="decline" data-id="{{$request->id}}" class="btn btn-danger btn-sm ml-2 action" value="2">DECLINE</button>
+	<button type="button"  data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1">APPROVE</button>
+
+	<button type="button" data-id="{{$request->id}}" class="btn btn-danger btn-sm ml-2 action decline" value="2">DECLINE</button>
 
 {{-- Reverse Leave button for SubAdmin --}}
 
 @elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hr manager'))
 	
 	<div class="msg_reverse" hidden="">REVERSED</div>
-	<button type="button" id="reverse"  class="btn btn-success btn-sm reverse" value="{{$request->id}}">REVERSE</button>
+
+	<button type="button" class="btn btn-sm reverse" value="{{$request->id}}">REVERSE</button>
 
 {{-- Approve/Decline/Reverse message for SubAdmin --}}
 
 @elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('hr manager'))
 	
-	<strong style="color: green;">APPROVED</strong>
+	<strong class="apprv_msg">APPROVED</strong>
 
 @elseif($request->subadmin_approval == 2 && auth()->user()->hasrole('hr manager'))
 	
-	<strong style="color: #ff4545;">DECLINED</strong>
+	<strong class="dec_msg">DECLINED</strong>
 
 {{-- When subadmin appproved and admin reversed the request --}}
 @elseif($request->subadmin_approval == 1 && $request->admin_approval == 3 && auth()->user()->hasrole('hr manager'))
 	
-	<strong style="color: green;">APPROVE</strong>
+	<strong class="apprv_msg">APPROVE</strong>
 
-{{-- Reverse button for SubAdmin --}}
+@elseif($request->subadmin_approval == 3 && $request->admin_approval == 1 && auth()->user()->hasrole('hr manager'))
+	<strong class="rev_msg">REVERSED</strong>
 
-@elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hr manager'))
-	
-	<div class="msg_reverse" hidden="">REVERSED</div>
-	<button type="button" id="reverse"  class="btn btn-success btn-sm reverse" value="{{$request->id}}">REVERSE</button>
+	{{-- ADMIN --}}
 
 {{-- 		Approve/Decline button for ADMIN 		--}}
 
 @elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('admin') && $request->admin_approval == 0 )
+	<strong class="apprv_msg" hidden="">APPROVED</strong>
+	<strong class="dec_msg" hidden="">DECLINED</strong>
 
-	<button type="button" id="reverse_{{$request->id}}" onclick="dodo({{$request->id}})"  class="btn btn-success btn-sm reverse" value="{{$request->id}}">REVERSE</button>
-	{{-- <strong class="msg_approve" style="color: green;" hidden="">APPROVED</strong> --}}
-	<strong class="msg_decline" style="color: #ff4545;" hidden="">DECLINED</strong>
+	<button type="button" data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1" >APPROVE</button>
 
-	<button type="button" id="approve" data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1" >APPROVE</button>
-
-	<button type="button" id="decline" class="btn btn-danger btn-sm ml-2 action" value="2" data-id="{{$request->id}}">DECLINE</button>
+	<button type="button" class="btn btn-danger btn-sm ml-2 action decline" value="" data-id="{{$request->id}}">DECLINE</button>
 
 {{-- Reverse button for ADMIN --}}
 
 @elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('admin'))
 	
-	<div class="msg_reverse" hidden="" style="color: #5858ff;">REVERSED</div>
-	<button type="button" id="reverse"  class="btn btn-success btn-sm reverse" value="{{$request->id}}">REVERSE</button>
+	<div class="msg_reverse" hidden="" >REVERSED</div>
 
+	<button type="button" class="btn btn-sm reverse" value="{{$request->id}}">REVERSE</button>
 
 {{-- Approve/Decline message for Admin --}}
 
+@elseif($request->subadmin_approval == 3 && $request->admin_approval == 1 && auth()->user()->hasrole('admin') )
+	<strong class="apprv_msg">APPROVED</strong>
+
 @elseif($request->subadmin_approval == 1 && $request->admin_approval == 2 && auth()->user()->hasrole('admin') )
 	
-	<strong style="color: #ff4545;">DECLINED</strong>
+	<strong class="dec_msg">DECLINED</strong>
 
 {{-- Reverse Leave message for Admin --}}
 
 @elseif($request->subadmin_approval == 1 && $request->admin_approval == 3 && auth()->user()->hasrole('admin'))
 	
-	<strong style="color: #5858ff;">REVERSED</strong>
-
+	<strong class="rev_msg">REVERSED</strong>
 @endif
 
 {{--
 	<div class="col-sm-12">
 	<strong>{{ ucwords($request['approvalaction']->name) }} </strong> <br>by <u>{{ucwords($request['approve_name']->emp_name)}}</u>	
-	</div> 
---}}
-
-
-	
+	</div>
+--}}	
 								</tr>
 							 @endforeach
-			
 							</tbody>
 						</table>
 					</div>
@@ -213,44 +213,58 @@ $(document).ready(function(){
 		})
 	});
 
-	//Store remark while declineing requests.
+	//Store remark while declining requests.
 
-	$('.actions').on('click',function(){
+	/*$('.decline').on('click',function(){
 		var btn = $(this).attr('id');
-
+			alert(btn);
 		if(btn == 1){
 
 			var txt = prompt('Please enter reason.');
 
 			if(txt != null){
-				$('#reason').attr('value', txt);
+				$('.reason').attr('value', txt);
 			}else{
 				return false;
 			}
 		}
-	});
+	});*/
 
 	// Approve/Decline requests.
 
 	$('.action').on('click', function(){
-		
+
 		var action 		= $(this).val();
 		var request_id 	= $(this).data('id');
+
+		if(action == 2){
+
+			var txt = prompt('Please enter reason.');
+
+			if(txt != null){
+
+				$('.decline').attr('value', txt);
+
+			}else{
+				return false;
+			}
+		}
+
 		//alert([action, request_id]);
 		$.ajax({
 			type: 'POST',
 			url: "/approve_leave/"+request_id,
 			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-			data: {'action':action},
+			data: {'action':action, 'text':txt},
 			success:function(res){
 
-				$('#approve, #decline').attr('hidden', true);
+				$('.action').attr('hidden', true);
 				if(res.action == 1){
 
-					$('.msg_approve').attr('hidden', false);
+					$('.apprv_msg').attr('hidden', false);
 				}else{
 					
-					$('.msg_decline').attr('hidden', false);
+					$('.dec_msg').attr('hidden', false);
 				}
 			}
 		})
@@ -258,23 +272,22 @@ $(document).ready(function(){
 
 	//Reverse leaves
 	
-	//$('.reverse').on('click', function(){
-	function dodo(id)	{
-		//var request_id 	= $(this).val();
-		alert('ohig')
+	$('.reverse').on('click', function(){
+	//function dodo(id){
+		var request_id 	= $(this).val();
 		$.ajax({
 			type: 'POST',
-			url: '/leave-request/reverse/'+id,
+			url: '/leave-request/reverse/'+request_id,
 			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			//data: {action:'action'},
 			success:function(res){
 
-				$('#reverse').attr('hidden', true);
+				$('.reverse').attr('hidden', true);
 				$('.msg_reverse').attr('hidden', false);
 
 			}
 		});
-	}
+	});
 
 	$(".approved1").click(function(){
 	    if (!confirm("Do you want to approve")){
@@ -288,7 +301,7 @@ $(document).ready(function(){
 <style type="text/css">
 	.approve
 	{
-		background: #0cac0c;;
+		background: #0cac0c;
 		color: white;
 	}
 	.decline
@@ -296,11 +309,21 @@ $(document).ready(function(){
 		background: #ff1414;
 		color: white;
 	}
-	#reverse
+	.reverse
 	{
 		background: #3375ca;
 		color: white;
 	}
+	.apprv_msg{
+		color: #0cac0c;
+	}
+	.dec_msg{
+		color: #ff1414;
+	}
+	.rev_msg{
+		color: #3375ca;
+	}
+
 </style>
 
 @endsection

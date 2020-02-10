@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class EmpExp extends Model
 {
  use SoftDeletes;
- protected $table = 'emp_exp';  
+ protected $table = 'hrms_emp_exp';  
 
  public function employee(){
  	 	return $this->belongsTo('App\Models\Employees\EmployeeMast');

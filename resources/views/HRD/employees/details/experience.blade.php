@@ -5,7 +5,7 @@
 @section('content')
 <main class="app-content">
 	@include ('HRD/employees/tabs')
-	<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid grey;">
+	<div style="margin-top: 1.5rem; padding: 1.5rem; " class="tile">
 		@if($message = Session::get('success'))
 		<div class="alert alert-success alert-block">
 		<button type="button" class="close" data-dismiss="alert">×</button>
@@ -161,7 +161,7 @@
 								        	<div class="modal-header">
 								        		<h4 class="modal-title">Experience</h4>
 								        	</div>
-								        	<div class="modal-body table-responsive" id="modalTable">
+								        	<div class="modal-body table-responsive" id="modalTable" style="background: #f4f2f2">
 								        	</div>
 								        	 <div class="modal-footer">
 								          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -169,7 +169,7 @@
 								        </div>
 								    </div>
 								</div>
-															</span>
+							</span>
 							<span>
 								<form action="{{route('employee.delete_row', ['db_table' => 'emp_exp', $exp->id])}}" method="GET" id="delform_{{$exp->id}}">
 									<a href="javascript:$('#delform_{{$exp->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white" style="font-size: 12px;"></i></a>

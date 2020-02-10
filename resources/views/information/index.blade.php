@@ -3,7 +3,7 @@
 <main class="app-content">
     <div class="app-title">
         <div class="row">
-          <h1>User Information - &nbsp<h4> {{ucwords($info->emp_name)}}</h4></h1>
+          <h4>User Information - &nbsp{{ucwords($info->emp_name)}}</h4>
         </div>
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>

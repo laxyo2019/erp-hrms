@@ -5,66 +5,69 @@
 @section('content')
 <main class="app-content">
 @include ('HRD/employees/view-tabs')
-<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid grey;">
-<div class="row mt-2">
+<div style="margin-top: 1.5rem; padding: 1.5rem; " class="tile">
+<div class="row mt-2 ">
   	<div class="col-md-12">
-    	<div class="tile">
     		<div class="container-fluid">
-				<div id="form-area">
 					@if(!empty($employee->experiences))
-						@php $count = 1;@endphp
+						@php $count = 0;@endphp
 						@foreach($employee->experiences as $exp)
-						<h4>Company - {{$count++}}</h4><hr>
-						<div class="row">	
+
+						<div class="row mb-2">
+			                <span style="color: grey; font-size: 20px; font-weight: bold"><i class="fa fa-globe"></i> Company - {{++$count}}</span>
+		           		</div><hr>
+						<div class="row col-12">
 		                	<div class="col-6 form-group">
 								<b>Company Name : </b>
-								<td>{{$exp->comp_name}}</td>
+								{{ucwords($exp->comp_name)}}
 							</div>
 							<div class="col-6 form-group">
 								<b>Job Type : </b>
-								<td>{{$exp->job_type}}</td>
+								{{ucwords($exp->job_type)}}
 							</div>
 							<div class="col-6 form-group">
 								<b>Monthly CTC : </b>
-								<td>{{$exp->monthly_ctc}}</td>
+								{{$exp->monthly_ctc}}
 							</div> 
 							<div class="col-6 form-group">
 								<b>Designation : </b>
-								<td>{{$exp->desg}}</td>
+								{{ucwords($exp->desg)}}
 							</div>
 							<div class="col-6 form-group">
 								<b>Company Location : </b>
-								<td>{{$exp->comp_loc}}</td>
+								{{ucwords($exp->comp_loc)}}
 							</div>
 							<div class="col-6 form-group">
 								<b>Company Email : </b>
-								<td>{{$exp->comp_email}}</td>
+								{{$exp->comp_email}}
 							</div>
 							<div class="col-6 form-group">
 								<b>Company Website : </b>
-								<td>{{$exp->comp_website}}</td>
+								{{$exp->comp_website}}
 							</div>
 							<div class="col-6 form-group">
-								<b>Documents : </b>
-								<td>{{$exp->comp_website}}</td>
-							</div>	
+								<b>Experience Certificate : </b>
+								@if($exp->file_path != null)
+									<a href="{{route('employees.download', ['db_table' => 'emp_exp', $exp->id])}}"><i class="fa fa-arrow-down"></i>Download</a>
+								@else
+									Not Available
+								@endif
+						</div>	
 							<div class="col-6 form-group">
 								<b>Start Date : </b>
-								<td>{{$exp->start_dt}}</td>
+								{{$exp->start_dt}}
 							</div>
 							<div class="col-6 form-group">
 								<b>End Date : </b>
-								<td>{{$exp->end_dt}}</td>
+								{{$exp->end_dt}}
 							</div>
 							<div class="col-6 form-group">
 								<b>Reason of Leaving : </b>
-								<td>{{$exp->domain_of_study}}</td>
+								{{$exp->domain_of_study}}
 							</div>
 						</div>
 	        			@endforeach
-					@endif
-				</div>
-			</div>
+					@endif			
 		</div>
    	</div>
 </main>

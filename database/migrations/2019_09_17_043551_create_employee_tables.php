@@ -13,7 +13,7 @@ class CreateEmployeeTables extends Migration
      */
     public function up()
     {
-        Schema::create('emp_mast', function (Blueprint $table) {
+        Schema::create('hrms_emp_mast', function (Blueprint $table) {
           
           //single row
           $table->increments('id');
@@ -22,6 +22,7 @@ class CreateEmployeeTables extends Migration
           $table->integer('status')->default(0);
           $table->unsignedInteger('reports_to')->nullable();
           $table->string('emp_code', 15)->nullable();
+          $table->integer('active')->default(1);
           $table->unsignedInteger('comp_id')->nullable();
           $table->unsignedInteger('dept_id')->nullable();
           $table->unsignedInteger('desg_id')->nullable();
@@ -51,13 +52,12 @@ class CreateEmployeeTables extends Migration
           $table->string('curr_esi', 20)->nullable();
           $table->date('join_dt')->nullable();
           $table->date('leave_dt')->nullable();
-          $table->integer('active')->default(1);
           $table->integer('leave_allotted')->nullable();
           $table->timestamps();
           $table->softDeletes();			
         });
 
-        Schema::create('emp_nominee', function (Blueprint $table) { //multiple rows
+        Schema::create('hrms_emp_nominee', function (Blueprint $table) { //multiple rows
           $table->increments('id');
           $table->unsignedInteger('user_id');
           $table->string('name', 100);
@@ -72,18 +72,7 @@ class CreateEmployeeTables extends Migration
           $table->softDeletes();
         });
 
-        Schema::create('emp_events', function (Blueprint $table) { //mul rows
-          $table->increments('id');
-          $table->unsignedInteger('user_id');
-          $table->unsignedInteger('event');
-          $table->date('date');
-          $table->string('file_path',200)->nullable();
-          $table->text('note')->nullable();
-          $table->timestamps();
-          $table->softDeletes();
-        });
-
-        Schema::create('emp_bank_details', function (Blueprint $table) { //mul rows
+        Schema::create('hrms_emp_bank_details', function (Blueprint $table) { //mul rows
           $table->increments('id');
           $table->unsignedInteger('emp_id');
           $table->string('acc_holder', 50)->nullable();
@@ -98,7 +87,7 @@ class CreateEmployeeTables extends Migration
           $table->softDeletes();
         });
 
-        Schema::create('emp_academics', function (Blueprint $table) { //mul rows
+        Schema::create('hrms_emp_academics', function (Blueprint $table) { //mul rows
           $table->increments('id');
           $table->unsignedInteger('user_id');
           $table->string('domain_of_study',90)->nullable();
@@ -111,21 +100,7 @@ class CreateEmployeeTables extends Migration
           $table->softDeletes();
         });
 
-
-        Schema::create('emp_assets', function (Blueprint $table) {
-          $table->increments('id');
-          $table->unsignedInteger('emp_id');
-          $table->date('assign_date');
-          $table->date('return_date')->nullable();
-          $table->string('assign_note', 200);
-          $table->string('return_note', 200)->nullable();
-          $table->decimal('estimated_cost', 8, 2);
-          $table->string('file_path',200)->nullable();
-          $table->timestamps();
-          $table->softDeletes();
-        });
-
-        Schema::create('emp_exp', function (Blueprint $table) {
+        Schema::create('hrms_emp_exp', function (Blueprint $table) {
           $table->increments('id');
           $table->unsignedInteger('user_id');
           $table->string('comp_name', 100);
@@ -143,7 +118,7 @@ class CreateEmployeeTables extends Migration
           $table->softDeletes();
         });
 
-        Schema::create('emp_docs', function (Blueprint $table) {
+        Schema::create('hrms_emp_docs', function (Blueprint $table) {
           $table->increments('id');
           $table->unsignedInteger('user_id');
           $table->unsignedInteger('doc_type_id');
@@ -155,18 +130,6 @@ class CreateEmployeeTables extends Migration
           $table->softDeletes();
         });
 
-
-        /*Schema::create('emp_family', function (Blueprint $table) {
-          $table->increments('id');
-          $table->unsignedInteger('emp_id');
-          $table->string('relation',50);
-          $table->string('name',10);
-          $table->string('occ',50);
-          $table->string('contact',15);
-          $table->timestamps();
-          $table->softDeletes();
-        });*/
-
     }
 
     /**
@@ -176,15 +139,11 @@ class CreateEmployeeTables extends Migration
      */
     public function down()
     {
-      Schema::dropIfExists('emp_mast');
-      Schema::dropIfExists('emp_nominee');
-      Schema::dropIfExists('emp_events');
-      Schema::dropIfExists('emp_bank_details');
-      Schema::dropIfExists('emp_academics');
-      Schema::dropIfExists('emp_assets');
-      Schema::dropIfExists('emp_exp');
-      Schema::dropIfExists('emp_docs');
-
-      //Schema::dropIfExists('emp_family');
+      Schema::dropIfExists('hrms_emp_mast');
+      Schema::dropIfExists('hrms_emp_nominee');
+      Schema::dropIfExists('hrms_emp_bank_details');
+      Schema::dropIfExists('hrms_emp_academics');
+      Schema::dropIfExists('hrms_emp_exp');
+      Schema::dropIfExists('hrms_emp_docs');
     }
 }

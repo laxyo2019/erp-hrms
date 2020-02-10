@@ -30,15 +30,13 @@
 		</div>
 	</div>
 	<div class="col-6" >
-		<h4>Status</h4>
-		<div>{{!empty($leave_req['approvalaction']->name) ? ucwords($leave_req['approvalaction']->name) : 'Pending' }}</div>
-	</div>
-</div>
-<div class="row card-body text-center">
-	<div class="col-6" >
 		<h4>Reason</h4>
 		<div>{{!empty($leave_req->reason) ? $leave_req->reason : 'Not Mentioned'}}</div>
 	</div>
+	
+</div>
+<div class="row card-body text-center">
+	
 	<div class="col-6" >
 		<h4>Document</h4>
 		<div>@if($leave_req->file_path != null)
@@ -48,24 +46,41 @@
 			@endif
 		</div>
 	</div>
-</div>
-<div class="row card-body text-center">
 	<div class="col-6" >
 		<h4>Contact No</h4>
 		<div>{{!empty($leave_req->contact_no) ? $leave_req->contact_no : 'Not Mentioned'}}</div>
 	</div>
-	<div class="col-6" >
-		<h4>Address</h4>
-		<div>{{!empty($leave_req->address) ? $leave_req->address : 'Not Mentioned'}}</div>
-	</div>
 </div>
 <div class="row card-body text-center">
 	<div class="col-6" >
-		<h4>Applicant's Remark</h4>
-		<div>{{!empty($leave_req->applicant_remark) ? $leave_req->applicant_remark : 'Not Mentioned'}}</div>
+		<h4>Address</h4>
+		<div>{{!empty($leave_req->address) ? $leave_req->address : 'Not Mentioned'}}</div>
 	</div>
 	<div class="col-6" >
 		<h4>Leave Reversed</h4>
 		<div>{{!empty($leave_req->carry) ? 'Yes' : ''}}</div>
 	</div>
+	
 </div>
+
+{{-- <hr>
+
+<div class="row card-body text-center">
+	
+	<div class="col-6" >
+		<h4>Leave Reversed</h4>
+		<div>{{!empty($leave_req->carry) ? 'Yes' : ''}}</div>
+	</div>
+	<div class="col-6" >
+		<h4>Status</h4>
+		<div>{{!empty($leave_req['approvalaction']->name) ? ucwords($leave_req['approvalaction']->name) : 'Pending' }} Pending</div>
+	</div>
+	
+</div>
+<div class="row card-body text-center">
+
+<div class="col-6" >
+		<h4>Applicant's Remark</h4>
+		<div>{{!empty($leave_req->applicant_remark) ? $leave_req->applicant_remark : 'Not Mentioned'}}</div>
+	</div>
+</div> --}}

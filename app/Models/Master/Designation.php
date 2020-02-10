@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Designation extends Model
 {
   use SoftDeletes;
-  protected $table = 'desg_mast';  	
+  protected $table = 'hrms_desg_mast';  	
   protected $fillable = ['title'];
 
   public function employees(){
@@ -23,9 +23,7 @@ class Designation extends Model
  		return $this->hasOne('App\Models\Master\ApprovalMast', 'id');
  	}
 
- 	public function approvals(){
- 		return $this->belongsToMany('App\Models\Master\ApprovalAction', 'approval_designation');
- 	}
+ 	
 
 
 }

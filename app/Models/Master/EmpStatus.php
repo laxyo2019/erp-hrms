@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class EmpStatus extends Model
 {
   use SoftDeletes;
-  protected $table = 'emp_status_mast';  
+  protected $table = 'hrms_emp_status_mast';  
 
   public function employees(){
  		return $this->hasMany('App\Models\Employees\EmployeeMast', 'emp_status');

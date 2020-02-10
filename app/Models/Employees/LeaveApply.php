@@ -9,7 +9,7 @@ class LeaveApply extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'emp_leave_applies';
+    protected $table = 'hrms_emp_leave_applies';
     //protected $with =	['approve_name', 'leavetype', 'employee']; //It will be called everytime when LeaveApply model is used.
     protected $fillable = ['user_id', 'reports_to', 'leave_type_id', 'day_status', 'from', 'to', 'count', 'reason', 'file_path', 'addr_during_leave', 'contact_no', 'subadmin_approval', 'admin_approval', 'applicant_remark', 'approver_remark', 'hr_remark', 'carry', 'paid_count', 'unpaid_count'];
 
@@ -20,10 +20,6 @@ class LeaveApply extends Model
 
     public function leavetype(){
         return $this->belongsTo('App\Models\Master\LeaveMast', 'leave_type_id');
-    }
-
-    public function approvalaction(){
-        return $this->belongsTo('App\Models\Master\ApprovalAction', 'status');
     }
     
     public function approve_name(){

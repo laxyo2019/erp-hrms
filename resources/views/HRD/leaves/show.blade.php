@@ -40,7 +40,7 @@
 <div class="row card-body text-center">
 	<div class="col-6" >
 		<h4>Status</h4>
-		<div>{{!empty($data['approvalaction']->name) ? ucwords($data['approvalaction']->name) : 'Pending'}}</div>
+		<div>{{-- {{!empty($data['approvalaction']->name) ? ucwords($data['approvalaction']->name) : 'Pending'}} --}}  </div>
 	</div>
 	<div class="col-6" >
 		<h4>Reason</h4>
@@ -48,7 +48,7 @@
 	</div>
 </div>
 <div class="row card-body text-center">
-	<div class="col-6" >
+	<div class="col-6">
 		<h4>Document</h4>
 		@if($data->file_path != null)
 			<td><a href="{{route('request.document', [$data->id])}}"><i class="fa fa-arrow-down"></i>Download</a></td>
