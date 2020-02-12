@@ -37,6 +37,7 @@ class HomeController extends Controller
         $leave['allotment']  = $user->leave_allotted;
         $leave['reallotment']= $user['allotments'];
         Session::put('leave', $leave);
+        // return session('leave');
 
         return view('home');
     }

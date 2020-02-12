@@ -18,7 +18,6 @@ use App\Models\Employees\LeaveAllotment;
 use Spatie\Permission\Models\Permission;
 use App\Models\Employees\LeaveApprovalDetail;
 
-
 class LeavesController extends Controller
 {
     public function __construct(){
@@ -27,10 +26,9 @@ class LeavesController extends Controller
 
     public function index(){
 
-        $user = Auth::user();
-        $role = $user->getRoleNames()->first();
+        $user = User::find(Auth::user()->id);       
         
-        if($role == 'admin'){
+        if($user->hasRole('hrms_admin')){
 
             $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
                 ->orderBy('id', 'DESC')
@@ -38,7 +36,7 @@ class LeavesController extends Controller
                 ->whereIn('subadmin_approval', [1, 3])
                 ->get();
 
-        }elseif($role == 'hr manager'){
+        }elseif($user->hasRole('hrms_hr')){
 
             $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
                 ->orderBy('id', 'DESC')
@@ -200,7 +198,6 @@ class LeavesController extends Controller
     }
 
     public function store(Request $request){
-      return 6;
         //Update Leave application status
 
         $leave  = LeaveApply::findOrFail($request->leave_request_id);

@@ -18,7 +18,7 @@ class CreateLeavesTable extends Migration
     		$table->string('name');
     		$table->decimal('total',8,2)->default('0.0');
         $table->decimal('generate_days',8,2)->default('0.0');
-    		$table->integer('generates_after', 8,2)->nullable();  // (days count)
+    		$table->integer('generates_after')->nullable();  // (days count)
         $table->integer('carry')->nullable();
 				$table->decimal('max_apply_once',8,2)->nullable();
 				$table->decimal('min_apply_once',8,2)->nullable();

@@ -10,7 +10,9 @@
 |
 */
 Route::get('/', 'HomeController@index')->name('home');
-Auth::routes(['register' => false]);
+Route::get('login/{username}', 'LoginController@login');
+Route::post('/logout', 'LoginController@logout')->name('logout');
+// Auth::routes(['register' => false]);
 
 //Route::resource('/hrd/approvals','HRD\ApprovalsController');
 
@@ -19,7 +21,7 @@ Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
 
 
-Route::group(['middleware' => ['role:admin|hr manager']], function() {
+Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 
 	Route::resource('/hrd/leaves', 'HRD\LeavesController');
 	Route::resource('/leave-management/types', 'Leave\LeaveTypeController');

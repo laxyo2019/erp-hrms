@@ -7,10 +7,9 @@ use Auth;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Role;
 use Models\Spatie\ModelRole;
-use Spatie\Permission\Models\Permission;
-use Models\Spatie\ModelPermission;
+use App\Permission;
+use App\Role;
 use App\Models\Employees\EmployeeMast;
 
 class UserController extends Controller
@@ -49,9 +48,9 @@ class UserController extends Controller
 
         //Get all direct permissions
         $permissions_given = [];
-        foreach($user->getDirectPermissions() as $data){
-            $permissions_given[] = $data->id;
-        }
+        // foreach($user->getDirectPermissions() as $data){
+        //     $permissions_given[] = $data->id;
+        // }
 
 
     	return view('acl.users.edit', compact('user', 'roles', 'roles_given', 'permissions', 'permissions_given', 'employee'));
@@ -136,21 +135,20 @@ class UserController extends Controller
 
     public function assign(Request $request){
 
-    $user = User::find( $request->id);
-
+    $emp = EmployeeMast::where('user_id',$request->id)->first();
+    $user = User::find($request->id); 
     /**Add user as an employee if not exists**/
-        if(empty($user->emp_id)){
+        if(empty($emp)){
             $employee = EmployeeMast::create([
                         'emp_name' => $user->name,
-                        'email'    => $user->email ]);
-
-    /*After creating employee take id and update users's emp_id*/
-            $user->emp_id = $employee->id;
-            $user->save();
-
+                        'email'    => $user->email,
+                        'user_id'   => $user->id
+                    ]);
+            return response()->json('User added as an employee',200);
         }
-
-        return 'User added as an employee';
+        else{
+         return response()->json('User already an employee',201);   
+        }
     }
 
 

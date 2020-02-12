@@ -13,7 +13,7 @@
     <li><a class="app-menu__item" href="{{route('information.index')}}"><i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Profile</span></a></li>
     {{-- <a class="app-menu__item" href="{{route('information.index')}}"><i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Basic Information</span></a> --}}
 
-    @unlessrole('employee|team lead')
+
 
 {{-- <li class="treeview 
     {{call_user_func_array('Request::is', (array)['incomes*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-money"></i><span class="app-menu__label">Incomes</span><i class="treeview-indicator fa fa-angle-right"></i></a>
@@ -36,20 +36,18 @@
       </ul>
     </li> 
 --}}
-    @endrole
 
     {{-- Hr Module to handle employees --}}
-    @unlessrole('employee')
+    @role('hrms_admin|hrms_hr')
       <li class="treeview {{call_user_func_array('Request::is', (array)['hrd*','leave*','types*','allotments*','holidays*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">HRD</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
-        @unlessrole('team lead')
+        
         <li class={{call_user_func_array('Request::is', (array)['hrd/employees*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('employees.index')}}"><i class="icon fa fa-angle-double-right"></i>Employees</a></li>
-        @endrole
+        
           {{-- <li class={{call_user_func_array('Request::is', (array)['hrd/approvals*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('approvals.index')}}"><i class="icon fa fa-angle-double-right"></i>Approvals</a></li> --}}
           
          <li class={{call_user_func_array('Request::is', (array)['hrd/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('leaves.index')}}"><i class="icon fa fa-angle-double-right"></i>Leaves Request</a></li>
-          
-          @unlessrole('team lead')
+        
  
          {{--  <li  id="nav" class="treeview{{call_user_func_array('Request::is', (array)['hrd*','leave*','types*','allotments*','holidays*']) ? 'is-expanded' : 'active_subtab'}}"><a class="treeview-item" href="#"><i class="icon fa fa-angle-double-right"></i>Leaves Management</a>
         </li>
@@ -62,10 +60,10 @@
             </li>
         </ul> 
 --}}
-        @endrole
+      
           {{-- <li class={{call_user_func_array('Request::is', (array)['hrd/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('rules.index')}}"><i class="icon fa fa-angle-double-right"></i>Leaves Rules</a></li> --}}
       </ul>
-    @endhasrole
+    @endrole
     {{-- Employees tab --}}
 
     @if(session('leave')['allotment'] && session('leave')['reallotment'][0]->status == 1)
@@ -78,7 +76,7 @@
 
     <li><a class="app-menu__item" href="{{url('employee/leaves')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Apply Leave</span></a></li>
     @endif
-    @unlessrole('employee|team lead')
+    @role('hrms_admin|hrms_manager')
     {{-- end of module --}}
 
 {{-- 
@@ -106,7 +104,7 @@
 
 
       <li><a class="app-menu__item" href="{{route('mast_entity.home')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Settings</span></a></li>
-
+  @endrole
 {{--       
       <li class="treeview {{call_user_func_array('Request::is', (array)['settings*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-cog "></i><span class="app-menu__label">Settings</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
@@ -130,19 +128,16 @@
 
     {{-- User's role & permissions --}}
     
-    {{-- @role('admin') --}}
     <li class="treeview {{call_user_func_array('Request::is', (array)['acl*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-shopping-cart "></i><span class="app-menu__label">ACL</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
         <li class={{call_user_func_array('Request::is', (array)['acl/permissions*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('permissions.index')}}"><i class="icon fa fa-angle-double-right"></i>Permissions</a></li>
         <li class={{call_user_func_array('Request::is', (array)['acl/roles*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('roles.index')}}"><i class="icon fa fa-angle-double-right"></i>Roles</a></li>
          <li class={{call_user_func_array('Request::is', (array)['acl/users*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('users.index')}}"><i class="icon fa fa-angle-double-right"></i>Users</a></li>
 
-        {{-- <li><a class="treeview-item" href="{{route('vendors.index')}}"><i class="icon fa fa-angle-double-right"></i> Vendors</a></li>
+       {{--  <li><a class="treeview-item" href="{{route('vendors.index')}}"><i class="icon fa fa-angle-double-right"></i> Vendors</a></li>
           <li class="{{call_user_func_array('Request::is', (array)['expenses/tours*']) ? 'active_subtab' : ''}}"><a class="treeview-item" href="{{route('tours.index')}}"><i class="icon fa fa-angle-double-right"></i> Tours</a></li> --}}
-      </ul>
-    </li>
-      {{-- @endrole --}}
-    @endrole
+      {{-- </ul> --}}
+    {{-- </li> --}} 
   </ul>
 </aside>
 <script>

@@ -20,7 +20,7 @@ class AllotmentController extends Controller
 
 		$allotments = EmployeeMast::with(['allotments'=>function($query){
 						$query->with('leaves');
-						}])->where('hrms_emp_mast.leave_allotted', '=', 1)
+						}])->where('emp_mast.leave_allotted', '=', 1)
 						->whereNull('deleted_at')
 						->get();
 

@@ -175,7 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Spatie\Permission\PermissionServiceProvider::class,
+        Laratrust\LaratrustServiceProvider::class,
 
     ],
 
@@ -229,6 +229,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form'=> Collective\Html\FormFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Laratrust'   => Laratrust\LaratrustFacade::class,
 
     ],
 
