@@ -52,7 +52,7 @@ class LeavesController extends Controller
 	}
 
     public function approve_leave(Request $request, $request_id){
-
+    	$data = User::find(Auth::user()->id);
 
         //return $request->text;
         //Update leave aaplication status and approver' id.
@@ -108,12 +108,8 @@ class LeavesController extends Controller
             //     }
             // }
         //  
-            if(Auth::user()->hasrole('hr manager')){
-
-                /**/
-
-                LeaveApply::findOrFail($request_id)
-                    ->update(['subadmin_approval' => $request->action]);
+            if($data->hasrole('hrms_hr')){
+                LeaveApply::where('id',$request_id)->update(['subadmin_approval' => $request->action]);
 
                 //Update record when application approve
 
@@ -121,14 +117,13 @@ class LeavesController extends Controller
                 $approval_history->leave_apply_id = $request_id;
                 $approval_history->user_id        = $leaveApp->user_id;
                 $approval_history->approver_id    = json_encode(
-                                                        ['hr' => Auth::id(),
-                                                         'admin' => 0]);
+                                                        ['hrms_hr' => Auth::id(),
+                                                         'hrms_admin' => 0]);
                 $approval_history->save();
 
-            }elseif(Auth::user()->hasrole('admin')){
+            }elseif($data->hasrole('hrms_admin')){
 
-                LeaveApply::findOrFail($request_id)
-                        ->update(['admin_approval' => $request->action]);
+                LeaveApply::where('id',$request_id)->update(['admin_approval' => $request->action]);
 
                 //Update record when application approve
 
@@ -139,21 +134,21 @@ class LeavesController extends Controller
                 LeaveApprovalDetail::where('leave_apply_id', $request_id)
                     ->update([
                         'approver_id' => json_encode(
-                                                  ['hr' => $json->hr,
-                                                  'admin' => Auth::id()])]);
+                                                  ['hrms_hr' => $json->hr,
+                                                  'hrms_admin' => Auth::id() ]) ]);
             }
 
         }else{
 
 
-            if(Auth::user()->hasrole('hr manager')){
+            if($data->hasrole('hrms_hr')){
 
                 LeaveApply::findOrFail($request_id)
                         ->update([
                             'subadmin_approval' => $request->action,
                             'approver_remark'   => $request->text]);
 
-            }elseif(Auth::user()->hasrole('admin')){
+            }elseif($data->hasrole('hrms_admin')){
 
                 LeaveApply::findOrFail($request_id)
                         ->update([
@@ -250,7 +245,7 @@ class LeavesController extends Controller
 
         //Update leave status and carry
 
-        if(Auth::user()->hasrole('hr manager')){
+        if(Auth::user()->hasrole('hrms_hr')){
 
             LeaveApply::where('id', $request_id)
                     ->update([
