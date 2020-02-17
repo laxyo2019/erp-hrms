@@ -12,7 +12,7 @@
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('login/{username}', 'LoginController@login');
 Route::post('/logout', 'LoginController@logout')->name('logout');
-// Auth::routes(['register' => false]);
+ //Auth::routes(['register' => false]);
 
 //Route::resource('/hrd/approvals','HRD\ApprovalsController');
 

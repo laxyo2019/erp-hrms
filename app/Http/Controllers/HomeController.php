@@ -34,11 +34,12 @@ class HomeController extends Controller
                     ->where('user_id', Auth::id())
                     ->first();
 
-        $leave['allotment']  = $user->leave_allotted;
-        $leave['reallotment']= $user['allotments'];
-        Session::put('leave', $leave);
-        // return session('leave');
+        if(!empty($user)){
 
+            $leave['allotment']  = $user->leave_allotted;
+            $leave['reallotment']= $user['allotments'];
+            Session::put('leave', $leave);
+        }
         return view('home');
     }
 }
