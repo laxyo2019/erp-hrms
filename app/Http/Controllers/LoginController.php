@@ -14,7 +14,7 @@ use Session;
 class LoginController extends Controller
 {
 	public function login($username){
-			$data = User::where('email',$username)->first();
+		$data = User::where('email',$username)->first();
 
         if (Auth::attempt(['email' => $username, 'password' =>$data->other_pass])) {
 	       $user = Auth::user();

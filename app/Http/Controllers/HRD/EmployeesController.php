@@ -122,7 +122,7 @@ class EmployeesController extends Controller
   }
 
   public function save_official(Request $request,$user_id){
-    
+      
     $vdata = request()->validate([
 
       'aadhar_no' => 'string|nullable|max:20',
@@ -136,6 +136,7 @@ class EmployeesController extends Controller
       'old_esi'   => 'string|nullable|max:20',
       'curr_esi'  => 'string|nullable|max:20',
     ]);
+    // return EmployeeMast::where('user_id',$user_id)->get();
 
     $employee = EmployeeMast::where('user_id', $user_id)
       ->update([
@@ -160,7 +161,7 @@ class EmployeesController extends Controller
         'old_esi'    => $request->old_esi,
         'curr_esi'   => $request->curr_esi,
       ]);
-
+      // return $employee;
     return redirect()->route('employee.show_page',['user_id'=>$user_id,'tab'=>'official'])->with('success','Updated successfully.');
   }
 
@@ -409,6 +410,7 @@ class EmployeesController extends Controller
                     ->where('user_id',$user_id)
                     ->first();
     }
+    // return "hello";
 
     return view($path,compact('employee','meta'));
   }

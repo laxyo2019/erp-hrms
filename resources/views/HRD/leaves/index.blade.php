@@ -82,22 +82,22 @@
 									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
 									<td>
 	
-			@if($request->admin_approval == 0 && auth()->user()->hasrole('hr manager'))
+			@if($request->admin_approval == 0 && auth()->user()->hasrole('hrms_hr'))
 				<strong style="color: grey;">PENDING</strong>
 
-			@elseif($request->admin_approval == 1 && auth()->user()->hasrole('hr manager'))
+			@elseif($request->admin_approval == 1 && auth()->user()->hasrole('hrms_hr'))
 				<strong class="apprv_msg">APPROVED</strong>
 
-			@elseif($request->admin_approval == 2 && auth()->user()->hasrole('hr manager'))
+			@elseif($request->admin_approval == 2 && auth()->user()->hasrole('hrms_hr'))
 				<strong class="dec_msg">DECLINED</strong>
 
-			@elseif($request->admin_approval == 3 && auth()->user()->hasrole('hr manager'))
+			@elseif($request->admin_approval == 3 && auth()->user()->hasrole('hrms_hr'))
 				<strong class="rev_msg">REVERSED</strong>
 
-			@elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('admin'))
+			@elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('hrms_admin'))
 				<strong class="apprv_msg">APPROVED</strong>
 
-			@elseif($request->subadmin_approval == 3 && $request->admin_approval == 1 && auth()->user()->hasrole('admin'))
+			@elseif($request->subadmin_approval == 3 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin'))
 				<strong class="rev_msg">REVERSED</strong>
 			@endif
 
@@ -109,7 +109,7 @@
 
 {{-- 	Approve/Decline button for SubAdmin 	--}}
 
-@if($request->subadmin_approval == 0 && auth()->user()->hasrole('hr manager'))
+@if($request->subadmin_approval == 0 && auth()->user()->hasrole('hrms_hr'))
 
 	<strong class="apprv_msg" hidden="" >APPROVED</strong>
 	<strong class="dec_msg" hidden="" >DECLINED</strong>
@@ -120,7 +120,7 @@
 
 {{-- Reverse Leave button for SubAdmin --}}
 
-@elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hr manager'))
+@elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_hr'))
 	
 	<div class="msg_reverse" hidden="">REVERSED</div>
 
@@ -128,37 +128,37 @@
 
 {{-- Approve/Decline/Reverse message for SubAdmin --}}
 
-@elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('hr manager'))
+@elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('hrms_hr'))
 	
 	<strong class="apprv_msg">APPROVED</strong>
 
-@elseif($request->subadmin_approval == 2 && auth()->user()->hasrole('hr manager'))
+@elseif($request->subadmin_approval == 2 && auth()->user()->hasrole('hrms_hr'))
 	
 	<strong class="dec_msg">DECLINED</strong>
 
 {{-- When subadmin appproved and admin reversed the request --}}
-@elseif($request->subadmin_approval == 1 && $request->admin_approval == 3 && auth()->user()->hasrole('hr manager'))
+@elseif($request->subadmin_approval == 1 && $request->admin_approval == 3 && auth()->user()->hasrole('hrms_hr'))
 	
 	<strong class="apprv_msg">APPROVE</strong>
 
-@elseif($request->subadmin_approval == 3 && $request->admin_approval == 1 && auth()->user()->hasrole('hr manager'))
+@elseif($request->subadmin_approval == 3 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_hr'))
 	<strong class="rev_msg">REVERSED</strong>
 
 	{{-- ADMIN --}}
 
 {{-- 		Approve/Decline button for ADMIN 		--}}
 
-@elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('admin') && $request->admin_approval == 0 )
+@elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('hrms_admin') && $request->admin_approval == 0 )
 	<strong class="apprv_msg" hidden="">APPROVED</strong>
 	<strong class="dec_msg" hidden="">DECLINED</strong>
 
 	<button type="button" data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1" >APPROVE</button>
 
-	<button type="button" class="btn btn-danger btn-sm ml-2 action decline" value="" data-id="{{$request->id}}">DECLINE</button>
+	<button type="button" class="btn btn-danger btn-sm ml-2 action decline" value="2" data-id="{{$request->id}}">DECLINE</button>
 
 {{-- Reverse button for ADMIN --}}
 
-@elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('admin'))
+@elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin'))
 	
 	<div class="msg_reverse" hidden="" >REVERSED</div>
 
@@ -166,16 +166,16 @@
 
 {{-- Approve/Decline message for Admin --}}
 
-@elseif($request->subadmin_approval == 3 && $request->admin_approval == 1 && auth()->user()->hasrole('admin') )
+@elseif($request->subadmin_approval == 3 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin') )
 	<strong class="apprv_msg">APPROVED</strong>
 
-@elseif($request->subadmin_approval == 1 && $request->admin_approval == 2 && auth()->user()->hasrole('admin') )
+@elseif($request->subadmin_approval == 1 && $request->admin_approval == 2 && auth()->user()->hasrole('hrms_admin') )
 	
 	<strong class="dec_msg">DECLINED</strong>
 
 {{-- Reverse Leave message for Admin --}}
 
-@elseif($request->subadmin_approval == 1 && $request->admin_approval == 3 && auth()->user()->hasrole('admin'))
+@elseif($request->subadmin_approval == 1 && $request->admin_approval == 3 && auth()->user()->hasrole('hrms_admin'))
 	
 	<strong class="rev_msg">REVERSED</strong>
 @endif
@@ -260,7 +260,6 @@ $(document).ready(function(){
 
 				$('.action').attr('hidden', true);
 				if(res.action == 1){
-
 					$('.apprv_msg').attr('hidden', false);
 				}else{
 					
