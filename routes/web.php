@@ -106,7 +106,7 @@ Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_p
 
 /*******ACL********/
   
-Route::group(['middleware' => ['role:hrms_admin']], function() {
+Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 
 	Route::resource('acl/permissions', 'acl\PermissionController');
 	Route::resource('acl/roles', 'acl\RoleController');

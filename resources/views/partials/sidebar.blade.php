@@ -77,8 +77,8 @@
 
     {{-- Hr Module to handle employees --}}
     @role('hrms_admin|hrms_hr')
-      <li class="treeview {{call_user_func_array('Request::is', (array)['hrd*','leave*','types*','allotments*','holidays*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">HRD</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-      <ul class="treeview-menu">
+      {{-- <li class="treeview {{call_user_func_array('Request::is', (array)['hrd*','leave*','types*','allotments*','holidays*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">HRD</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+      <ul class="treeview-menu"> --}}
         
        
         
@@ -100,8 +100,8 @@
         </ul> 
 --}}
       
-          {{-- <li class={{call_user_func_array('Request::is', (array)['hrd/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('rules.index')}}"><i class="icon fa fa-angle-double-right"></i>Leaves Rules</a></li> --}}
-      </ul>
+          {{-- <li class={{call_user_func_array('Request::is', (array)['hrd/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('rules.index')}}"><i class="icon fa fa-angle-double-right"></i>Leaves Rules</a></li> 
+      </ul>--}}
     @endrole
     {{-- Employees tab --}}
 
@@ -114,7 +114,7 @@
     </li> --}}
 
    
-    @role('hrms_admin|hrms_hr')
+    
     {{-- end of module --}}
 
 {{-- 
@@ -128,6 +128,7 @@
     </li> 
 --}}
 
+  @role('hrms_admin|hrms_hr')
     {{-- Leave Management Tab --}}
 
       <li class="treeview {{call_user_func_array('Request::is', (array)['leave*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">Leave Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
