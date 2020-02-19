@@ -34,10 +34,10 @@
                 </tr>
               </thead>
               <tbody>
-                @php $count = 0; @endphp
+                @php $count = $users->firstItem(); @endphp
                 @foreach($users as $index)
                     <tr class="text-center" >
-                      <td>{{++$count}}</td>
+                      <td> {{$count++}}</td>
                       <td>{{ucwords($index->name)}}</td>
                       <td>{{$index->email}}</td>
                       <td  >
@@ -46,7 +46,8 @@
                           <a href="{{route('users.edit',$index->id)}}" class="btn btn-sm btn-info">EDIT</a>
                           </div>
                         
-                        {{-- @if(!empty($index->emp_id))
+                      {{-- 
+                        @if(!empty($index->emp_id))
                           <span class="ml-2">
                           <form action="{{route('assign.user',$index->id)}}" method="POST" id="assign_{{ $index->id}}">
                             @csrf
@@ -62,13 +63,14 @@
                             <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
                           </form>
                           </div>
-                          --}}
+                        --}}
                         </div>
                       </td>
                     </tr>
                 @endforeach
               </tbody>
             </table>
+            {{$users->links()}}
           </div>
         </div>
       </div>
