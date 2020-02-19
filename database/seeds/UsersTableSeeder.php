@@ -18,6 +18,8 @@ class UsersTableSeeder extends Seeder
           'name'      => 'mr. yogesh sharma',
           'email'     => 'admin@laxyo.in',
           'password'  => bcrypt('12345678'),
+          'remember_token'  => '',
+          'deleted_at'=> '',
           'created_at'=> now(),
         ]
       ]);
@@ -35,20 +37,20 @@ class UsersTableSeeder extends Seeder
         ]
       ]);
 
-      /*DB::table('roles')->insert([
+      DB::table('roles')->insert([
         [
-          'id'        => 1,
-          'name'      => 'admin',
-          'guard_name'=> 'web',
-          'created_at'=> now(),
+          'id'          => 1,
+          'name'        => 'hrms_admin',
+          'display_name'=> 'Hrms Admin',
+          'descrition'  => 'Admin for hrms module',
         ]
-      ]);*/
+      ]);
 
-      DB::table('model_has_roles')->insert([
+      DB::table('role_user')->insert([
         [
           'role_id'    => 1,
-          'model_type'=> 'App\User',
-          'model_id'   => 1,
+          'user_id'    => 1,
+          'user_type'  => 'App\User',
         ]
       ]);
       	/*[

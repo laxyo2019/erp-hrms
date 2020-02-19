@@ -40,9 +40,10 @@ class HolidayController extends Controller
 
     public function store(Request $request){
 
+
     	$this->validate($request, [
     					'title'	=> 'required',
-    					'date'	=> 'required|unique:holidays,date'
+    					'date'	=> 'required|unique:hrms_holidays,date'
     					]);
 
     	$holiday 		= new Holiday;

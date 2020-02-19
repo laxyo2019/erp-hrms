@@ -13,16 +13,17 @@
 		    <hr>
 			</div>
 		</div>
-		@if($message = Session::get('success'))
-			<div class="alert alert-success alert-block">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        {{$message}}
-      </div>
-		@endif
+		
 		<div class="row">
       <div class="col-md-12 col-xl-12">
         <div class="card shadow-xs">
           <div class="card-body table-responsive">
+            @if($message = Session::get('success'))
+      <div class="alert alert-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        {{$message}}
+      </div>
+    @endif
             <table class="table table-striped table-hover">
               <thead>
                 <tr class="text-center">

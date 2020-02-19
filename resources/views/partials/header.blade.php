@@ -1,5 +1,7 @@
-<header class="app-header"><a class="app-header__logo" href="{{url('/')}}">Accounting</a>
-<!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+<header class="app-header" style="background-color: #4e73df">
+  <a class="app-header__logo" href="{{url('/')}}" style="background-color: #4e73df">HRMS</a>
+<!-- Sidebar toggle button-->
+<a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
 <!-- Navbar Right Menu-->
 {{-- {{auth()->user()->name}} --}}
 <ul class="app-nav">

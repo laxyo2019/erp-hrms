@@ -320,6 +320,15 @@ class LeavesController extends Controller
 
           $sandwich_days = array_unique(array_merge($sundays, $holidays_list));
 
+          //return ([$sandwich_days, $request->duration, $balance->initial_bal]);
+
+          if($balance->initial_bal - $request->duration){
+
+          }
+          //$paid_count = $balance->initial_bal - $request->duration;
+
+          //Check if sandwich day is more than 0, then deduct leave balance and
+
           $paid_count    = $request->duration - count($sandwich_days);
 
           $unpaid_count  = $request->duration - $paid_count;
@@ -333,7 +342,6 @@ class LeavesController extends Controller
         }else{
           
           $paid_count   = $request->duration;
-
           $unpaid_count = 0.0;
         }
 
@@ -352,8 +360,8 @@ class LeavesController extends Controller
         $dayStatus = $request->validate([
                   'day_status'  => 'required',
                ]);
-        $data['day_status'] = $dayStatus['day_status'];
 
+        $data['day_status'] = $dayStatus['day_status'];
 
         //Check if string then store half day(0.50)
         $type = gettype($request->duration);
@@ -363,8 +371,16 @@ class LeavesController extends Controller
           $request->duration = '0.50';
         }
 
-        $paid_count = $request->duration;
-        $unpaid_count = 0.0;
+        if($leaveData->without_pay != 1){
+          $paid_count = $request->duration;
+          $unpaid_count = 0.0;
+
+        }else{
+
+          $paid_count   = 0.0;
+          $unpaid_count = $request->duration;
+
+        }
       }
 
 /*
@@ -483,6 +499,7 @@ class LeavesController extends Controller
 
  
     public function download($id){
+
         $document = LeaveApply::findOrFail($id)->file_path;
         return Storage::download($document);
     }

@@ -31,7 +31,7 @@
 			      	@enderror
 				</div>			
 			</div>
-			<br>
+			{{-- <br>
 			<div><h5>Set permissions</h5></div><hr>
             <div class="toggle lg row col-12">
             	@foreach($permissions as $data)
@@ -41,7 +41,7 @@
 					</label>
 				</div>
 				@endforeach
-            </div>
+            </div> --}}
             <br><br>
     		<div class="col-12 form-group" align="center">
 				<button class="btn btn-info btn-sm m-2" style="width: 40%">Save</button>

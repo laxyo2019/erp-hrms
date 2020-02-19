@@ -50,13 +50,13 @@
 			@foreach($roles as $data)
 				<div class="col-3 form-check form-check-inline mr-0">
 					<label>
-	                	<input type="checkbox" name="roles[]" value="{{$data->name}}" {{ in_array($data->id, $roles_given) ? 'checked' : ''}}><span class="button-indecator">{{ucwords($data->name)}}</span>
+	                	<input type="checkbox" name="roles[]" value="{{$data->id}}" {{ in_array($data->id, $roles_given) ? 'checked' : ''}}><span class="button-indecator">{{ucwords($data->name)}}</span>
 					</label>
 				</div>
 			@endforeach
 			</div>
 			@endif
-			<br>
+			{{-- <br>
 			@if(count($permissions) != 0)
 			<div><h5>SET PERMISSIONS FOR USER</h5></div><hr>
 			<div class="toggle lg row col-12">
@@ -68,7 +68,7 @@
 				</div>
 			@endforeach
 			</div>
-			@endif
+			@endif --}}
 			<br>
     		<div class="col-12 form-group" align="center">
 				<button class="btn btn-info btn-sm m-2" style="width: 40%">Save</button>

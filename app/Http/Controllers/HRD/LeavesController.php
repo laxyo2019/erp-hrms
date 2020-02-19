@@ -26,21 +26,34 @@ class LeavesController extends Controller
 
     public function index(){
 
-        $user = User::find(Auth::user()->id);       
+        $user = User::find(Auth::user()->id);
         
-        if($user->hasRole('hrms_admin')){
+        /* For Team Lead */
+        if($user->hasRole('hrms_teamlead')){
 
             $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
                 ->orderBy('id', 'DESC')
                 ->where('user_id', '<>', Auth::id())
-                ->whereIn('subadmin_approval', [1, 3])
+                ->where('reports_to', Auth::id())
                 ->get();
+
+        /* For HR */    
 
         }elseif($user->hasRole('hrms_hr')){
 
             $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
                 ->orderBy('id', 'DESC')
                 ->where('user_id', '<>', Auth::id())
+                ->whereIn('teamlead_approval', [1, 3])
+                ->get();
+
+        /* For Admin*/
+        }elseif($user->hasRole('hrms_admin')){
+
+            $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
+                ->orderBy('id', 'DESC')
+                ->where('user_id', '<>', Auth::id())
+                ->whereIn('subadmin_approval', [1, 3])
                 ->get();
         }
 
@@ -52,9 +65,9 @@ class LeavesController extends Controller
 	}
 
     public function approve_leave(Request $request, $request_id){
+
     	$data = User::find(Auth::user()->id);
 
-        //return $request->text;
         //Update leave aaplication status and approver' id.
 
         $leaveApp  = LeaveApply::find($request_id);
@@ -108,8 +121,9 @@ class LeavesController extends Controller
             //     }
             // }
         //  
-            if($data->hasrole('hrms_hr')){
-                LeaveApply::where('id',$request_id)->update(['subadmin_approval' => $request->action]);
+            if($data->hasrole('hrms_teamlead')){
+
+                LeaveApply::where('id',$request_id)->update(['teamlead_approval' => $request->action]);
 
                 //Update record when application approve
 
@@ -117,9 +131,27 @@ class LeavesController extends Controller
                 $approval_history->leave_apply_id = $request_id;
                 $approval_history->user_id        = $leaveApp->user_id;
                 $approval_history->approver_id    = json_encode(
-                                                        ['hrms_hr' => Auth::id(),
-                                                         'hrms_admin' => 0]);
+                        ['teamlead_approval' => Auth::id()]);
                 $approval_history->save();
+
+            }
+            elseif($data->hasrole('hrms_hr')){
+
+                LeaveApply::where('id',$request_id)->update(['subadmin_approval' => $request->action]);
+
+                //Update record when application approve
+
+
+                $detail = LeaveApprovalDetail::where('leave_apply_id', $request_id)->first();
+
+                $json = json_decode($detail['approver_id']);
+
+                LeaveApprovalDetail::where('leave_apply_id', $request_id)
+                    ->update([
+                    'approver_id' => json_encode(
+                    ['teamlead_approval' => $json->teamlead_approval,
+                     'subadmin_approval' => Auth::id() ])
+                        ]);
 
             }elseif($data->hasrole('hrms_admin')){
 
@@ -133,15 +165,22 @@ class LeavesController extends Controller
 
                 LeaveApprovalDetail::where('leave_apply_id', $request_id)
                     ->update([
-                        'approver_id' => json_encode(
-                                                  ['hrms_hr' => $json->hr,
-                                                  'hrms_admin' => Auth::id() ]) ]);
+                    'approver_id' => json_encode(
+                        ['teamlead_approval' => $json->teamlead_approval,
+                         'subadmin_approval' => $json->subadmin_approval,
+                         'admin_approval' => Auth::id() ]) ]);
             }
 
         }else{
 
+            if($data->hasrole('hrms_teamlead')){
 
-            if($data->hasrole('hrms_hr')){
+                LeaveApply::findOrFail($request_id)
+                        ->update([
+                            'teamlead_approval' => $request->action,
+                            'approver_remark'   => $request->text]);
+            }
+            elseif($data->hasrole('hrms_hr')){
 
                 LeaveApply::findOrFail($request_id)
                         ->update([
@@ -157,7 +196,7 @@ class LeavesController extends Controller
             }
 
             //Update leave balance if request declined.
-            $leave_mast = LeaveMast::find($leaveApp->leave_type_id)->first();
+            $leave_mast = LeaveMast::find($leaveApp->leave_type_id);
 
             if($leave_mast->without_pay != 1){
                 
@@ -171,6 +210,7 @@ class LeavesController extends Controller
                     ->id;
 
                 if($leaveApp->unpaid_count != null){
+
                 //Decrement unpaid_count from initial_bal if leave added to unpaid count for leave without pay leave.
                     LeaveAllotment::where('leave_mast_id', $withoutpay_id)
                         ->where('user_id', $leaveApp->user_id)
@@ -243,26 +283,44 @@ class LeavesController extends Controller
             ->where('id', $request_id)
             ->first();
 
+
+        //return $detail->count;
+
         //Update leave status and carry
 
-        if(Auth::user()->hasrole('hrms_hr')){
+        if(Auth::user()->hasrole('hrms_teamlead')){
+
+            LeaveApply::where('id', $request_id)
+                    ->update([
+                        'teamlead_approval' => 3,
+                        'carry_count'  => $detail->count,
+                        'paid_count'=> 0,
+                        'unpaid_count'=>0]);
+        }
+        elseif(Auth::user()->hasrole('hrms_hr')){
 
             LeaveApply::where('id', $request_id)
                     ->update([
                         'subadmin_approval' => 3,
-                        'carry'  => $detail->count]);
+                        'carry_count'  => $detail->count,
+                        'paid_count'=> 0,
+                        'unpaid_count'=>0]);
         }else{
             LeaveApply::where('id', $request_id)
                     ->update([
                         'admin_approval' => 3,
-                        'carry'  => $detail->count]);
+                        'carry_count'  => $detail->count,
+                        'paid_count'=> 0,
+                        'unpaid_count'=>0]);
         }
 
         //Find Leave with Leave_type_id
 
-        $leave = LeaveMast::where('id', $detail->leave_type_id)->first();
+        //$leave = LeaveMast::where('id', $detail->leave_type_id)->first();
 
-        if($leave->without_pay == 1){
+        //Increment/Decrement Leave allotment balance if its without pay
+
+        if($detail['leavetype']->without_pay == 1){
             LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
                         ->where('user_id', $detail->user_id)
                         ->decrement('initial_bal', $detail->count);
@@ -272,22 +330,12 @@ class LeavesController extends Controller
                         ->increment('initial_bal', $detail->count);
         }
 
-        /*
-            LeaveApprovalDetail::create([
-            'leave_apply_id'  => $detail->id,
-            'user_id'         => $detail->user_id,
-            'approver_id'     => Auth::id(),
-            'actions'         => $request->action_id,
-            'paid_count'      => 0,
-            'unpaid_count'    => 0,
-            'carry'           => $detail->count
-            ]);
-        */
+        //Update id of the user who reversed leave request.
 
         LeaveApprovalDetail::where('leave_apply_id', $request_id)
-            ->update(['carry' => Auth::id()]);
+            ->update(['reversed_by' => Auth::id()]);
 
-        return ;
+        return 'Leave reversed.';
     }
 
 }

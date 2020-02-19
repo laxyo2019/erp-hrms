@@ -30,7 +30,7 @@
 			      	@enderror
 				</div>			
 			</div>
-			<br>
+			{{-- <br>
 			@if(count($permissions) != 0)
 			<div><h5>SET PERMISSIONS FOR USER</h5></div><hr>
 			<div class="toggle lg row col-12">
@@ -42,7 +42,7 @@
 				</div>
 			@endforeach
 			</div>
-			@endif
+			@endif --}}
 			<br><br>
     		<div class="col-12 form-group text-center">
 				<button class="btn btn-info btn-sm m-2" style="width: 20%">Save</button>
