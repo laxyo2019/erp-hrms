@@ -55,7 +55,6 @@
 									<th>Designation</th>
 									<th>Leaves</th>
 									<th>Status</th>
-
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -73,7 +72,7 @@
 
 							{{-- hide allotment button if leave is not created --}}
 							@if(count($leaves) == null)
-								
+
 								No leaves to assign
 
 							@else
@@ -99,28 +98,27 @@
 							@endif
 									</td>
 									<td >
-						
-				<div class="row">
-				@if($employee->status == 0)
-                  	<div  class="col" align="center">
-                    <form  action="{{route('active', $employee->user_id)}}" method="POST" id="active_{{ $employee->user_id}}">
-                      @csrf
-                      <input type="hidden" name="flag" value="">
-                      <a href="javascript:$('#active_{{ $employee->user_id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Activate employee ?')">Active</a>
-                      </form>
-                    </div>
-                @else
-                	<div class="col" align="center">
-                    <form  action="{{route('active', $employee->user_id)}}" method="POST" id="active_{{ $employee->user_id}}">
-                      @csrf
-                      <input type="hidden" name="flag" value="{{date("Y-m-d H:i:s", time())}}">
-                      <a href="javascript:$('#active_{{ $employee->user_id}}').submit();" class="btn btn-sm btn-primary" onclick="return confirm('Deactivate employee ?')">Deactive</a>
-                      </form>
-                    </div>
-                @endif
-				</div>
+							<div class="row">
+							@if($employee->status == 0)
+			                  	<div  class="col" align="center">
+			                    <form  action="{{route('active', $employee->user_id)}}" method="POST" id="active_{{ $employee->user_id}}">
+			                      @csrf
+			                      <input type="hidden" name="flag" value="">
+			                      <a href="javascript:$('#active_{{ $employee->user_id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Activate employee ?')">Active</a>
+			                      </form>
+			                    </div>
+			                @else
+			                	<div class="col" align="center">
+			                    <form  action="{{route('active', $employee->user_id)}}" method="POST" id="active_{{ $employee->user_id}}">
+			                      @csrf
+			                      <input type="hidden" name="flag" value="{{date("Y-m-d H:i:s", time())}}">
+			                      <a href="javascript:$('#active_{{ $employee->user_id}}').submit();" class="btn btn-sm btn-primary" onclick="return confirm('Deactivate employee ?')">Deactive</a>
+			                      </form>
+			                    </div>
+			                @endif
+							</div>
 
-                  </td>
+                  			</td>
 									
 									<td class='d-flex' style="border-bottom:none">
 										<span>

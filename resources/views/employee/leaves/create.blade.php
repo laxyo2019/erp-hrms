@@ -801,7 +801,6 @@ function checkOnce(res){ //min apply one
 	}	
 }
 
-
 });
 </script>
 @endsection

@@ -53,6 +53,7 @@
 									<th>Leave Period</th>
 									<th>Duration</th>
 									<th>Posted on</th>
+									<th>Team Lead</th>
 									<th>HR APPROVAL</th>
 									<th>ADMIN APPROVAL</th>
 									<th class="text-center">Actions</th>
@@ -86,6 +87,34 @@
 										@endif
 									</td>
 									<td>{{date('d M Y' , strtotime($leaveapply->created_at))}}</td>
+									<td>
+									@if($leaveapply->teamlead_approval == 0)
+										<div >
+										 	<strong style="color: grey;">
+										 		PENDING
+											</strong>
+										</div>
+									@elseif($leaveapply->teamlead_approval == 1)
+										<div >
+										 	<strong style="color: green;">
+										 		APPROVE
+											</strong>
+										</div>
+									@elseif($leaveapply->teamlead_approval == 2)
+										<div >
+										 	<strong style="color: #ff4545;">
+										 		DECLINE
+											</strong>
+										</div>
+									@else
+										<div >
+										 	<strong style="color: #5858ff;">
+										 		REVERSED
+											</strong>
+										</div>
+									@endif
+								</td>
+
 									<td>
 {{-- 
 	@if($leaveapply->status =='17' )
@@ -191,7 +220,7 @@
 										    </div>
 										</div>
 										
-									@if($leaveapply->subadmin_approval == 0)
+@if($leaveapply->teamlead_approval == 0)
 										<span class="ml-2">
 											<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
 													@csrf

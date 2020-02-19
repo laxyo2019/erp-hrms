@@ -5,11 +5,12 @@ namespace App\Http\Controllers\acl;
 use DB;
 use Auth;
 use App\User;
+use App\Role;
+use App\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Models\Spatie\ModelRole;
-use App\Permission;
-use App\Role;
+
 use App\Models\Employees\EmployeeMast;
 
 class UserController extends Controller
@@ -22,7 +23,7 @@ class UserController extends Controller
 
     public function index(){
 
-    	$users = User::all();
+    	$users = User::paginate(10);
 
     	return view('acl.users.index', compact('users'));
     }
@@ -37,7 +38,7 @@ class UserController extends Controller
     	$user          = User::findOrFail($id);
         $employee      = EmployeeMast::where('user_id', $id)->first();
     	$roles         = Role::all();
-        $permissions   = Permission::all();
+        //$permissions   = Permission::all();
 
         $roles_given = [];
 
@@ -47,13 +48,13 @@ class UserController extends Controller
         }
 
         //Get all direct permissions
-        $permissions_given = [];
+        //$permissions_given = [];
         // foreach($user->getDirectPermissions() as $data){
         //     $permissions_given[] = $data->id;
         // }
 
 
-    	return view('acl.users.edit', compact('user', 'roles', 'roles_given', 'permissions', 'permissions_given', 'employee'));
+    	return view('acl.users.edit', compact('user', 'roles', 'roles_given', /*'permissions', 'permissions_given', */'employee'));
     }
 
     public function update(Request $request, $id){
@@ -65,11 +66,17 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->save();
 
+
         //Save roles
-        $user->syncRoles($request->roles);
+        // $roles =  $request->roles;
+        // return $roles->toArray();
+        //dd($request->roles);
+
+       $user->syncRoles($request->roles);
+        //$user->syncRoles($request->roles);
 
         //Save direct permissions to user
-        $user->syncPermissions($request->perms);
+        //$user->syncPermissions($request->perms);
 
         return back()->with('success', 'User information updated.');
     }

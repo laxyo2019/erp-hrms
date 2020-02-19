@@ -20,6 +20,10 @@ class InformationController extends Controller
 
     	$info = EmployeeMast::where('user_id', Auth::id())->with('department')->first();
 
+        $infos = EmployeeMast::where('user_id', Auth::id())->get();        
+
+        //return ([$infos]);
+      
     	return view('information.index', compact('info'));
     }
 

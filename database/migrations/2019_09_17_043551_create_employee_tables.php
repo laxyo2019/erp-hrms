@@ -13,12 +13,12 @@ class CreateEmployeeTables extends Migration
      */
     public function up()
     {
-        Schema::create('hrms_emp_mast', function (Blueprint $table) {
+        Schema::create('emp_mast', function (Blueprint $table) {
           
           //single row
           $table->increments('id');
           $table->integer('user_id');
-          $table->integer('role_id');
+          $table->integer('role_id')>nullable();
           $table->integer('status')->default(0);
           $table->unsignedInteger('reports_to')->nullable();
           $table->string('emp_code', 15)->nullable();

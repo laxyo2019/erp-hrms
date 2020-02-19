@@ -4,19 +4,20 @@ namespace App\Http\Controllers\acl;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Role ;
-use Spatie\Permission\Models\Permission;
+use App\Role ;
+use App\Permission;
 
 class RoleController extends Controller
 {
-
     public function __construct(){
         $this->middleware('auth');
     }
     
+    //$user->attachRole($request->input('role_id'));
     public function index(){
 
     	$roles	= Role::all();
+
     	return view('acl.roles.index', compact('roles'));
     }
 
@@ -24,10 +25,10 @@ class RoleController extends Controller
 
         //return Role::find(1)->getDirectPermissions();
 
-    	$permissions = Permission::all();
-        //return $permission;
+    	//$permissions = Permission::all();
+        
 
-    	return view('acl.roles.create', compact('permissions'));
+    	return view('acl.roles.create'/*, compact('permissions')*/);
     }
 
     public function store(Request $request){
@@ -38,21 +39,21 @@ class RoleController extends Controller
 
         $role = Role::create(['name' => $request->role]);
 
-        $role->syncPermissions($request->permissions);
+        //$role->syncPermissions($request->permissions);
         
     	return redirect()->route('roles.index')->with('success', 'Roles added successfully.');
     }
 
     public function edit( $id){
     	$role        = Role::findOrFail($id);
-        $permissions = Permission::all();
+        //$permissions = Permission::all();
 
         $permission_given = [];
 
-        foreach($role->permissions as $perms){
+        /*foreach($role->permissions as $perms){
             $permission_given[] = $perms->id;
-        }
-    	return view('acl.roles.edit', compact('role', 'permissions', 'permission_given'));
+        }*/
+    	return view('acl.roles.edit', compact('role'/*, 'permissions', 'permission_given'*/));
     }
 
     public function update(Request $request, $id){
@@ -66,7 +67,7 @@ class RoleController extends Controller
         //dd($user->hasPermissionTo(Permission::find(1)->id));
 
         $role = Role::find( $id);
-        $role->syncPermissions($request->perms);
+        //$role->syncPermissions($request->perms);
 
 
         return redirect()->route('roles.index')->with('success', 'Role updated successfully.');

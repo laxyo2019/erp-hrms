@@ -9,10 +9,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('login/{username}', 'LoginController@login');
-Route::post('/logout', 'LoginController@logout')->name('logout');
- //Auth::routes(['register' => false]);
+//Route::get('login/{username}', 'LoginController@login');
+//Route::post('/logout', 'LoginController@logout')->name('logout');
+ Auth::routes(['register' => false]);
 
 //Route::resource('/hrd/approvals','HRD\ApprovalsController');
 
@@ -21,9 +22,13 @@ Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
 
 
+// Leave Requests
+
+Route::resource('/hrd/leaves', 'HRD\LeavesController');
+
 Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 
-	Route::resource('/hrd/leaves', 'HRD\LeavesController');
+	
 	Route::resource('/leave-management/types', 'Leave\LeaveTypeController');
 	Route::resource('/leave-management/allotments', 'Leave\AllotmentController');
 	Route::resource('/leave-management/holidays', 'Leave\HolidayController');
@@ -101,7 +106,7 @@ Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_p
 
 /*******ACL********/
   
-Route::group(['middleware' => ['role:admin']], function() {
+Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 
 	Route::resource('acl/permissions', 'acl\PermissionController');
 	Route::resource('acl/roles', 'acl\RoleController');

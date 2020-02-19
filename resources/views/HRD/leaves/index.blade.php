@@ -27,10 +27,15 @@
 									<th>LEAVE PERIOD</th>
 									<th>DURATION</th>
 									<th>POSTED ON</th>
-									@if(auth()->user()->hasrole('admin'))
+									@if(auth()->user()->hasrole('hrms_teamlead'))
 										<th>HR</th>
-									@else
 										<th>ADMIN</th>
+									@elseif(auth()->user()->hasrole('hrms_hr'))
+										<th>TEAM LEAD</th>
+										<th>ADMIN</th>
+									@else
+										<th>TEAM LEAD</th>
+										<th>HR</th>
 									@endif
 									<th style="text-align: center;">ACTIONS</th>
 								</tr>
@@ -80,36 +85,128 @@
 									@endif						
 									</td>
 									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
-									<td>
-	
-			@if($request->admin_approval == 0 && auth()->user()->hasrole('hrms_hr'))
-				<strong style="color: grey;">PENDING</strong>
+							
+			@if(auth()->user()->hasrole('hrms_teamlead'))
 
-			@elseif($request->admin_approval == 1 && auth()->user()->hasrole('hrms_hr'))
-				<strong class="apprv_msg">APPROVED</strong>
 
-			@elseif($request->admin_approval == 2 && auth()->user()->hasrole('hrms_hr'))
-				<strong class="dec_msg">DECLINED</strong>
+				@if($request->subadmin_approval == 0)
+					<td><strong style="color: grey;">PENDING</strong></td>
+				@elseif($request->subadmin_approval == 1)
+					<td><strong class="apprv_msg">APPROVED</strong></td>
+				@elseif($request->subadmin_approval == 2)
+					<td><strong class="dec_msg">DECLINED</strong></td>
+				@elseif($request->subadmin_approval == 3)
+					<td><strong class="rev_msg">REVERSED</strong></td>
+				@endif
 
-			@elseif($request->admin_approval == 3 && auth()->user()->hasrole('hrms_hr'))
-				<strong class="rev_msg">REVERSED</strong>
+				@if($request->admin_approval == 0)
+					<td><strong style="color: grey;">PENDING</strong></td>
+				@elseif($request->admin_approval == 1)
+					<td><strong class="apprv_msg">APPROVED</strong></td>
+				@elseif($request->admin_approval == 2)
+					<td><strong class="dec_msg">DECLINED</strong></td>
+				@elseif($request->admin_approval == 3)
+					<td><strong class="rev_msg">REVERSED</strong></td>
+				@endif
 
-			@elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('hrms_admin'))
-				<strong class="apprv_msg">APPROVED</strong>
-
-			@elseif($request->subadmin_approval == 3 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin'))
-				<strong class="rev_msg">REVERSED</strong>
 			@endif
+			@if(auth()->user()->hasrole('hrms_hr'))
 
+				@if($request->teamlead_approval == 0)
+					<td><strong style="color: grey;">PENDING</strong></td>
+				@elseif($request->teamlead_approval == 1)
+					<td><strong class="apprv_msg">APPROVED</strong></td>
+				@elseif($request->teamlead_approval == 2)
+					<td><strong class="dec_msg">DECLINED</strong></td>
+				@elseif($request->teamlead_approval == 3)
+					<td><strong class="rev_msg">REVERSED</strong></td>
+				@endif
+
+				@if($request->admin_approval == 0)
+					<td><strong style="color: grey;">PENDING</strong></td>
+				@elseif($request->admin_approval == 1)
+					<td><strong class="apprv_msg">APPROVED</strong></td>
+				@elseif($request->admin_approval == 2)
+					<td><strong class="dec_msg">DECLINED</strong></td>
+				@elseif($request->admin_approval == 3)
+					<td><strong class="rev_msg">REVERSED</strong></td>
+				@endif
+
+			@endif
+			@if(auth()->user()->hasrole('hrms_admin'))
+
+
+				@if($request->teamlead_approval == 0)
+					<td><strong style="color: grey;">PENDING</strong></td>
+				@elseif($request->teamlead_approval == 1)
+					<td><strong class="apprv_msg">APPROVED</strong></td>
+				@elseif($request->teamlead_approval == 2)
+					<td><strong class="dec_msg">DECLINED</strong></td>
+				@elseif($request->teamlead_approval == 3)
+					<td><strong class="rev_msg">REVERSED</strong></td>
+				@endif
+
+
+				@if($request->subadmin_approval == 0)
+					<td><strong style="color: grey;">PENDING</strong></td>
+				@elseif($request->subadmin_approval == 1)
+					<td><strong class="apprv_msg">APPROVED</strong></td>
+				@elseif($request->subadmin_approval == 2)
+					<td><strong class="dec_msg">DECLINED</strong></td>
+				@elseif($request->subadmin_approval == 3)
+					<td><strong class="rev_msg">REVERSED</strong></td>
+				@endif
+
+			@endif
 		</td>
 		
 <td class='d-flex' style="border-bottom:none">
+
+	{{-- TEAM-LEAD --}}
+
+{{-- 	Approve/Decline button for TeamLead 	--}}
+
+@if($request->teamlead_approval == 0 && auth()->user()->hasrole('hrms_teamlead'))
+
+	<strong class="apprv_msg" hidden="" >APPROVED</strong>
+	<strong class="dec_msg" hidden="" >DECLINED</strong>
+
+	<button type="button"  data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1">APPROVE</button>
+
+	<button type="button" data-id="{{$request->id}}" class="btn btn-danger btn-sm ml-2 action decline" value="2">DECLINE</button>
+
+{{-- Reverse Leave button for TeamLead --}}
+
+@elseif($request->teamlead_approval == 1 && $request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_teamlead'))
+	
+	<div class="rev_msg" hidden="">REVERSED</div>
+
+	<button type="button" class="btn btn-sm reverse" value="{{$request->id}}">REVERSE</button>
+
+{{-- Approve/Decline/Reverse message for TeamLead --}}
+
+@elseif($request->teamlead_approval == 1 && auth()->user()->hasrole('hrms_teamlead'))
+	
+	<strong class="apprv_msg">APPROVED</strong>
+
+@elseif($request->teamlead_approval == 2 && auth()->user()->hasrole('hrms_teamlead'))
+	
+	<strong class="dec_msg">DECLINED</strong>
+
+{{-- When subadmin appproved and admin reversed the request --}}
+{{-- @elseif($request->teamlead_approval == 1 && $request->admin_approval == 3 && auth()->user()->hasrole('hrms_hr'))
+	
+	<strong class="apprv_msg">APPROVE</strong> --}}
+
+@elseif($request->teamlead_approval == 3 && auth()->user()->hasrole('hrms_teamlead'))
+	<strong class="rev_msg">REVERSED</strong>
+
 
 	{{-- SUB-ADMIN --}}
 
 {{-- 	Approve/Decline button for SubAdmin 	--}}
 
-@if($request->subadmin_approval == 0 && auth()->user()->hasrole('hrms_hr'))
+@elseif($request->teamlead_approval == 1 && $request->subadmin_approval == 0 && auth()->user()->hasrole('hrms_hr'))
 
 	<strong class="apprv_msg" hidden="" >APPROVED</strong>
 	<strong class="dec_msg" hidden="" >DECLINED</strong>
@@ -122,7 +219,7 @@
 
 @elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_hr'))
 	
-	<div class="msg_reverse" hidden="">REVERSED</div>
+	<div class="rev_msg" hidden="">REVERSED</div>
 
 	<button type="button" class="btn btn-sm reverse" value="{{$request->id}}">REVERSE</button>
 
@@ -137,9 +234,9 @@
 	<strong class="dec_msg">DECLINED</strong>
 
 {{-- When subadmin appproved and admin reversed the request --}}
-@elseif($request->subadmin_approval == 1 && $request->admin_approval == 3 && auth()->user()->hasrole('hrms_hr'))
+{{-- @elseif($request->subadmin_approval == 1 && $request->admin_approval == 3 && auth()->user()->hasrole('hrms_hr'))
 	
-	<strong class="apprv_msg">APPROVE</strong>
+	<strong class="apprv_msg">APPROVE</strong> --}}
 
 @elseif($request->subadmin_approval == 3 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_hr'))
 	<strong class="rev_msg">REVERSED</strong>
@@ -160,7 +257,7 @@
 
 @elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin'))
 	
-	<div class="msg_reverse" hidden="" >REVERSED</div>
+	<div class="rev_msg" hidden="" >REVERSED</div>
 
 	<button type="button" class="btn btn-sm reverse" value="{{$request->id}}">REVERSE</button>
 
@@ -213,23 +310,6 @@ $(document).ready(function(){
 		})
 	});
 
-	//Store remark while declining requests.
-
-	/*$('.decline').on('click',function(){
-		var btn = $(this).attr('id');
-			alert(btn);
-		if(btn == 1){
-
-			var txt = prompt('Please enter reason.');
-
-			if(txt != null){
-				$('.reason').attr('value', txt);
-			}else{
-				return false;
-			}
-		}
-	});*/
-
 	// Approve/Decline requests.
 
 	$('.action').on('click', function(){
@@ -250,7 +330,6 @@ $(document).ready(function(){
 			}
 		}
 
-		//alert([action, request_id]);
 		$.ajax({
 			type: 'POST',
 			url: "/approve_leave/"+request_id,
@@ -272,7 +351,7 @@ $(document).ready(function(){
 	//Reverse leaves
 	
 	$('.reverse').on('click', function(){
-	//function dodo(id){
+		
 		var request_id 	= $(this).val();
 		$.ajax({
 			type: 'POST',
@@ -282,17 +361,17 @@ $(document).ready(function(){
 			success:function(res){
 
 				$('.reverse').attr('hidden', true);
-				$('.msg_reverse').attr('hidden', false);
+				$('.rev_msg').attr('hidden', false);
 
 			}
 		});
 	});
-
+/*
 	$(".approved1").click(function(){
 	    if (!confirm("Do you want to approve")){
 	      return false;
 	    }
-	  });
+	  });*/
   });
 
 
