@@ -23,7 +23,7 @@ class UserController extends Controller
 
     public function index(){
 
-    	$users = User::paginate(10);
+    	$users = User::orderBy('name', 'ASC')->paginate(10);
 
     	return view('acl.users.index', compact('users'));
     }
@@ -84,7 +84,8 @@ class UserController extends Controller
 
     public function active(Request $request, $id){
 
-        //set null for activation and timestamp for deactivation in users table and 0(deactivate) or 1(activation) in employee mast.
+        //set null for activation and timestamp for deactivation in users table and
+        // 0(deactivate) or 1(activation) in employee mast.
         
         User::where('id', $id)
                 ->update(['deleted_at' => $request->flag]);

@@ -81,7 +81,7 @@ class LeavesController extends Controller
     return view('employee.leaves.create', compact('reports_to', 'allotment'));
   }
 
-   public function balance(Request $request){
+  public function balance(Request $request){
 
 
       //Get leave type
@@ -327,8 +327,6 @@ class LeavesController extends Controller
           //$paid_count = $balance->initial_bal - $request->duration;
 
           //Check if sandwich day is more than 0, then deduct leave balance and
-
-
 
           $paid_count    = $request->duration - count($sandwich_days);
 

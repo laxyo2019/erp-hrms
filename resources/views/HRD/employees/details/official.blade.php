@@ -4,7 +4,8 @@
 	<script src='{{asset('js/select2.min.js')}}' type='text/javascript'></script>
 @endpush
 @section('content')
-<main class="app-content">
+<main class="app-content ">
+	<div class="card card-body table-responsive">
 	@include ('HRD/employees/tabs')
 	<div style="margin-top: 1.5rem; padding: 1.5rem;" class="tile">
 		@if($message = Session::get('success'))
@@ -243,7 +244,7 @@
 		</div> --}}
 		
 	</div>
-
+	</div>
 
 	<div class="img_parent d-none">
 		<img src="{{asset('images/loading1.gif')}}" alt="">

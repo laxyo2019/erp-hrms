@@ -160,7 +160,7 @@ $(document).ready(function(){
 
     });
 
-	$(document).on('click','.modalAllot1 , #modalAllot1_65', function(event){
+	$(document).on('click','.modalAllot1', function(event){
         event.preventDefault();
         var user_id = $(this).data('id');
 		$.ajax({
