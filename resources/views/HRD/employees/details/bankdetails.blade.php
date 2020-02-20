@@ -117,7 +117,7 @@
 					<td>{{ $bank_details->is_primary }}</td>
 					{{-- @can('download documents') --}}
 						<td>@if(!empty($bank_details->file_path))
-							<a href="{{ route('employees.download', ['db_table'=>'emp_bank_details', $bank_details->id]) }}" ><i class="fa fa-arrow-down"></i>download</a>
+							<a href="{{ route('employees.download', ['db_table'=>'hrms_emp_bank_details', $bank_details->id]) }}" ><i class="fa fa-arrow-down"></i>download</a>
 							@else
 								Not uploaded
 							@endif

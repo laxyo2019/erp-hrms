@@ -38,7 +38,7 @@ class EmployeesController extends Controller
 
   public function index()
   {		
-		$employees = EmployeeMast::with('company','grade','designation')->orderBy('id', 'DESC')->get();
+		$employees = EmployeeMast::with('company','grade','designation')->orderBy('emp_name', 'DESC')->get();
 
     $leaves = LeaveMast::all();
 
@@ -179,6 +179,7 @@ class EmployeesController extends Controller
 
     if($request->hasFile('file_path')){
 
+      //return $request->file('file_path')->extension();
       $dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
       $file_ext = $request->file('file_path')->extension();
       $filename = $user_id.'_'.time().'_academic.'.$file_ext;

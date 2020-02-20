@@ -102,7 +102,7 @@
 		  			{{-- @can('download documents')	 --}}
 		  			<td>
 		  				@if($row->file_path != null)
-						<a href="{{route('employees.download', ['db_table' => 'emp_academics', $row->id])}}"><i class="fa fa-arrow-down" >
+						<a href="{{route('employees.download', ['db_table' => 'hrms_emp_academics', $row->id])}}"><i class="fa fa-arrow-down" >
 						</i> Download</a>
 						@endif
 					</td>
