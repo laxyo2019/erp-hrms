@@ -255,7 +255,7 @@ class EmployeesController extends Controller
     ]);
 
     if($request->file('file_path')){
-        $doc_title= DB::table('doc_type_mast')->where('id', $vdata['doc_title'])->first();
+        $doc_title= DB::table('hrms_doc_type_mast')->where('id', $vdata['doc_title'])->first();
     		$dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
     		$title    = str_replace(' ', '_', $doc_title->name);
     		$file_ext = $request->file('file_path')->extension();
@@ -1076,7 +1076,7 @@ public function viewDetails($user_id, $view)
 
   public function destroy($id)
   {
-    $employee = EmployeeMast::find($id);
+    $employee = EmployeeMast::where('user_id',$id);
     $employee->delete();
 		$employees = EmployeeMast::all();
     return view('HRD.employees.index',compact('employees'));
@@ -1097,7 +1097,7 @@ public function viewDetails($user_id, $view)
     return Storage::download('/'.$docs->file_path);
   }
   public function exp_table(Request $request){
-    $exp = DB::table('emp_exp')
+    $exp = DB::table('hrms_emp_exp')
                 ->where('id', $request->exp_id)
                 ->first();
    return view('HRD.employees.details.exp_table',compact('exp'));

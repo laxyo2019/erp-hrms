@@ -54,21 +54,16 @@
 									<td>{{$bank_details->is_primary}}</td>
 								</div> 		
 			                
-			                @can('download documents')
-			                
 								<div class="col-6 form-group">
 									<label for=""><b>Document : </b></label>
 									<td>@if(!empty($bank_details->file_path))
-									<a href="{{ route('employees.download', ['db_table'=>'emp_bank_details', $bank_details->id]) }}" ><i class="fa fa-arrow-down"></i>download</a>
+									<a href="{{ route('employees.download', ['db_table'=>'hrms_emp_bank_details', $bank_details->id]) }}" ><i class="fa fa-arrow-down"></i>download</a>
 									@else
 									Not uploaded
 									@endif
 									</td>
 								</div>
 										
-			                
-			                @endcan
-			                
 								
 								<div class="col-6 form-group">
 									<label for=""><b>Note : </b></label>

@@ -15,9 +15,7 @@
                 <tr class="text-center">
                   <th>#</th>
                   <th>Document Title</th>
-                  @can('download documents')
                     <th>Document</th>
-                  @endcan
                   <th>Status</th>
                   <th>Remark</th>
                 </tr>
@@ -28,9 +26,7 @@
               <tr class="text-center">
                 <td>{{++$count}}</td>
                 <td>{{$emp_documents['doctypemast']->name}}</td>
-                @can('download documents')
-                <td><a href="{{ route('employees.download', ['db_table'=>'emp_docs', 'id'=>$emp_documents->id]) }}" ><i class="fa fa-arrow-down"></i> Download</a></td>
-                @endcan
+                <td><a href="{{ route('employees.download', ['db_table'=>'hrms_emp_docs', 'id'=>$emp_documents->id]) }}" ><i class="fa fa-arrow-down"></i> Download</a></td>
                 <td>{{ $emp_documents->doc_status == 's' ? 'Submitted' : 'Provided' }}</td>
                 <td>{{ $emp_documents->remark }}</td>
               </tr>

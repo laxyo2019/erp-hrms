@@ -171,7 +171,7 @@
 								</div>
 							</span>
 							<span>
-								<form action="{{route('employee.delete_row', ['db_table' => 'emp_exp', $exp->id])}}" method="GET" id="delform_{{$exp->id}}">
+								<form action="{{route('employee.delete_row', ['db_table' => 'hrms_emp_exp', $exp->id])}}" method="GET" id="delform_{{$exp->id}}">
 									<a href="javascript:$('#delform_{{$exp->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white" style="font-size: 12px;"></i></a>
 								</form>
 							</span>

@@ -30,12 +30,10 @@
 								<label for=""><b>Grade or % : </b></label>
 								<td>{{empty($row->grade_or_pct)?'':$row->grade_or_pct}}</td>
 							</div>	
-	                     	@can('download documents')
 			                	<div class="col-6 form-group">
 									<label for=""><b> Documents : </b></label>
-									<td><a href="{{route('employees.download', ['db_table' => 'emp_academics', $row->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
+									<td><a href="{{route('employees.download', ['db_table' => 'hrms_emp_academics', $row->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
 								</div>
-							@endcan
 							<div class="col-6 form-group">
 								<label for=""><b>Special Note : </b></label>
 								<td>{{empty($row->note)?'':$row->note}}</td>
