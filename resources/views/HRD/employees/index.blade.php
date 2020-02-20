@@ -77,21 +77,9 @@
 
 							@else
 								@if($employee->leave_allotted == 0)
-								<button class="btn btn-sm btn-info ml-2 modalAllot" data-id="{{$employee->user_id}}">
+								<button class="btn btn-sm btn-info ml-2 modalAllot1 "  data-id="{{$employee->user_id}}">
 								<span style="font-size: 12px">Allot</span>
 								</button>
-								<div class="modal fade" id="allotmentsModal" role="dialog">
-								<div class="modal-dialog modal-lg" >
-								<div class="modal-content" >
-									<div class="modal-header">
-								<h4 class="modal-title">Leaves Allotments</h4>
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								</div>
-								<div class="modal-body table-responsive" id="modalform">
-								</div>
-								</div>
-								</div>
-								</div>
 								@else
 								Allotted
 								@endif
@@ -146,6 +134,19 @@
 				</div>
 			</div>
 		</div>
+
+			<div class="modal fade" id="allotmentsModal" role="dialog">
+				<div class="modal-dialog modal-lg" >
+					<div class="modal-content" >
+						<div class="modal-header">
+							<h4 class="modal-title">Leaves Allotments</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<div class="modal-body table-responsive" id="modalform">
+						</div>
+					</div>
+				</div>
+			</div>
 </main>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -159,8 +160,8 @@ $(document).ready(function(){
 
     });
 
-	$('.modalAllot').on('click', function(e){
-        e.preventDefault();
+	$(document).on('click','.modalAllot1 , #modalAllot1_65', function(event){
+        event.preventDefault();
         var user_id = $(this).data('id');
 		$.ajax({
 			type: 'GET',

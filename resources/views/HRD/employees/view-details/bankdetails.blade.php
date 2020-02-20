@@ -54,8 +54,6 @@
 									<td>{{$bank_details->is_primary}}</td>
 								</div> 		
 			                
-			                @can('download documents')
-			                
 								<div class="col-6 form-group">
 									<label for=""><b>Document : </b></label>
 									<td>@if(!empty($bank_details->file_path))
@@ -66,9 +64,6 @@
 									</td>
 								</div>
 										
-			                
-			                @endcan
-			                
 								
 								<div class="col-6 form-group">
 									<label for=""><b>Note : </b></label>

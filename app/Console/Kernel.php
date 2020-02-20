@@ -25,9 +25,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('leave:update')
-                  ->monthlyOn(1, '0:00')
-                  ->timezone('Asia/Kolkata');;
-
+                    ->everyMinute()
+                  ->timezone('Asia/Kolkata');
+                   //->monthlyOn(1, '0:00')
                   //->monthlyOn(4, '15:00');
     }
 
