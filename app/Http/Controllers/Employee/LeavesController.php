@@ -177,7 +177,7 @@ class LeavesController extends Controller
             'msg'  =>   1 ];           
       }*/
    /****/
-   
+
    }
   
    public function holidayCheck(Request $request){
@@ -188,15 +188,17 @@ class LeavesController extends Controller
                       ->get();
      
     $check = count($sandwichRule);
+
     return $check;
+    
    }
 
    public function store(Request $request)
+
    {
 
      $data = $request->validate([
          'leave_type_id'    => 'required',
-         //'reports_to'       => 'required',
          'start_date'       => 'required',
          'reason'           => 'required',
          'duration'         => 'required|string',
@@ -289,6 +291,15 @@ class LeavesController extends Controller
       if($btnId == 'multiBtn'){
 
         $data['day_status'] = 3;
+
+
+
+          if(){
+
+          }
+          $paid_count   = 0.0;
+
+          $unpaid_count = $request->duration;
 
         if($request->duration > 2 && $leaveData->without_pay != 1){
           

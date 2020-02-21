@@ -238,9 +238,7 @@ class EmployeesController extends Controller
 		$academic->save();
 
 		return back()->with('success','Updated successfully.');
-  }
-
-  
+  }  
   
   public function save_documents(Request $request, $user_id)
   {
@@ -276,7 +274,6 @@ class EmployeesController extends Controller
 
   public function save_nominee(Request $request, $user_id){
 
-    //return $user_id;
     $vdata = request()->validate([
       'nominee_name'  => 'required',
       'email'         => 'nullable|email',
