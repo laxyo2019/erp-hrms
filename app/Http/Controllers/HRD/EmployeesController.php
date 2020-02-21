@@ -38,7 +38,7 @@ class EmployeesController extends Controller
 
   public function index()
   {		
-		$employees = EmployeeMast::with('company','grade','designation')->orderBy('emp_name', 'DESC')->get();
+		$employees = EmployeeMast::with('company','grade','designation')->orderBy('emp_name','ASC')->get();
 
     $leaves = LeaveMast::all();
 
