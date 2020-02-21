@@ -3,6 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Master\DeptMast;
+use App\Models\Master\DocTypeMast;
+use App\Models\Master\Designation;
+use App\Models\Master\Grade;
+use App\Models\Master\CompMast;
+//use App\Models\Master\
+//use App\Models\Master\
+
 use Illuminate\Support\Facades\DB;
 use Session;
 
@@ -19,19 +27,26 @@ class MasterController extends Controller
 			$tables = array(
 				 	
 
+				array(
+							'table_name'	=> 'hrms_comp_mast',
+							'display_name'	=> 'Companies',
+							'icon'			=> 'fa fa-building-o',
+							'bg_color'		=> '#ffc107',
+							'count'			=> CompMast::count()
+							),
 			 	array(
 							'table_name'	=> 'hrms_dept_mast',
 							'display_name'	=> 'Departments',
 							'icon'			=> 'fa fa-shekel',
 							'bg_color'		=> '#dc3545',
-							'count'			=> DB::table('hrms_dept_mast')->get()->count()
+							'count'			=> DeptMast::count()
 							),
 				array(
 							'table_name'	=> 'hrms_doc_type_mast',
 							'display_name'	=> 'Document Types',
 							'icon'			=> 'fa fa-file-text',
 							'bg_color'		=> '#ff7f07',
-							'count'			=> DB::table('hrms_doc_type_mast')->get()->count()
+							'count'			=> DocTypeMast::count()
 							),
 				
 				array(
@@ -39,7 +54,7 @@ class MasterController extends Controller
 							'display_name'	=> 'Employee Designations',
 							'icon'			=> 'fa fa-id-card',
 							'bg_color'		=> '#05f3d7db',
-							'count'			=> DB::table('hrms_desg_mast')->get()->count()
+							'count'			=> Designation::count()
 							),
 				
 				array(
@@ -47,7 +62,7 @@ class MasterController extends Controller
 							'display_name'	=> 'Employee Grades',
 							'icon'			=> 'fa fa-id-badge',
 							'bg_color'		=> '#ef041a',
-							'count'			=> DB::table('hrms_emp_grade_mast')->get()->count()
+							'count'			=> Grade::count()
 							),
 			 	
 				array(
@@ -65,6 +80,14 @@ class MasterController extends Controller
 							'bg_color'		=> '#28a745',
 							'count'			=> DB::table('hrms_emp_type_mast')->get()->count()
 							),
+				array(
+							'table_name'	=> 'hrms_nominee_type',
+							'display_name'	=> 'Nominee Types',
+							'icon'			=> 'fa fa-user-secret',
+							'bg_color'		=> '#28a745',
+							'count'			=> DB::table('hrms_emp_type_mast')->get()->count()
+							),
+
 /*
 				array(
 							'table_name'	=> 'leave_type_mast',
@@ -81,13 +104,7 @@ class MasterController extends Controller
 							'bg_color'		=> '#17a2b8',
 							'count'			=> DB::table('activity_mast')->get()->count()
 						),
-				array(
-							'table_name'	=> 'comp_mast',
-							'display_name'	=> 'Companies',
-							'icon'			=> 'fa fa-building-o',
-							'bg_color'		=> '#ffc107',
-							'count'			=> DB::table('comp_mast')->get()->count()
-							),
+				
 				array(
 							'table_name'	=> 'tender_catg_mast',
 							'display_name'	=> 'Tender Categories',
@@ -162,16 +179,17 @@ class MasterController extends Controller
 	public function fetch_name($tbl_name){
 		$tables = array(
 					/**/
-					'hrms_dept_mast'				=>	'Departments',
-					'hrms_doc_type_mast'			=>	'Document Types',
-					'hrms_emp_status_mast'		=> 	'Employee Status',
-					'hrms_desg_mast'				=>  'Employee Designations',
-					'hrms_emp_type_mast'			=>  'Employee Types',
-					'hrms_emp_grade_mast'		=> 	'Employee Grades',
+					'comp_mast'				=>	'Companies',
+					'hrms_dept_mast'		=>	'Departments',
+					'hrms_doc_type_mast'	=>	'Document Types',
+					'hrms_emp_status_mast'	=> 	'Employee Status',
+					'hrms_desg_mast'		=>  'Employee Designations',
+					'hrms_emp_type_mast'	=>  'Employee Types',
+					'hrms_emp_grade_mast'	=> 	'Employee Grades',
 					/*'leave_type_mast'		=> 	'Leave Types',
 				  	'acitvity_mast'			=> 	'Activities'
 					'asset_mast'			=>	'Assets',
-					'comp_mast'				=>	'Companies',
+					
 					'emp_event_mast'		=>  'Employee Events',
 					'expense_catg_mast'		=>  'Expense Categories',
 					'expense_mode_mast'		=>  'Expense Modes',
