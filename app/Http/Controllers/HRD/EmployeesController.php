@@ -29,7 +29,6 @@ use App\Models\Employees\EmpBankDetail;
 use App\Models\Employees\LeaveAllotment;
 
 
-
 class EmployeesController extends Controller
 {
  	public function __construct(){
@@ -41,8 +40,6 @@ class EmployeesController extends Controller
 		$employees = EmployeeMast::with('company','grade','designation')->orderBy('emp_name','ASC')->get();
 
     $leaves = LeaveMast::all();
-
-    //return $leaves;
 
     return view('HRD.employees.index',compact('employees', 'leaves'));
   }
@@ -79,7 +76,6 @@ class EmployeesController extends Controller
 
   public function save_personal(Request $request, $user_id){
 
-    //return $user_id;
     $vdata = request()->validate([
       'full_name'      => 'required|max:45',
       'contact_number' => 'nullable|numeric',
@@ -179,6 +175,7 @@ class EmployeesController extends Controller
 
     if($request->hasFile('file_path')){
 
+      //return $request->file('file_path')->extension();
       $dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
       $file_ext = $request->file('file_path')->extension();
       $filename = $user_id.'_'.time().'_academic.'.$file_ext;

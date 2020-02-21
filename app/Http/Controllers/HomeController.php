@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Auth;
 use Session;
 use App\User;
+use Illuminate\Http\Request;
+use App\Models\Employees\LeaveApply;
 use App\Models\Employees\EmployeeMast ;
 
 class HomeController extends Controller
@@ -27,6 +28,13 @@ class HomeController extends Controller
      */
     public function index()
     {
+        //Employees
+        $emp_count = EmployeeMast::count();
+
+        //Leave Requests (Pending)
+        $leave_req = LeaveApply::where('1', 1);
+
+        //return $employees;
         //Hide employee leave request menu.
         
         $user = EmployeeMast::with('allotments')
@@ -39,6 +47,6 @@ class HomeController extends Controller
             $leave['reallotment']= $user['allotments'];
             Session::put('leave', $leave);
         }
-        return view('home');
+        return view('home', compact('emp_count'));
     }
 }

@@ -103,7 +103,7 @@
 		  		<td>{{ $emp_documents->doc_status == 's' ? 'Submitted' : 'Provided' }}</td>
 		  		<td>{{ $emp_documents->remark }}</td>
 		  		<td>
-				<form action="{{route('employee.delete_row', ['db_table'=>'emp_docs', 'id'=>$emp_documents->id])}}" method="GET" id="delform_{{ $emp_documents->id}}">
+				<form action="{{route('employee.delete_row', ['db_table'=>'hrms_emp_docs', 'id'=>$emp_documents->id])}}" method="GET" id="delform_{{ $emp_documents->id}}">
 				<a href="javascript:$('#delform_{{ $emp_documents->id }}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
 				</form>
 				</td>

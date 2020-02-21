@@ -81,7 +81,7 @@ class LeavesController extends Controller
     return view('employee.leaves.create', compact('reports_to', 'allotment'));
   }
 
-   public function balance(Request $request){
+  public function balance(Request $request){
 
 
       //Get leave type
@@ -177,6 +177,7 @@ class LeavesController extends Controller
             'msg'  =>   1 ];           
       }*/
    /****/
+   
    }
   
    public function holidayCheck(Request $request){
@@ -201,7 +202,7 @@ class LeavesController extends Controller
          'duration'         => 'required|string',
          'contact_no'       => 'nullable',
          'applicant_remark' => 'nullable',
-         'address_leave'    => 'nullable'       
+         'address_leave'    => 'nullable'
 
       ]);
 
@@ -229,7 +230,6 @@ class LeavesController extends Controller
         $data['day_status'] = $dayStatus['day_status'];
       }
     }
-
       //If min leave starts from half day
 
       if($leaveData->min_apply_once == 0.5){
@@ -323,7 +323,7 @@ class LeavesController extends Controller
           //return ([$sandwich_days, $request->duration, $balance->initial_bal]);
 
           if($balance->initial_bal - $request->duration){
-
+            
           }
           //$paid_count = $balance->initial_bal - $request->duration;
 
@@ -352,8 +352,17 @@ class LeavesController extends Controller
                ]);
 
         $data['day_status'] = 2;
-        $paid_count = $request->duration;
-        $unpaid_count = 0.0;
+
+        if($leaveData->without_pay != 1){
+
+          $paid_count = $request->duration;
+          $unpaid_count = 0.0;
+
+        }else{
+
+          $paid_count   = 0.0;
+          $unpaid_count = $request->duration;
+        }
 
       }elseif($btnId == 'halfBtn'){
 

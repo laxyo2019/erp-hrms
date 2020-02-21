@@ -1,5 +1,5 @@
 <header class="app-header" style="background-color: #4e73df">
-  <a class="app-header__logo" href="{{url('/')}}" style="background-color: #4e73df">HRMS</a>
+  <a class="app-header__logo" href="{{url('/')}}" style="background-color: #4e73df"><b>HRMS </b><sup><i>laxyo</i></sup></a>
 <!-- Sidebar toggle button-->
 <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
 <!-- Navbar Right Menu-->

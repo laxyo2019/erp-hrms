@@ -116,7 +116,7 @@
 						{{-- @endcan --}}
 						<td>{{$nominees->addr}}</td>
 						<td>
-						<form action="{{ route('employee.delete_row', ['db_table' => 'emp_nominee' ,$nominees->id]) }}" method="GET" id="delform_{{ $nominees->id }}">
+						<form action="{{ route('employee.delete_row', ['db_table' => 'hrms_emp_nominee' ,$nominees->id]) }}" method="GET" id="delform_{{ $nominees->id }}">
 						<a href="javascript:$('#delform_{{ $nominees->id }}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
 							</form>
 						</td>

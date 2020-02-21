@@ -57,7 +57,6 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 		Route::post('/employee/save_nominee/{user_id}', 'EmployeesController@save_nominee')->name('employees.nominee');
 		Route::post('/employees/save_bankdetails/{user_id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
 
-
 });
 
 //Employee Active/Inactive
@@ -95,7 +94,6 @@ Route::get('leave-management/reallot/{id}', 'Leave\AllotmentController@reallot')
 
 //Holidays
 
-
 //Export Import holidays
 
 Route::post('holidays/import', 'Leave\HolidayController@import')->name('import.holidays');
@@ -105,7 +103,7 @@ Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_p
 
 
 /*******ACL********/
-  
+ 
 Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 
 	Route::resource('acl/permissions', 'acl\PermissionController');
@@ -150,11 +148,10 @@ Route::delete('settings/mast_entity/{db_table}/{id}', 'MasterController@destroy'
 
 
 /******User Registration******/
-Route::get('auth/create', 'UserController@create');
+//Route::get('auth/create', 'UserController@create');
 
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('/expenses/bills','Expenses\BillsController');
 
 
 
