@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Session;
 use Illuminate\Http\Request;
+use App\Models\Master\Grade;
+use App\Models\Master\EmpType;
+use App\Models\Master\CompMast;
 use App\Models\Master\DeptMast;
+use App\Models\Master\EmpStatus;
+use Illuminate\Support\Facades\DB;
 use App\Models\Master\DocTypeMast;
 use App\Models\Master\Designation;
-use App\Models\Master\Grade;
-use App\Models\Master\CompMast;
-//use App\Models\Master\
-//use App\Models\Master\
-
-use Illuminate\Support\Facades\DB;
-use Session;
+use App\Models\Master\NomineeType;
 
 
 class MasterController extends Controller
@@ -70,7 +70,7 @@ class MasterController extends Controller
 							'display_name'	=> 'Employee Status',
 							'icon'			=> 'fa fa-street-view',
 							'bg_color'		=> '#3b35d2db',
-							'count'			=> DB::table('hrms_emp_status_mast')->get()->count()
+							'count'			=> EmpStatus::count()
 							),
 				
 				array(
@@ -78,14 +78,14 @@ class MasterController extends Controller
 							'display_name'	=> 'Employee Types',
 							'icon'			=> 'fa fa-user-secret',
 							'bg_color'		=> '#28a745',
-							'count'			=> DB::table('hrms_emp_type_mast')->get()->count()
+							'count'			=> EmpType::count()
 							),
 				array(
 							'table_name'	=> 'hrms_nominee_type',
 							'display_name'	=> 'Nominee Types',
 							'icon'			=> 'fa fa-user-secret',
 							'bg_color'		=> '#28a745',
-							'count'			=> DB::table('hrms_emp_type_mast')->get()->count()
+							'count'			=> NomineeType::count()
 							),
 
 /*
@@ -178,18 +178,17 @@ class MasterController extends Controller
 	}
 	public function fetch_name($tbl_name){
 		$tables = array(
-					/**/
-					'comp_mast'				=>	'Companies',
+					'hrms_comp_mast'		=>	'Companies',
 					'hrms_dept_mast'		=>	'Departments',
 					'hrms_doc_type_mast'	=>	'Document Types',
 					'hrms_emp_status_mast'	=> 	'Employee Status',
 					'hrms_desg_mast'		=>  'Employee Designations',
 					'hrms_emp_type_mast'	=>  'Employee Types',
 					'hrms_emp_grade_mast'	=> 	'Employee Grades',
+					'hrms_nominee_type'		=> 	'Nominee Types'
 					/*'leave_type_mast'		=> 	'Leave Types',
 				  	'acitvity_mast'			=> 	'Activities'
 					'asset_mast'			=>	'Assets',
-					
 					'emp_event_mast'		=>  'Employee Events',
 					'expense_catg_mast'		=>  'Expense Categories',
 					'expense_mode_mast'		=>  'Expense Modes',

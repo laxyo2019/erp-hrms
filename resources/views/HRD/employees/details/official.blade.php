@@ -19,7 +19,6 @@
 				@csrf
 				<div class="container-fluid">
 					<div class="row">
-
 						<div class="col-6 form-group">
 							<label for="">Company</label>
 							<select name="comp_id" class="form-control">

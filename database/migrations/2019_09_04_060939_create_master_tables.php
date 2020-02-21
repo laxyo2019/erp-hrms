@@ -14,6 +14,23 @@ class CreateMasterTables extends Migration
     public function up()
     {
 
+    	Schema::create('hrms_comp_mast', function (Blueprint $table) {
+			$table->increments('id');
+			$table->string('account_code', 5)->default(10001);
+			$table->string('name', 100);
+			$table->string('description')->nullable();
+			$table->timestamps();
+			$table->softDeletes();
+		});
+
+		Schema::create('hrms_nominee_type', function (Blueprint $table) {
+			$table->increments('id');
+			$table->string('name', 100);
+			$table->string('description')->nullable();
+			$table->timestamps();
+			$table->softDeletes();
+		});
+
 		Schema::create('hrms_dept_mast', function (Blueprint $table) {
 			$table->increments('id');
 			$table->string('account_code', 5)->default(10001);
@@ -22,6 +39,7 @@ class CreateMasterTables extends Migration
 			$table->timestamps();
 			$table->softDeletes();
 		});
+
   		Schema::create('hrms_desg_mast', function (Blueprint $table) {
 	        $table->increments('id');
 	        $table->string('account_code', 5)->default(10001);

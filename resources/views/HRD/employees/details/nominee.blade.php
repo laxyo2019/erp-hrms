@@ -8,11 +8,10 @@
 	<div style="margin-top: 1.5rem; padding: 1.5rem;" class="tile">
 		@if($message = Session::get('success'))
 		<div class="alert alert-success alert-block">
-		<button type="button" class="close" data-dismiss="alert">×</button>
+			<button type="button" class="close" data-dismiss="alert">×</button>
 			{{$message}}
 		</div>
 		@endif 
-		
 			<form action="{{ route('employees.nominee', ['user_id' => $employee->user_id]) }}" method="POST" enctype="multipart/form-data">
 				@csrf
 				<div class="row">
@@ -55,15 +54,29 @@
 		          </span>
 		      	@enderror
 					</div>
-							<div class="col-6 form-group">
-								<label for="">Nominee's Email</label>
-								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
-								@error('email')
-				          	<span class="text-danger" role="alert">
-				           		<strong>* {{ $message }}</strong>
-				          	</span>
-				      		@enderror
+						<div class="col-6 form-group">
+							<label for="">Nominee's Email</label>
+							<input type="email" class="form-control" name="email" value="{{ old('email') }}">
+							@error('email')
+			          	<span class="text-danger" role="alert">
+			           		<strong>* {{ $message }}</strong>
+			          	</span>
+			      		@enderror
 						</div>
+						<div class="col-6 form-group">
+					    	<label for="">Nominee Type</label>
+					    	<select name="nominee_type" id="nominee_type" class="custom-select form-control select2">
+					    		<option value="">Please Select </option>
+@foreach($meta['nominee_types'] as $types)
+<option value="{{$types->id}}"  {{ old('nominee_type') }}>{{$types->name}}</option>
+@endforeach
+					    	</select>
+					    	@error('nominee_type')
+								<span class="text-danger" role="alert">
+									<strong>* {{ $message }}</strong>
+								</span>
+							@enderror
+					    </div>
 					<div class="col-6 form-group">
 						<label for="file_path">Upload Documents</label>
     					<input type="file" name="file_path" class="form-control-file" id="file_path" value="{{ old('file_path')}}">

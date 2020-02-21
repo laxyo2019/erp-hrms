@@ -17,6 +17,7 @@ use App\Imports\EmployeesImport;
 use App\Exports\EmployeesExport;
 use App\Models\Master\Designation;
 use App\Models\Master\DocTypeMast;
+use App\Models\Master\NomineeType;
 use App\Models\Employees\EmpNominee;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ErrorEmployeeExport;
@@ -294,6 +295,7 @@ class EmployeesController extends Controller
 
     $nominee = new EmpNominee;
     $nominee->user_id   = $user_id;
+    $nominee->nominee_type_id = $request->nominee_type;
     $nominee->name      = $vdata['nominee_name'];
     $nominee->email     = $vdata['email'];
     $nominee->aadhar_no = $vdata['aadhaar_no'];
@@ -404,6 +406,8 @@ class EmployeesController extends Controller
       $employee = EmployeeMast::with('nominee')
                     ->where('user_id',$user_id)
                     ->first();
+
+      $meta['nominee_types'] = NomineeType::all();
     }
     // return "hello";
 
