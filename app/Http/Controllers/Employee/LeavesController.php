@@ -177,6 +177,7 @@ class LeavesController extends Controller
             'msg'  =>   1 ];           
       }*/
    /****/
+   
    }
   
    public function holidayCheck(Request $request){
