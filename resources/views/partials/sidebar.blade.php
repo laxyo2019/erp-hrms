@@ -8,10 +8,11 @@
     </div>
   </div>
   <ul class="app-menu">
+    @role('hrms_admin|hrms_hr')
     <li>
       <a class="app-menu__item {{request()->path() == '/' ? 'active' : ''}} " href="{{url('/')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a>
     </li>
-
+    @endrole
     <li >
       <a class="app-menu__item {{request()->segment(1) == 'information' ? 'active' : ''}} " href="{{route('information.index')}}">
         <i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Profile</span>
@@ -143,7 +144,8 @@
 
 
       <li><a class="app-menu__item" href="{{route('mast_entity.home')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Settings</span></a></li>
-  
+      
+      <li><a class="app-menu__item" href="{{route('branches.index')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Add Branch</span></a></li>
 {{--       
       <li class="treeview {{call_user_func_array('Request::is', (array)['settings*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-cog "></i><span class="app-menu__label">Settings</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">

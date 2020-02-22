@@ -65,9 +65,9 @@
 									<td ><input type="checkbox" value="{{$employee->user_id}}" class="emp" name="checked"> {{$employee->user_id}} </td>
 									<td>{{ucwords($employee->emp_name)}}</td>
 									<td>{{$employee->emp_code}}</td>
-									{{-- <td>@if($employee->company!=null) {{$employee->company->comp_name}} @endif</td> --}}
-									<td>@if($employee->grade!=null) {{$employee->grade->name}} @endif</td>
-									<td>{{$employee->designation['desg_name']}}</td>
+									{{--<td>@if($employee->company!=null) {{$employee->company->comp_name}} @endif</td> --}}
+									<td>@if($employee->grade!=null) {{ucwords($employee->grade->name)}} @endif</td>
+									<td>{{ucwords($employee['designation']['name'])}}</td>
 									<td>
 
 							{{-- hide allotment button if leave is not created --}}
@@ -81,7 +81,8 @@
 								<span style="font-size: 12px">Allot</span>
 								</button>
 								@else
-								Allotted
+								<b style="color: green">Allotted</b>
+								
 								@endif
 							@endif
 									</td>

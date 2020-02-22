@@ -21,7 +21,7 @@ class EmployeeMast extends Model
  	}
 
  	public function grade(){
- 		return $this->belongsTo('App\Models\Master\Grade','desg_id');
+ 		return $this->belongsTo('App\Models\Master\Grade', 'grade_id');
  	}
 
  	public function dobFormated($value)

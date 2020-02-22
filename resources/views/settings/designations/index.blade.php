@@ -36,7 +36,7 @@
 								@foreach($designations as $designation)
 								<tr>
 									<td>{{$designation->id}}</td>
-									<td>{{$designation->name}}</td>
+									<td>{{ucwords($designation->name)}}</td>
 									<td>{{$designation->description}}</td>
 									<td class="d-flex">
 										<span>

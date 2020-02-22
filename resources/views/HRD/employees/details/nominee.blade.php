@@ -67,9 +67,9 @@
 					    	<label for="">Nominee Type</label>
 					    	<select name="nominee_type" id="nominee_type" class="custom-select form-control select2">
 					    		<option value="">Please Select </option>
-@foreach($meta['nominee_types'] as $types)
-<option value="{{$types->id}}"  {{ old('nominee_type') }}>{{$types->name}}</option>
-@endforeach
+								@foreach($meta['nominee_types'] as $types)
+								<option value="{{$types->id}}"  {{ old('nominee_type') }}>{{$types->name}}</option>
+								@endforeach
 					    	</select>
 					    	@error('nominee_type')
 								<span class="text-danger" role="alert">
