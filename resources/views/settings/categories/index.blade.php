@@ -36,7 +36,7 @@
 							<tbody>
 								@foreach($categories as $category)
 								<tr>
-									<td>{{$category->name}}</td>
+									<td>{{ucwords($category->name)}}</td>
 									<td>
 										@if($category->enabled == '1')
 												<span class="btn btn-success btn-sm" >Enabled</span>	

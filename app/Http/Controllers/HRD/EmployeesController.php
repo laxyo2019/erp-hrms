@@ -17,6 +17,7 @@ use App\Imports\EmployeesImport;
 use App\Exports\EmployeesExport;
 use App\Models\Master\Designation;
 use App\Models\Master\DocTypeMast;
+use App\Models\Master\NomineeType;
 use App\Models\Employees\EmpNominee;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ErrorEmployeeExport;
@@ -40,6 +41,8 @@ class EmployeesController extends Controller
 		$employees = EmployeeMast::with('company','grade','designation')->orderBy('emp_name','ASC')->get();
 
     $leaves = LeaveMast::all();
+
+    //return $employees[0]['designation']->name;
 
     return view('HRD.employees.index',compact('employees', 'leaves'));
   }
@@ -125,15 +128,14 @@ class EmployeesController extends Controller
       'aadhar_no' => 'string|nullable|max:20',
       'pan_no'    => 'string|nullable|max:20',
       'voter_id'  => 'string|nullable|max:20',
-      'old_pf'    => 'string|nullable|max:20',
-      'new_pf'    => 'string|nullable|max:20',
-      'driv_lic'  => 'string|nullable|max:20',
-      'old_uan'   => 'string|nullable|max:20',
-      'curr_uan'  => 'string|nullable|max:20',
-      'old_esi'   => 'string|nullable|max:20',
-      'curr_esi'  => 'string|nullable|max:20',
+      'old_pf'    => 'string|nullable|max:20|alpha_num',
+      'new_pf'    => 'string|nullable|max:20|alpha_num',
+      'driv_lic'  => 'string|nullable|max:20|alpha_dash',
+      'old_uan'   => 'string|nullable|digits:12',
+      'curr_uan'  => 'string|nullable|digits:12',
+      'old_esi'   => 'string|nullable|digits:20',
+      'curr_esi'  => 'string|nullable|digits:20',
     ]);
-    // return EmployeeMast::where('user_id',$user_id)->get();
 
     $employee = EmployeeMast::where('user_id', $user_id)
       ->update([
@@ -294,6 +296,7 @@ class EmployeesController extends Controller
 
     $nominee = new EmpNominee;
     $nominee->user_id   = $user_id;
+    $nominee->nominee_type_id = $request->nominee_type;
     $nominee->name      = $vdata['nominee_name'];
     $nominee->email     = $vdata['email'];
     $nominee->aadhar_no = $vdata['aadhaar_no'];
@@ -375,6 +378,7 @@ class EmployeesController extends Controller
       $meta['grade_mast']    = Grade::all();
       $meta['designation']   = Designation::where('deleted_at', null)->get();
       $meta['emp_mast']      = EmployeeMast::where('deleted_at', null)->get();
+
     }
 
     if($tab == 'academics'){
@@ -404,6 +408,8 @@ class EmployeesController extends Controller
       $employee = EmployeeMast::with('nominee')
                     ->where('user_id',$user_id)
                     ->first();
+
+      $meta['nominee_types'] = NomineeType::all();
     }
     // return "hello";
 

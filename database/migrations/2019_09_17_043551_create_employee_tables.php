@@ -60,6 +60,7 @@ class CreateEmployeeTables extends Migration
         Schema::create('hrms_emp_nominee', function (Blueprint $table) { //multiple rows
           $table->increments('id');
           $table->unsignedInteger('user_id');
+          $table->integer('nominee_type_id');
           $table->string('name', 100);
           $table->string('email', 100)->nullable();
           $table->text('address')->nullable();
@@ -74,7 +75,7 @@ class CreateEmployeeTables extends Migration
 
         Schema::create('hrms_emp_bank_details', function (Blueprint $table) { //mul rows
           $table->increments('id');
-          $table->unsignedInteger('emp_id');
+          $table->unsignedInteger('user_id');
           $table->string('acc_holder', 50)->nullable();
           $table->string('acc_no', 50)->nullable();
           $table->string('bank_name', 50)->nullable();

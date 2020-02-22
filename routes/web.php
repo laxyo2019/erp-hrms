@@ -13,7 +13,7 @@
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('login/{username}', 'LoginController@login');
 Route::post('/logout', 'LoginController@logout')->name('logout');
- // Auth::routes(['register' => false]);
+//  Auth::routes(['register' => false]);
 
 //Route::resource('/hrd/approvals','HRD\ApprovalsController');
 
@@ -57,7 +57,11 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 		Route::post('/employee/save_nominee/{user_id}', 'EmployeesController@save_nominee')->name('employees.nominee');
 		Route::post('/employees/save_bankdetails/{user_id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
 
+
 });
+
+//Add Branches
+		Route::resource('/branches', 'Settings\CompBranchController');
 
 //Employee Active/Inactive
 
