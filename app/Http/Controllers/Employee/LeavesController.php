@@ -294,9 +294,9 @@ class LeavesController extends Controller
 
 
 
-          if(){
+          /*if(){
 
-          }
+          }*/
           $paid_count   = 0.0;
 
           $unpaid_count = $request->duration;

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Settings;
 
 use Illuminate\Http\Request;
+use App\Models\Master\CompMast;
+use App\Models\Employees\CompBranch;
 use App\Http\Controllers\Controller;
 
 class CompBranchController extends Controller
@@ -14,8 +16,9 @@ class CompBranchController extends Controller
      */
     public function index()
     {
+        $branches = CompBranch::with('branch')->paginate(10);
 
-        return view('settings.branches.index');
+        return view('settings.branches.index', compact('branches'));
     }
 
     /**
@@ -25,8 +28,9 @@ class CompBranchController extends Controller
      */
     public function create()
     {
-        
-        return view('settings.branches.create');
+        $companies = CompMast::orderBy('name', 'ASC')->get();
+
+        return view('settings.branches.create', compact('companies'));
     }
 
     /**
@@ -37,7 +41,13 @@ class CompBranchController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        CompBranch::create([
+            'comp_id' => $request->comp_id,
+            'city'    => $request->city,
+            'address' => $request->address
+        ]);
+
+        return redirect()->route('branches.index')->with('success', 'Branch added successfully.');
     }
 
     /**
@@ -59,7 +69,10 @@ class CompBranchController extends Controller
      */
     public function edit($id)
     {
-        //
+        $companies = CompMast::orderBy('name', 'ASC')->get();
+        $branch    = CompBranch::findOrFail($id);
+
+        return view('settings.branches.edit', compact('companies', 'branch'));
     }
 
     /**
@@ -71,7 +84,12 @@ class CompBranchController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        CompBranch::findOrFail($id)
+            ->update([
+                'comp_id' => $request->comp_id,
+                'city'    => $request->city]);
+
+        return redirect()->route('branches.index')->with('success', 'Branch updated successfully.');
     }
 
     /**

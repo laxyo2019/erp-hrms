@@ -13,7 +13,7 @@
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('login/{username}', 'LoginController@login');
 Route::post('/logout', 'LoginController@logout')->name('logout');
-//  Auth::routes(['register' => false]);
+//Auth::routes(['register' => false]);
 
 //Route::resource('/hrd/approvals','HRD\ApprovalsController');
 
@@ -28,7 +28,6 @@ Route::resource('/hrd/leaves', 'HRD\LeavesController');
 
 Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 
-	
 	Route::resource('/leave-management/types', 'Leave\LeaveTypeController');
 	Route::resource('/leave-management/allotments', 'Leave\AllotmentController');
 	Route::resource('/leave-management/holidays', 'Leave\HolidayController');
@@ -57,11 +56,13 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 		Route::post('/employee/save_nominee/{user_id}', 'EmployeesController@save_nominee')->name('employees.nominee');
 		Route::post('/employees/save_bankdetails/{user_id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
 
-
 });
 
 //Add Branches
-		Route::resource('/branches', 'Settings\CompBranchController');
+	Route::resource('/branches', 'Settings\CompBranchController');
+
+//Location > Branches
+	Route::post('/location/branches', 'HRD\EmployeesController@showBranches')->name('company.branches');
 
 //Employee Active/Inactive
 
