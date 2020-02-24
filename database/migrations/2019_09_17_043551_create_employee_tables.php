@@ -18,7 +18,8 @@ class CreateEmployeeTables extends Migration
           //single row
           $table->increments('id');
           $table->integer('user_id');
-          $table->integer('role_id')>nullable();
+          $table->integer('role_id')->nullable();
+          $table->integer('branch_id')->nullable();
           $table->integer('status')->default(0);
           $table->unsignedInteger('reports_to')->nullable();
           $table->string('emp_code', 15)->nullable();
@@ -127,6 +128,15 @@ class CreateEmployeeTables extends Migration
           $table->string('remarks')->nullable();
           $table->date('date');
           $table->char('doc_status', 1);  //S (submitted), P (provided)
+          $table->timestamps();
+          $table->softDeletes();
+        });
+
+        chema::create('hrms_comp_branch', function (Blueprint $table) {
+          $table->increments('id');
+          $table->integer('comp_id')->nullable();
+          $table->integer('city')->nullable();
+          $table->text('address')->nullable();
           $table->timestamps();
           $table->softDeletes();
         });

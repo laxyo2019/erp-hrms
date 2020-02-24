@@ -18,6 +18,7 @@ use App\Exports\EmployeesExport;
 use App\Models\Master\Designation;
 use App\Models\Master\DocTypeMast;
 use App\Models\Master\NomineeType;
+use App\Models\Employees\CompBranch;
 use App\Models\Employees\EmpNominee;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ErrorEmployeeExport;
@@ -141,6 +142,7 @@ class EmployeesController extends Controller
       ->update([
         'comp_id'    => $request->comp_id,
         'dept_id'    => $request->dept_id,
+        'branch_id'  => $request->branch_id,
         'emp_type'   => $request->emp_type,
         'reports_to' => $request->reports_to,
         'emp_status' => $request->emp_status,
@@ -160,7 +162,7 @@ class EmployeesController extends Controller
         'old_esi'    => $request->old_esi,
         'curr_esi'   => $request->curr_esi,
       ]);
-      // return $employee;
+      
     return redirect()->route('employee.show_page',['user_id'=>$user_id,'tab'=>'official'])->with('success','Updated successfully.');
   }
 
@@ -378,6 +380,7 @@ class EmployeesController extends Controller
       $meta['grade_mast']    = Grade::all();
       $meta['designation']   = Designation::where('deleted_at', null)->get();
       $meta['emp_mast']      = EmployeeMast::where('deleted_at', null)->get();
+      $meta['branches']      = CompBranch::with('branch')->get();
 
     }
 
@@ -416,8 +419,17 @@ class EmployeesController extends Controller
     return view($path,compact('employee','meta'));
   }
 
-/*Created by kishan developer*/
-public function viewDetails($user_id, $view)
+  /**Show branches according to companies**/
+
+  public function showBranches(Request $request){
+    
+    $branches = CompBranch::where('comp_id', $request->comp_id)->pluck('id', 'address');
+
+    return response()->json($branches);
+  }
+
+  /*Created by kishan developer*/
+  public function viewDetails($user_id, $view)
   {
     $meta      = array();
     $employee  = EmployeeMast::where('user_id', $user_id)->first();

@@ -15,58 +15,48 @@
               </h1><br>
             </div>
             @if($message = Session::get('success'))
-      <div class="alert alert-success alert-block">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        {{$message}}
-      </div>
-    @endif
+              <div class="alert alert-success alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{$message}}
+              </div>
+            @endif
             <table class="table table-striped table-hover">
               <thead>
                 <tr class="text-center">
                   <th>#</th>
-                  <th>Name</th>
-                  <th>Email</th>
+                  <th>Company</th>
+                  <th>City</th>
+                  <th>Address</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-               {{--  @php $count = $users->firstItem(); @endphp --}}
-                {{-- @foreach($users as $index) --}}
+               @php $count = $branches->firstItem(); @endphp
+                @foreach($branches as $index)
                     <tr class="text-center" >
-                      <td> 5</td>
-                      <td>5</td>
-                      <td>5</td>
-                      <td  >
+                      <td>{{$count++}}</td>
+                      <td>{{ucwords($index['branch']->name)}}</td>
+                      <td>{{ucwords($index->city)}}</td>
+                      <td>{{ucwords($index->address)}}</td>
+                      <td>
                         <div class="row">
                           <div class="col" align="center">
-                          <a href="" class="btn btn-sm btn-info">EDIT</a>
+                          <a href="{{route('branches.edit', $index->id)}}" class="btn btn-sm btn-info">EDIT</a>
                           </div>
-                        
-                      {{-- 
-                        @if(!empty($index->emp_id))
-                          <span class="ml-2">
-                          <form action="{{route('assign.user',$index->id)}}" method="POST" id="assign_{{ $index->id}}">
-                            @csrf
-                            <a href="javascript:$('#assign_{{ $index->id}}').submit();" class="btn btn-sm btn-info" onclick="return confirm('Are you sure?')">Add as Employee</a>
-                          </form>
-                          </span>
-                          @endif 
-                        
                           <div class="col" align="left">
-                          <form  action="{{route('users.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
+                          <form  action="{{route('branches.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
                             @csrf
                             @method('DELETE')
                             <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
                           </form>
                           </div>
-                        --}}
                         </div>
                       </td>
                     </tr>
-                {{-- @endforeach --}}
+                @endforeach
               </tbody>
             </table>
-            {{-- {{$users->links()}} --}}
+            {{$branches->links()}}
           </div>
         </div>
       </div>

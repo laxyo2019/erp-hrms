@@ -21,13 +21,23 @@
 					<div class="row">
 						<div class="col-6 form-group">
 							<label for="">Company</label>
-							<select name="comp_id" class="form-control">
+							<select name="comp_id" class="form-control" id="company">
 								<option value="">Select Company</option>
 									@foreach($meta['comp_mast'] as $company)
 										<option value="{{$company->id}}" {{old('comp_id', $employee->comp_id) == $company->id ? 'selected' : ''}} >{{ucwords($company->name)}}</option>
 									@endforeach
 							</select>
 							@error('comp_id')
+				                <span class="text-danger" role="alert">
+				                    <strong>{{ $message }}</strong>
+				                </span>
+				            @enderror
+						</div>
+						<div class="col-6 form-group">
+							<label for="">Branch</label>
+							<select name="branch_id" id="branch" class="form-control">
+							</select>
+							@error('branch_id')
 				                <span class="text-danger" role="alert">
 				                    <strong>{{ $message }}</strong>
 				                </span>
@@ -128,30 +138,6 @@
 					<br>
 					<div><h5>NECESSARY DOCUMENTS</h5></div><hr>
 					<div class="row">
-						{{-- <div class="col-4 form-group">
-							<label for="">Joining Date</label>
-							<input type="text" class="form-control datepicker" name="join_date" value="{{old('join_date', $employee->join_dt) }}" autocomplete="off"/>
-							
-							@error('join_date')
-							<span class="text-danger" role="alert">
-								<strong>* {{ $message }}</strong>
-							</span>
-							@enderror
-						</div> --}}						
-						{{-- <div class="col-4 form-group">
-							<label for="">Employee Designation</label>
-							<select name="designation" id="" class="form-control">
-								<option value="">Select Designtion</option>
-								@foreach($meta['designation'] as $designation)
-								<option value="{{$designation->id}}" {{old('emp_type', $employee->desg_id) == $designation->id ? 'selected' : ''}}>{{$designation->name}}</option>
-								@endforeach
-							</select>
-							@error('designation')
-							<span class="text-danger" role="alert">
-								<strong>* {{ $message }}</strong>
-							</span>
-							@enderror
-						</div> --}}
 						<div class="col-6 form-group">
 							<label for="">Aadhaar Card</label>
 							<input type="text" name="aadhar_no" value="{{old('aadhar_no', $employee->aadhar_no)}}" class="form-control">
@@ -229,30 +215,6 @@
 			            	@enderror
 						</div>
 					</div>
-						{{-- <div class="col-4 form-group">
-							<label for="">Employee Grade</label>
-							<select name="emp_grade" class="select2 form-control">
-								<option value="">Select Employee Grade</option>
-									@foreach($meta['grade_mast'] as $grades)
-										<option value="{{$grades->id}}" {{old('emp_grade', $employee->grade_id) == $grades->id ? 'selected' : ''}} >{{$grades->name}}</option>
-									
-									@endforeach
-							</select>
-							@error('comp_id')
-				                <span class="text-danger" role="alert">
-				                    <strong>{{ $message }}</strong>
-				                </span>
-				            	@enderror
-						</div>
-						<div class="col-4 form-group">
-							<label for="">Team Lead</label>
-							<select name="parent_id" class="select2 form-control">
-								<option value="">Select </option>
-								@foreach($meta['emp_mast'] as $employeeM)
-									<option value="{{$employeeM->id}}" {{old('parent_id', $employee->parent_id) == $employeeM->id ? 'selected': ''}} {{ $employee->id == $employeeM->id ? 'disabled' :''}}>{{$employeeM->emp_name}}</option>
-								@endforeach
-							</select>
-						</div>--}}
 					<div class="col-12 form-group text-center">
 						<button class="btn btn-info btn-sm" style="width: 20%">Update</button>
 						<a class="btn btn-danger btn-sm" style="width: 20%" href="javascript:location.reload()">Cancel</a>
@@ -261,17 +223,6 @@
 				<input type="hidden" name="form_type" id="form_type" value="official">
 			</form>
 		</div>
-		
-		{{-- <hr>
-		<div class="col-4 form-group">
-			<h4>Allot leaves to this employee</h4>
-			@if($employee->leave_allotted == null)
-				<button type="button" class="btn btn-info allot" id="allot">Allot Leave</button>
-			@else
-				<h5>LEAVE ALLOTTED</h5>
-			@endif
-		</div> --}}
-		
 	</div>
 	</div>
 
@@ -298,24 +249,38 @@ $(document).ready(function(){
 
 			$('#empStatus').show();	
 		}
-		
 	})
 	
-
 	// Initialize select2
-	  $("#reportsTo").select2();
+	$("#reportsTo").select2();
 
-	/*$('#allot').on('click', function(e){
-        e.preventDefault();
+	/**Select Branch for companies**/
+
+	$('#company').change(function(){
+
+		var comp_id = $(this).children("option:selected").val();
+
 		$.ajax({
 			type: 'POST',
-			url: route('alloting.leave', $employee->id)}},
+			url: '{{route('company.branches')}}',
 			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-			success: function(data){
-				alert(data);
+			data: {'comp_id':comp_id},
+			success:function(res){
+
+				if(res){
+					$('#branch').empty();
+					$("#branch").append('<option>Select</option>');
+					$.each(res,function(key,value){
+						$('#branch').append('<option value="'+value+'" >'+key+'</option>');
+					});
+
+				}else{
+					$('#branch').empty();
+				}
 			}
 		});
-	});*/
+	});
+
 });
 </script>
 @endsection
