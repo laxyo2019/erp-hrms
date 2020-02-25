@@ -14,6 +14,7 @@
 		@endif
 		<form action="{{route('branches.update', $branch->id)}}" method="POST">
 		@csrf
+		@method('PATCH')
 		<div class="row">
 			<div class="col-6 form-group">
 				<label for="">Company</label>

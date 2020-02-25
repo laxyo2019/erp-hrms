@@ -271,15 +271,16 @@ $(document).ready(function(){
 					$('#branch').empty();
 					$("#branch").append('<option>Select</option>');
 					$.each(res,function(key,value){
-						$('#branch').append('<option value="'+value+'" >'+key+'</option>');
+						$('#branch').append('<option value="'+value+'">'+key+'</option>');
 					});
-
 				}else{
 					$('#branch').empty();
 				}
 			}
 		});
 	});
+
+	var user_id = '{{$employee->branch_id}}';
 
 });
 </script>

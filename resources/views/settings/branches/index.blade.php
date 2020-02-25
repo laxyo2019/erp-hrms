@@ -12,7 +12,7 @@
                   <a href="{{route('branches.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
                   <span class="fa fa-plus "></span> Add Branch</a>
                 </span>
-              </h1><br>
+              </h1><hr>
             </div>
             @if($message = Session::get('success'))
               <div class="alert alert-success alert-block">

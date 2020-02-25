@@ -44,7 +44,7 @@
 		<div class="row">
 			<div class="col-6 form-group ">
                     <label for="address">Address</label>
-                    <textarea class="form-control" id="address" rows="3"></textarea>
+                    <textarea class="form-control" id="address" rows="3" name="address"></textarea>
 				@error('address')
 					<span class="text-danger" role="alert">
 						<strong>* {{ $message }}</strong>

@@ -162,7 +162,7 @@ class EmployeesController extends Controller
         'old_esi'    => $request->old_esi,
         'curr_esi'   => $request->curr_esi,
       ]);
-      
+
     return redirect()->route('employee.show_page',['user_id'=>$user_id,'tab'=>'official'])->with('success','Updated successfully.');
   }
 
@@ -423,8 +423,9 @@ class EmployeesController extends Controller
 
   public function showBranches(Request $request){
     
-    $branches = CompBranch::where('comp_id', $request->comp_id)->pluck('id', 'address');
-
+    $branches = CompBranch::where('comp_id', $request->comp_id)->pluck('id', 'city');
+    //$comp['branches'] = CompBranch::where('comp_id', $request->comp_id)->get();
+    //$comp['emp'] = EmployeeMast::where('user_id', $request->user_id)->get();
     return response()->json($branches);
   }
 
