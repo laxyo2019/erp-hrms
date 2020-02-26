@@ -1,9 +1,6 @@
 <style type="text/css">
-.app-menu__item{
-  background-color:
-}
 </style>>
-<aside class="app-sidebar" style="background-color: #4e73df" >
+<aside class="app-sidebar" style="background-color: #607fd7" >
   <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image">
     <div>
       <div class=""><span style="margin-right: 10px; font-family: bold; font-size: 15px">{{ ucwords(auth()->user()->name) }}</span></div>

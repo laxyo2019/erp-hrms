@@ -13624,8 +13624,8 @@ be a descendant of the grid when it is being dragged.
 }
 
 .app-sidebar__toggle:focus, .app-sidebar__toggle:hover {
-  color: #fff;
-  background-color: #00635a;
+  color: #4e73df;
+  background-color: white;
   text-decoration: none;
 }
 
@@ -13883,7 +13883,7 @@ be a descendant of the grid when it is being dragged.
 }
 
 .app-menu__item.active, .app-menu__item:hover, .app-menu__item:focus {
-  background: #0d1214;
+  background: #344146;
   border-left-color: #009688;
   text-decoration: none;
   color: #fff;
