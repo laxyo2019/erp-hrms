@@ -1,20 +1,15 @@
 @extends('layouts.master')
 @section('content')
 	<main class="app-content">
-		<div class="row">
-			{{-- <div class="col-md-12 col-xl-12">
-				<h1 style="font-size: 24px">LEAVE REQUESTS
-				<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-			</div> --}}
-		</div>
 		<div class="row mt-1 ">	
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
-					<div class="card-body table-responsive">
-						<div class="col-md-12 col-xl-12">
+					<div class="col-md-12 col-xl-12" style="margin-top: 15px">
 							<h1 style="font-size: 24px">LEAVE REQUESTS
 							<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-						</div><br>
+						</div>
+
+					<div class="card-body table-responsive">
 						@if($message = Session::get('success'))
 							<div class="alert alert-success alert-block">
 								<button type="button" class="close" data-dismiss="alert" >×</button>

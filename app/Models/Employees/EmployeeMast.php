@@ -16,6 +16,11 @@ class EmployeeMast extends Model
  		return $this->belongsTo('App\Models\Master\CompMast','comp_id');
  	}
 
+   public function branch(){
+    return $this->belongsTo('App\Models\Employees\CompBranch', 'branch_id');
+  }
+ 
+
  	public function designation(){
  		return $this->belongsTo('App\Models\Master\Designation', 'desg_id');
  	}
@@ -91,6 +96,6 @@ class EmployeeMast extends Model
       return $this->belongsTo('App\Models\Employees\EmployeeMast', 'approver_id','id');
   }
 
- 
+
     		
 }

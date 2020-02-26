@@ -1,30 +1,27 @@
 @extends('layouts.master')
 @section('content')
-	<main class="app-content">
-		<div class="row">
-			
-		</div>
-		
-		<div class="row">
-      <div class="col-md-12 col-xl-12">
-        <div class="card shadow-xs">
-          <div class="card-body table-responsive">
-            <div class="col-md-12 col-xl-12">
-              <h1 style="font-size: 24px">Manage Users
-                <a href="{{ route('users.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-                <span class="ml-2">
-                  <a href="{{route('users.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
-                  <span class="fa fa-plus "></span> Add User</a>
-                </span>
-              </h1><br>
+<main class="app-content">
+  <div class="row ">
+    <div class="col-md-12 col-xl-12">
+      <div class="card shadow-xs">
+        <div class="col-md-12 col-xl-12" style="margin-top: 15px">
+          <h1 style="font-size: 24px">Manage users
+              <a href="{{ route('users.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+              <span class="ml-2">
+                <a href="{{route('users.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
+                <span class="fa fa-plus "></span> Add User</a>
+              </span>
+            </h1>
             </div>
+        <div class="card-body table-responsive">
+          
             @if($message = Session::get('success'))
-      <div class="alert alert-success alert-block">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        {{$message}}
-      </div>
-    @endif
-            <table class="table table-striped table-hover">
+              <div class="alert alert-success alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{$message}}
+              </div>
+            @endif
+            <table class="table table-striped table-hover" id="UsersTable">
               <thead>
                 <tr class="text-center">
                   <th>#</th>
@@ -34,7 +31,7 @@
                 </tr>
               </thead>
               <tbody>
-                @php $count = $users->firstItem(); @endphp
+              @php $count = $users->firstItem(); @endphp
                 @foreach($users as $index)
                     <tr class="text-center" >
                       <td> {{$count++}}</td>
@@ -69,26 +66,25 @@
                     </tr>
                 @endforeach
               </tbody>
+
             </table>
-            {{$users->links()}}
           </div>
         </div>
       </div>
     </div>
-	</main>
-{{-- <script>
-$(document).ready(function(){
-  $('#user_{{}}').on('click', function(e){
 
-    var user_id = $(this).data('id');
-    alert(user_id);
-    $.ajax({
-            type: 'GET',
-      url: '{{ route("assign.user", $user->id)}}',
-      success:function(data){
-      }
-    })
+     
+</main>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#UsersTable').dataTable( {
+    "ordering":   true,
+    order   : [[1, 'asc']],
+    "columnDefs": [ 
+      { "orderable": false, "targets": 0,  }
+    ]
   });
+ 
 });
-</script> --}}
+</script>
 @endsection

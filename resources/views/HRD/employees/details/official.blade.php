@@ -5,7 +5,6 @@
 @endpush
 @section('content')
 <main class="app-content ">
-	<div class="card card-body table-responsive">
 	@include ('HRD/employees/tabs')
 	<div style="margin-top: 1.5rem; padding: 1.5rem;" class="tile">
 		@if($message = Session::get('success'))
@@ -36,6 +35,11 @@
 						<div class="col-6 form-group">
 							<label for="">Branch</label>
 							<select name="branch_id" id="branch" class="form-control">
+								@if(!empty($employee->comp_id))
+									@foreach($meta['comp_branches'] as $branches)
+										<option value="{{$branches->id}}" {{$employee->branch_id == $branches->id ? 'selected' : ''}} >{{ucwords($branches->city)}}</option>
+									@endforeach
+								@endif
 							</select>
 							@error('branch_id')
 				                <span class="text-danger" role="alert">
@@ -224,8 +228,6 @@
 			</form>
 		</div>
 	</div>
-	</div>
-
 	<div class="img_parent d-none">
 		<img src="{{asset('images/loading1.gif')}}" alt="">
 	</div>
@@ -266,7 +268,6 @@ $(document).ready(function(){
 			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			data: {'comp_id':comp_id},
 			success:function(res){
-
 				if(res){
 					$('#branch').empty();
 					$("#branch").append('<option>Select</option>');
@@ -280,7 +281,6 @@ $(document).ready(function(){
 		});
 	});
 
-	var user_id = '{{$employee->branch_id}}';
 
 });
 </script>

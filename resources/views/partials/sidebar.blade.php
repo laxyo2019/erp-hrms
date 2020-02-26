@@ -1,10 +1,12 @@
-
-<aside class="app-sidebar" >
-  
+<style type="text/css">
+.app-menu__item{
+  background-color:
+}
+</style>>
+<aside class="app-sidebar" style="background-color: #4e73df" >
   <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image">
     <div>
       <div class=""><span style="margin-right: 10px; font-family: bold; font-size: 15px">{{ ucwords(auth()->user()->name) }}</span></div>
-      {{-- <p class="app-sidebar__user-designation">Admin Access</p> --}}
     </div>
   </div>
   <ul class="app-menu">
@@ -22,29 +24,38 @@
     @role('hrms_hr|hrms_teamlead|hrms_employee')
 
     @if(session('leave')['allotment'] && session('leave')['reallotment'][0]->status == 1)
-     <li><a class="app-menu__item" href="{{url('employee/leaves')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Apply Leave</span></a></li>
+     <li><a class="app-menu__item"   href="{{url('employee/leaves')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Apply Leave</span></a></li>
     @endif
 
     @endrole
 
+    
     {{-- Employee List --}}
 
     @role('hrms_admin|hrms_hr')
 
     <li >
-      <a class="app-menu__item {{request()->segment(2) == 'hrd/employees' ? 'active' : ''}} " href="{{route('employees.index')}}"><i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Employees</span>
+      <a class="app-menu__item {{request()->segment(2) == 'employees' ? 'active' : ''}} " href="{{route('employees.index')}}"><i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Employees</span>
       </a>
     </li>
     @endrole
+
     {{-- Leave Requests --}}
 
     @role('hrms_admin|hrms_hr|hrms_teamlead')
 
     <li >
-      <a class="app-menu__item {{request()->segment(2) == 'hrd/leaves' ? 'active' : ''}} " href="{{route('leaves.index')}}"><i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Leaves Request</span>
+      <a class="app-menu__item {{Request::segment(2) == 'leaves' ? 'active' : ''}} " href="{{route('leaves.index')}}"><i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Leaves Request</span>
       </a>
     </li>
+
+    
     @endrole
+
+    
+
+
+
     {{-- <li >
       <a class="app-menu__item {{request()->segment(3) == 'hrd/leaves' ? 'active' : ''}} " href="{{route('leaves.index')}}"><i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Leaves Request</span>
       </a>
@@ -142,10 +153,9 @@
 
      {{-- Settings Tab --}}
 
-
-      <li><a class="app-menu__item" href="{{route('mast_entity.home')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Settings</span></a></li>
+      <li><a class="app-menu__item {{Request::segment(1) == 'settings' ? 'active' : ''}}" href="{{route('mast_entity.home')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Settings</span></a></li>
       
-      <li><a class="app-menu__item" href="{{route('branches.index')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Add Branch</span></a></li>
+      <li><a class="app-menu__item {{Request::segment(1) == 'branches' ? 'active' : ''}}" href="{{route('branches.index')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Add Branch</span></a></li>
 {{--       
       <li class="treeview {{call_user_func_array('Request::is', (array)['settings*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-cog "></i><span class="app-menu__label">Settings</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
@@ -170,7 +180,7 @@
     {{-- User's role & permissions --}}
     
 
-    <li class="treeview {{call_user_func_array('Request::is', (array)['acl*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-shopping-cart "></i><span class="app-menu__label">ACL</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+    <li class="treeview {{call_user_func_array('Request::is', (array)['acl*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-shopping-cart "></i><span class="app-menu__label">User Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
        {{-- <li class={{call_user_func_array('Request::is', (array)['acl/permissions*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('permissions.index')}}"><i class="icon fa fa-angle-double-right"></i>Permissions</a></li> --}}
         <li class={{call_user_func_array('Request::is', (array)['acl/roles*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('roles.index')}}"><i class="icon fa fa-angle-double-right"></i>Roles</a></li>

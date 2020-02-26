@@ -1,49 +1,33 @@
 @extends('layouts.master')
 @section('content')
 <main class="app-content">
-	 <div class="row mt-2">
-            <div class="row col-md-12 col-xl-12">
-                
-                <div class="col-sm-3">
-                    <h1 style="font-size: 20px">Company Holidays </h1>
-                </div>
-                <div class="col-sm-2" align="center">
-                    <a href="{{route('holidays.create')}}" class="btn btn-primary btn-sm " style="font-size:13px">
-                    <span class="fa fa-plus"></span> Add holiday</a>
-                </div>
-                <div class="col-sm-1" >
-                    <a href="{{route('export.holidays')}}" class="btn btn-sm btn-primary pull-right" style="font-size:13px">Export
-                    <span class="fa fa-cloud-download"></span></a>
-                </div> 
-                <div class="col-sm-1">
-                    <form method="POST" action="{{route('import.holidays')}}" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" id="FileUpload" style="display: none" onchange="form.submit()" name="import" />
-                        <input type="button" id="btnFileUpload" value="Import" class="btn btn-primary btn-sm" style="font-size:13px; margin-left: -15px;"/>
-                    </form>
-                </div>
-                <div class="col-sm-5">
-                    <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-                </div>
-
-                    
-
-                    
-                    
-                    
-                    
-
-                    
-
-                    
-                  
-                <hr>
-            </div>
-        </div>
-	
 	<div class="row">
         <div class="col-md-12 col-xl-12">
             <div class="card shadow-xs">
+                <div class="row col-md-12 col-xl-12" style="margin-top: 15px;">
+            <div class="col-sm-3">
+                <h1 style="font-size: 20px">Company Holidays </h1>
+            </div>
+            <div class="col-sm-2" align="center">
+                <a href="{{route('holidays.create')}}" class="btn btn-primary btn-sm " style="font-size:13px">
+                <span class="fa fa-plus"></span> Add holiday</a>
+            </div>
+            <div class="col-sm-1">
+                <a href="{{route('export.holidays')}}" class="btn btn-sm btn-primary pull-right" style="font-size:13px">Export
+                <span class="fa fa-cloud-download"></span></a>
+            </div> 
+            <div class="col-sm-1">
+                <form method="POST" action="{{route('import.holidays')}}" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" id="FileUpload" style="display: none" onchange="form.submit()" name="import" />
+                    <input type="button" id="btnFileUpload" value="Import" class="btn btn-primary btn-sm" style="font-size:13px; margin-left: -15px;"/>
+                </form>
+            </div>
+            <div class="col-sm-5">
+                <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+            </div>
+            <hr>
+        </div>
                 <div class="card-body table-responsive">
                     @if($message = Session::get('success'))
                         <div class="alert alert-success alert-block">
@@ -51,7 +35,7 @@
                             {{$message}}
                         </div>
                     @endif
-                    <table class="table table-striped table-hover">
+                    <table class="table table-striped table-hover" id="HolidaysTable">
                         <thead>
                             <tr class="text-center">
                                 <th>#</th>
@@ -97,6 +81,14 @@
             $('#FileUpload').trigger('click');
 
         });
+
+       $('#HolidaysTable').dataTable( {
+            "ordering":   true,
+            order   : [[1, 'asc']],
+            "columnDefs": [ 
+                { "orderable": false, "targets": 0,  }
+            ]
+      });
 
     });
 </script>

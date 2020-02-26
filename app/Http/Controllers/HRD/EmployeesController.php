@@ -382,6 +382,9 @@ class EmployeesController extends Controller
       $meta['emp_mast']      = EmployeeMast::where('deleted_at', null)->get();
       $meta['branches']      = CompBranch::with('branch')->get();
 
+      
+      $meta['comp_branches'] = CompBranch::where('comp_id', $employee->comp_id)
+                                  ->get();
     }
 
     if($tab == 'academics'){
@@ -424,8 +427,6 @@ class EmployeesController extends Controller
   public function showBranches(Request $request){
     
     $branches = CompBranch::where('comp_id', $request->comp_id)->pluck('id', 'city');
-    //$comp['branches'] = CompBranch::where('comp_id', $request->comp_id)->get();
-    //$comp['emp'] = EmployeeMast::where('user_id', $request->user_id)->get();
     return response()->json($branches);
   }
 

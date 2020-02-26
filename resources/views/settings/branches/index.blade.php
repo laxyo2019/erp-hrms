@@ -4,23 +4,24 @@
 		<div class="row">
       <div class="col-md-12 col-xl-12">
         <div class="card shadow-xs">
-          <div class="card-body table-responsive">
-            <div class="col-md-12 col-xl-12">
+          <div class="col-md-12 col-xl-12" style="margin-top: 15px">
               <h1 style="font-size: 24px">Branches
                 <a href="" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
                 <span class="ml-2">
                   <a href="{{route('branches.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
                   <span class="fa fa-plus "></span> Add Branch</a>
                 </span>
-              </h1><hr>
+              </h1>
             </div>
+          <div class="card-body table-responsive">
+            
             @if($message = Session::get('success'))
               <div class="alert alert-success alert-block">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 {{$message}}
               </div>
             @endif
-            <table class="table table-striped table-hover">
+            <table class="table table-striped table-hover" id="BranchesTable">
               <thead>
                 <tr class="text-center">
                   <th>#</th>
@@ -62,19 +63,16 @@
       </div>
     </div>
 	</main>
-{{-- <script>
+<script>
 $(document).ready(function(){
-  $('#user_{{}}').on('click', function(e){
 
-    var user_id = $(this).data('id');
-    alert(user_id);
-    $.ajax({
-            type: 'GET',
-      url: '{{ route("assign.user", $user->id)}}',
-      success:function(data){
-      }
-    })
-  });
+   $('#BranchesTable').dataTable( {
+            "ordering":   true,
+            order   : [[1, 'asc']],
+            "columnDefs": [ 
+                { "orderable": false, "targets": 0,  }
+            ]
+      });
 });
-</script> --}}
+</script>
 @endsection

@@ -2,16 +2,11 @@
 @section('content')
 <main class="app-content">
 	<div class="row">
-		<div class="col-md-12 col-xl-12">
-			<h1 style="font-size: 24px">Leave Allotments
-			</h1>
-			<hr>
-		</div>
-	</div>
-	
-	<div class="row">
         <div class="col-md-12 col-xl-12">
             <div class="card shadow-xs">
+                <div class="col-md-12 col-xl-12" style="margin-top: 15px">
+                    <h1 style="font-size: 24px">Leave Allotments</h1>
+                </div>
                 <div class="card-body table-responsive">
                     @if($message = Session::get('success'))
                         <div class="alert alert-success alert-block">
@@ -19,7 +14,7 @@
                             {{$message}}
                         </div>
                     @endif
-                    <table class="table table-striped table-hover">
+                    <table class="table table-striped table-hover" id="LeavesTable">
                         <thead>
                             <tr class="text-center">
                                 <th>#</th>
@@ -31,8 +26,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php $count = 0; 
-                                //dd($allotments);
+                            @php $count = 0;
                             @endphp
                             @if(count($allotments) != null)
                             @foreach($allotments as $index)
@@ -52,8 +46,8 @@
                                   <span class="ml-2 text-center">
                                     <a href="{{route('allotments.edit', $index->user_id)}}" class="btn btn-sm btn-success">EDIT</i></a>
                                   </span>
-        <span class="ml-2">
-         @if(!empty($index['allotments'][0]->status) ? $index['allotments'][0]->status:'' == 1)
+                                    <span class="ml-2">
+                                    @if(!empty($index['allotments'][0]->status) ? $index['allotments'][0]->status:'' == 1)
                                         <a href="{{route('hold.leave', $index->user_id)}}" class="btn btn-sm btn-info" onclick="return confirm('Are you sure?')">HOLD</a>
                                     @else
                                         <a href="{{route('reallot.leave', $index->user_id)}}" class="btn btn-sm btn-info" onclick="return confirm('Are you sure?')">Re-Allot</a>
@@ -77,23 +71,17 @@
         </div>
     </div>
 </main>
-{{-- <script type="text/javascript">
-    $(document).ready(function(){
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#LeavesTable').dataTable( {
+    "ordering":   true,
+    order   : [[1, 'asc']],
+    "columnDefs": [ 
+    { "orderable": false, "targets": 0,  }
+    ]
+  });
 
-        $('.modalType').on('click', function(e){
-            e.preventDefault();
-            var type_id = $(this).data('id');
-            $.ajax({
-                type: 'GET',
-                url: 'types/'+type_id,
-                /*data:{id:type_id},*/
-                success:function(data){
-                    $('#typeModal').modal('show');
-                    $('#typeTable').html(data);
-                }
-            })
-        });
 
-    });
-</script> --}}
+});
+</script>
 @endsection
