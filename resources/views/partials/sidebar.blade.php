@@ -17,7 +17,7 @@
     @endrole
     <li >
       <a class="app-menu__item {{request()->segment(1) == 'information' ? 'active' : ''}} " href="{{route('information.index')}}">
-        <i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Profile</span>
+        <i class="app-menu__icon fa fa-address-book-o"></i><span class="app-menu__label">Profile</span>
       </a>
     </li>
 
@@ -35,7 +35,7 @@
     @role('hrms_admin|hrms_hr')
 
     <li >
-      <a class="app-menu__item {{request()->segment(2) == 'employees' ? 'active' : ''}} " href="{{route('employees.index')}}"><i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Employees</span>
+      <a class="app-menu__item {{request()->segment(2) == 'employees' ? 'active' : ''}} " href="{{route('employees.index')}}"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Employees</span>
       </a>
     </li>
     @endrole
@@ -45,7 +45,7 @@
     @role('hrms_admin|hrms_hr|hrms_teamlead')
 
     <li >
-      <a class="app-menu__item {{Request::segment(2) == 'leaves' ? 'active' : ''}} " href="{{route('leaves.index')}}"><i class="app-menu__icon fa fa-info"></i><span class="app-menu__label">Leaves Request</span>
+      <a class="app-menu__item {{Request::segment(2) == 'leaves' ? 'active' : ''}} " href="{{route('leaves.index')}}"><i class="app-menu__icon fa fa-pencil-square-o"></i><span class="app-menu__label">Leaves Request</span>
       </a>
     </li>
 
@@ -153,9 +153,9 @@
 
      {{-- Settings Tab --}}
 
-      <li><a class="app-menu__item {{Request::segment(1) == 'settings' ? 'active' : ''}}" href="{{route('mast_entity.home')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Settings</span></a></li>
+      <li><a class="app-menu__item {{Request::segment(1) == 'settings' ? 'active' : ''}}" href="{{route('mast_entity.home')}}"><i class="app-menu__icon fa fa-cog"></i><span class="app-menu__label">Settings</span></a></li>
       
-      <li><a class="app-menu__item {{Request::segment(1) == 'branches' ? 'active' : ''}}" href="{{route('branches.index')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Add Branch</span></a></li>
+      <li><a class="app-menu__item {{Request::segment(1) == 'branches' ? 'active' : ''}}" href="{{route('branches.index')}}"><i class="app-menu__icon fa fa-plus-square-o"></i><span class="app-menu__label">Add Branch</span></a></li>
 {{--       
       <li class="treeview {{call_user_func_array('Request::is', (array)['settings*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-cog "></i><span class="app-menu__label">Settings</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
@@ -180,7 +180,7 @@
     {{-- User's role & permissions --}}
     
 
-    <li class="treeview {{call_user_func_array('Request::is', (array)['acl*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-shopping-cart "></i><span class="app-menu__label">User Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+    <li class="treeview {{call_user_func_array('Request::is', (array)['acl*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-book "></i><span class="app-menu__label">User Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
        {{-- <li class={{call_user_func_array('Request::is', (array)['acl/permissions*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('permissions.index')}}"><i class="icon fa fa-angle-double-right"></i>Permissions</a></li> --}}
         <li class={{call_user_func_array('Request::is', (array)['acl/roles*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('roles.index')}}"><i class="icon fa fa-angle-double-right"></i>Roles</a></li>
