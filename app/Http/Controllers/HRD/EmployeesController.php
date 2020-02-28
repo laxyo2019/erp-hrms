@@ -445,6 +445,8 @@ class EmployeesController extends Controller
       $meta['designation']   = Designation::where('deleted_at', null)->get();
 
       $meta      = EmployeeMast::with('company','designation','grade','academics','experiences','documents','department','emptype','empstatus','empgrade','empdesignation','reportto')->where('deleted_at', null)->where('user_id',$user_id)->first(); 
+
+      //return $meta;
     }
 
     if($view == 'academics'){
