@@ -23,7 +23,7 @@ class UserController extends Controller
 
     public function index(){
 
-    	$users = User::paginate(20);
+    	$users = User::all();
 
     	return view('acl.users.index', compact('users'));
     }
