@@ -28,14 +28,14 @@
                         <tbody>
                             @php $count = 0;
                             @endphp
-                            @if(count($allotments) != null)
+
                             @foreach($allotments as $index)
+                            @if(count($index['allotments']) !=0)
                                 <tr class="text-center">
                                     <td>{{++$count}}</td>
                                     <td>{{ucwords($index->emp_name)}}</td>
                                     <td>{{$index['allotments'][0]->start}}</td>
                                     <td>{{$index['allotments'][0]->end}}</td>
-
                                     <td>
                                     @foreach($index->allotments as $leave)
                                         <div>{{ucwords($leave['leaves']->name)}} <span style="float: right">{{$leave->initial_bal}}</span></div>
@@ -62,8 +62,9 @@
                                 </span>
                                     </td>
                                 </tr>
+                                @endif
                             @endforeach
-                            @endif
+                            
                         </tbody>
                     </table>
                 </div> 
