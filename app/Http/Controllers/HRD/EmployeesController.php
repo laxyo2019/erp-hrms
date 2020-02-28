@@ -43,8 +43,6 @@ class EmployeesController extends Controller
 
     $leaves = LeaveMast::all();
 
-    //return $employees[0]['designation']->name;
-
     return view('HRD.employees.index',compact('employees', 'leaves'));
   }
 

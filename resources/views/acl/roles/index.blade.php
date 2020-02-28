@@ -7,7 +7,6 @@
           <div class="col-md-12 col-xl-12" style="margin-top: 15px"> 
               <h1 style="font-size: 24px">Roles
                 <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-
                 <span class="ml-2">
                   <a href="{{route('roles.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
                   <span class="fa fa-plus "></span> Add Roles</a>
@@ -15,14 +14,13 @@
               </h1>
             </div>
           <div class="card-body table-responsive">
-            
             @if($message = Session::get('success'))
               <div class="alert alert-success alert-block">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 {{$message}}
               </div>
             @endif
-            <table class="table table-striped table-hover">
+            <table class="table table-striped table-hover" id="RolesTable">
               <thead>
                 <tr class="text-center">
                   <th>#</th>
@@ -38,7 +36,6 @@
                 <td >{{ucwords($index->name)}}</td>
                 <td >
                   <div class="row">
-                    
                   <div class="col" align="right">
                       <a href="{{route('roles.edit',$index->id)}}" class="btn btn-sm btn-info">Edit Permission</a>
                   </div>
@@ -63,4 +60,17 @@
       </div>
     </div>
 	</main>
+<script type="text/javascript">
+$(document).ready(function(){
+
+  $('#RolesTable').dataTable( {
+    "ordering":   true,
+    order   : [[1, 'asc']],
+    "columnDefs": [ 
+      { "orderable": false, "targets": 0,  }
+    ]
+  });
+ 
+});
+</script>
 @endsection

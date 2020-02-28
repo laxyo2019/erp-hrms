@@ -5,10 +5,9 @@
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
 					<div class="col-md-12 col-xl-12" style="margin-top: 15px">
-							<h1 style="font-size: 24px">LEAVE REQUESTS
-							<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-						</div>
-
+						<h1 style="font-size: 24px">LEAVE REQUESTS
+						<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+					</div>
 					<div class="card-body table-responsive">
 						@if($message = Session::get('success'))
 							<div class="alert alert-success alert-block">
@@ -41,7 +40,6 @@
 							</thead>
 							<tbody>
 							@php $count = 0; @endphp
-			
 							@foreach($leave_request as $request)
 								<tr>
 									<td>{{++$count}} </td>
@@ -66,12 +64,12 @@
 									    </div>
 									</div>
 									<td>
-										@if($request->from && $request->to)
-											{{date('d M', strtotime($request->from))}} <strong>To</strong> {{date('d M, Y', strtotime($request->to))}}
-										@else
-											{{date('d M, Y', strtotime($request->from))}}
-										@endif
-										</td>
+									@if($request->from && $request->to)
+										{{date('d M', strtotime($request->from))}} <strong>To</strong> {{date('d M, Y', strtotime($request->to))}}
+									@else
+										{{date('d M, Y', strtotime($request->from))}}
+									@endif
+									</td>
 									<td>
 									@if($request->day_status == 0)
 										First half
@@ -256,7 +254,7 @@
 
 @elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin'))
 	
-	<div class="rev_msg" hidden="" >REVERSED</div>
+	<strong class="rev_msg" hidden="" >REVERSED</strong>
 
 	<button type="button" class="btn btn-sm reverse" value="{{$request->id}}">REVERSE</button>
 

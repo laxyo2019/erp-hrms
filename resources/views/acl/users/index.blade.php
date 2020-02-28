@@ -68,6 +68,7 @@
               </tbody>
 
             </table>
+            {{$users->links()}}
           </div>
         </div>
       </div>
@@ -78,12 +79,13 @@
 <script type="text/javascript">
 $(document).ready(function(){
   $('#UsersTable').dataTable( {
-    "ordering":   true,
-    order   : [[1, 'asc']],
-    "columnDefs": [ 
-      { "orderable": false, "targets": 0,  }
+    
+    order: [[1, 'asc']],
+    "bPaginate": false,
+      "columnDefs": [
+      { "orderable": false, "targets": 0 }
     ]
-  });
+  } );
  
 });
 </script>

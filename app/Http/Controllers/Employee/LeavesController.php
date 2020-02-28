@@ -194,7 +194,6 @@ class LeavesController extends Controller
    }
 
    public function store(Request $request)
-
    {
 
      $data = $request->validate([
@@ -293,7 +292,6 @@ class LeavesController extends Controller
         $data['day_status'] = 3;
 
 
-
           /*if(){
 
           }*/
@@ -331,18 +329,18 @@ class LeavesController extends Controller
 
           $sandwich_days = array_unique(array_merge($sundays, $holidays_list));
 
-          //return ([$sandwich_days, $request->duration, $balance->initial_bal]);
 
           if($balance->initial_bal - $request->duration){
             
           }
-          //$paid_count = $balance->initial_bal - $request->duration;
+
+          /******** IGNORE SANDWITCH RULE ********/
 
           //Check if sandwich day is more than 0, then deduct leave balance and
 
-          $paid_count    = $request->duration - count($sandwich_days);
+          $paid_count    = $request->duration;// - count($sandwich_days);
 
-          $unpaid_count  = $request->duration - $paid_count;
+          $unpaid_count  = 0;//$request->duration - $paid_count;
 
         }else if($leaveData->without_pay == 1){
 
