@@ -4,6 +4,7 @@
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 24px">Leaves
+					@if(!empty($balance['allotments']))
 					@if(count($balance['allotments']) != 0)
 						@if($balance['allotments'][0]->status == 1)
 							<span class="ml-2">
@@ -11,6 +12,7 @@
 								<span class="fa fa-plus "></span> Apply for Leave</a>
 							</span>
 						@endif
+					@endif
 					@endif
 						<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></h1>
 
