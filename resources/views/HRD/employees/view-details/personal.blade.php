@@ -49,7 +49,7 @@
 						</div>
 						<div class="col-6 form-group">
 							<label for=""><b>Alternate Contact No : </b></label>
-						{{empty($employee->alt_contact)?'':$employee->alt_contact}} sdgixj .dkffgjn .z
+						{{empty($employee->alt_contact)?'':$employee->alt_contact}}
 						</div>
 	                	<div class="col-6 form-group">
 							<label for=""><b>Email : </b></label>
@@ -57,13 +57,15 @@
 						</div>
 						<div class="col-6 form-group">
 							<label for=""><b>Alternate Email : </b></label>
-							{{-- {{empty($employee->alt_email)?'':$employee->alt_email}} --}} ughfk.dzn ;ohf zsj
+							{{-- {{empty($employee->alt_email)?'':$employee->alt_email}} --}}
+							{{empty($employee->alt_email)?'':$employee->alt_email}}
 						</div>  
                   
                      
 						<div class="col-6 form-group">
 							<label for=""><b>Current Residence : </b></label>
-							{{-- {{empty($employee->curr_addr)?'':$employee->curr_addr}} --}}glkzsugdlizsdbgz,bk.k argz asfiluzg kabs,f algkj
+							{{-- {{empty($employee->curr_addr)?'':$employee->curr_addr}} --}}
+							{{empty($employee->curr_addr)?'':$employee->curr_addr}}
 						</div>
 						<div class="col-6 form-group">
 							<label for=""><b>Permanent Residence : </b></label>

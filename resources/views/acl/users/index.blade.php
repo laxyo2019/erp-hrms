@@ -66,9 +66,8 @@
                     </tr>
                 @endforeach
               </tbody>
-
             </table>
-            {{$users->links()}}
+            {{-- {{$users->links()}} --}}
           </div>
         </div>
       </div>
@@ -81,7 +80,7 @@ $(document).ready(function(){
   $('#UsersTable').dataTable( {
     
     order: [[1, 'asc']],
-    "bPaginate": false,
+    //"bPaginate": false,
       "columnDefs": [
       { "orderable": false, "targets": 0 }
     ]
