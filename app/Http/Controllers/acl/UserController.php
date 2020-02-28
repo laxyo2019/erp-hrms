@@ -23,7 +23,7 @@ class UserController extends Controller
 
     public function index(){
 
-    	$users = User::orderBy('name','ASC')->paginate(20);
+    	$users = User::orderBy('name','ASC')->paginate(100);
 
     	return view('acl.users.index', compact('users'));
     }
