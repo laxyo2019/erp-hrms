@@ -69,7 +69,7 @@
 					</div>
 					<div class="col-6 form-group">
 						<label for=""><b>PAN Card No : </b></label>
-					{{empty($meta->join_dt)?'':$meta->join_dt}}
+					{{empty($meta->pan_no)?'':$meta->pan_no}}
 					</div>
                  	<div class="col-6 form-group">
 						<label for=""><b>Voter ID No: </b></label>
