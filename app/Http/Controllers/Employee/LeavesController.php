@@ -44,6 +44,8 @@ class LeavesController extends Controller
                   ->latest()
                   ->first();
 
+    
+
     return view('employee.leaves.index', compact('leaves', 'balance'));
   }
 

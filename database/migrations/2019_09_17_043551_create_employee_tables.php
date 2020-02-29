@@ -110,6 +110,7 @@ class CreateEmployeeTables extends Migration
           $table->string('job_type', 50)->nullable(); // Part-time, contract, full-time, etc
           $table->decimal('monthly_ctc', 8, 2)->nullable();
           $table->string('desg', 50)->nullable();
+          $table->string('total_exp')->nullable();
           $table->string('comp_loc', 50)->nullable();
           $table->string('comp_email', 100)->nullable();
           $table->string('comp_website', 100)->nullable();
