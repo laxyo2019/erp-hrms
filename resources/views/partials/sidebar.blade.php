@@ -20,7 +20,7 @@
 
     @role('hrms_hr|hrms_teamlead|hrms_employee')
 
-    @if(session('leave')['allotment'] && session('leave')['reallotment'][0]->status == 1)
+    @if(session('leave')['allotment'] && !empty(session('leave')['reallotment'][0]->status)?session('leave')['reallotment'][0]->status:'' == 1)
      <li><a class="app-menu__item"   href="{{url('employee/leaves')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Apply Leave</span></a></li>
     @endif
 
