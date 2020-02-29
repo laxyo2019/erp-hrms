@@ -88,7 +88,7 @@
 						<label for="file_path">Upload Documents</label>
     					<input type="file" name="file_path" class="form-control-file" id="file_path" value="{{ old('file_path')}}">
 					</div>
-					<div class="col-6 form-group">
+					<div class="col-3 form-group">
 						<label for="">Start Date</label>
 						<input type="text" class="form-control datepicker" name="start_date" value="{{old('start_date',isset($exp->start_dt) ? $exp->start_dt : '')}}" autocomplete="off">
 						@error('start_date')
@@ -97,7 +97,7 @@
 				          </span>
 				      	@enderror
 					</div>
-					<div class="col-6 form-group">
+					<div class="col-3 form-group">
 						<label for="">End Date</label>
 						<input type="text" class="form-control datepicker" name="end_date"
 							value="{{old('end_date',isset($exp->end_dt) ? $exp->end_dt : '')}}" autocomplete="off">
@@ -107,7 +107,16 @@
 				          </span>
 				      	@enderror
 					</div>
-						
+					<div class="col-6 form-group">
+						<label for="">Total Experience ( In months )</label>
+						<input type="text" class="form-control datepicker" name="total_exp"
+							value="{{old('total_exp',isset($exp->total_exp) ? $exp->total_exp : '')}}" autocomplete="off">
+						@error('total_exp')
+				          <span class="text-danger" role="alert">
+				            <strong>* {{ $message }}</strong>
+				          </span>
+				      	@enderror
+					</div>
 					
 					<div class="col-12 form-group">
 				    	<label for="">Reason of Leaving</label>
@@ -170,41 +179,40 @@
 								    </div>
 								</div>
 							</span>
-							<span>
-								<form action="{{route('employee.delete_row', ['db_table' => 'hrms_emp_exp', $exp->id])}}" method="GET" id="delform_{{$exp->id}}">
-									<a href="javascript:$('#delform_{{$exp->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white" style="font-size: 12px;"></i></a>
-								</form>
-							</span>
-						</td>
-					</tr>
-					@endforeach
-				</tbody>
-			</table>
-	</main>
-	<script>
-		$(document).ready(function(){
-			$('.experience').addClass('active');
-			$('.datepicker').datepicker({
-				orientation: "bottom",
-				format: "yyyy-mm-dd",
-				autoclose: true,
-				todayHighlight: true
-			});
-			$('.modalExp').on('click', function(e){
-				e.preventDefault();
-				var exp_id = $(this).data('id');
-				$.ajax({
-					type: 'GET',
-					url: "{{route('exp_table')}}?exp_id="+exp_id,
-					success:function(res){
+						<span>
+						<form action="{{route('employee.delete_row', ['db_table' => 'hrms_emp_exp', $exp->id])}}" method="GET" id="delform_{{$exp->id}}"><a href="javascript:$('#delform_{{$exp->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white" style="font-size: 12px;"></i></a>
+						</form>
+					</span>
+				</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
+</main>
+<script>
+$(document).ready(function(){
+	$('.experience').addClass('active');
+	$('.datepicker').datepicker({
+		orientation: "bottom",
+		format: "yyyy-mm-dd",
+		autoclose: true,
+		todayHighlight: true
+	});
+	$('.modalExp').on('click', function(e){
+		e.preventDefault();
+		var exp_id = $(this).data('id');
+		$.ajax({
+			type: 'GET',
+			url: "{{route('exp_table')}}?exp_id="+exp_id,
+			success:function(res){
 
-						$('#modalTable').empty().html(res);
-						$('#expModal').modal('show');
-					}
+				$('#modalTable').empty().html(res);
+				$('#expModal').modal('show');
+			}
 
-				})
-			})
+		})
+	})
 
-		});
-	</script>
-	@endsection
+});
+</script>
+@endsection

@@ -63,7 +63,11 @@
 							</thead>
 							<tbody>
 							@php $count = 0; @endphp
+<<<<<<< HEAD
 								@if( count($leaves) != null )
+=======
+								@if( count($leaves) != 0 )
+>>>>>>> 1ecef56be1d104d0dfee12b28b212ee3e73d58d9
 								@foreach($leaves as $leaveapply)
 								<tr>
 									<td>{{++$count}}</td>

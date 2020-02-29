@@ -12,7 +12,7 @@
       <a class="app-menu__item {{request()->path() == '/' ? 'active' : ''}} " href="{{url('/')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a>
     </li>
     @endrole
-    <li >
+    <li>
       <a class="app-menu__item {{request()->segment(1) == 'information' ? 'active' : ''}} " href="{{route('information.index')}}">
         <i class="app-menu__icon fa fa-address-book-o"></i><span class="app-menu__label">Profile</span>
       </a>
