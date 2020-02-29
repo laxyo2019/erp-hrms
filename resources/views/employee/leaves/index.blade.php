@@ -69,8 +69,8 @@
 									<td>{{++$count}}</td>
 									<td>{{ucwords($leaveapply['leavetype']->name)}}</td>
 									<td>@php 
-											$date = date('d M', strtotime($leaveapply->from)).' To '.date('d M, Y', strtotime($leaveapply->to));
-											$date2 = date('M d, Y', strtotime($leaveapply->from));
+										$date = date('d M', strtotime($leaveapply->from)).' To '.date('d M, Y', strtotime($leaveapply->to));
+										$date2 = date('M d, Y', strtotime($leaveapply->from));
 										@endphp
 
 										{{!empty($leaveapply->from && $leaveapply->to) ? $date : $date2}}
