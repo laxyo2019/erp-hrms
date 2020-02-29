@@ -165,20 +165,20 @@
 
 @if($request->teamlead_approval == 0 && auth()->user()->hasrole('hrms_teamlead'))
 
-	<strong class="apprv_msg" hidden="" >APPROVED</strong>
-	<strong class="dec_msg" hidden="" >DECLINED</strong>
+	<strong class="apprv_msg" id="apprv_msg_{{$request->id}}" style="display: none;" >APPROVED</strong>
+	<strong class="dec_msg" id="dec_msg_{{$request->id}}" style="display: none;" >DECLINED</strong>
 
-	<button type="button"  data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1">APPROVE</button>
+	<button type="button" data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1" id="apprvBtn_{{$request->id}}">APPROVE</button>
 
-	<button type="button" data-id="{{$request->id}}" class="btn btn-danger btn-sm ml-2 action decline" value="2">DECLINE</button>
+	<button type="button" data-id="{{$request->id}}" class="btn btn-danger btn-sm ml-2 action decline" value="2" id="decBtn_{{$request->id}}">DECLINE</button>
 
 {{-- Reverse Leave button for TeamLead --}}
 
 @elseif($request->teamlead_approval == 1 && $request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_teamlead'))
 	
-	<div class="rev_msg" hidden="">REVERSED</div>
+	<div class="rev_msg" id="rev_msg_{{$request->id}}" style="display: none;">REVERSED</div>
 
-	<button type="button" class="btn btn-sm reverse" value="{{$request->id}}">REVERSE</button>
+	<button type="button" data-id="{{$request->id}}" class="btn btn-sm reverse" value="{{$request->id}}" id="revBtn_{{$request->id}}">REVERSE</button>
 
 {{-- Approve/Decline/Reverse message for TeamLead --}}
 
@@ -205,20 +205,20 @@
 
 @elseif($request->teamlead_approval == 1 && $request->subadmin_approval == 0 && auth()->user()->hasrole('hrms_hr'))
 
-	<strong class="apprv_msg" hidden="" >APPROVED</strong>
-	<strong class="dec_msg" hidden="" >DECLINED</strong>
+	<strong class="apprv_msg" id="apprv_msg_{{$request->id}}" style="display: none;" >APPROVED</strong>
+	<strong class="dec_msg" id="dec_msg_{{$request->id}}" style="display: none;" >DECLINED</strong>
 
-	<button type="button"  data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1">APPROVE</button>
+	<button type="button"  data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1" id="apprvBtn_{{$request->id}}">APPROVE</button>
 
-	<button type="button" data-id="{{$request->id}}" class="btn btn-danger btn-sm ml-2 action decline" value="2">DECLINE</button>
+	<button type="button" data-id="{{$request->id}}" class="btn btn-danger btn-sm ml-2 action decline" value="2" id="decBtn_{{$request->id}}">DECLINE</button>
 
 {{-- Reverse Leave button for SubAdmin --}}
 
 @elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_hr'))
 	
-	<div class="rev_msg" hidden="">REVERSED</div>
+	<div class="rev_msg" id="rev_msg_{{$request->id}}" style="display: none;">REVERSED</div>
 
-	<button type="button" class="btn btn-sm reverse" value="{{$request->id}}">REVERSE</button>
+	<button type="button" data-id="{{$request->id}}" class="btn btn-sm reverse" value="{{$request->id}}" id="revBtn_{{$request->id}}">REVERSE</button>
 
 {{-- Approve/Decline/Reverse message for SubAdmin --}}
 
@@ -243,20 +243,20 @@
 {{-- 		Approve/Decline button for ADMIN 		--}}
 
 @elseif($request->subadmin_approval == 1 && auth()->user()->hasrole('hrms_admin') && $request->admin_approval == 0 )
-	<strong class="apprv_msg" hidden="">APPROVED</strong>
-	<strong class="dec_msg" hidden="">DECLINED</strong>
+	<strong class="apprv_msg" id="apprv_msg_{{$request->id}}" style="display: none;">APPROVED</strong>
+	<strong class="dec_msg" id="dec_msg_{{$request->id}}" style="display: none;">DECLINED</strong>
 
-	<button type="button" data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1" >APPROVE</button>
+	<button type="button" data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1" id="apprvBtn_{{$request->id}}">APPROVE</button>
 
-	<button type="button" class="btn btn-danger btn-sm ml-2 action decline" value="2" data-id="{{$request->id}}">DECLINE</button>
+	<button type="button" class="btn btn-danger btn-sm ml-2 action decline" value="2" data-id="{{$request->id}}" id="decvBtn_{{$request->id}}">DECLINE</button>
 
 {{-- Reverse button for ADMIN --}}
 
 @elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin'))
 	
-	<strong class="rev_msg" hidden="" >REVERSED</strong>
+	<strong class="rev_msg" id="rev_msg_{{$request->id}}" style="display: none;" >REVERSED</strong>
 
-	<button type="button" class="btn btn-sm reverse" value="{{$request->id}}">REVERSE</button>
+	<button type="button" data-id="{{$request->id}}" class="btn btn-sm reverse" value="{{$request->id}}" id="revBtn_{{$request->id}}">REVERSE</button>
 
 {{-- Approve/Decline message for Admin --}}
 
@@ -314,6 +314,8 @@ $(document).ready(function(){
 		var action 		= $(this).val();
 		var request_id 	= $(this).data('id');
 
+		//alert([action, request_id]);
+
 		if(action == 2){
 
 			var txt = prompt('Please enter reason.');
@@ -334,12 +336,13 @@ $(document).ready(function(){
 			data: {'action':action, 'text':txt},
 			success:function(res){
 
-				$('.action').attr('hidden', true);
+				$('#apprvBtn_'+request_id).hide();
+				$('#decBtn_'+request_id).hide();
 				if(res.action == 1){
-					$('.apprv_msg').attr('hidden', false);
+					$('#apprv_msg_'+request_id).show();
 				}else{
 					
-					$('.dec_msg').attr('hidden', false);
+					$('#dec_msg_'+request_id).show();
 				}
 			}
 		})
@@ -357,18 +360,12 @@ $(document).ready(function(){
 			//data: {action:'action'},
 			success:function(res){
 
-				$('.reverse').attr('hidden', true);
-				$('.rev_msg').attr('hidden', false);
+				$('#revBtn_'+request_id).hide();
+				$('#rev_msg_'+request_id).show();
 
 			}
 		});
 	});
-/*
-	$(".approved1").click(function(){
-	    if (!confirm("Do you want to approve")){
-	      return false;
-	    }
-	  });*/
   });
 
 
