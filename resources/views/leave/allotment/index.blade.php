@@ -28,9 +28,8 @@
                         <tbody>
                             @php $count = 0;
                             @endphp
-
                             @foreach($allotments as $index)
-                            @if(count($index['allotments']) !=0)
+                            @if(count($index['allotments']) != 0 )
                                 <tr class="text-center">
                                     <td>{{++$count}}</td>
                                     <td>{{ucwords($index->emp_name)}}</td>
@@ -64,7 +63,6 @@
                                 </tr>
                                 @endif
                             @endforeach
-                            
                         </tbody>
                     </table>
                 </div> 

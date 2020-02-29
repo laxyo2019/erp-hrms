@@ -4,7 +4,6 @@
 @endpush
 @section('content')
 @php
-	//$emp_titles = array('Mr.', 'Mrs.', 'Ms.');
 	$blood_groups	= array('O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-');
 	$castes			= array('General', 'OBC', 'SC', 'ST');
 	$religions		= array('Hindu', 'Muslim', 'Christian', 'Sikh', 'Jain');
@@ -24,11 +23,19 @@
 					@csrf
 				<div class="container-fluid">
 					<div class="row">
-						 
 						<div class="col-6 form-group">
 							<label for="">Full Name</label>
 								<input type="text" class="form-control" name="full_name" value="{{old('full_name', $employee->emp_name)}}" />
 							@error('full_name')
+			                <span class="text-danger" role="alert">
+			                    <strong>{{ $message }}</strong>
+			                </span>
+			            	@enderror
+						</div>
+						<div class="col-6 form-group">
+							<label for="emp_father">Father's Name</label>
+								<input type="text" class="form-control" name="emp_father" value="{{old('emp_father', $employee->emp_father)}}" />
+							@error('emp_father')
 			                <span class="text-danger" role="alert">
 			                    <strong>{{ $message }}</strong>
 			                </span>
@@ -43,6 +50,8 @@
 			                  </span>
 			              	@enderror
 						</div>
+					</div>
+					<div class="row">
 						<div class="col-6 form-group">
 							<label for="name"><b>Gender</b> </label>
 							<div class="input-group">
@@ -88,7 +97,7 @@
 					<h5>CONTACT INFORMATION</h5><hr>
 					<div class="row">
 						<div class="col-6 form-group">
-							<label for="">Contact Number</label>
+							<label for="">Contact No. ( Provided by Company )</label>
 							<input type="text" name="contact_number" class="form-control" value="{{old('contact_number',$employee->contact)}}">
 							@error('contact_number')
 				                <span class="text-danger" role="alert">
@@ -97,7 +106,7 @@
 				            @enderror
 						</div>
 						<div class="col-6 form-group">
-							<label for="">Alternate Contact Number</label>
+							<label for="">Contact No. ( Personal )</label>
 							<input type="text" name="alternate_contact_number" class="form-control" value="{{old('alternate_contact_number',$employee->alt_contact)}}">
 							@error('alternate_contact_number')
 				                <span class="text-danger" role="alert">
@@ -106,7 +115,7 @@
 				              @enderror
 						</div>
 						<div class="col form-group">
-							<label for="email">Email</label>
+							<label for="email">Email ( Provided by Company )</label>
 							<input type="email" name="email" class="form-control" value="{{old('email',$employee->email)}}" id="email">
 							@error('email')
 				            	<span class="text-danger" role="alert">
@@ -115,7 +124,7 @@
 				            @enderror
 						</div>
 						<div class="col-6 form-group">
-							<label for="alt-email">Alternate Email</label>
+							<label for="alt-email">Email ( Personal )</label>
 							<input type="email" name="alternate_email" class="form-control" value="{{old('alternate_email',$employee->alt_email)}}" checked="" id="alt-email">
 							@error('alternate_email')
 				                <span class="text-danger" role="alert">

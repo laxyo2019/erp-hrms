@@ -31,6 +31,7 @@ class CreateEmployeeTables extends Migration
           $table->string('emp_name', 50);
           $table->string('emp_img', 200)->default('emp_default_image.png');
           $table->enum('emp_gender', ['M', 'F', 'O'])->nullable();
+          $table->string('emp_father', 5O)->nullable();
           $table->date('emp_dob')->nullable();
           $table->text('curr_addr')->nullable();
           $table->text('perm_addr')->nullable();

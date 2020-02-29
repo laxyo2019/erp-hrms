@@ -103,6 +103,7 @@ class EmployeesController extends Controller
         'emp_gender' => $request->emp_gender,
         'emp_dob'    => $request->emp_dob,
         'blood_grp'  => $request->blood_group,
+        'emp_father' => $request->emp_father,
         'curr_addr'  => $request->curr_addr,
         'perm_addr'  => $request->perm_addr,
         'contact'    => $vdata['contact_number'],

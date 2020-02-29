@@ -50,10 +50,10 @@
 $(document).ready(function(){
 
 	$('.datepicker').datepicker({
-		orientation: "bottom",
 		format: "yyyy-mm-dd",
 		autoclose: true,
-		todayHighlight: true
+		todayHighlight: true,
+		pickerPosition: "top-left"
 		});
 });
 </script>

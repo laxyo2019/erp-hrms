@@ -19,6 +19,19 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-6 form-group">
+							<label for="">Employee Code</label>
+							<input type="text" name="emp_code" value="{{old('emp_code', $employee->emp_code)}}" class="form-control">
+						</div>
+						<div class="col-6 form-group">
+							<label for="emp_grade">Employee Grade</label>
+							<select name="emp_grade" class="form-control" id="">
+								<option value="">Select Grade</option>	
+									@foreach($meta['grade_mast'] as $grades)
+										<option value="{{$grades->id}}" {{old('emp_grade',$employee->grade_id) == $grades->id ? 'selected' : ''}}>{{$grades->name}}</option>
+									@endforeach
+							</select>
+						</div>
+						<div class="col-6 form-group">
 							<label for="">Company</label>
 							<select name="comp_id" class="form-control" id="company">
 								<option value="">Select Company</option>
@@ -46,6 +59,15 @@
 				                    <strong>{{ $message }}</strong>
 				                </span>
 				            	@enderror
+						</div>
+						<div class="col-6 form-group">
+							<label for="designation"><b>Designation</b> </label>
+							<select name="designation" class="form-control" id="">
+								<option value="">Select designation</option>	
+									@foreach($meta['designation'] as $designation)
+									<option value="{{$designation->id}}" {{old('designation',$employee->desg_id) == $designation->id ? 'selected' : ''}} >{{ucwords($designation->name)}}</option>
+									@endforeach
+							</select>			
 						</div>
 						<div class="col-6 form-group">
 							<label for="">Department</label>
@@ -80,37 +102,6 @@
 							@enderror
 						</div>
 						<div class="col-6 form-group">
-							<label for="">Employee Code</label>
-							<input type="text" name="emp_code" value="{{old('emp_code', $employee->emp_code)}}" class="form-control">
-						</div>
-						<div class="col-6 form-group">
-							<label for="emp_grade">Employee Grade</label>
-							<select name="emp_grade" class="form-control" id="">
-								<option value="">Select Grade</option>	
-									@foreach($meta['grade_mast'] as $grades)
-										<option value="{{$grades->id}}" {{old('emp_grade',$employee->grade_id) == $grades->id ? 'selected' : ''}}>{{$grades->name}}</option>
-									@endforeach
-							</select>
-						</div>
-						<div class="col-6 form-group">
-							<label for="designation"><b>Designation</b> </label>
-							<select name="designation" class="form-control" id="">
-								<option value="">Select designation</option>	
-									@foreach($meta['designation'] as $designation)
-									<option value="{{$designation->id}}" {{old('designation',$employee->desg_id) == $designation->id ? 'selected' : ''}} >{{ucwords($designation->name)}}</option>
-									@endforeach
-							</select>			
-						</div>
-						<div class="col-6 form-group">
-							<label for="name"><b>REPORTS TO</b> </label>
-							<select name="reports_to" class="form-control" id="">
-								<option value="">Select User</option>
-									@foreach($meta['emp_mast'] as $index)
-										<option value="{{$index->user_id}}" {{old('reports_to',$employee->reports_to) == $index->user_id ? 'selected' : ''}} {{$index->user_id == $employee->user_id ? 'disabled' : ''}}>{{ucwords($index->emp_name)}}</option>
-									@endforeach
-							</select>			
-						</div>
-						<div class="col-6 form-group">
 							<label for="">Employee Type</label>
 							<select name="emp_type" id="emp_type" class="form-control">
 								<option value=""> Select Type </option>
@@ -124,6 +115,16 @@
 							</span>
 							@enderror
 						</div>
+						<div class="col-6 form-group">
+							<label for="name"><b>TO REPORT</b> </label>
+							<select name="reports_to" class="form-control" id="">
+								<option value="">Select User</option>
+									@foreach($meta['emp_mast'] as $index)
+										<option value="{{$index->user_id}}" {{old('reports_to',$employee->reports_to) == $index->user_id ? 'selected' : ''}} {{$index->user_id == $employee->user_id ? 'disabled' : ''}}>{{ucwords($index->emp_name)}}</option>
+									@endforeach
+							</select>			
+						</div>
+						
 						<div class="col-6 form-group" id="empStatus" style="display: none">
 							<label for="">Employee Status</label>
 							<select name="emp_status" id="" class="form-control">
