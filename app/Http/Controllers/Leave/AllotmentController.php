@@ -23,7 +23,7 @@ class AllotmentController extends Controller
 						}])->where('emp_mast.leave_allotted', '=', 1)
 						->whereNull('deleted_at')
 						->get();
-		// return $allotments[1];
+		// return $allotments;
 		return view('leave.allotment.index', compact('allotments'));
 	}
 
