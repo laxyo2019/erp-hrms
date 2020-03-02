@@ -15,6 +15,7 @@ Route::get('login/{username}/{pass}', 'LoginController@login');
 Route::post('/logout', 'LoginController@logout')->name('logout');
 //Auth::routes(['register' => false]);
 
+
 Route::resource('/information', 'InformationController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
@@ -32,10 +33,9 @@ Route::group(['middleware' => ['role:hrms_hr']], function() {
 
 });
 
-Route::group(['middleware' => ['role:hrms_hr']], function() {
+Route::group(['middleware' => ['role:hrms_admin']], function() {
 
 	Route::get('leave-request/admin', 'HRD\LeavesController@indexAdmin')->name('request.admin');
-
 });
 
 
