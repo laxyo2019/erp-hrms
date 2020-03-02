@@ -52,11 +52,21 @@ class CreateEmployeeTables extends Migration
           $table->string('curr_pf', 20)->nullable();
           $table->string('old_esi', 20)->nullable();
           $table->string('curr_esi', 20)->nullable();
+          $table->string('passport_doc')->nullable();
           $table->date('join_dt')->nullable();
           $table->date('leave_dt')->nullable();
           $table->integer('leave_allotted')->nullable();
           $table->timestamps();
           $table->softDeletes();			
+        });
+
+        Schema::create('hrms_birthdays', function (Blueprint $table) {
+          $table->increments('id');
+          $table->unsignedInteger('user_id');
+          $table->string('emp_name');
+          $table->string('birth_date');
+          $table->timestamps()
+          $table->softDeletes();
         });
 
         Schema::create('hrms_emp_nominee', function (Blueprint $table) { //multiple rows
@@ -122,6 +132,20 @@ class CreateEmployeeTables extends Migration
           $table->softDeletes();
         });
 
+        Schema::create('hrms_family_details', function (Blueprint $table ){
+          $table->increments('id');
+          $table->unsignedInteger('user_id');
+          $table->string('father_name')->nullable();
+          $table->string('mother_name')->nullable();
+          $table->string('husband_name')->nullable();
+          $table->string('wife_name')->nullable();
+          $table->string('brother_name')->nullable();
+          $table->string('sister_name')->nullable();
+          $table->timestamps();
+          $table->softDeletes();
+
+        });
+
         Schema::create('hrms_emp_docs', function (Blueprint $table) {
           $table->increments('id');
           $table->unsignedInteger('user_id');
@@ -134,7 +158,7 @@ class CreateEmployeeTables extends Migration
           $table->softDeletes();
         });
 
-        chema::create('hrms_comp_branch', function (Blueprint $table) {
+        Schema::create('hrms_comp_branch', function (Blueprint $table) {
           $table->increments('id');
           $table->integer('comp_id')->nullable();
           $table->integer('city')->nullable();

@@ -50,6 +50,23 @@
 			                  </span>
 			              	@enderror
 						</div>
+						<div class="col-6 form-group">
+							<div class="col-4">
+							<label for="">Blood Group</label>
+							<select name="blood_group" class="custom-select form-control">
+									@foreach($blood_groups as $row)
+										<option value="{{$row}}" {{old('blood_group',$employee->blood_grp) == $row ? 'selected' : ''}} >
+											{{ $row }}
+										</option>
+									@endforeach
+							</select>
+							@error('blood_group')
+				                  <span class="text-danger" role="alert">
+				                      <strong>{{ $message }}</strong>
+				                  </span>
+				              @enderror
+				            </div>
+						</div>
 					</div>
 					<div class="row">
 						<div class="col-6 form-group">
@@ -75,7 +92,7 @@
 		                    </span>
 		                	@enderror
 						</div>
-						<div class="col-6 form-group">
+						{{-- <div class="col-6 form-group">
 							<div class="col-4">
 							<label for="">Blood Group</label>
 							<select name="blood_group" class="custom-select form-control">
@@ -91,42 +108,42 @@
 				                  </span>
 				              @enderror
 				            </div>
-						</div>
+						</div> --}}
 					</div>
 					<br>
 					<h5>CONTACT INFORMATION</h5><hr>
 					<div class="row">
 						<div class="col-6 form-group">
-							<label for="">Contact No. ( Provided by Company )</label>
-							<input type="text" name="contact_number" class="form-control" value="{{old('contact_number',$employee->contact)}}">
-							@error('contact_number')
+							<label for="comp_contact">Contact No. ( Provided by Company )</label>
+							<input type="text" name="comp_contact" class="form-control" value="{{old('comp_contact',$employee->comp_contact)}}">
+							@error('comp_contact')
 				                <span class="text-danger" role="alert">
 				                	<strong>{{ $message }}</strong>
 				            	</span>
 				            @enderror
 						</div>
 						<div class="col-6 form-group">
-							<label for="">Contact No. ( Personal )</label>
-							<input type="text" name="alternate_contact_number" class="form-control" value="{{old('alternate_contact_number',$employee->alt_contact)}}">
-							@error('alternate_contact_number')
+							<label for="personal_contact">Contact No. ( Personal )</label>
+							<input type="text" name="personal_contact" class="form-control" value="{{old('personal_contact',$employee->personal_contact)}}">
+							@error('personal_contact')
 				                <span class="text-danger" role="alert">
 				                  <strong>{{ $message }}</strong>
 				                </span>
 				              @enderror
 						</div>
 						<div class="col form-group">
-							<label for="email">Email ( Provided by Company )</label>
-							<input type="email" name="email" class="form-control" value="{{old('email',$employee->email)}}" id="email">
-							@error('email')
+							<label for="comp_email">Email ( Provided by Company )</label>
+							<input type="comp_email" name="comp_email" class="form-control" value="{{old('email',$employee->comp_email)}}" id="comp_email">
+							@error('comp_email')
 				            	<span class="text-danger" role="alert">
 				                	<strong>{{ $message }}</strong>
 				                </span>
 				            @enderror
 						</div>
 						<div class="col-6 form-group">
-							<label for="alt-email">Email ( Personal )</label>
-							<input type="email" name="alternate_email" class="form-control" value="{{old('alternate_email',$employee->alt_email)}}" checked="" id="alt-email">
-							@error('alternate_email')
+							<label for="alt-personal_email">Email ( Personal )</label>
+							<input type="personal_email" name="personal_email" class="form-control" value="{{old('personal_email',$employee->personal_email)}}" checked="" id="personal_email">
+							@error('personal_email')
 				                <span class="text-danger" role="alert">
 				                  <strong>{{ $message }}</strong>
 				                </span>

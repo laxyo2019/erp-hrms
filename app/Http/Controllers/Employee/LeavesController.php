@@ -197,17 +197,16 @@ class LeavesController extends Controller
 
    public function store(Request $request)
    {
-
      $data = $request->validate([
-         'leave_type_id'    => 'required',
-         'start_date'       => 'required',
-         'reason'           => 'required',
-         'duration'         => 'required|string',
-         'contact_no'       => 'nullable',
-         'applicant_remark' => 'nullable',
-         'address_leave'    => 'nullable'
-
-      ]);
+       'leave_type_id'    => 'required',
+       'start_date'       => 'required',
+       'reason'           => 'required',
+       'reports_to'       => 'required',
+       'duration'         => 'required|string',
+       'contact_no'       => 'nullable',
+       'applicant_remark' => 'nullable',
+       'address_leave'    => 'nullable'
+    ]);
 
       $btnId = $request->btnId;
 

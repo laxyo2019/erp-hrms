@@ -37,11 +37,11 @@
 						<label for=""><b>Nominee's Relation : </b></label>
 						{{$nominees->relation}}
 					</div>		                    
-	                	<div class="form-group">
-							<label for=""><b>Nominee's Documents : </b></label>
-							<a href="{{route('employees.download', ['db_table' => 'hrms_emp_nominee', $nominees->id])}}"><i class="fa fa-arrow-down" ></i> Download</a>
-						</div>
-					<div class=" form-group">
+                	<div class="col-6 form-group">
+						<label for=""><b>Nominee's Documents : </b></label>
+						<a href="{{route('employees.download', ['db_table' => 'hrms_emp_nominee', $nominees->id])}}"><i class="fa fa-arrow-down" ></i> Download</a>
+					</div>
+					<div class="col-6 form-group">
 						<label for=""><b>Nominee's Address : </b></label>
 						{{$nominees->addr}}
 					</div>	                	

@@ -17,20 +17,25 @@
            		</div><hr>
 				<div class="row col-12">
 					<div class="col-6 form-group">
-						<label for=""><b>Company : </b></label>{{empty($meta['company']->name)?'': ucwords($meta['company']->name)}}
+						<label for=""><b>Company : </b></label>{{empty($meta['company']->name)?'': strtoupper($meta['company']->name)}}
 					</div>
 					<div class="col-6 form-group">
-						<label for=""><b>Department : </b></label>{{empty($meta['department']->name)?'': ucwords($meta['department']->name)}}
+						<label for=""><b>Branch : </b></label>{{empty($meta['company']->name)?'': strtoupper($meta['branch']->city)}}
 					</div>
 					<div class="col-6 form-group">
-						<label for=""><b>Employee Type : </b></label>{{empty($meta['emptype']->name)?'': ucwords($meta['emptype']->name)}}
-					</div> 
-					<div class="col-6 form-group">
-						<label for=""><b>REPORTS TO : &nbsp</b></label>{{empty($meta['reportto']->emp_name)?'': ucwords($meta['reportto']->emp_name)}}</td>
+						<label for=""><b>Employee Code : </b></label>
+					{{empty($meta->emp_code)?'':$meta->emp_code}}
 					</div>
-                	<div class="col-6 form-group">
-						<label for=""><b>Employee Status : </b></label>
-					{{empty($meta['empstatus']->name)?'':ucwords($meta['empstatus']->name)}}
+					<div class="col-6 form-group">
+						<label for=""><b>Employee Grade : </b></label>
+					{{empty($meta['empgrade']->name)?'': strtoupper($meta['empgrade']->name)}}
+					</div>
+					<div class="col-6 form-group">
+						<label for=""><b>Designation : </b></label>
+					{{empty($meta['designation']->name)?'': strtoupper($meta['designation']->name)}}
+					</div>	
+					<div class="col-6 form-group">
+						<label for=""><b>Department : </b></label>{{empty($meta['department']->name)?'': strtoupper($meta['department']->name)}}
 					</div>
 					<div class="col-6 form-group">
 						<label for=""><b>Joinning Date : </b></label>
@@ -40,18 +45,22 @@
 						<label for=""><b>Leave Date : </b></label>
 					{{empty($meta->leave_dt)?'':$meta->leave_dt}}
 					</div>
+					<div class="col-6 form-group">
+						<label for=""><b>Employee Type : </b></label>{{empty($meta['emptype']->name)?'': strtoupper($meta['emptype']->name)}}
+					</div> 
+					<div class="col-6 form-group">
+						<label for=""><b>To Report : &nbsp</b></label>{{empty($meta['reportto']->emp_name)?'': strtoupper($meta['reportto']->emp_name)}}</td>
+					</div>
                 	<div class="col-6 form-group">
-						<label for=""><b>Employee Code : </b></label>
-					{{empty($meta->emp_code)?'':$meta->emp_code}}
+						<label for=""><b>Employee Status : </b></label>
+					{{empty($meta['empstatus']->name)?'':strtoupper($meta['empstatus']->name)}}
 					</div>
-					<div class="col-6 form-group">
-						<label for=""><b>Employee Grade : </b></label>
-					{{empty($meta['empgrade']->name)?'': ucwords($meta['empgrade']->name)}}
+					
+                	<div class="col-6 form-group">
+						<label for=""><b> Passport : </b></label>
+						<td><a href="{{route('employees.download', ['db_table' => 'emp_mast', $employee->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
 					</div>
-					<div class="col-6 form-group">
-						<label for=""><b>Designation : </b></label>
-					{{empty($meta['designation']->name)?'': ucwords($meta['designation']->name)}}
-					</div>	
+					
                 </div>
                 <div class="row mb-4">
 	                
@@ -84,27 +93,27 @@
                 <div class="row col-12">
                 	<div class="col-6 form-group">
 						<label for=""><b>Old PF Number : </b></label>
-					{{empty($meta->old_pf)?'':$meta->old_pf}}
+					{{empty($meta->old_pf)?'':strtoupper($meta->old_pf)}}
 					</div>
 					<div class="col-6 form-group">
 						<label for=""><b>New PF Number : </b></label>
-					{{empty($meta->curr_pf)?'':$meta->curr_pf}}
+					{{empty($meta->curr_pf)?'':strtoupper($meta->curr_pf)}}
 					</div>
 					<div class="col-6 form-group">
 						<label for=""><b>Old UAN Number : </b></label>
-						{{empty($meta->old_uan)?'':$meta->old_uan}}
+						{{empty($meta->old_uan)?'':strtoupper($meta->old_uan)}}
 					</div>
 					<div class="col-6 form-group">
 						<label for=""><b>New UAN Number: </b></label>
-					{{empty($meta->curr_uan)?'':$meta->curr_uan}}
+					{{empty($meta->curr_uan)?'':strtoupper($meta->curr_uan)}}
 					</div>
                  	<div class="col-6 form-group">
 						<label for=""><b>Old ESI Number: </b></label>
-					{{empty($meta->old_esi)?'':$meta->old_esi}}
+					{{empty($meta->old_esi)?'':strtoupper($meta->old_esi)}}
 					</div>
 					<div class="col-6 form-group">
 						<label for=""><b>New ESI Number: </b></label>
-						{{empty($meta->curr_esi)?'':$meta->curr_esi}}
+						{{empty($meta->curr_esi)?'':strtoupper($meta->curr_esi)}}
 					</div>
                 </div>
           </div>

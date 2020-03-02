@@ -15,6 +15,7 @@ use App\Models\Master\EmpStatus;
 use App\Models\Master\LeaveMast;
 use App\Imports\EmployeesImport;
 use App\Exports\EmployeesExport;
+use App\Models\Employees\Family;
 use App\Models\Master\Designation;
 use App\Models\Master\DocTypeMast;
 use App\Models\Master\NomineeType;
@@ -46,16 +47,6 @@ class EmployeesController extends Controller
     return view('HRD.employees.index',compact('employees', 'leaves'));
   }
 
-  /*
-    public function insert_employee(Request $request){
-
-  	$employee = new EmployeeMast();
-  	$employee->emp_name = $request->name; //emp ID will updated in users
-  	$employee->save();
-  	return redirect()->route('employees.index')->with('success','Employee Created successfully');
-    }
-  */
-
   public function save_main(Request $request,$id){
 
 	  $vdata = request()->validate([
@@ -66,7 +57,7 @@ class EmployeesController extends Controller
 			'contact.required' => 'The contact number field is required.',
 			'contact.max'      => 'The contact number may not be greater than 10 digits.',
 		]);
-    
+
 		$employee = EmployeeMast::findOrfail($id);
 		$employee->emp_name = $vdata['name'];
 		$employee->email    = $vdata['email'];
@@ -79,11 +70,11 @@ class EmployeesController extends Controller
   public function save_personal(Request $request, $user_id){
 
     $vdata = request()->validate([
-      'full_name'      => 'required|max:45',
-      'contact_number' => 'nullable|numeric',
-      'alternate_contact_number' => 'nullable|numeric',
-      'email'          => 'nullable|email|max:50',
-      'alternate_email'=> 'nullable|email|max:50',
+      'full_name'               => 'required|max:45',
+      'contact_number'          => 'nullable|numeric',
+      'alternate_contact_number'=> 'nullable|numeric',
+      'comp_email'              => 'nullable|email|max:50',
+      'personal_email'          => 'nullable|email|max:50',
     ]);
 
     /*** Directory structure ***/
@@ -108,8 +99,8 @@ class EmployeesController extends Controller
         'perm_addr'  => $request->perm_addr,
         'contact'    => $vdata['contact_number'],
         'alt_contact'=> $vdata['alternate_contact_number'],
-        'email'      => $vdata['email'],
-        'alt_email'  => $vdata['alternate_email'],
+        'comp_email'      => $vdata['comp_email'],
+        'personal_email'  => $vdata['personal_email'],
         'driv_lic'   => $request->drive_lic
       ]);
 
@@ -123,19 +114,36 @@ class EmployeesController extends Controller
 
   public function save_official(Request $request,$user_id){
       
+      //return $request->all();
     $vdata = request()->validate([
 
       'aadhar_no' => 'string|nullable|max:20',
       'pan_no'    => 'string|nullable|max:20',
       'voter_id'  => 'string|nullable|max:20',
-      'old_pf'    => 'string|nullable|max:20|alpha_num',
-      'new_pf'    => 'string|nullable|max:20|alpha_num',
+      'old_pf'    => 'string|nullable|digits:12|alpha_num',
+      'new_pf'    => 'string|nullable|digits:12|alpha_num',
       'driv_lic'  => 'string|nullable|max:20|alpha_dash',
       'old_uan'   => 'string|nullable|digits:12',
       'curr_uan'  => 'string|nullable|digits:12',
-      'old_esi'   => 'string|nullable|digits:20',
-      'curr_esi'  => 'string|nullable|digits:20',
+      'old_esi'   => 'string|nullable|digits:10',
+      'curr_esi'  => 'string|nullable|digits:10',
     ]);
+
+
+
+    if($request->hasFile('file_path')){
+
+      //return $request->file('file_path')->extension();
+      $dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
+      $file_ext = $request->file('file_path')->extension();
+      $filename = $user_id.'_'.time().'_passport.'.$file_ext;
+      $path     = $request->file('file_path')->storeAs($dir, $filename);
+      
+    }else{
+
+      $path = null;
+    }
+
 
     $employee = EmployeeMast::where('user_id', $user_id)
       ->update([
@@ -160,6 +168,7 @@ class EmployeesController extends Controller
         'curr_uan'   => $request->curr_uan,
         'old_esi'    => $request->old_esi,
         'curr_esi'   => $request->curr_esi,
+        'file_path'  => $path
       ]);
 
     return redirect()->route('employee.show_page',['user_id'=>$user_id,'tab'=>'official'])->with('success','Updated successfully.');
@@ -225,20 +234,21 @@ class EmployeesController extends Controller
       $path = null;
     }
 
-		$academic = new EmpExp();
-		$academic->user_id          = $user_id;
-		$academic->comp_name        = $vdata['company_name'];
-		$academic->job_type         = $vdata['job_type'];
-		$academic->monthly_ctc      = $vdata['monthly_ctc'];
-		$academic->desg             = $vdata['designation'];
-		$academic->comp_loc         = $vdata['comp_loc'];
-		$academic->comp_email       = $vdata['comp_email'];
-		$academic->comp_website     = $vdata['comp_website'];
-		$academic->start_dt         = $request->start_date;
-		$academic->end_dt           = $request->end_date;
-		$academic->reason_of_leaving= $request->reason_of_leaving;
-    $academic->file_path        = $path;
-		$academic->save();
+		$experience = new EmpExp();
+		$experience->user_id          = $user_id;
+		$experience->comp_name        = $vdata['company_name'];
+		$experience->job_type         = $vdata['job_type'];
+		$experience->monthly_ctc      = $vdata['monthly_ctc'];
+		$experience->desg             = $vdata['designation'];
+		$experience->comp_loc         = $vdata['comp_loc'];
+		$experience->comp_email       = $vdata['comp_email'];
+		$experience->comp_website     = $vdata['comp_website'];
+		$experience->start_dt         = $request->start_date;
+		$experience->end_dt           = $request->end_date;
+    $experience->total_exp      = $request->total_exp;
+		$experience->reason_of_leaving= $request->reason_of_leaving;
+    $experience->file_path        = $path;
+		$experience->save();
 
 		return back()->with('success','Updated successfully.');
   }  
@@ -247,7 +257,6 @@ class EmployeesController extends Controller
   {
     $vdata = request()->validate([
       'doc_title' => 'required',
-      'file_path' => 'required|max:5120',
       'doc_status'=> 'max:1',
       'remarks'   => 'string|nullable'
     ]);
@@ -360,6 +369,38 @@ class EmployeesController extends Controller
 
     return back()->with('success', 'Updated successfully.');
   }
+
+  public function save_familydetails(Request $request, $user_id){
+
+    if(count(Family::where('user_id', $user_id)->get()) == null){
+
+      $family  = new Family;
+      $family->user_id      = $user_id;
+      $family->father_name  = $request->father_name;
+      $family->mother_name  = $request->mother_name;
+      $family->husband_name = $request->husband_name;
+      $family->wife_name    = $request->wife_name;
+      $family->brother_name = $request->brother_name;
+      $family->sister_name  = $request->sister_name;
+      $family->save();
+
+    }else{
+
+      Family::where('user_id', $user_id)
+        ->update([
+          'father_name' => $request->father_name,
+          'mother_name' => $request->mother_name,
+          'husband_name'=> $request->husband_name,
+          'wife_name'   => $request->wife_name,
+          'brother_name'=> $request->brother_name,
+          'sister_name' => $request->sister_name
+        ]);
+    }
+
+    
+
+    return back()->with('success', 'Updated successfully.');
+  }
   /*
     Toggle sections on employee detail page
   */
@@ -416,8 +457,13 @@ class EmployeesController extends Controller
 
       $meta['nominee_types'] = NomineeType::all();
     }
-    // return "hello";
 
+    if($tab == 'familydetails'){
+
+      $employee = EmployeeMast::with('family')
+                    ->where('user_id',$user_id)
+                    ->first();
+    }
     return view($path,compact('employee','meta'));
   }
 
@@ -445,7 +491,7 @@ class EmployeesController extends Controller
       $meta['grade_mast']    = Grade::all();
       $meta['designation']   = Designation::where('deleted_at', null)->get();
 
-      $meta      = EmployeeMast::with('company','designation','grade','academics','experiences','documents','department','emptype','empstatus','empgrade','empdesignation','reportto')->where('deleted_at', null)->where('user_id',$user_id)->first(); 
+      $meta      = EmployeeMast::with('company','designation','grade','academics','experiences','documents','department','emptype','empstatus','empgrade','empdesignation','reportto', 'branch')->where('deleted_at', null)->where('user_id',$user_id)->first(); 
 
       //return $meta;
     }

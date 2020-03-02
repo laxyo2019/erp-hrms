@@ -56,6 +56,10 @@ class EmployeeMast extends Model
  		return $this->hasMany('App\Models\Employees\EmpNominee', 'user_id', 'user_id');
  	}
 
+  public function family(){
+    return $this->hasOne('App\Models\Employees\Family', 'user_id', 'user_id');
+  }
+
  	public function leaveapplies(){
  		return $this->hasMany('App\Models\Employees\LeaveApply', 'user_id');
  	}

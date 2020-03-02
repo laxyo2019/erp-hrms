@@ -12,25 +12,12 @@
 		<button type="button" class="close" data-dismiss="alert">×</button>
 			{{$message}}
 		</div>
-		@endif 
+		@endif
 		<div id="form-area">
-			<form action="{{route('employees.official', ['id'=>$employee->user_id])}}" method="POST">
+			<form action="{{route('employees.official', ['id'=>$employee->user_id])}}" method="POST" enctype="multipart/form-data">
 				@csrf
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-6 form-group">
-							<label for="">Employee Code</label>
-							<input type="text" name="emp_code" value="{{old('emp_code', $employee->emp_code)}}" class="form-control">
-						</div>
-						<div class="col-6 form-group">
-							<label for="emp_grade">Employee Grade</label>
-							<select name="emp_grade" class="form-control" id="">
-								<option value="">Select Grade</option>	
-									@foreach($meta['grade_mast'] as $grades)
-										<option value="{{$grades->id}}" {{old('emp_grade',$employee->grade_id) == $grades->id ? 'selected' : ''}}>{{$grades->name}}</option>
-									@endforeach
-							</select>
-						</div>
 						<div class="col-6 form-group">
 							<label for="">Company</label>
 							<select name="comp_id" class="form-control" id="company">
@@ -60,6 +47,20 @@
 				                </span>
 				            	@enderror
 						</div>
+						<div class="col-6 form-group">
+							<label for="">Employee Code</label>
+							<input type="text" name="emp_code" value="{{old('emp_code', $employee->emp_code)}}" class="form-control">
+						</div>
+						<div class="col-6 form-group">
+							<label for="emp_grade">Employee Grade</label>
+							<select name="emp_grade" class="form-control" id="">
+								<option value="">Select Grade</option>	
+									@foreach($meta['grade_mast'] as $grades)
+										<option value="{{$grades->id}}" {{old('emp_grade',$employee->grade_id) == $grades->id ? 'selected' : ''}}>{{strtoupper($grades->name)}}</option>
+									@endforeach
+							</select>
+						</div>
+						
 						<div class="col-6 form-group">
 							<label for="designation"><b>Designation</b> </label>
 							<select name="designation" class="form-control" id="">
@@ -160,13 +161,31 @@
 							<label for="">Driving License</label>
 							<input type="text" name="driv_lic" value="{{old('drive_lic', $employee->driv_lic)}}" class="form-control">
 						</div>
+						@if(empty($employee->file_path))
+						<div class="col-6 form-group">
+					    	<label for="file_path">Upload Passport</label>
+					    	<input type="file" class="form-control-file " name="file_path" id="file_path" value="{{ old('file_path') }}">
+					    	@error('file_path')
+								<span class="text-danger" role="alert">
+									<strong> {{ $message }}</strong>
+								</span>
+							@enderror
+					    </div>
+					    @else
+
+					    	<div class="col-6 form-group">
+							<label for="">Passport </label>
+							<input type="text" value="Passport Uploaded" class="form-control" disabled="">
+						</div>
+
+					    @endif
 					</div>
 					<br>
 					<div><h5>EMPLOYEE PROVIDENT FUND INFORMATION</h5></div><hr>
 					<div class="row">
 						<div class="col-6 form-group">
 							<label for="old_pf">Old PF Number</label>
-							<input type="text" name="old_pf" value="{{old('old_pf', $employee->old_pf)}}" class="form-control">
+							<input type="text" name="old_pf" value="{{old('old_pf', $employee->old_pf)}}" class="form-control" id="old_pf">
 							@error('old_pf')
 			                	<span class="text-danger" role="alert">
 			                    	<strong>{{ $message }}</strong>
@@ -175,7 +194,7 @@
 						</div>
 						<div class="col-6 form-group">
 							<label for="new_pf">New PF Number</label>
-							<input type="text" name="new_pf" value="{{old('new_pf', $employee->curr_pf)}}" class="form-control">
+							<input type="text" name="new_pf" value="{{old('new_pf', $employee->curr_pf)}}" class="form-control" id="new_pf">
 							@error('new_pf')
 			                	<span class="text-danger" role="alert">
 			                    	<strong>{{ $message }}</strong>
@@ -185,7 +204,7 @@
 						
 						<div class="col-6 form-group">
 							<label for="old_uan">Old UAN Number</label>
-							<input type="text" name="old_uan" value="{{old('old_uan', $employee->old_uan)}}" class="form-control">
+							<input type="text" name="old_uan" value="{{old('old_uan', $employee->old_uan)}}" class="form-control" id="old_uan">
 							@error('old_uan')
 			                <span class="text-danger" role="alert">
 			                    <strong>{{ $message }}</strong>
@@ -194,7 +213,7 @@
 						</div> 
 						<div class="col-6 form-group">
 							<label for="curr_uan">New UAN Number</label>
-							<input type="text" class="form-control" value="{{old('curr_uan', $employee->curr_uan)}}" name="curr_uan">
+							<input type="text" class="form-control" value="{{old('curr_uan', $employee->curr_uan)}}" name="curr_uan" id="curr_uan">
 							@error('curr_uan')
 			                	<span class="text-danger" role="alert">
 			                    	<strong>{{ $message }}</strong>
@@ -203,7 +222,7 @@
 						</div>
 						<div class="col-6 form-group">
 							<label for="old_esi">Old ESI Number</label>
-							<input type="text" name="old_esi" value="{{old('old_esi', $employee->old_esi)}}" class="form-control">
+							<input type="text" name="old_esi" value="{{old('old_esi', $employee->old_esi)}}" class="form-control" id="old_esi">
 							@error('old_esi')
 			                	<span class="text-danger" role="alert">
 			                    	<strong>{{ $message }}</strong>
@@ -212,7 +231,7 @@
 						</div> 
 						<div class="col-6 form-group">
 							<label for="curr_esi">New ESI Number</label>
-							<input type="text" class="form-control" value="{{old('curr_esi', $employee->curr_esi)}}" name="curr_esi">
+							<input type="text" class="form-control" value="{{old('curr_esi', $employee->curr_esi)}}" name="curr_esi" id="curr_esi">
 							@error('curr_esi')
 			                	<span class="text-danger" role="alert">
 			                    	<strong>{{ $message }}</strong>
@@ -281,6 +300,11 @@ $(document).ready(function(){
 			}
 		});
 	});
+
+	//Character limit for various fields
+
+	$('#old_pf, #new_pf, #old_uan, #curr_uan').prop('maxlength', 12);
+	$('#old_esi, #curr_esi').prop('maxlength', 10);
 
 
 });
