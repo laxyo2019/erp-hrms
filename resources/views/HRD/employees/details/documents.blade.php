@@ -36,7 +36,7 @@
 		    	<select name="doc_status" id="doc_status" class="custom-select form-control select2">
 		    		<option value="">Please Select </option>
 		    		<option value="s"  {{ old('doc_status') == 's' ? 'selected' : ''}} >Submitted</option>
-		    		<option value="p">Provided</option>
+		    		<option value="p">Pending</option>
 		    	</select>
 		    	@error('doc_status')
 					<span class="text-danger" role="alert">

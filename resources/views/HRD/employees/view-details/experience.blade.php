@@ -19,11 +19,11 @@
 						<div class="row col-12">
 		                	<div class="col-6 form-group">
 								<b>Company Name : </b>
-								{{ucwords($exp->comp_name)}}
+								{{strtoupper($exp->comp_name)}}
 							</div>
 							<div class="col-6 form-group">
 								<b>Job Type : </b>
-								{{ucwords($exp->job_type)}}
+								{{strtoupper($exp->job_type)}}
 							</div>
 							<div class="col-6 form-group">
 								<b>Monthly CTC : </b>
@@ -31,11 +31,11 @@
 							</div> 
 							<div class="col-6 form-group">
 								<b>Designation : </b>
-								{{ucwords($exp->desg)}}
+								{{strtoupper($exp->desg)}}
 							</div>
 							<div class="col-6 form-group">
 								<b>Company Location : </b>
-								{{ucwords($exp->comp_loc)}}
+								{{strtoupper($exp->comp_loc)}}
 							</div>
 							<div class="col-6 form-group">
 								<b>Company Email : </b>
@@ -63,7 +63,7 @@
 							</div>
 							<div class="col-6 form-group">
 								<b>Reason of Leaving : </b>
-								{{$exp->domain_of_study}}
+								{{$exp->reason_of_leaving}}
 							</div>
 						</div>
 	        			@endforeach

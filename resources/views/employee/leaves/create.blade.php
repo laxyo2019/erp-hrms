@@ -45,7 +45,7 @@
 						</select>
 					</div>
 					<div class="col-6 form-group">
-					<label for="reports_to">Reports To
+					<label for="reports_to">Team Lead
 						@error('reports_to')
 				          	<span style="color: red">
 								| {{ $message }}

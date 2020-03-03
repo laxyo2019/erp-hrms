@@ -1,6 +1,6 @@
 <div class="row card-body text-center">
 	<div class="col-6" >
-		<h4>Company Name</h4>
+		<h4>Last company name</h4>
 		<div>{{$exp->comp_name}}</div>
 	</div>
 	<div class="col-6" >
@@ -9,13 +9,14 @@
 	</div>
 </div>
 <div class="row card-body text-center">
-	<div class="col-6" >
-		<h4>Monthly CTC</h4>
-		<div>{{$exp->monthly_ctc}}</div>
-	</div>
+	
 	<div class="col-6" >
 		<h4>Designation</h4>
 		<div>{{$exp->desg}}</div>
+	</div>
+	<div class="col-6" >
+		<h4>Monthly CTC</h4>
+		<div>{{$exp->monthly_ctc}}</div>
 	</div>
 </div>
 <div class="row card-body text-center">

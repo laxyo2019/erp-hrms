@@ -20,6 +20,9 @@
 		<a class="nav-link bankdetails" href="{{route('employee.view-details',['id'=>$employee->user_id,'view'=>'bankdetails'])}}">Bank Details</a>
 	</li>
 	<li class="nav-item">
+		<a class="nav-link bankdetails" href="{{route('employee.show_page',['id'=>$employee->user_id,'view'=>'familydetails'])}}">Family Details</a>
+	</li>
+	<li class="nav-item">
 		<a class="nav-link documents" href="{{route('employee.view-details',['id'=>$employee->user_id,'view'=>'documents'])}}">Documents</a>
 	</li>
 	{{-- <li class="nav-item"><a href="{{ URL('hrd/employees') }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></li> --}}

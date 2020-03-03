@@ -14,13 +14,29 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('login/{username}/{pass}', 'LoginController@login');
 Route::post('/logout', 'LoginController@logout')->name('logout');
 //Auth::routes(['register' => false]);
-//Route::get('laxyo.org', 'MasterController@home')->name('home');
-
-//Route::resource('/hrd/approvals','HRD\ApprovalsController');
 
 Route::resource('/information', 'InformationController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
+
+
+Route::group(['middleware' => ['role:hrms_teamlead']], function() {
+
+	Route::get('leave-request/teamlead', 'HRD\LeavesController@indexTeamlead')->name('request.teamlead');
+
+});
+
+Route::group(['middleware' => ['role:hrms_hr']], function() {
+
+	Route::get('leave-request/hr', 'HRD\LeavesController@indexHr')->name('request.hr');
+
+});
+
+Route::group(['middleware' => ['role:hrms_hr']], function() {
+
+	Route::get('leave-request/admin', 'HRD\LeavesController@indexAdmin')->name('request.admin');
+
+});
 
 
 // Leave Requests
@@ -56,7 +72,7 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 		Route::post('/employee/save_documents/{user_id}', 'EmployeesController@save_documents')->name('employees.documents');
 		Route::post('/employee/save_nominee/{user_id}', 'EmployeesController@save_nominee')->name('employees.nominee');
 		Route::post('/employees/save_bankdetails/{user_id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
-
+		Route::post('/employees/save_familydetails/{user_id}', 'EmployeesController@save_familydetails')->name('employees.familydetails');
 });
 
 //Add Branches

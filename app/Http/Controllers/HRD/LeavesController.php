@@ -24,7 +24,7 @@ class LeavesController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(){
+    public function indexrt(){
 
         $user = User::find(Auth::user()->id);
         
@@ -59,6 +59,53 @@ class LeavesController extends Controller
 
         return view('HRD.leaves.index', compact('leave_request'));
 	}
+
+    public function indexTeamlead(){
+
+        $user = User::find(Auth::user()->id);
+
+        /* For Team Lead */
+
+        $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
+            ->orderBy('id', 'DESC')
+            ->where('user_id', '<>', Auth::id())
+            ->where('reports_to', Auth::id())
+            ->get();
+
+            return view('HRD.leaves.teamlead', compact('leave_request'));        
+    }
+
+    public function indexHr(){
+
+        $user = User::find(Auth::user()->id);
+        
+        /* For HR */    
+
+        $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
+            ->orderBy('id', 'DESC')
+            ->where('user_id', '<>', Auth::id())
+            ->whereIn('teamlead_approval', [1, 3])
+            ->get();
+
+        return view('HRD.leaves.hr', compact('leave_request'));
+        
+    }
+
+    public function indexAdmin(){
+
+        $user = User::find(Auth::user()->id);
+        
+        /* For Admin*/
+        $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
+            ->orderBy('id', 'DESC')
+            ->where('user_id', '<>', Auth::id())
+            ->whereIn('subadmin_approval', [1, 3])
+            ->get();
+
+        return view('HRD.leaves.admin', compact('leave_request'));
+        
+    }
+
 
 	public function edit($id){
 

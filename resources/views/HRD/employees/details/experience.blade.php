@@ -16,7 +16,7 @@
 				@csrf
 				<div class="row">
 					<div class="col-6 form-group">
-						<label for="">Company Name</label>
+						<label for="">Last Company Name</label>
 						<input type="text" class="form-control" name="company_name" 
 								value="{{old('company_name',isset($exp->comp_name) ? $exp->comp_name : '')}}">
 						@error('company_name')
@@ -35,20 +35,21 @@
 					          </span>
 					      	@enderror
 						</div>
+					
 					<div class="col-6 form-group">
-						<label for="">Monthly CTC</label>
-						<input type="text" class="form-control" name="monthly_ctc" value="{{old('monthly_ctc',isset($exp->monthly_ctc) ? $exp->monthly_ctc : '')}}">
-						@error('monthly_ctc')
+						<label for="">Designation</label>
+						<input type="text" class="form-control" name="designation"
+						value="{{old('designation',isset($exp->desg) ? $exp->desg : '')}}">
+						@error('designation')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
 				          </span>
 				      	@enderror
 					</div>
 					<div class="col-6 form-group">
-						<label for="">Designation</label>
-						<input type="text" class="form-control" name="designation"
-						value="{{old('designation',isset($exp->desg) ? $exp->desg : '')}}">
-						@error('designation')
+						<label for="">Monthly CTC</label>
+						<input type="text" class="form-control" name="monthly_ctc" value="{{old('monthly_ctc',isset($exp->monthly_ctc) ? $exp->monthly_ctc : '')}}">
+						@error('monthly_ctc')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
 				          </span>
@@ -74,6 +75,35 @@
 				          </span>
 				      	@enderror
 					</div>
+					<div class="col-3 form-group">
+						<label for="">Start Date</label>
+						<input type="text" class="form-control datepicker" name="start_date" value="{{old('start_date',isset($exp->start_dt) ? $exp->start_dt : '')}}" autocomplete="off" id="first_date">
+						@error('start_date')
+				          <span class="text-danger" role="alert">
+				            <strong>* {{ $message }}</strong>
+				          </span>
+				      	@enderror
+					</div>
+					<div class="col-3 form-group">
+						<label for="">End Date</label>
+						<input type="text" class="form-control datepicker" name="end_date"
+							value="{{old('end_date',isset($exp->end_dt) ? $exp->end_dt : '')}}" autocomplete="off" id="end_date">
+						@error('end_date')
+				          <span class="text-danger" role="alert">
+				            <strong>* {{ $message }}</strong>
+				          </span>
+				      	@enderror
+					</div>
+					<div class="col-6 form-group">
+						<label for="">Total Experience ( In months )</label>
+						<input type="text" class="form-control datepicker" name="total_exp"
+							value="{{old('total_exp',isset($exp->total_exp) ? $exp->total_exp : '')}}" autocomplete="off" id="total_exp">
+						@error('total_exp')
+				          <span class="text-danger" role="alert">
+				            <strong>* {{ $message }}</strong>
+				          </span>
+				      	@enderror
+					</div>
 					<div class="col-6 form-group">
 						<label for="">Company Website</label>
 						<input type="text" class="form-control" name="comp_website"
@@ -88,36 +118,6 @@
 						<label for="file_path">Upload Documents</label>
     					<input type="file" name="file_path" class="form-control-file" id="file_path" value="{{ old('file_path')}}">
 					</div>
-					<div class="col-3 form-group">
-						<label for="">Start Date</label>
-						<input type="text" class="form-control datepicker" name="start_date" value="{{old('start_date',isset($exp->start_dt) ? $exp->start_dt : '')}}" autocomplete="off">
-						@error('start_date')
-				          <span class="text-danger" role="alert">
-				            <strong>* {{ $message }}</strong>
-				          </span>
-				      	@enderror
-					</div>
-					<div class="col-3 form-group">
-						<label for="">End Date</label>
-						<input type="text" class="form-control datepicker" name="end_date"
-							value="{{old('end_date',isset($exp->end_dt) ? $exp->end_dt : '')}}" autocomplete="off">
-						@error('end_date')
-				          <span class="text-danger" role="alert">
-				            <strong>* {{ $message }}</strong>
-				          </span>
-				      	@enderror
-					</div>
-					<div class="col-6 form-group">
-						<label for="">Total Experience ( In months )</label>
-						<input type="text" class="form-control datepicker" name="total_exp"
-							value="{{old('total_exp',isset($exp->total_exp) ? $exp->total_exp : '')}}" autocomplete="off">
-						@error('total_exp')
-				          <span class="text-danger" role="alert">
-				            <strong>* {{ $message }}</strong>
-				          </span>
-				      	@enderror
-					</div>
-					
 					<div class="col-12 form-group">
 				    	<label for="">Reason of Leaving</label>
 				    	<textarea name="reason_of_leaving" class="form-control" id="" cols="30" rows="4">{{old('reason_of_leaving',isset($academic->domain_of_study) ? $academic->domain_of_study : '')}}</textarea>
@@ -205,12 +205,23 @@ $(document).ready(function(){
 			type: 'GET',
 			url: "{{route('exp_table')}}?exp_id="+exp_id,
 			success:function(res){
-
+				
 				$('#modalTable').empty().html(res);
 				$('#expModal').modal('show');
 			}
 
 		})
+	})
+
+	$('.datepicker').on('change', function(){
+
+		var date = new Date($('#first_date').val());
+		var diff = new Date(new Date($('#end_date').val()) - date);
+
+
+		var totalExp = (diff.toISOString().slice(0, 4) - 1970) + "." + (diff.getMonth()) + " years";
+
+		$('#total_exp').val(totalExp);
 	})
 
 });
