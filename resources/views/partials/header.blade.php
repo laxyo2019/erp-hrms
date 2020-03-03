@@ -1,5 +1,6 @@
 <header class="app-header" style="background-color: #607fd7">
   <a class="app-header__logo" href="http://laxyo.org" style="background-color: #607fd7"><img src="http://www.laxyo.com/images/favicon.png" height="33" width="20"></img>laxyo<sup><i>hrms</i></sup></a>
+  <hr>
 <!-- Sidebar toggle button-->
 <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
 <!-- Navbar Right Menu-->
