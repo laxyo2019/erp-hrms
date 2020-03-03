@@ -11,9 +11,10 @@
 */
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('login/{username}/{pass}', 'LoginController@login');
-Route::post('/logout', 'LoginController@logout')->name('logout');
-//Auth::routes(['register' => false]);
+//Route::get('login/{username}/{pass}', 'LoginController@login');
+//Route::post('/logout', 'LoginController@logout')->name('logout');
+Auth::routes(['register' => false]);
+
 
 Route::resource('/information', 'InformationController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
@@ -32,10 +33,9 @@ Route::group(['middleware' => ['role:hrms_hr']], function() {
 
 });
 
-Route::group(['middleware' => ['role:hrms_hr']], function() {
+Route::group(['middleware' => ['role:hrms_admin']], function() {
 
 	Route::get('leave-request/admin', 'HRD\LeavesController@indexAdmin')->name('request.admin');
-
 });
 
 
@@ -52,6 +52,10 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 	Route::resource('/settings/designations','Settings\DesignationController');
 	Route::resource('/settings/statuses','Settings\StatusController');
 	Route::resource('/settings/grades','Settings\GradesController');
+	Route::resource('/birthday_wish','BirthdayWish');
+	Route::post('/import_birthday','BirthdayWish@import')->name('Birthday_user');
+	Route::get('/export_birthday','BirthdayWish@export')->name('Birthday_export_user');
+	Route::get('/birth_delete/{id}','BirthdayWish@destroy')->name('Birthday_destroy');
 
 
 	//Delete Employees Info

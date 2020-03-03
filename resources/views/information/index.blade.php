@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
 <main class="app-content">
-    <div class="app-title">
+    <div class="app-title" style="padding-top: inherit;">
         <div class="row">
           <h4>User Information - &nbsp{{ucwords($info->emp_name)}}</h4>
         </div>

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
     <main class="app-content" >
-      <div class="app-title">
+      <div class="app-title" style="padding-top: inherit;">
         <div>
           <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
           
