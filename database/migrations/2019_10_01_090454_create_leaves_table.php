@@ -81,6 +81,7 @@ class CreateLeavesTable extends Migration
         $table->text('applicant_remark')->nullable();
         $table->text('approver_remark')->nullable();
         $table->text('hr_remark')->nullable();
+        $table->integer('rejected_by')->nullable();
         $table->timestamps();
         $table->softDeletes();
       });

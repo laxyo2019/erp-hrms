@@ -35,7 +35,7 @@ class LeavesController extends Controller
   public function index(){
 
     $leaves   =  LeaveApply::where('user_id', Auth::id())
-                  ->with(['employee', 'approve_name', 'leavetype'])
+                  ->with(['employee', 'approve_name', 'leavetype', 'leave_rejected'])
                   ->latest()
                   ->get();
 
@@ -44,7 +44,7 @@ class LeavesController extends Controller
                   ->latest()
                   ->first();
 
-    
+    //return $leaves[2]['leave_rejected'];
 
     return view('employee.leaves.index', compact('leaves', 'balance'));
   }

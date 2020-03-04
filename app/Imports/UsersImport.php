@@ -14,12 +14,8 @@ class UsersImport implements ToCollection,WithHeadingRow
 {
     public function collection(Collection $rows)
     {
-        $data1 = array(); 
         foreach ($rows as $row) 
         {
-            //echo ;
-
-
             if($row['mobile_number'] !='' && $row['name'] !='' && $row['date_of_birth'] !='' ){
             	$registration_date = Date::excelToDateTimeObject($row['date_of_birth']); 
                 $date1 = strtotime(date('Y').'-'.$registration_date->format('m-d'));

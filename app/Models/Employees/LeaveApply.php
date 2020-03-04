@@ -35,4 +35,8 @@ class LeaveApply extends Model
     public function approvaldetail(){
         return $this->hasOne('App\Models\Employees\LeaveApprovalDetail', 'leave_apply_id');
     }
+
+    public function leave_rejected(){
+        return $this->belongsTo('App\User', 'rejected_by');
+    }
 }

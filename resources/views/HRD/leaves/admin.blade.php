@@ -21,12 +21,12 @@
 									<th>##</th>
 									<th>EMPLOYEE</th>
 									<th>TYPE</th>
-									<th>DETAILS</th>
 									<th>LEAVE PERIOD</th>
 									<th>DURATION</th>
 									<th>POSTED ON</th>
 									<th>TEAM LEAD</th>
 									<th>HR</th>
+									<th>DETAILS</th>
 									<th style="text-align: center;">ACTIONS</th>
 								</tr>
 							</thead>
@@ -37,24 +37,7 @@
 									<td>{{++$count}} </td>
 									<td>{{ucwords($request['employee']->emp_name)}}</td>
 									<td>{{ucwords($request['leavetype']->name)}}</td>
-									<td>
-									<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}">
-										<i class="fa fa-eye" style="font-size: 12px;"></i>
-									</button></td>
-									<div class="modal fade" id="reqModal" role="dialog">
-									    <div class="modal-dialog modal-lg" >
-									    	<div class="modal-content" >
-									        	<div class="modal-header">
-									        		<h4 class="modal-title">Request Detail</h4>
-									        	</div>
-									        	<div class="modal-body table-responsive" id="detailTable" style="background: #ececec">
-									        	</div>
-									        	 <div class="modal-footer">
-									          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-									        </div>
-									        </div>
-									    </div>
-									</div>
+									
 									<td>
 									@if($request->from && $request->to)
 										{{date('d M', strtotime($request->from))}} <strong>To</strong> {{date('d M, Y', strtotime($request->to))}}
@@ -96,6 +79,24 @@
 					<td><strong class="rev_msg">REVERSED</strong></td>
 				@endif
 		</td>
+		<td>
+									<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}">
+										<i class="fa fa-eye" style="font-size: 12px;"></i>
+									</button></td>
+									<div class="modal fade" id="reqModal" role="dialog">
+									    <div class="modal-dialog modal-lg" >
+									    	<div class="modal-content" >
+									        	<div class="modal-header">
+									        		<h4 class="modal-title">Request Detail</h4>
+									        	</div>
+									        	<div class="modal-body table-responsive" id="detailTable" style="background: #ececec">
+									        	</div>
+									        	 <div class="modal-footer">
+									          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+									        </div>
+									        </div>
+									    </div>
+									</div>
 		
 <td class='d-flex' style="border-bottom:none">
 
@@ -109,7 +110,7 @@
 
 	<button type="button" data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1" id="apprvBtn_{{$request->id}}">APPROVE</button>
 
-	<button type="button" class="btn btn-danger btn-sm ml-2 action decline" value="2" data-id="{{$request->id}}" id="decvBtn_{{$request->id}}">DECLINE</button>
+	<button type="button" class="btn btn-danger btn-sm ml-2 action decline" value="2" data-id="{{$request->id}}" id="decBtn_{{$request->id}}">DECLINE</button>
 
 {{-- Reverse button for ADMIN --}}
 
@@ -192,7 +193,7 @@ $(document).ready(function(){
 
 		$.ajax({
 			type: 'POST',
-			url: "/approve_leave/"+request_id,
+			url: "/leave-request/admin/"+request_id,
 			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			data: {'action':action, 'text':txt},
 			success:function(res){
@@ -216,7 +217,7 @@ $(document).ready(function(){
 		var request_id 	= $(this).val();
 		$.ajax({
 			type: 'POST',
-			url: '/leave-request/reverse/'+request_id,
+			url: '/reverse/admin/'+request_id,
 			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			//data: {action:'action'},
 			success:function(res){

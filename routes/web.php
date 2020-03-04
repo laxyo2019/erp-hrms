@@ -10,10 +10,10 @@
 |
 */
 
-// Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 Route::get('login/{username}/{pass}', 'LoginController@login');
 Route::post('/logout', 'LoginController@logout')->name('logout');
-Auth::routes(['register' => false]);
+// Auth::routes(['register' => false]);
 
 
 Route::resource('/information', 'InformationController');
@@ -25,20 +25,36 @@ Route::group(['middleware' => ['role:hrms_teamlead']], function() {
 
 	Route::get('leave-request/teamlead', 'HRD\LeavesController@indexTeamlead')->name('request.teamlead');
 
+	route::post('leave-request/teamlead/{req_id}', 'HRD\LeavesController@tl_approval');
+
+	Route::post('/reverse/teamlead/{req_id}', 'HRD\LeavesController@tl_reverse');
+
+
 });
 
 Route::group(['middleware' => ['role:hrms_hr']], function() {
 
 	Route::get('leave-request/hr', 'HRD\LeavesController@indexHr')->name('request.hr');
 
+	route::post('leave-request/hr/{req_id}', 'HRD\LeavesController@hr_approval');
+
+	Route::post('/reverse/hr/{req_id}', 'HRD\LeavesController@hr_reverse');
+
 });
 
 Route::group(['middleware' => ['role:hrms_admin']], function() {
 
 	Route::get('leave-request/admin', 'HRD\LeavesController@indexAdmin')->name('request.admin');
+
+	route::post('leave-request/admin/{req_id}', 'HRD\LeavesController@admin_approval');
+
+	Route::post('/reverse/admin/{req_id}', 'HRD\LeavesController@admin_reverse');
 });
 
-
+Route::resource('/birthday_wish','BirthdayWish');
+Route::post('/import_birthday','BirthdayWish@import')->name('Birthday_user');
+Route::get('/export_birthday','BirthdayWish@export')->name('Birthday_export_user');
+Route::get('/birth_delete/{id}','BirthdayWish@destroy')->name('Birthday_destroy');
 // Leave Requests
 
 Route::resource('/hrd/leaves', 'HRD\LeavesController');
@@ -52,11 +68,9 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 	Route::resource('/settings/designations','Settings\DesignationController');
 	Route::resource('/settings/statuses','Settings\StatusController');
 	Route::resource('/settings/grades','Settings\GradesController');
-	Route::resource('/birthday_wish','BirthdayWish');
-	Route::post('/import_birthday','BirthdayWish@import')->name('Birthday_user');
-	Route::get('/export_birthday','BirthdayWish@export')->name('Birthday_export_user');
-	Route::get('/birth_delete/{id}','BirthdayWish@destroy')->name('Birthday_destroy');
 
+	/***Birthdays***/
+	
 
 	//Delete Employees Info
 
@@ -108,7 +122,6 @@ Route::post('import', 'HRD\EmployeesController@import')->name('employees.import'
 
 Route::get('/leave-show/{id}', 'Employee\LeavesController@showrequest')->name('show.leave');
 
-Route::post('leave-request/reverse/{user_id}', 'HRD\LeavesController@reverse')->name('reverse.leave');
 
 
 /************Leave Management**************/

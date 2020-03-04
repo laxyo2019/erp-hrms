@@ -63,24 +63,16 @@
 	
 </div>
 
-{{-- <hr>
+@if(!empty($leave_req['rejected_by']))
+<hr>
 
 <div class="row card-body text-center">
 	
-	<div class="col-6" >
-		<h4>Leave Reversed</h4>
-		<div>{{!empty($leave_req->carry) ? 'Yes' : ''}}</div>
-	</div>
-	<div class="col-6" >
-		<h4>Status</h4>
-		<div>{{!empty($leave_req['approvalaction']->name) ? ucwords($leave_req['approvalaction']->name) : 'Pending' }} Pending</div>
+	<div class="col-12" >
+		<h4>Leave canceled by - {{ucwords($leave_req['leave_rejected']->name)}}</h4>
+		<div>{{$leave_req->approver_remark}}</div>
 	</div>
 	
 </div>
-<div class="row card-body text-center">
 
-<div class="col-6" >
-		<h4>Applicant's Remark</h4>
-		<div>{{!empty($leave_req->applicant_remark) ? $leave_req->applicant_remark : 'Not Mentioned'}}</div>
-	</div>
-</div> --}}
+@endif
