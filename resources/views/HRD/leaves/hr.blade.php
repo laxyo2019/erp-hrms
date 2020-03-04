@@ -115,7 +115,7 @@
 
 {{-- Reverse Leave button for SubAdmin --}}
 
-@elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_hr'))
+@elseif($request->teamlead_approval == 1 && $request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_hr'))
 	
 	<div class="rev_msg" id="rev_msg_{{$request->id}}" style="display: none;">REVERSED</div>
 
