@@ -16,10 +16,11 @@ class UsersImport implements ToCollection,WithHeadingRow
     {
         foreach ($rows as $row) 
         {
-        	dd($row);
-        	$registration_date = Date::excelToDateTimeObject($row['date_of_birth']);
-        	$data = ['name'=>$row['name'],'mobile_number'=>$row['mobile_number'],'date_of_birth'=>$registration_date->format('Y-m-d')];
-            Birthday::create($data);
+        	if($row['name'] !='' && $row['mobile_number'] !='' && $row['date_of_birth'] !=''){
+	        	$registration_date = Date::excelToDateTimeObject($row['date_of_birth']);
+	        	$data = ['name'=>$row['name'],'mobile_number'=>$row['mobile_number'],'date_of_birth'=>$registration_date->format('Y-m-d')];
+	            Birthday::create($data);
+        	}
         }
         return true;
     }

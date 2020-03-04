@@ -72,8 +72,14 @@
 		<div>{{!empty($data->applicant_remark) ? $data->applicant_remark : 'Not Mentioned'}}</div>
 	</div>
 </div>
-<div class="row card-body text-center">
-	<div class="col-6" >
-		
+
+@if(!empty($data['leave_rejected']))
+	<hr>
+	<div class="row card-body text-center">
+		<div class="col-12" >
+		<h4>Leave canceled by - {{ucwords($data['leave_rejected']->name)}}</h4>
+		<div>{{$data->approver_remark}}</div>
 	</div>
-</div>
+	</div>
+
+@endif
