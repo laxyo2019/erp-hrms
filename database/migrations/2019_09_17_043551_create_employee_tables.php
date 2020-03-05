@@ -137,12 +137,10 @@ class CreateEmployeeTables extends Migration
         Schema::create('hrms_family_details', function (Blueprint $table ){
           $table->increments('id');
           $table->unsignedInteger('user_id');
-          $table->string('father_name')->nullable();
-          $table->string('mother_name')->nullable();
-          $table->string('husband_name')->nullable();
-          $table->string('wife_name')->nullable();
-          $table->string('brother_name')->nullable();
-          $table->string('sister_name')->nullable();
+          $table->string('name');
+          $table->string('relation');
+          $table->string('aadhar_id')->nullable();
+          $table->string('file_path')->nullable();
           $table->timestamps();
           $table->softDeletes();
 

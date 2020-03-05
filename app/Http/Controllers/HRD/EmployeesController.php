@@ -376,34 +376,69 @@ class EmployeesController extends Controller
 
   public function save_familydetails(Request $request, $user_id){
 
-    if(count(Family::where('user_id', $user_id)->get()) == null){
+    $this->validate($request, [
+          'name'    => 'required',
+          'relation'=> 'required',
+    ]);
 
-      $family  = new Family;
-      $family->user_id      = $user_id;
-      $family->father_name  = $request->father_name;
-      $family->mother_name  = $request->mother_name;
-      $family->husband_name = $request->husband_name;
-      $family->wife_name    = $request->wife_name;
-      $family->brother_name = $request->brother_name;
-      $family->sister_name  = $request->sister_name;
-      $family->save();
+
+    if($request->file('file_path')){
+
+        $dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
+        $file_ext = $request->file('file_path')->extension();
+        $filename = $user_id.'_'.time().'_family_details.'.$file_ext;
+        $path     = $request->file('file_path')->storeAs($dir, $filename);
 
     }else{
+      $path = null;
+    }
 
-      Family::where('user_id', $user_id)
-        ->update([
-          'father_name' => $request->father_name,
-          'mother_name' => $request->mother_name,
-          'husband_name'=> $request->husband_name,
-          'wife_name'   => $request->wife_name,
-          'brother_name'=> $request->brother_name,
-          'sister_name' => $request->sister_name
-        ]);
+    Family::create([
+        'user_id'   => $user_id,
+        'name'      => $request->name,
+        'relation'  => $request->relation,
+        'aadhar_id' => $request->aadhar_id,
+        'file_path' => $path,
+      ]);
+
+  return back()->with('success', 'Updated successfully.');
+  }
+
+
+  public function edit_familydetails($member_id){
+    
+    $family = Family::where('id', $member_id)->first();
+
+    return view('HRD.employees.details.edit-family', compact('family'));
+
+  }
+
+  public function update_family(Request $request, $id){
+
+    Family::where('id', $id)
+      ->update([
+        'name' => $request->name,
+        'relation' => $request->relation,
+        'aadhar_id' => $request->aadhar_id]);
+
+
+    if($request->file('file_path')){
+
+
+        $family = Family::find($id);
+        Storage::delete($family->file_path);
+
+        $dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
+        $file_ext = $request->file('file_path')->extension();
+        $filename = $user_id.'_'.time().'_family_details.'.$file_ext;
+        $path     = $request->file('file_path')->storeAs($dir, $filename);
+
     }
 
     
 
-    return back()->with('success', 'Updated successfully.');
+    return back()->with('success', 'Updated record successfully.');
+
   }
   /*
     Toggle sections on employee detail page
@@ -467,6 +502,8 @@ class EmployeesController extends Controller
       $employee = EmployeeMast::with('family')
                     ->where('user_id',$user_id)
                     ->first();
+
+      //return $employee;
     }
     return view($path,compact('employee','meta'));
   }
@@ -511,7 +548,6 @@ class EmployeesController extends Controller
 
     if($view == 'documents'){
 
-      //$meta['doc_types'] = DocTypeMast::all();
       $employee = EmployeeMast::with('documents')->where('user_id',$user_id)->first();
      
     }
