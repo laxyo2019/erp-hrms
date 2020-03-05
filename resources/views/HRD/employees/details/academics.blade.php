@@ -30,7 +30,6 @@
           </span>
       	@enderror
 	    </div>
-			{{-- <div class="W-100"></div> --}}
 	    <div class="col-6 form-group">
 	    	<label for="">Completed In</label>
 	    	<input type="text" class="form-control datepicker" name="year_of_completion" placeholder="Eg. 2016" value="{{old('year_of_completion',isset($academic->completed_in_year) ? $academic->completed_in_year : '')}}"/>

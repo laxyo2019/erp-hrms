@@ -11,11 +11,17 @@
 */
 
 Route::get('/', 'HomeController@index')->name('home');
+<<<<<<< HEAD
 Route::get('login/{username}/{pass}', 'LoginController@login');
 Route::post('/logout', 'LoginController@logout')->name('logout');
 
 // Auth::routes(['register' => false]);
 
+=======
+//Route::get('login/{username}/{pass}', 'LoginController@login');
+//Route::post('/logout', 'LoginController@logout')->name('logout');
+Auth::routes(['register' => false]);
+>>>>>>> 33920ed4544a6b12ac8fc22406d02297d9f6965c
 
 
 Route::resource('/information', 'InformationController');
@@ -93,7 +99,11 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 		Route::post('/employee/save_nominee/{user_id}', 'EmployeesController@save_nominee')->name('employees.nominee');
 		Route::post('/employees/save_bankdetails/{user_id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
 		Route::post('/employees/save_familydetails/{user_id}', 'EmployeesController@save_familydetails')->name('employees.familydetails');
+		
+		
 });
+	Route::get('/familydetails/{id}/edit', 'HRD\EmployeesController@edit_familydetails')->name('edit.familydetails');
+	Route::post('/familydetails/{id}/update', 'HRD\EmployeesController@update_family')->name('update.familydetails');
 
 //Add Branches
 	Route::resource('/branches', 'Settings\CompBranchController');

@@ -25,11 +25,11 @@
               @foreach($employee->documents as $emp_documents)
               <tr class="text-center">
                 <td>{{++$count}}</td>
-                <td>{{$emp_documents['doctypemast']->name}}</td>
+                <td>{{strtoupper($emp_documents->doc_type)}}</td>
 
                 <td><a href="{{ route('employees.download', ['db_table'=>'hrms_emp_docs', 'id'=>$emp_documents->id]) }}" ><i class="fa fa-arrow-down"></i> Download</a></td>
-                <td>{{ $emp_documents->doc_status == 's' ? 'Submitted' : 'Provided' }}</td>
-                <td>{{ $emp_documents->remark }}</td>
+                <td>{{ ucwords($emp_documents->doc_status) }}</td>
+                <td>{{ $emp_documents->remarks }}</td>
               </tr>
               @endforeach
               </tbody>

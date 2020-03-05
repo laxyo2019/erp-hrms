@@ -94,7 +94,7 @@
 			<td><a href="{{ route('employees.download', ['db_table'=>'hrms_emp_docs', 'id'=>$emp_documents->id]) }}" ><i class="fa fa-arrow-down"></i> Download</a>
 			</td>
 			{{-- @endcan --}}
-		  		<td>{{ $emp_documents->doc_status == 's' ? 'Submitted' : 'Provided' }}</td>
+		  		<td>{{ strtoupper($emp_documents->doc_status) }}</td>
 		  		<td>{{ $emp_documents->remark }}</td>
 		  		<td>
 				<form action="{{route('employee.delete_row', ['db_table'=>'hrms_emp_docs', 'id'=>$emp_documents->id])}}" method="GET" id="delform_{{ $emp_documents->id}}">
