@@ -161,6 +161,10 @@
 							<label for="">Driving License</label>
 							<input type="text" name="driv_lic" value="{{old('drive_lic', $employee->driv_lic)}}" class="form-control">
 						</div>
+						<div class="col-6 form-group">
+							<label for="passport_id">Passport ID</label>
+							<input type="text" name="passport_id" value="{{old('passport_id', $employee->passport_id)}}" class="form-control">
+						</div>
 						@if(empty($employee->file_path))
 						<div class="col-6 form-group">
 					    	<label for="file_path">Upload Passport</label>
@@ -303,7 +307,7 @@ $(document).ready(function(){
 
 	//Character limit for various fields
 
-	$('#old_pf, #new_pf, #old_uan, #curr_uan').prop('maxlength', 12);
+	$('#old_uan, #curr_uan').prop('maxlength', 12);
 	$('#old_esi, #curr_esi').prop('maxlength', 10);
 
 

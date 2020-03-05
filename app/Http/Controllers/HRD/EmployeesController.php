@@ -70,11 +70,13 @@ class EmployeesController extends Controller
   public function save_personal(Request $request, $user_id){
 
     $vdata = request()->validate([
-      'full_name'               => 'required|max:45',
-      'comp_contact'            => 'nullable|numeric',
-      'personal_contact'        => 'nullable|numeric',
-      'comp_email'              => 'nullable|email|max:50',
-      'personal_email'          => 'nullable|email|max:50',
+
+      'full_name'           => 'required|max:45',
+      'comp_contact'        => 'nullable|numeric',
+      'personal_contact'    => 'nullable|numeric',
+      'comp_email'          => 'nullable|email|max:50',
+      'personal_email'      => 'nullable|email|max:50',
+
     ]);
 
     /*** Directory structure ***/
@@ -168,7 +170,8 @@ class EmployeesController extends Controller
         'curr_uan'   => $request->curr_uan,
         'old_esi'    => $request->old_esi,
         'curr_esi'   => $request->curr_esi,
-        'file_path'  => $path
+        'file_path'  => $path,
+        'passport_id'=> $request->passport_id
       ]);
 
     return redirect()->route('employee.show_page',['user_id'=>$user_id,'tab'=>'official'])->with('success','Updated successfully.');
@@ -255,29 +258,32 @@ class EmployeesController extends Controller
   
   public function save_documents(Request $request, $user_id)
   {
+
+    //return $request->all();
     $vdata = request()->validate([
-      'doc_title' => 'required',
-      'doc_status'=> 'max:1',
+      'doc_type' => 'required',
+      'doc_status'=> 'required',
       'remarks'   => 'string|nullable'
     ]);
 
     if($request->file('file_path')){
-        $doc_title= DB::table('hrms_doc_type_mast')->where('id', $vdata['doc_title'])->first();
+
     		$dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
-    		$title    = str_replace(' ', '_', $doc_title->name);
+    		$title    = str_replace(' ', '_', $request->doc_type);
     		$file_ext = $request->file('file_path')->extension();
     		$filename = $user_id.'_'.time().'_'.$title.'.'.$file_ext;
     		$path     = $request->file('file_path')->storeAs($dir, $filename);
+
     }else{
       $path = null;
     }
 
     $document = new EmpDocument;
-    $document->user_id       = $user_id;
-    $document->doc_type_id  = $vdata['doc_title'];
+    $document->user_id      = $user_id;
+    $document->doc_type     = $vdata['doc_type'];
     $document->file_path    = $path;
     $document->doc_status   = $vdata['doc_status'];
-    $document->remarks       = $request->remarks;
+    $document->remarks      = $request->remarks;
     $document->date         = date('Y-m-d', time());
     $document->save();
     
@@ -442,7 +448,7 @@ class EmployeesController extends Controller
 
     if($tab == 'documents'){
 
-      $meta['doc_types'] = DocTypeMast::all();
+      //$meta['doc_types'] = DocTypeMast::all();
 
       $employee = EmployeeMast::with('documents')
                     ->where('user_id',$user_id)
@@ -507,7 +513,7 @@ class EmployeesController extends Controller
 
     if($view == 'documents'){
 
-      $meta['doc_types'] = DocTypeMast::all();
+      //$meta['doc_types'] = DocTypeMast::all();
       $employee = EmployeeMast::with('documents')->where('user_id',$user_id)->first();
      
     }

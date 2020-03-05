@@ -10,10 +10,6 @@ class EmpDocument extends Model
     use SoftDeletes;
 
     protected $table = 'hrms_emp_docs';
-    protected $with = ['doctypemast'];
-
-    public function doctypemast(){
-    	return $this->belongsTo('App\Models\Master\DocTypeMast','doc_type_id');
-    }
+    
 
 }

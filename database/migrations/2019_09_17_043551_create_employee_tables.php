@@ -44,6 +44,8 @@ class CreateEmployeeTables extends Migration
           $table->string('aadhar_no', 20)->nullable();
           $table->string('voter_id', 20)->nullable();
           $table->string('pan_no', 20)->nullable();
+          $table->string('passport_id')->nullable();
+          $table->string('file_path')->nullable();
           $table->unsignedInteger('emp_type')->nullable();
           $table->unsignedInteger('emp_status')->nullable();
           $table->string('old_uan', 20)->nullable();
@@ -149,11 +151,11 @@ class CreateEmployeeTables extends Migration
         Schema::create('hrms_emp_docs', function (Blueprint $table) {
           $table->increments('id');
           $table->unsignedInteger('user_id');
-          $table->unsignedInteger('doc_type_id');
+          $table->string('doc_type_id');
           $table->text('file_path')->nullable();
           $table->string('remarks')->nullable();
           $table->date('date');
-          $table->char('doc_status', 1);  //S (submitted), P (provided)
+          $table->char('doc_status', 10);  //Submitted, Pendng
           $table->timestamps();
           $table->softDeletes();
         });
