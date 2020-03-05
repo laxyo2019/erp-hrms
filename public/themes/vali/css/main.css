@@ -13624,8 +13624,8 @@ be a descendant of the grid when it is being dragged.
 }
 
 .app-sidebar__toggle:focus, .app-sidebar__toggle:hover {
-  color: #4e73df;
-  background-color: white;
+  color: white;
+  background-color: #4e73df;
   text-decoration: none;
 }
 

@@ -56,10 +56,12 @@
 					{{empty($meta['empstatus']->name)?'':strtoupper($meta['empstatus']->name)}}
 					</div>
 					
+					@if(!empty($employee->file_path))
                 	<div class="col-6 form-group">
 						<label for=""><b> Passport : </b></label>
 						<td><a href="{{route('employees.download', ['db_table' => 'emp_mast', $employee->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
 					</div>
+					@endif
 					
                 </div>
                 <div class="row mb-4">

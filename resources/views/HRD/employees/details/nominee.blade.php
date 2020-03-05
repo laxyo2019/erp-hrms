@@ -34,17 +34,7 @@
 			      	@enderror
 						</div>
 					
-					<div class="col-6 form-group">
-
-						<label for="">Nominee's Contact</label>
-						<input type="text" class="form-control contact" name="contact" value="{{ old('contact')}}">
-						@error('contact')
-		          <span class="text-danger" role="alert">
-		            <strong>* {{ $message }}</strong>
-		          </span>
-		      	@enderror
-						
-					</div>
+					
 					<div class="col-6 form-group">
 						<label for="">Nominee's Aadhaar no.</label>
 						<input type="text" class="form-control" name="aadhaar_no" value="{{ old('aadhaar_no') }}">
@@ -54,16 +44,7 @@
 		          </span>
 		      	@enderror
 					</div>
-						<div class="col-6 form-group">
-							<label for="">Nominee's Email</label>
-							<input type="email" class="form-control" name="email" value="{{ old('email') }}">
-							@error('email')
-			          	<span class="text-danger" role="alert">
-			           		<strong>* {{ $message }}</strong>
-			          	</span>
-			      		@enderror
-						</div>
-						<div class="col-6 form-group">
+					<div class="col-6 form-group">
 					    	<label for="">Nominee Type</label>
 					    	<select name="nominee_type" id="nominee_type" class="custom-select form-control select2">
 					    		<option value="">Please Select </option>
@@ -77,6 +58,27 @@
 								</span>
 							@enderror
 					    </div>
+					<div class="col-6 form-group">
+
+						<label for="">Nominee's Contact</label>
+						<input type="text" class="form-control contact" name="contact" value="{{ old('contact')}}">
+						@error('contact')
+		          <span class="text-danger" role="alert">
+		            <strong>* {{ $message }}</strong>
+		          </span>
+		      	@enderror
+						
+					</div>
+						<div class="col-6 form-group">
+							<label for="">Nominee's Email</label>
+							<input type="email" class="form-control" name="email" value="{{ old('email') }}">
+							@error('email')
+			          	<span class="text-danger" role="alert">
+			           		<strong>* {{ $message }}</strong>
+			          	</span>
+			      		@enderror
+						</div>
+						
 					<div class="col-6 form-group">
 						<label for="file_path">Upload Documents</label>
     					<input type="file" name="file_path" class="form-control-file" id="file_path" value="{{ old('file_path')}}">

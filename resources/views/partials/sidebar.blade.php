@@ -37,10 +37,10 @@
     {{-- For HR --}}
     @role('hrms_hr')
     
-    @if(session('leave')['allotment'] && !empty(session('leave')['reallotment'][0]->status)?session('leave')['reallotment'][0]->status:'' == 1)
+    {{-- @if(session('leave')['allotment'] && !empty(session('leave')['reallotment'][0]->status)?session('leave')['reallotment'][0]->status:'' == 1)
      <li><a class="app-menu__item"   href="{{url('employee/leaves')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Apply Leave</span></a></li>
-    @endif
-    <li >
+    @endif --}}
+    <li>
       <a class="app-menu__item {{Request::segment(2) == 'hr' ? 'active' : ''}} " href="{{route('request.hr')}}"><i class="app-menu__icon fa fa-pencil-square-o"></i><span class="app-menu__label">Leaves Request (HR)</span>
       </a>
     </li>
@@ -54,14 +54,14 @@
       <a class="app-menu__item {{Request::segment(2) == 'teamlead' ? 'active' : ''}} " href="{{route('request.teamlead')}}"><i class="app-menu__icon fa fa-pencil-square-o"></i><span class="app-menu__label">Leaves Request (TL)</span>
       </a>
     </li>
-    @if(session('leave')['allotment'] && !empty(session('leave')['reallotment'][0]->status)?session('leave')['reallotment'][0]->status:'' == 1)
+   {{--  @if(session('leave')['allotment'] && !empty(session('leave')['reallotment'][0]->status)?session('leave')['reallotment'][0]->status:'' == 1)
      <li><a class="app-menu__item"   href="{{url('employee/leaves')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Apply Leave</span></a></li>
-    @endif
+    @endif --}}
     
     @endrole
 
     {{-- For Employees --}}
-    @role('hrms_employee')
+    @role('hrms_employee|hrms_teamlead|hrms_hr')
     {{-- <li>
       <a class="app-menu__item {{request()->segment(1) == 'information' ? 'active' : ''}} " href="{{route('information.index')}}">
         <i class="app-menu__icon fa fa-address-book-o"></i><span class="app-menu__label">Profile</span>
@@ -71,8 +71,6 @@
      <li><a class="app-menu__item"   href="{{url('employee/leaves')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Apply Leave</span></a></li>
     @endif
     @endrole
-
-    {{-- _____________________________________________ --}}
 
     {{-- Employees tab --}}
 
@@ -86,7 +84,7 @@
         <li class={{call_user_func_array('Request::is', (array)['leave-management/allotment*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('allotments.index')}}"><i class="icon fa fa-angle-double-right"></i>Leave Allotment</a></li>
         <li class={{call_user_func_array('Request::is', (array)['leave-management/holidays*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('holidays.index')}}"><i class="icon fa fa-angle-double-right"></i>Holidays</a></li>
       </ul>
-    </li> 
+    </li>
 
      {{-- Settings Tab --}}
 

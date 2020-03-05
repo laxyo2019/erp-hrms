@@ -15,28 +15,22 @@
 	<form action="{{route('employees.documents', ['user_id'=>$employee->user_id])}}" method="POST" enctype="multipart/form-data">
 		@csrf
 		<div class="row">
-		    <div class="col-4 form-group">
-		    	<label for="">Document Title</label>
-		    	<select name="doc_title" id="doc_title" class="custom-select form-control select2">
-		    		<option value=""> Please Select </option>
-		    		@foreach($meta['doc_types'] as $doc_type)
-
-						<option value="{{ $doc_type->id }}" {{old('doc_title') == $doc_type->id ? 'selected' : ''}}
-		    			>{{ $doc_type->name }}</option>
-					@endforeach
-		    	</select>
-		    	@error('doc_title')
-					<span class="text-danger" role="alert">
-						<strong>* {{ $message }}</strong>
-					</span>
-				@enderror
-		    </div>
+		   <div class="col-4 form-group">
+				<label for="">Document Type</label>
+				<input type="text" class="form-control" name="doc_type"
+				value="{{old('doc_type')}}">
+				@error('doc_type')
+		          <span class="text-danger" role="alert">
+		            <strong>* {{ $message }}</strong>
+		          </span>
+		      	@enderror
+			</div>
 		    <div class="col-4 form-group">
 		    	<label for="">Document Status</label>
 		    	<select name="doc_status" id="doc_status" class="custom-select form-control select2">
 		    		<option value="">Please Select </option>
-		    		<option value="s"  {{ old('doc_status') == 's' ? 'selected' : ''}} >Submitted</option>
-		    		<option value="p">Pending</option>
+		    		<option value="submitted"  {{ old('doc_status') == 's' ? 'selected' : ''}} >Submitted</option>
+		    		<option value="pending">Pending</option>
 		    	</select>
 		    	@error('doc_status')
 					<span class="text-danger" role="alert">
@@ -95,7 +89,7 @@
 	  	@foreach($employee->documents as $emp_documents)
 	  	<tr>
 	  		<td>{{ $count++ }}</td>
-			<td>{{$emp_documents['doctypemast']->name}}</td>
+			<td>{{strtoupper($emp_documents->doc_type)}}</td>
 			{{-- @can('download documents') --}}
 			<td><a href="{{ route('employees.download', ['db_table'=>'hrms_emp_docs', 'id'=>$emp_documents->id]) }}" ><i class="fa fa-arrow-down"></i> Download</a>
 			</td>
