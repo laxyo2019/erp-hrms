@@ -114,7 +114,7 @@
 
 {{-- Reverse button for ADMIN --}}
 
-@elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin'))
+@elseif($request->teamlead_approval == 1 && $request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin'))
 	
 	<strong class="rev_msg" id="rev_msg_{{$request->id}}" style="display: none;" >REVERSED</strong>
 
@@ -122,7 +122,8 @@
 
 {{-- Approve/Decline message for Admin --}}
 
-@elseif($request->subadmin_approval == 3 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin') )
+@elseif($request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin') )
+
 	<strong class="apprv_msg">APPROVED</strong>
 
 @elseif($request->subadmin_approval == 1 && $request->admin_approval == 2 && auth()->user()->hasrole('hrms_admin') )

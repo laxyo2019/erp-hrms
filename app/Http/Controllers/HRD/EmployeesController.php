@@ -71,8 +71,8 @@ class EmployeesController extends Controller
 
     $vdata = request()->validate([
       'full_name'               => 'required|max:45',
-      'contact_number'          => 'nullable|numeric',
-      'alternate_contact_number'=> 'nullable|numeric',
+      'comp_contact'            => 'nullable|numeric',
+      'personal_contact'        => 'nullable|numeric',
       'comp_email'              => 'nullable|email|max:50',
       'personal_email'          => 'nullable|email|max:50',
     ]);
@@ -97,8 +97,8 @@ class EmployeesController extends Controller
         'emp_father' => $request->emp_father,
         'curr_addr'  => $request->curr_addr,
         'perm_addr'  => $request->perm_addr,
-        'contact'    => $vdata['contact_number'],
-        'alt_contact'=> $vdata['alternate_contact_number'],
+        'comp_contact'    => $vdata['comp_contact'],
+        'personal_contact'=> $vdata['personal_contact'],
         'comp_email'      => $vdata['comp_email'],
         'personal_email'  => $vdata['personal_email'],
         'driv_lic'   => $request->drive_lic
