@@ -11,17 +11,12 @@
 */
 
 Route::get('/', 'HomeController@index')->name('home');
-<<<<<<< HEAD
+
 Route::get('login/{username}/{pass}', 'LoginController@login');
 Route::post('/logout', 'LoginController@logout')->name('logout');
 
 // Auth::routes(['register' => false]);
 
-=======
-//Route::get('login/{username}/{pass}', 'LoginController@login');
-//Route::post('/logout', 'LoginController@logout')->name('logout');
-Auth::routes(['register' => false]);
->>>>>>> 33920ed4544a6b12ac8fc22406d02297d9f6965c
 
 
 Route::resource('/information', 'InformationController');
