@@ -12,6 +12,7 @@ use App\Models\Master\EmpStatus;
 use Illuminate\Support\Facades\DB;
 use App\Models\Master\DocTypeMast;
 use App\Models\Master\Designation;
+use App\Models\Master\MaritalStatus;
 use App\Models\Master\NomineeType;
 
 
@@ -28,66 +29,65 @@ class MasterController extends Controller
 				 	
 
 				array(
-							'table_name'	=> 'hrms_comp_mast',
-							'display_name'	=> 'Companies',
-							'icon'			=> 'fa fa-building-o',
-							'bg_color'		=> '#ffc107',
-							'count'			=> CompMast::count()
-							),
+						'table_name'	=> 'hrms_comp_mast',
+						'display_name'	=> 'Companies',
+						'icon'			=> 'fa fa-building-o',
+						'bg_color'		=> '#ffc107',
+						'count'			=> CompMast::count()
+						),
 			 	array(
-							'table_name'	=> 'hrms_dept_mast',
-							'display_name'	=> 'Departments',
-							'icon'			=> 'fa fa-shekel',
-							'bg_color'		=> '#dc3545',
-							'count'			=> DeptMast::count()
-							),
+						'table_name'	=> 'hrms_dept_mast',
+						'display_name'	=> 'Departments',
+						'icon'			=> 'fa fa-shekel',
+						'bg_color'		=> '#dc3545',
+						'count'			=> DeptMast::count()
+						),
 				array(
-							'table_name'	=> 'hrms_doc_type_mast',
-							'display_name'	=> 'Document Types',
-							'icon'			=> 'fa fa-file-text',
-							'bg_color'		=> '#ff7f07',
-							'count'			=> DocTypeMast::count()
-							),
+						'table_name'	=> 'hrms_marital_status',
+						'display_name'	=> 'Marital Status',
+						'icon'			=> 'fa fa-file-text',
+						'bg_color'		=> '#ff7f07',
+						'count'			=> MaritalStatus::count()
+						),
 				
 				array(
-							'table_name'	=> 'hrms_desg_mast',
-							'display_name'	=> 'Employee Designations',
-							'icon'			=> 'fa fa-id-card',
-							'bg_color'		=> '#05f3d7db',
-							'count'			=> Designation::count()
-							),
+						'table_name'	=> 'hrms_desg_mast',
+						'display_name'	=> 'Employee Designations',
+						'icon'			=> 'fa fa-id-card',
+						'bg_color'		=> '#05f3d7db',
+						'count'			=> Designation::count()
+						),
 				
 				array(
-							'table_name'	=> 'hrms_emp_grade_mast',
-							'display_name'	=> 'Employee Grades',
-							'icon'			=> 'fa fa-id-badge',
-							'bg_color'		=> '#ef041a',
-							'count'			=> Grade::count()
-							),
+						'table_name'	=> 'hrms_emp_grade_mast',
+						'display_name'	=> 'Employee Grades',
+						'icon'			=> 'fa fa-id-badge',
+						'bg_color'		=> '#ef041a',
+						'count'			=> Grade::count()
+						),
 			 	
 				array(
-							'table_name'	=> 'hrms_emp_status_mast',
-							'display_name'	=> 'Employee Status',
-							'icon'			=> 'fa fa-street-view',
-							'bg_color'		=> '#3b35d2db',
-							'count'			=> EmpStatus::count()
-							),
+						'table_name'	=> 'hrms_emp_status_mast',
+						'display_name'	=> 'Employee Status',
+						'icon'			=> 'fa fa-street-view',
+						'bg_color'		=> '#3b35d2db',
+						'count'			=> EmpStatus::count()
+						),
 				
 				array(
-							'table_name'	=> 'hrms_emp_type_mast',
-							'display_name'	=> 'Employee Types',
-							'icon'			=> 'fa fa-user-secret',
-							'bg_color'		=> '#28a745',
-							'count'			=> EmpType::count()
-							),
+						'table_name'	=> 'hrms_emp_type_mast',
+						'display_name'	=> 'Employee Types',
+						'icon'			=> 'fa fa-user-secret',
+						'bg_color'		=> '#28a745',
+						'count'			=> EmpType::count()
+						),
 				array(
-							'table_name'	=> 'hrms_nominee_type',
-							'display_name'	=> 'Nominee Types',
-							'icon'			=> 'fa fa-user-secret',
-							'bg_color'		=> '#28a745',
-							'count'			=> NomineeType::count()
-							),
-
+						'table_name'	=> 'hrms_nominee_type',
+						'display_name'	=> 'Nominee Types',
+						'icon'			=> 'fa fa-user-secret',
+						'bg_color'		=> '#28a745',
+						'count'			=> NomineeType::count()
+						),
 /*
 				array(
 							'table_name'	=> 'leave_type_mast',
@@ -180,7 +180,7 @@ class MasterController extends Controller
 		$tables = array(
 					'hrms_comp_mast'		=>	'Companies',
 					'hrms_dept_mast'		=>	'Departments',
-					'hrms_doc_type_mast'	=>	'Document Types',
+					'hrms_marital_status'	=>	'Marital Status',
 					'hrms_emp_status_mast'	=> 	'Employee Status',
 					'hrms_desg_mast'		=>  'Employee Designations',
 					'hrms_emp_type_mast'	=>  'Employee Types',

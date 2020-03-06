@@ -29,7 +29,7 @@ class CreateEmployeeTables extends Migration
           $table->unsignedInteger('desg_id')->nullable();
           $table->unsignedInteger('grade_id')->nullable();
           $table->string('emp_name', 50);
-          $table->string('emp_img', 200)->default('emp_default_image.png');
+          $table->string('emp_img', 200)->default('public/sample.png');
           $table->enum('emp_gender', ['M', 'F', 'O'])->nullable();
           $table->string('emp_father', 5O)->nullable();
           $table->date('emp_dob')->nullable();
@@ -44,7 +44,6 @@ class CreateEmployeeTables extends Migration
           $table->string('aadhar_no', 20)->nullable();
           $table->string('voter_id', 20)->nullable();
           $table->string('pan_no', 20)->nullable();
-          $table->string('passport_id')->nullable();
           $table->string('file_path')->nullable();
           $table->unsignedInteger('emp_type')->nullable();
           $table->unsignedInteger('emp_status')->nullable();
