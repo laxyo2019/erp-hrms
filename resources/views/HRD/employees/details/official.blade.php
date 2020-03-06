@@ -125,7 +125,6 @@
 									@endforeach
 							</select>			
 						</div>
-						
 						<div class="col-6 form-group" id="empStatus" style="display: none">
 							<label for="">Employee Status</label>
 							<select name="emp_status" id="" class="form-control">
@@ -146,25 +145,26 @@
 					<div class="row">
 						<div class="col-6 form-group">
 							<label for="">Aadhaar Card</label>
-							<input type="text" name="aadhar_no" value="{{old('aadhar_no', $employee->aadhar_no)}}" class="form-control">
+							<input type="text" name="aadhar_no" value="{{old('aadhar_no', $employee->aadhar_no)}}" class="form-control" id="aadhar_no">
 						</div>
 						<div class="col-6 form-group">
 							<label for="">PAN Card</label>
-							<input type="text" name="pan_no" value="{{old('pan_no', $employee->pan_no)}}" class="form-control">
+							<input type="text" name="pan_no" value="{{old('pan_no', $employee->pan_no)}}" class="form-control" id="pan_no">
 						</div>
 						<div class="col-6 form-group">
 							<label for="">Voter ID</label>
-							<input type="text" name="voter_id" value="{{old('voter_id', $employee->voter_id)}}" class="form-control">
+							<input type="text" name="voter_id" value="{{old('voter_id', $employee->voter_id)}}" class="form-control" id="voter_id">
 						</div>
 						
 						<div class="col-6 form-group">
 							<label for="">Driving License</label>
 							<input type="text" name="driv_lic" value="{{old('drive_lic', $employee->driv_lic)}}" class="form-control">
 						</div>
-						<div class="col-6 form-group">
+						{{-- 	<div class="col-6 form-group">
 							<label for="passport_id">Passport ID</label>
 							<input type="text" name="passport_id" value="{{old('passport_id', $employee->passport_id)}}" class="form-control">
-						</div>
+						</div> 
+
 						@if(empty($employee->file_path))
 						<div class="col-6 form-group">
 					    	<label for="file_path">Upload Passport</label>
@@ -182,7 +182,7 @@
 							<input type="text" value="Passport Uploaded" class="form-control" disabled="">
 						</div>
 
-					    @endif
+					    @endif --}}
 					</div>
 					<br>
 					<div><h5>EMPLOYEE PROVIDENT FUND INFORMATION</h5></div><hr>
@@ -307,8 +307,8 @@ $(document).ready(function(){
 
 	//Character limit for various fields
 
-	$('#old_uan, #curr_uan').prop('maxlength', 12);
-	$('#old_esi, #curr_esi').prop('maxlength', 10);
+	$('#aadhar_no, #old_uan, #curr_uan').prop('maxlength', 12);
+	$('#old_esi, #curr_esi, #pan_no, #voter_id').prop('maxlength', 10);
 
 
 });

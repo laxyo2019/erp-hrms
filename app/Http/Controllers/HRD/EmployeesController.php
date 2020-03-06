@@ -16,9 +16,11 @@ use App\Models\Master\LeaveMast;
 use App\Imports\EmployeesImport;
 use App\Exports\EmployeesExport;
 use App\Models\Employees\Family;
+
 use App\Models\Master\Designation;
 use App\Models\Master\DocTypeMast;
 use App\Models\Master\NomineeType;
+use App\Models\Master\MaritalStatus;
 use App\Models\Employees\CompBranch;
 use App\Models\Employees\EmpNominee;
 use Maatwebsite\Excel\Facades\Excel;
@@ -80,12 +82,17 @@ class EmployeesController extends Controller
     /*** Directory structure ***/
 
     if($request->hasFile('file_path')){
-      $dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
+
+
+      $image = EmployeeMast::where('user_id', $user_id)->first();
+      Storage::delete($image->emp_img);
+
+      $dir      = 'public/'.date("Y").'/'.date("F");
       $file_ext = $request->file('file_path')->extension();
-      $filename = $id.'_'.time().'_personal.'.$file_ext;
+      $filename = $user_id.'_'.time().'_emp_img.'.$file_ext;
       $path     = $request->file('file_path')->storeAs($dir, $filename);
     }else{
-      $path = 'emp_default_image.png';
+      //$path = 'emp_default_image.png';
     }
 
     EmployeeMast::where('user_id', $user_id)
@@ -95,8 +102,10 @@ class EmployeesController extends Controller
         'emp_dob'    => $request->emp_dob,
         'blood_grp'  => $request->blood_group,
         'emp_father' => $request->emp_father,
+        'emp_img'  => $path,
         'curr_addr'  => $request->curr_addr,
         'perm_addr'  => $request->perm_addr,
+        'marital_status'=> $request->marital_status,
         'comp_contact'    => $vdata['comp_contact'],
         'personal_contact'=> $vdata['personal_contact'],
         'comp_email'      => $vdata['comp_email'],
@@ -130,21 +139,6 @@ class EmployeesController extends Controller
     ]);
 
 
-
-    if($request->hasFile('file_path')){
-
-      //return $request->file('file_path')->extension();
-      $dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
-      $file_ext = $request->file('file_path')->extension();
-      $filename = $user_id.'_'.time().'_passport.'.$file_ext;
-      $path     = $request->file('file_path')->storeAs($dir, $filename);
-      
-    }else{
-
-      $path = null;
-    }
-
-
     $employee = EmployeeMast::where('user_id', $user_id)
       ->update([
         'comp_id'    => $request->comp_id,
@@ -167,9 +161,7 @@ class EmployeesController extends Controller
         'old_uan'    => $request->old_uan,
         'curr_uan'   => $request->curr_uan,
         'old_esi'    => $request->old_esi,
-        'curr_esi'   => $request->curr_esi,
-        'file_path'  => $path,
-        'passport_id'=> $request->passport_id
+        'curr_esi'   => $request->curr_esi
       ]);
 
     return redirect()->route('employee.show_page',['user_id'=>$user_id,'tab'=>'official'])->with('success','Updated successfully.');
@@ -379,8 +371,8 @@ class EmployeesController extends Controller
     $this->validate($request, [
           'name'    => 'required',
           'relation'=> 'required',
+          'aadhar_id'=>'nullable|digits:12'
     ]);
-
 
     if($request->file('file_path')){
 
@@ -424,7 +416,7 @@ class EmployeesController extends Controller
 
     if($request->file('file_path')){
 
-
+        //delete previous document then updated new one.
         $family = Family::find($id);
         Storage::delete($family->file_path);
 
@@ -434,8 +426,6 @@ class EmployeesController extends Controller
         $path     = $request->file('file_path')->storeAs($dir, $filename);
 
     }
-
-    
 
     return back()->with('success', 'Updated record successfully.');
 
@@ -449,6 +439,8 @@ class EmployeesController extends Controller
   	$meta      = array();
     $employee  = EmployeeMast::where('user_id', $user_id)->first();
     $path      = "HRD.employees.details.".$tab;
+
+    $meta['maritalsts'] = MaritalStatus::all();
 
     if($tab == 'official'){
 

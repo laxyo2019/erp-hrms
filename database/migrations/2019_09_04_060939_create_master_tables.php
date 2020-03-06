@@ -48,6 +48,15 @@ class CreateMasterTables extends Migration
 	        $table->timestamps();
 	        $table->softDeletes();
     	});
+
+    	Schema::create('hrms_marital_status', function (Blueprint $table) {
+	        $table->increments('id');
+	        $table->string('account_code', 5)->default(10001);
+	        $table->string('name', 100);
+	        $table->text('description')->nullable();
+	        $table->timestamps();
+	        $table->softDeletes();
+    	});
 		  
 		Schema::create('hrms_emp_grade_mast',function(Blueprint $table){
 			$table->increments('id');
@@ -75,14 +84,7 @@ class CreateMasterTables extends Migration
 			$table->softDeletes();  
 		});
 
-		Schema::create('hrms_doc_type_mast',function(Blueprint $table){
-			$table->increments('id');
-			$table->string('account_code', 5)->default(10001);
-			$table->string('name', 100);
-			$table->text('description')->nullable();
-			$table->timestamps();
-			$table->softDeletes();
-		});     
+		
 		Schema::create('hrms_approval_template', function (Blueprint $table) {
 			$table->increments('id');
 			$table->string('account_code', 5)->default(10001);
@@ -104,12 +106,14 @@ class CreateMasterTables extends Migration
     public function down()
     {
 
+    	Schema::dropIfExists('hrms_nominee_type');
+    	Schema::dropIfExists('hrms_comp_mast');
     	Schema::dropIfExists('hrms_dept_mast');
     	Schema::dropIfExists('hrms_desg_mast');
         Schema::dropIfExists('hrms_approval_template');
         Schema::dropIfExists('hrms_emp_status_mast');
         Schema::dropIfExists('hrms_emp_grade_mast');
         Schema::dropIfExists('hrms_emp_type_mast');
-        Schema::dropIfExists('hrms_doc_type_mast');
+        Schema::dropIfExists('hrms_marital_status');
     }
 }

@@ -38,7 +38,7 @@
 				
 				<div class="col-6 form-group">
 					<label for="">Aadhar ID</label>
-					<input type="text" class="form-control" name="aadhar_id" value="{{ old('aadhar_id')}}">
+					<input type="text" class="form-control" name="aadhar_id" value="{{ old('aadhar_id')}}" id="aadhar_id">
 					@error('aadhar_id')
 			          <span class="text-danger" role="alert">
 			            <strong>* {{ $message }}</strong>
@@ -137,29 +137,24 @@ $(document).ready(function(){
 	$('.familydetails').addClass('active');
 
 	$('.modalFamily').on('click', function(e){
-	e.preventDefault();
+		e.preventDefault();
 
-	var member_id = $(this).data('id');
-	$.ajax({
-		type: 'GET',
-		url: "/familydetails/"+member_id+"/edit",
-		success:function(res){
-			
-			$('#modalTable').empty().html(res);
-			$('#familyModal').modal('show');
-		}
+		var member_id = $(this).data('id');
+		$.ajax({
+			type: 'GET',
+			url: "/familydetails/"+member_id+"/edit",
+			success:function(res){
+				
+				$('#modalTable').empty().html(res);
+				$('#familyModal').modal('show');
+			}
 
-	});
-})
-});
-	/*$(document).ready(function(){
-		$('.nominee').addClass('active');
-		$('.datepicker').datepicker({
-			orientation: "bottom",
-			format: "yyyy-mm-dd",
-			autoclose: true,
-			todayHighlight: true
 		});
-	});*/
+	})
+
+	$('#aadhar_id').prop('maxlength', 12);
+
+
+});
 </script>
 @endsection
