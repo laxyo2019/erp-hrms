@@ -39,8 +39,8 @@
 </div>
 <div class="row card-body text-center">
 	<div class="col-6" >
-		<h4>Status</h4>
-		<div>{{-- {{!empty($data['approvalaction']->name) ? ucwords($data['approvalaction']->name) : 'Pending'}} --}}  </div>
+		<h4>Contact No</h4>
+		<div>{{!empty($data->contact_no) ? $data->contact_no : 'Not Mentioned'}}</div>
 	</div>
 	<div class="col-6" >
 		<h4>Reason</h4>
@@ -63,10 +63,7 @@
 	</div>
 </div>
 <div class="row card-body text-center">
-	<div class="col-6" >
-		<h4>Contact No</h4>
-		<div>{{!empty($data->contact_no) ? $data->contact_no : 'Not Mentioned'}}</div>
-	</div>
+	
 	<div class="col-6" >
 		<h4>Applicant's Remark</h4>
 		<div>{{!empty($data->applicant_remark) ? $data->applicant_remark : 'Not Mentioned'}}</div>

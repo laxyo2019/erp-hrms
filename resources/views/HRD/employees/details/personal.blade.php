@@ -23,21 +23,7 @@
 					@csrf
 				<div class="container-fluid">
 					<div class="row">
-						<div class="row col-4" >
-							@if(empty($employee->emp_img))
-								<label for="file_path">Profile Image</label>
-	    						<input type="file" name="file_path" class="form-group-file" id="file_path" value="{{ old('file_path')}}">
-	    						@error('file_path')
-								<span class="text-danger" role="alert">
-									<strong>* {{ $message }}</strong>
-								</span>
-								@enderror
-							@else
-								<img src="{{asset('storage/'.trim($employee->emp_img, 'public'))}}" height="180" width="180" class="app-sidebar__user-avatar">
-								<input type="file" name="file_path" class="form-group-file" id="file_path" value="{{ old('file_path')}}">
-
-							@endif
-						</div>
+						
 						<div class="row col-8" >
 							<div class="col-6 form-group">
 							<label for="">Full Name</label>
@@ -121,71 +107,24 @@
 		                	@enderror
 						</div>
 						</div>
-					</div>
-					<div class="row">
-						{{-- <div class="col-6 form-group">
-							<label for="">Full Name</label>
-								<input type="text" class="form-control" name="full_name" value="{{old('full_name', $employee->emp_name)}}" />
-							@error('full_name')
-			                <span class="text-danger" role="alert">
-			                    <strong>{{ $message }}</strong>
-			                </span>
-			            	@enderror
+						<div class="row col-4">
+							@if(empty($employee->emp_img))
+								<label for="file_path">Profile Image</label>
+	    						<input type="file" name="file_path" class="form-group-file" id="file_path" value="{{ old('file_path')}}">
+	    						@error('file_path')
+								<span class="text-danger" role="alert">
+									<strong>* {{ $message }}</strong>
+								</span>
+								@enderror
+							@else
+							<div align="right">
+								<img src="{{asset('storage/'.trim($employee->emp_img, 'public'))}}" height="180" width="180" class="app-sidebar__user-avatar">
+								<div class="col-8">
+								<input type="file" name="file_path" class="form-group-file" id="file_path" value="{{ old('file_path')}}">
+								</div>
+							</div>
+							@endif
 						</div>
-						<div class="col-6 form-group">
-							<label for="emp_father">Father's Name</label>
-								<input type="text" class="form-control" name="emp_father" value="{{old('emp_father', $employee->emp_father)}}" />
-							@error('emp_father')
-			                <span class="text-danger" role="alert">
-			                    <strong>{{ $message }}</strong>
-			                </span>
-			            	@enderror
-						</div> 
-						<div class="col-4 form-group">
-							<label for="">Date of Birth</label>
-							<input type="text" name="emp_dob" class="form-control datepicker" value="{{old('emp_dob',$employee->emp_dob)}}" autocomplete="off">
-							@error('emp_dob')
-			                  <span class="text-danger" role="alert">
-			                      <strong>{{ $message }}</strong>
-			                  </span>
-			              	@enderror
-						</div>
-						<div class="col-4">
-							<label for="">Marital Status</label>
-							<select name="marital_status" class="custom-select form-control">
-									@foreach($meta['maritalsts'] as $row)
-										<option value="{{$row->name}}" {{old('maritalsts',$employee->marital_status) == $row->name ? 'selected' : ''}} >
-											{{ ucwords($row->name) }}
-										</option>
-									@endforeach
-							</select>
-							@error('maritalsts')
-				                  <span class="text-danger" role="alert">
-				                      <strong>{{ $message }}</strong>
-				                  </span>
-				              @enderror
-				            </div>--}}
-						
-					</div>
-					<div class="row">
-						
-						{{-- <div class="col-6 form-group">
-							<div class="col-4">
-							<label for="">Blood Group</label>
-							<select name="blood_group" class="custom-select form-control">
-									@foreach($blood_groups as $row)
-										<option value="{{$row}}" {{old('blood_group',$employee->blood_grp) == $row ? 'selected' : ''}} >
-											{{ $row }}
-										</option>
-									@endforeach
-							</select>
-							@error('blood_group')
-				                  <span class="text-danger" role="alert">
-				                      <strong>{{ $message }}</strong>
-				                  </span>
-				              @enderror
-				            </div>
-						</div> --}}
 					</div>
 					<br>
 					<h5>CONTACT INFORMATION</h5><hr>

@@ -20,7 +20,7 @@ Route::post('/logout', 'LoginController@logout')->name('logout');
 
 
 Route::resource('/information', 'InformationController');
-Route::resource('/hrd/employees','HRD\EmployeesController');
+
 Route::resource('/employee/leaves','Employee\LeavesController');
 
 
@@ -64,6 +64,8 @@ Route::resource('/hrd/leaves', 'HRD\LeavesController');
 
 Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 
+	Route::resource('/hrd/employees','HRD\EmployeesController');
+
 	Route::resource('/leave-management/types', 'Leave\LeaveTypeController');
 	Route::resource('/leave-management/allotments', 'Leave\AllotmentController');
 	Route::resource('/leave-management/holidays', 'Leave\HolidayController');
@@ -73,7 +75,6 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 	Route::resource('/settings/grades','Settings\GradesController');
 
 	/***Birthdays***/
-	
 
 	//Delete Employees Info
 
@@ -121,13 +122,13 @@ Route::get('hrd/employees/download/{db_table}/{user_id}', 'HRD\EmployeesControll
 
 Route::post('import', 'HRD\EmployeesController@import')->name('employees.import');
 
-});
 
-/*************************************/
-
-/*******Leave Request**********/
-
-Route::get('/leave-show/{id}', 'Employee\LeavesController@showrequest')->name('show.leave');
+// Master CRUD
+Route::get('settings/mast_entity/{db_table}', 'MasterController@index')->name('mast_entity.all');
+Route::get('settings/mast_entity', 'MasterController@start_page')->name('mast_entity.home');
+Route::get('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@createOrEditOrShow')->name('mast_entity.get');
+Route::post('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@storeOrUpdate')->name('mast_entity.post');
+Route::delete('settings/mast_entity/{db_table}/{id}', 'MasterController@destroy')->name('mast_entity.delete');
 
 
 
@@ -138,7 +139,6 @@ Route::get('leave-management/hold/{id}', 'Leave\AllotmentController@hold')->name
 Route::get('leave-management/reallot/{id}', 'Leave\AllotmentController@reallot')->name('reallot.leave');
 
 
-//Holidays
 
 //Export Import holidays
 
@@ -158,6 +158,18 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 	Route::post('user/assign/', 'acl\UserController@assign')->name('assign.role');
 
 });
+
+});
+
+/*************************************/
+
+/*******Leave Request**********/
+
+Route::get('/leave-show/{id}', 'Employee\LeavesController@showrequest')->name('show.leave');
+
+//Holidays
+
+
 
 /*	create by kishan for export data using checkbox or unchecheked and view  enployee details*/
 
@@ -185,12 +197,7 @@ Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_de
 
 
 
-// Master CRUD
-Route::get('settings/mast_entity/{db_table}', 'MasterController@index')->name('mast_entity.all');
-Route::get('settings/mast_entity', 'MasterController@start_page')->name('mast_entity.home');
-Route::get('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@createOrEditOrShow')->name('mast_entity.get');
-Route::post('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@storeOrUpdate')->name('mast_entity.post');
-Route::delete('settings/mast_entity/{db_table}/{id}', 'MasterController@destroy')->name('mast_entity.delete');
+
 
 
 /******User Registration******/
