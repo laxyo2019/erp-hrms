@@ -163,7 +163,8 @@ class EmployeesController extends Controller
         'old_uan'    => $request->old_uan,
         'curr_uan'   => $request->curr_uan,
         'old_esi'    => $request->old_esi,
-        'curr_esi'   => $request->curr_esi
+        'curr_esi'   => $request->curr_esi,
+        'passport_id'=> $request->passport_id,
       ]);
 
     return redirect()->route('employee.show_page',['user_id'=>$user_id,'tab'=>'official'])->with('success','Updated successfully.');
