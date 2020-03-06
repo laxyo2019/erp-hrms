@@ -48,7 +48,10 @@
 									<th>{{$Data->name}}</th>
 									<th>{{$Data->mobile_number}}</th>
 									<th>{{$Data->date_of_birth}}</th>
-									<th><a href="{{route('Birthday_destroy',$Data->id)}}" class="btn btn-sm btn-danger btn-xs"><i class="fa fa-trash text-white" style="font-size:12px;"></i></a></th>
+									<th>
+										<a href="{{route('Birthday_destroy',$Data->id)}}" class="btn btn-sm btn-danger btn-xs"><i class="fa fa-trash text-white" style="font-size:12px;"></i></a>
+										<a data-id='{{$Data->id}}' href="{{route('birthday_wish.edit',$Data->id)}}" class="btn btn-sm btn-info btn-xs edit"><i class="fa fa-pencil text-white" style="font-size:12px;"></i></a>
+									</th>
 								</tr>
 								@endforeach
 							</tbody>
@@ -62,6 +65,7 @@
 		$('#btnFileUpload').click(function(){
 		 $('#import').trigger('click'); 
 		});
+
 
 		// $("#import").change(function () {
 		//     $("form").submit();

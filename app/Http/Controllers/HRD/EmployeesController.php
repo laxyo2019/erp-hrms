@@ -72,11 +72,13 @@ class EmployeesController extends Controller
   public function save_personal(Request $request, $user_id){
 
     $vdata = request()->validate([
+
       'full_name'           => 'required|max:45',
       'comp_contact'        => 'nullable|numeric',
       'personal_contact'    => 'nullable|numeric',
       'comp_email'          => 'nullable|email|max:50',
       'personal_email'      => 'nullable|email|max:50',
+
     ]);
 
     /*** Directory structure ***/

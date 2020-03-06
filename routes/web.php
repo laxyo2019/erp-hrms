@@ -11,6 +11,7 @@
 */
 
 Route::get('/', 'HomeController@index')->name('home');
+
 Route::get('login/{username}/{pass}', 'LoginController@login');
 Route::post('/logout', 'LoginController@logout')->name('logout');
 //Auth::routes(['register' => false]);

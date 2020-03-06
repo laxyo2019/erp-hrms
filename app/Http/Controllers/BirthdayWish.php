@@ -38,13 +38,16 @@ class BirthdayWish extends Controller
 
     public function edit($id)
     {
-        //
+        $data = Birthday::find($id);
+       return view('birthday.edit',compact('data'));
     }
 
    
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->validate(['name'=>'required','mobile_number'=>'required','date_of_birth'=>'required']);
+        Birthday::where('id',$id)->update($data);
+        return redirect('birthday_wish');
     }
 
    
