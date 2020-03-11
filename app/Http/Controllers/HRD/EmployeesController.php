@@ -94,14 +94,14 @@ class EmployeesController extends Controller
       $filename = $user_id.'_'.time().'_emp_img.'.$file_ext;
       $path     = $request->file('file_path')->storeAs($dir, $filename);
 
+
       EmployeeMast::where('user_id', $user_id)
         ->update(['emp_img' => $path]);
 
-
-    }else{
+    }//else{
 
       //$path = 'emp_default_image.png';
-    }
+    //}
 
     EmployeeMast::where('user_id', $user_id)
       ->update([
@@ -136,8 +136,8 @@ class EmployeesController extends Controller
       'aadhar_no' => 'string|nullable|max:20',
       'pan_no'    => 'string|nullable|max:20',
       'voter_id'  => 'string|nullable|max:20',
-      'old_pf'    => 'string|nullable|digits:12|alpha_num',
-      'new_pf'    => 'string|nullable|digits:12|alpha_num',
+      'old_pf'    => 'string|nullable|alpha_num',
+      'new_pf'    => 'string|nullable|alpha_num',
       'driv_lic'  => 'string|nullable|max:20|alpha_dash',
       'old_uan'   => 'string|nullable|digits:12',
       'curr_uan'  => 'string|nullable|digits:12',

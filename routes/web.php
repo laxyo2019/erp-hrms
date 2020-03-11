@@ -17,6 +17,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Auth::routes(['register' => false]);
 
 
+
 Route::resource('/information', 'InformationController');
 
 Route::resource('/employee/leaves','Employee\LeavesController');
