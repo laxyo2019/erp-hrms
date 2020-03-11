@@ -523,48 +523,59 @@ class LeavesController extends Controller
         return Storage::download($document);
     }
 
-    public function destroy($id)
+    public function destroy($id )
     {
-      
       $leave_app = LeaveApply::findOrFail($id);
       
+      //return $leave_app->teamlead_approval;
 
-      /**Add leave balance back if leave application is deleted**/
+      if($leave_app->teamlead_approval == 0){
+        /**Add leave balance back if leave application is deleted**/
 
-      $leavesMast = LeaveMast::where('id', $leave_app->leave_type_id)
-        ->first();
+        $leavesMast = LeaveMast::where('id', $leave_app->leave_type_id)
+          ->first();
 
-      //Increment/Decrement leaves based on pay or without pay
+        //Increment/Decrement leaves based on pay or without pay
 
-      if($leavesMast->without_pay != 1){
+        if($leavesMast->without_pay != 1){
 
-        //Increment paid_count from initial bal
+          //Increment paid_count from initial bal
 
-        LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
-            ->where('user_id', $leave_app->user_id)
-            ->increment('initial_bal', $leave_app->paid_count);
-
-            
-        if($leave_app->unpaid_count != null ){
-          $withoutpay_id = LeaveMast::where('without_pay', 1)
-                            ->first()
-                            ->id;
-          //Decrement unpaid_count from initial_bal
-          LeaveAllotment::where('leave_mast_id', $withoutpay_id)
+          LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
               ->where('user_id', $leave_app->user_id)
-              ->decrement('initial_bal', $leave_app->unpaid_count);
+              ->increment('initial_bal', $leave_app->paid_count);
+
+              
+          if($leave_app->unpaid_count != null ){
+            $withoutpay_id = LeaveMast::where('without_pay', 1)
+                              ->first()
+                              ->id;
+            //Decrement unpaid_count from initial_bal
+            LeaveAllotment::where('leave_mast_id', $withoutpay_id)
+                ->where('user_id', $leave_app->user_id)
+                ->decrement('initial_bal', $leave_app->unpaid_count);
+          }
+          
+        }else{
+          LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
+                ->where('user_id', $leave_app->user_id)
+                ->decrement('initial_bal', $leave_app->count);
         }
         
-      }else{
-        LeaveAllotment::where('leave_mast_id', $leave_app->leave_type_id)
-              ->where('user_id', $leave_app->user_id)
-              ->decrement('initial_bal', $leave_app->count);
-      }
-      
-      Storage::delete($leave_app->file_path);
-      $leave_app->delete();
+        Storage::delete($leave_app->file_path);
+        $leave_app->delete();
 
-      return back()->with('success', 'Record deleted successfully');
+        $res['msg'] = "Request deleted successfully.";
+        $res['flag']= 1;
+      }else{
+        $res['msg'] = "You can't Delete leave request. Click ok to refresh.";
+        $res['flag']= 0;
+      }
+
+
+      return $res;
+      
+      //return back()->with('success', 'Record deleted successfully');
     }
 
     public function showrequest(Request $request){

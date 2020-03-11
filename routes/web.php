@@ -12,9 +12,9 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 
-//Route::get('login/{username}/{pass}', 'LoginController@login');
-//Route::post('/logout', 'LoginController@logout')->name('logout');
-Auth::routes(['register' => false]);
+Route::get('login/{username}/{pass}', 'LoginController@login');
+Route::post('/logout', 'LoginController@logout')->name('logout');
+//Auth::routes(['register' => false]);
 
 
 
@@ -30,7 +30,6 @@ Route::group(['middleware' => ['role:hrms_teamlead']], function() {
 	route::post('leave-request/teamlead/{req_id}', 'HRD\LeavesController@tl_approval');
 
 	Route::post('/reverse/teamlead/{req_id}', 'HRD\LeavesController@tl_reverse');
-
 
 });
 

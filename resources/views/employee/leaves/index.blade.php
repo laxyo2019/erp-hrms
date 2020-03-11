@@ -228,12 +228,10 @@
 												@csrf
 												@method('DELETE')
 											<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
-
-
 										</form>
 									</span> 
 									<span class="ml-2" >
-										<button class="btn btn-sm btn-danger"><i class="fa fa-trash text-white"  style="font-size: 12px;" id="delRequest"></i></button>
+										<button class="btn btn-sm btn-danger"><i class="fa fa-trash text-white"  style="font-size: 12px;" id="requestDel" data-id={{$leaveapply->id}}></i></button>
 									</span>
 								@endif
 									</td>
@@ -250,11 +248,10 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		// $('#ClientsTable').DataTable();
-	 
 		$('.modalLeave').on('click', function(e){
 			e.preventDefault();
 			var id = $(this).data('id');
-			//alert(id);
+
 			$.ajax({
 				type:'get',
 				url: "/leave-show/"+id,
@@ -265,8 +262,33 @@
 					$('#modalTable').html(data);					
 				}
 			})
-		})
+		});
+
+		$('#requestDel').on('click', function(){
+			
+			var leave_req = $(this).data('id');
+			//alert(leave_req)
+			$.ajax({
+				type: 'delete',
+				url: "/employee/leaves/"+leave_req,
+				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				success:function(res){
+
+					if(res.flag == 1){
+
+						alert(res.msg)
+						location.reload();
+
+					}else{
+
+						alert(res.msg);
+						location.reload();
+					}
+				}
+			})
+		});
 	});
+
 
 </script>
 @endsection
