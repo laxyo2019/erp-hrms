@@ -24,6 +24,13 @@ class LeavesController extends Controller
         $this->middleware('auth');
     }
 
+    /****APPLICATION REQUEST STATUS****/
+
+    //0 = Pending
+    //1 = Approved
+    //2 = Declined
+    //3 = Reversed
+
     public function indexrt(){
 
         $user = User::find(Auth::user()->id);
@@ -113,217 +120,256 @@ class LeavesController extends Controller
 
     public function tl_approval(Request $request, $request_id){
 
-        //Update leave aaplication status and approver' id.
+        $app_request = LeaveApply::where('id', $request_id)->first();
 
-        $leaveApp  = LeaveApply::find($request_id);
-        $leaveApp->reason = $request->reason;
-        $leaveApp->save();
+        //return $request;
+
+        if($app_request->teamlead_approval == 0){
+
+            //Update leave aaplication status and approver' id.
+
+            $leaveApp  = LeaveApply::find($request_id);
+            $leaveApp->reason = $request->reason;
+            $leaveApp->save();
 
 
-        //Check if ID 1(APPROVE)
+            //Check if ID 1(APPROVE)
 
-        if($request->action == 1){
+            if($request->action == 1){
 
-            LeaveApply::where('id',$request_id)->update(['teamlead_approval' => $request->action]);
+                LeaveApply::where('id',$request_id)->update(['teamlead_approval' => $request->action]);
 
-            //Update record when application approve
+                //Update record when application approve
 
-            $approval_history = new LeaveApprovalDetail;
-            $approval_history->leave_apply_id = $request_id;
-            $approval_history->user_id        = $leaveApp->user_id;
-            $approval_history->approver_id    = json_encode(
-                    ['teamlead_approval' => Auth::id()]);
-            $approval_history->save();
-
-        }else{
-
-            LeaveApply::findOrFail($request_id)
-                    ->update([
-                        'teamlead_approval' => $request->action,
-                        'approver_remark'   => $request->text,
-                        'rejected_by'       => Auth::id()]);
-
-            //Update leave balance if request declined.
-            $leave_mast = LeaveMast::find($leaveApp->leave_type_id);
-
-            if($leave_mast->without_pay != 1){
-                
-                //Increment leave balance if declined
-                LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
-                    ->where('user_id', $leaveApp->user_id)
-                    ->increment('initial_bal', $leaveApp->paid_count);
-
-                $withoutpay_id = LeaveMast::where('without_pay', 1)
-                    ->first()
-                    ->id;
-
-                if($leaveApp->unpaid_count != null){
-
-                //Decrement unpaid_count from initial_bal if leave added to unpaid count for leave without pay leave.
-                    LeaveAllotment::where('leave_mast_id', $withoutpay_id)
-                        ->where('user_id', $leaveApp->user_id)
-                        ->decrement('initial_bal', $leaveApp->unpaid_count);
-                }
+                $approval_history = new LeaveApprovalDetail;
+                $approval_history->leave_apply_id = $request_id;
+                $approval_history->user_id        = $leaveApp->user_id;
+                $approval_history->approver_id    = json_encode(
+                        ['teamlead_approval' => Auth::id()]);
+                $approval_history->save();
 
             }else{
-                LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
-                    ->where('user_id', $leaveApp->user_id)
-                    ->decrement('initial_bal', $leaveApp->count);
+
+                LeaveApply::findOrFail($request_id)
+                        ->update([
+                            'teamlead_approval' => $request->action,
+                            'approver_remark'   => $request->text,
+                            'rejected_by'       => Auth::id()]);
+
+                //Update leave balance if request declined.
+                $leave_mast = LeaveMast::find($leaveApp->leave_type_id);
+
+                if($leave_mast->without_pay != 1){
+                    
+                    //Increment leave balance if declined
+                    LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
+                        ->where('user_id', $leaveApp->user_id)
+                        ->increment('initial_bal', $leaveApp->paid_count);
+
+                    $withoutpay_id = LeaveMast::where('without_pay', 1)
+                        ->first()
+                        ->id;
+
+                    if($leaveApp->unpaid_count != null){
+
+                    //Decrement unpaid_count from initial_bal if leave added to unpaid count for leave without pay leave.
+                        LeaveAllotment::where('leave_mast_id', $withoutpay_id)
+                            ->where('user_id', $leaveApp->user_id)
+                            ->decrement('initial_bal', $leaveApp->unpaid_count);
+                    }
+
+                }else{
+                    LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
+                        ->where('user_id', $leaveApp->user_id)
+                        ->decrement('initial_bal', $leaveApp->count);
+                }
+
             }
 
+            $res['request_id'] = $request_id;
+            $res['action']     = $request->action;
+            $res['flag']       = 1;
+            return $res;
+            
+        }else{
+
+            $res['msg']     = 'Action already taken. Click OK to refresh the page.';
+            $res['flag']    = 0;
+            return $res;
         }
-
-        $res['request_id'] = $request_id;
-        $res['action']     = $request->action;
-
-        return $res;
-
+        
+        
 
     }
 
     public function hr_approval(Request $request, $request_id){
 
-        //Update leave aaplication status and approver' id.
+        $app_request = LeaveApply::where('id', $request_id)->first();
 
-        $leaveApp  = LeaveApply::find($request_id);
-        $leaveApp->reason = $request->reason;
-        $leaveApp->save();
+        if($app_request->subadmin_approval == 0){
+            //Update leave aaplication status and approver' id.
 
-        //Check if ID 1(APPROVE)
+            $leaveApp  = LeaveApply::find($request_id);
+            $leaveApp->reason = $request->reason;
+            $leaveApp->save();
 
-        if($request->action == 1){
+            //Check if ID 1(APPROVE)
 
-
-            LeaveApply::where('id',$request_id)->update(['subadmin_approval' => $request->action]);
-
-            //Update record when application approve
+            if($request->action == 1){
 
 
-            $detail = LeaveApprovalDetail::where('leave_apply_id', $request_id)->first();
+                LeaveApply::where('id',$request_id)->update(['subadmin_approval' => $request->action]);
 
-            $json = json_decode($detail['approver_id']);
+                //Update record when application approve
 
-            LeaveApprovalDetail::where('leave_apply_id', $request_id)
-                ->update([
-                'approver_id' => json_encode(
-                ['teamlead_approval' => $json->teamlead_approval,
-                 'subadmin_approval' => Auth::id() ])
-                    ]);
 
-          
+                $detail = LeaveApprovalDetail::where('leave_apply_id', $request_id)->first();
 
-        }else{
+                $json = json_decode($detail['approver_id']);
 
-            LeaveApply::findOrFail($request_id)
+                LeaveApprovalDetail::where('leave_apply_id', $request_id)
                     ->update([
-                        'subadmin_approval' => $request->action,
-                        'approver_remark'   => $request->text,
-                        'rejected_by'       => Auth::id()]);
+                    'approver_id' => json_encode(
+                    ['teamlead_approval' => $json->teamlead_approval,
+                     'subadmin_approval' => Auth::id() ])
+                        ]);
 
-           
-
-            //Update leave balance if request declined.
-            $leave_mast = LeaveMast::find($leaveApp->leave_type_id);
-
-            if($leave_mast->without_pay != 1){
-                
-                //Increment leave balance if declined
-                LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
-                    ->where('user_id', $leaveApp->user_id)
-                    ->increment('initial_bal', $leaveApp->paid_count);
-
-                $withoutpay_id = LeaveMast::where('without_pay', 1)
-                    ->first()
-                    ->id;
-
-                if($leaveApp->unpaid_count != null){
-
-                //Decrement unpaid_count from initial_bal if leave added to unpaid count for leave without pay leave.
-                    LeaveAllotment::where('leave_mast_id', $withoutpay_id)
-                        ->where('user_id', $leaveApp->user_id)
-                        ->decrement('initial_bal', $leaveApp->unpaid_count);
-                }
+              
 
             }else{
-                LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
-                    ->where('user_id', $leaveApp->user_id)
-                    ->decrement('initial_bal', $leaveApp->count);
-            }
-
-        }
-
-        $res['request_id'] = $request_id;
-        $res['action']     = $request->action;
-
-        return $res;
-    }
-
-    public function admin_approval(Request $request, $request_id){
-        //Update leave aaplication status and approver' id.
-
-        $leaveApp  = LeaveApply::find($request_id);
-        $leaveApp->reason = $request->reason;
-        $leaveApp->save();
-
-        //Check if ID 1(APPROVE)
-
-        if($request->action == 1){
-
-            LeaveApply::where('id',$request_id)->update(['admin_approval' => $request->action]);
-
-            //Update record when application approve
-
-            $detail = LeaveApprovalDetail::where('leave_apply_id', $request_id)->first();
-
-            $json = json_decode($detail['approver_id']);
-
-            LeaveApprovalDetail::where('leave_apply_id', $request_id)
-                ->update([
-                'approver_id' => json_encode(
-                    ['teamlead_approval' => $json->teamlead_approval,
-                     'subadmin_approval' => $json->subadmin_approval,
-                     'admin_approval' => Auth::id() ]) ]);
-        }else{
 
                 LeaveApply::findOrFail($request_id)
                         ->update([
-                            'admin_approval' => $request->action,
-                            'approver_remark'=> $request->text,
+                            'subadmin_approval' => $request->action,
+                            'approver_remark'   => $request->text,
                             'rejected_by'       => Auth::id()]);
 
-            //Update leave balance if request declined.
-            $leave_mast = LeaveMast::find($leaveApp->leave_type_id);
+               
 
-            if($leave_mast->without_pay != 1){
-                
-                //Increment leave balance if declined
-                LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
-                    ->where('user_id', $leaveApp->user_id)
-                    ->increment('initial_bal', $leaveApp->paid_count);
+                //Update leave balance if request declined.
+                $leave_mast = LeaveMast::find($leaveApp->leave_type_id);
 
-                $withoutpay_id = LeaveMast::where('without_pay', 1)
-                    ->first()
-                    ->id;
-
-                if($leaveApp->unpaid_count != null){
-
-                //Decrement unpaid_count from initial_bal if leave added to unpaid count for leave without pay leave.
-                    LeaveAllotment::where('leave_mast_id', $withoutpay_id)
+                if($leave_mast->without_pay != 1){
+                    
+                    //Increment leave balance if declined
+                    LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
                         ->where('user_id', $leaveApp->user_id)
-                        ->decrement('initial_bal', $leaveApp->unpaid_count);
+                        ->increment('initial_bal', $leaveApp->paid_count);
+
+                    $withoutpay_id = LeaveMast::where('without_pay', 1)
+                        ->first()
+                        ->id;
+
+                    if($leaveApp->unpaid_count != null){
+
+                    //Decrement unpaid_count from initial_bal if leave added to unpaid count for leave without pay leave.
+                        LeaveAllotment::where('leave_mast_id', $withoutpay_id)
+                            ->where('user_id', $leaveApp->user_id)
+                            ->decrement('initial_bal', $leaveApp->unpaid_count);
+                    }
+
+                }else{
+                    LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
+                        ->where('user_id', $leaveApp->user_id)
+                        ->decrement('initial_bal', $leaveApp->count);
                 }
 
-            }else{
-                LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
-                    ->where('user_id', $leaveApp->user_id)
-                    ->decrement('initial_bal', $leaveApp->count);
             }
 
+            $res['request_id'] = $request_id;
+            $res['action']     = $request->action;
+            $res['flag']       = 1;
+            return $res;
+            
+        }else{
+
+            $res['msg']     = 'Action already taken. Click OK to refresh the page.';
+            $res['flag']    = 0;
+            return $res;
         }
 
-        $res['request_id'] = $request_id;
-        $res['action']     = $request->action;
+        
+    }
 
+    public function admin_approval(Request $request, $request_id){
+
+        $app_request = LeaveApply::where('id', $request_id)->first();
+
+        if($app_request->admin_approval == 0){
+
+
+            //Update leave aaplication status and approver' id.
+
+            $leaveApp  = LeaveApply::find($request_id);
+            $leaveApp->reason = $request->reason;
+            $leaveApp->save();
+
+            //Check if ID 1(APPROVE)
+
+            if($request->action == 1){
+
+                LeaveApply::where('id',$request_id)->update(['admin_approval' => $request->action]);
+
+                //Update record when application approve
+
+                $detail = LeaveApprovalDetail::where('leave_apply_id', $request_id)->first();
+
+                $json = json_decode($detail['approver_id']);
+
+                LeaveApprovalDetail::where('leave_apply_id', $request_id)
+                    ->update([
+                    'approver_id' => json_encode(
+                        ['teamlead_approval' => $json->teamlead_approval,
+                         'subadmin_approval' => $json->subadmin_approval,
+                         'admin_approval' => Auth::id() ]) ]);
+            }else{
+
+                    LeaveApply::findOrFail($request_id)
+                            ->update([
+                                'admin_approval' => $request->action,
+                                'approver_remark'=> $request->text,
+                                'rejected_by'       => Auth::id()]);
+
+                //Update leave balance if request declined.
+                $leave_mast = LeaveMast::find($leaveApp->leave_type_id);
+
+                if($leave_mast->without_pay != 1){
+                    
+                    //Increment leave balance if declined
+                    LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
+                        ->where('user_id', $leaveApp->user_id)
+                        ->increment('initial_bal', $leaveApp->paid_count);
+
+                    $withoutpay_id = LeaveMast::where('without_pay', 1)
+                        ->first()
+                        ->id;
+
+                    if($leaveApp->unpaid_count != null){
+
+                    //Decrement unpaid_count from initial_bal if leave added to unpaid count for leave without pay leave.
+                        LeaveAllotment::where('leave_mast_id', $withoutpay_id)
+                            ->where('user_id', $leaveApp->user_id)
+                            ->decrement('initial_bal', $leaveApp->unpaid_count);
+                    }
+
+                }else{
+                    LeaveAllotment::where('leave_mast_id', $leaveApp->leave_type_id)
+                        ->where('user_id', $leaveApp->user_id)
+                        ->decrement('initial_bal', $leaveApp->count);
+                }
+
+            }
+
+            $res['request_id'] = $request_id;
+            $res['action']     = $request->action;
+            $res['flag']       = 1;
+
+            
+        }else{
+
+            $res['msg']     = 'Action already taken. Click OK to refresh the page.';
+            $res['flag']    = 0;
+        }
         return $res;
     }
     public function approve_leave(Request $request, $request_id){
@@ -544,79 +590,98 @@ class LeavesController extends Controller
 
 
     public function tl_reverse($request_id){
+
+
         $detail = LeaveApply::with(['approvaldetail', 'leavetype'])
             ->where('id', $request_id)
             ->first();
 
-        //Update leave status and carry
+        if($detail->carry_count == null){
+            //Update leave status and carry
 
-        LeaveApply::where('id', $request_id)
-                ->update([
-                    'teamlead_approval' => 3,
-                    'carry_count'  => $detail->count,
-                    'paid_count'=> 0,
-                    'unpaid_count'=>0]);
-
-        //Find Leave with Leave_type_id
-
-        //$leave = LeaveMast::where('id', $detail->leave_type_id)->first();
-
-        //Increment/Decrement Leave allotment balance if its without pay
-
-        if($detail['leavetype']->without_pay == 1){
-            LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
-                        ->where('user_id', $detail->user_id)
-                        ->decrement('initial_bal', $detail->count);
-        }else{
-            LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
-                        ->where('user_id', $detail->user_id)
-                        ->increment('initial_bal', $detail->count);
-        }
-
-        //Update id of the user who reversed leave request.
-
-        LeaveApprovalDetail::where('leave_apply_id', $request_id)
-            ->update(['reversed_by' => Auth::id()]);
-
-        return 'Leave reversed.';
-    }
-
-    public function hr_reverse($request_id){
-        $detail = LeaveApply::with(['approvaldetail', 'leavetype'])
-            ->where('id', $request_id)
-            ->first();
-
-        //Update leave status and carry
-
-       LeaveApply::where('id', $request_id)
+            LeaveApply::where('id', $request_id)
                     ->update([
-                        'subadmin_approval' => 3,
+                        'teamlead_approval' => 3,
                         'carry_count'  => $detail->count,
                         'paid_count'=> 0,
                         'unpaid_count'=>0]);
-       
-        //Find Leave with Leave_type_id
 
-        //$leave = LeaveMast::where('id', $detail->leave_type_id)->first();
+            //Find Leave with Leave_type_id
 
-        //Increment/Decrement Leave allotment balance if its without pay
+            //$leave = LeaveMast::where('id', $detail->leave_type_id)->first();
 
-        if($detail['leavetype']->without_pay == 1){
-            LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
-                        ->where('user_id', $detail->user_id)
-                        ->decrement('initial_bal', $detail->count);
+            //Increment/Decrement Leave allotment balance if its without pay
+
+            if($detail['leavetype']->without_pay == 1){
+                LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
+                            ->where('user_id', $detail->user_id)
+                            ->decrement('initial_bal', $detail->count);
+            }else{
+                LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
+                            ->where('user_id', $detail->user_id)
+                            ->increment('initial_bal', $detail->count);
+            }
+
+            //Update id of the user who reversed leave request.
+
+            LeaveApprovalDetail::where('leave_apply_id', $request_id)
+                ->update(['reversed_by' => Auth::id()]);
+            $res['flag'] = 1;
+            return $res;
         }else{
-            LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
-                        ->where('user_id', $detail->user_id)
-                        ->increment('initial_bal', $detail->count);
+            $res['flag'] = 0;
+            $res['msg'] = 'Actions already taken. Click OK to refresh.';
+            return $res;
         }
 
-        //Update id of the user who reversed leave request.
+        
+    }
 
-        LeaveApprovalDetail::where('leave_apply_id', $request_id)
-            ->update(['reversed_by' => Auth::id()]);
+    public function hr_reverse($request_id){
 
-        return 'Leave reversed.';
+        $detail = LeaveApply::with(['approvaldetail', 'leavetype'])
+            ->where('id', $request_id)
+            ->first();
+
+        if($detail->carry_count == null){
+            //Update leave status and carry
+
+           LeaveApply::where('id', $request_id)
+                        ->update([
+                            'subadmin_approval' => 3,
+                            'carry_count'  => $detail->count,
+                            'paid_count'=> 0,
+                            'unpaid_count'=>0]);
+           
+            //Find Leave with Leave_type_id
+
+            //$leave = LeaveMast::where('id', $detail->leave_type_id)->first();
+
+            //Increment/Decrement Leave allotment balance if its without pay
+
+            if($detail['leavetype']->without_pay == 1){
+                LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
+                            ->where('user_id', $detail->user_id)
+                            ->decrement('initial_bal', $detail->count);
+            }else{
+                LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
+                            ->where('user_id', $detail->user_id)
+                            ->increment('initial_bal', $detail->count);
+            }
+
+            //Update id of the user who reversed leave request.
+
+            LeaveApprovalDetail::where('leave_apply_id', $request_id)
+                ->update(['reversed_by' => Auth::id()]);
+
+             $res['flag'] = 1;
+            return $res;
+        }else{
+            $res['flag'] = 0;
+            $res['msg'] = 'Actions already taken. Click OK to refresh.';
+            return $res;
+        }
+        
     }
 
 
@@ -626,37 +691,45 @@ class LeavesController extends Controller
             ->where('id', $request_id)
             ->first();
 
-        //Update leave status and carry
+        if($detail->carry_count == null){
+            //Update leave status and carry
 
-            LeaveApply::where('id', $request_id)
-                    ->update([
-                        'admin_approval' => 3,
-                        'carry_count'  => $detail->count,
-                        'paid_count'=> 0,
-                        'unpaid_count'=>0]);
+                LeaveApply::where('id', $request_id)
+                        ->update([
+                            'admin_approval' => 3,
+                            'carry_count'  => $detail->count,
+                            'paid_count'=> 0,
+                            'unpaid_count'=>0]);
 
-        //Find Leave with Leave_type_id
+            //Find Leave with Leave_type_id
 
-        //$leave = LeaveMast::where('id', $detail->leave_type_id)->first();
+            //$leave = LeaveMast::where('id', $detail->leave_type_id)->first();
 
-        //Increment/Decrement Leave allotment balance if its without pay
+            //Increment/Decrement Leave allotment balance if its without pay
 
-        if($detail['leavetype']->without_pay == 1){
-            LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
-                        ->where('user_id', $detail->user_id)
-                        ->decrement('initial_bal', $detail->count);
+            if($detail['leavetype']->without_pay == 1){
+                LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
+                            ->where('user_id', $detail->user_id)
+                            ->decrement('initial_bal', $detail->count);
+            }else{
+                LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
+                            ->where('user_id', $detail->user_id)
+                            ->increment('initial_bal', $detail->count);
+            }
+
+            //Update id of the user who reversed leave request.
+
+            LeaveApprovalDetail::where('leave_apply_id', $request_id)
+                ->update(['reversed_by' => Auth::id()]);
+
+            $res['flag'] = 1;
+            return $res;
         }else{
-            LeaveAllotment::where('leave_mast_id', $detail->leave_type_id)
-                        ->where('user_id', $detail->user_id)
-                        ->increment('initial_bal', $detail->count);
+            $res['flag'] = 0;
+            $res['msg'] = 'Actions already taken. Click OK to refresh.';
+            return $res;
         }
-
-        //Update id of the user who reversed leave request.
-
-        LeaveApprovalDetail::where('leave_apply_id', $request_id)
-            ->update(['reversed_by' => Auth::id()]);
-
-        return 'Leave reversed.';
+        
     }
 
    /* public function reverse($request_id){

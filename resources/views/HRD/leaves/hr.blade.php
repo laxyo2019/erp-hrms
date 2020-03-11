@@ -197,13 +197,19 @@ $(document).ready(function(){
 			data: {'action':action, 'text':txt},
 			success:function(res){
 
-				$('#apprvBtn_'+request_id).hide();
-				$('#decBtn_'+request_id).hide();
-				if(res.action == 1){
-					$('#apprv_msg_'+request_id).show();
-				}else{
+				if(res.flag == 1){
 					
-					$('#dec_msg_'+request_id).show();
+					$('#apprvBtn_'+request_id).hide();
+					$('#decBtn_'+request_id).hide();
+					if(res.action == 1){
+						$('#apprv_msg_'+request_id).show();
+					}else if(res.flag == 0){
+						
+						$('#dec_msg_'+request_id).show();
+					}
+				}else if(res.flag == 0){
+					alert(res.msg)
+					location.reload();
 				}
 			}
 		})
@@ -221,9 +227,13 @@ $(document).ready(function(){
 			//data: {action:'action'},
 			success:function(res){
 
-				$('#revBtn_'+request_id).hide();
-				$('#rev_msg_'+request_id).show();
+				if(res.flag == 1){
 
+					$('#revBtn_'+request_id).hide();
+					$('#rev_msg_'+request_id).show();
+				}else if( res.msg == 0)
+					alert(res.msg);
+					location.reload();
 			}
 		});
 	});

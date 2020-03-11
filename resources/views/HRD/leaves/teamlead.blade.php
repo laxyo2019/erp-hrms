@@ -14,7 +14,7 @@
 								<button type="button" class="close" data-dismiss="alert" >×</button>
 								{{$message}}
 							</div>
-						@endif 
+						@endif
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
@@ -37,7 +37,6 @@
 									<td>{{++$count}} </td>
 									<td>{{ucwords($request['employee']->emp_name)}}</td>
 									<td>{{ucwords($request['leavetype']->name)}}</td>
-									
 									<td>
 									@if($request->from && $request->to)
 										{{date('d M', strtotime($request->from))}} <strong>To</strong> {{date('d M, Y', strtotime($request->to))}}
@@ -195,13 +194,19 @@ $(document).ready(function(){
 			data: {'action':action, 'text':txt},
 			success:function(res){
 
-				$('#apprvBtn_'+request_id).hide();
-				$('#decBtn_'+request_id).hide();
-				if(res.action == 1){
-					$('#apprv_msg_'+request_id).show();
-				}else{
-					
-					$('#dec_msg_'+request_id).show();
+				if(res.flag == 1){
+
+					$('#apprvBtn_'+request_id).hide();
+					$('#decBtn_'+request_id).hide();
+					if(res.action == 1){
+						$('#apprv_msg_'+request_id).show();
+					}else{
+						
+						$('#dec_msg_'+request_id).show();
+					}
+				}else if(res.flag == 0){
+					alert(res.msg);
+					location.reload();
 				}
 			}
 		})
@@ -219,8 +224,14 @@ $(document).ready(function(){
 			//data: {action:'action'},
 			success:function(res){
 
-				$('#revBtn_'+request_id).hide();
-				$('#rev_msg_'+request_id).show();
+				if(res.flag == 1){
+
+					$('#revBtn_'+request_id).hide();
+					$('#rev_msg_'+request_id).show();
+				}else if(res.flag == 0){
+					alert(res.msg)
+					location.reload();
+				}
 
 			}
 		});

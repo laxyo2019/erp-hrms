@@ -21,20 +21,26 @@
 						{{empty($employee->emp_name)?'':strtoupper($employee->emp_name)}}
 					</div>
 					<div class="col-6 form-group">
+						<label for=""><b>Father's Name : </b></label>
+						{{empty($employee->emp_name)?'':strtoupper($employee->emp_name)}}
+					</div>
+					<div class="col-6 form-group">
 						<label for=""><b>Date of Birth : </b></label>
 						{{empty($employee->emp_dob) ? '' : $employee->emp_dob}}
 					</div>
-                
-                
                 	<div class="col-6 form-group">
 						<label for=""><b>Gender : </b></label>
 						{{empty($employee->emp_gender) ? '' : strtoupper($employee->emp_gender)}}
 					</div> 
-                
+                	
                  
 					<div class="col-6 form-group">
 						<label for=""><b>Blood Group : </b></label>
 					{{empty($employee->blood_grp) ? '' : $employee->blood_grp}}
+					</div>
+					<div class="col-6 form-group">
+						<label for=""><b>Marital Status : </b></label>
+						{{empty($employee->emp_name)?'':strtoupper($employee->emp_name)}}
 					</div>
                 </div>
                 <div class="row mb-6">

@@ -93,7 +93,13 @@ class EmployeesController extends Controller
       $file_ext = $request->file('file_path')->extension();
       $filename = $user_id.'_'.time().'_emp_img.'.$file_ext;
       $path     = $request->file('file_path')->storeAs($dir, $filename);
+
+      EmployeeMast::where('user_id', $user_id)
+        ->update(['emp_img' => $path]);
+
+
     }else{
+
       //$path = 'emp_default_image.png';
     }
 
@@ -104,7 +110,6 @@ class EmployeesController extends Controller
         'emp_dob'    => $request->emp_dob,
         'blood_grp'  => $request->blood_group,
         'emp_father' => $request->emp_father,
-        'emp_img'  => $path,
         'curr_addr'  => $request->curr_addr,
         'perm_addr'  => $request->perm_addr,
         'marital_status'=> $request->marital_status,
@@ -533,22 +538,26 @@ class EmployeesController extends Controller
     }
 
     if($view == 'academics'){
-      $employee = EmployeeMast::with('academics')->where('user_id',$user_id)->first();
+      $employee = EmployeeMast::with('academics')->where('user_id', $user_id)->first();
     }
 
     if($view == 'experience'){
 
-      $employee = EmployeeMast::with('experiences')->where('user_id',$user_id)->first();
+      $employee = EmployeeMast::with('experiences')->where('user_id', $user_id)->first();
     }
 
     if($view == 'documents'){
 
-      $employee = EmployeeMast::with('documents')->where('user_id',$user_id)->first();
+      $employee = EmployeeMast::with('documents')->where('user_id', $user_id)->first();
      
     }
 
     if($view == 'nominee'){
-       $employee = EmployeeMast::with('nominee')->where('user_id',$user_id)->first();
+       $employee = EmployeeMast::with('nominee')->where('user_id', $user_id)->first();
+    }
+
+    if($view == 'familydetails'){
+      $employee = EmployeeMast::with('family')->where('user_id', $user_id)->first();
     }
 
     return view($path,compact('employee','meta'));

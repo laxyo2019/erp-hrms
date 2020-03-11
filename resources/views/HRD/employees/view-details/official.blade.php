@@ -1,4 +1,3 @@
-{{-- Created by kishan Developer --}}
 @extends('layouts.master')
 @push('styles')
 	<script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
@@ -75,17 +74,23 @@
 					{{empty($meta->aadhar_no)?'':$meta->aadhar_no}}
 					</div>
 					<div class="col-6 form-group">
+						<label for=""><b>PAN Card No : </b></label>
+					{{empty($meta->pan_no)?'':$meta->pan_no}}
+					</div>
+					<div class="col-6 form-group">
+						<label for=""><b>Voter ID No: </b></label>
+					{{empty($meta->voter_id)?'':$meta->voter_id}}
+					</div>
+					<div class="col-6 form-group">
 						<label for=""><b>Driving License No : </b></label>
 					{{empty($meta->driv_lic)?'':$meta->driv_lic}}
 					</div>
 					<div class="col-6 form-group">
-						<label for=""><b>PAN Card No : </b></label>
-					{{empty($meta->pan_no)?'':$meta->pan_no}}
+						<label for=""><b>Passport ID : </b></label>
+					{{empty($meta->passport_id) ? '' : $meta->passport_id}}
 					</div>
-                 	<div class="col-6 form-group">
-						<label for=""><b>Voter ID No: </b></label>
-					{{empty($meta->voter_id)?'':$meta->voter_id}}
-					</div>
+					
+                 	
                 </div>
                 <div class="row mb-4">
 	               
@@ -140,4 +145,3 @@
 	});
 </script>
 @endsection
-{{-- End Created by kishan Developer --}}

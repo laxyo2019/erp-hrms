@@ -222,16 +222,20 @@
 										    </div>
 										</div>
 										
-@if($leaveapply->teamlead_approval == 0)
-										<span class="ml-2">
-											<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
-													@csrf
-													@method('DELETE')
-												<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
-											</form>
-										</span> 
-									@endif
-										
+								@if($leaveapply->teamlead_approval == 0)
+									<span class="ml-2">
+										<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
+												@csrf
+												@method('DELETE')
+											<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
+
+
+										</form>
+									</span> 
+									<span class="ml-2" >
+										<button class="btn btn-sm btn-danger"><i class="fa fa-trash text-white"  style="font-size: 12px;" id="delRequest"></i></button>
+									</span>
+								@endif
 									</td>
 								</tr>
 								@endforeach
@@ -242,8 +246,7 @@
 				</div>
 			</div>
 		</div>
-</main>
-
+	</main>
 <script type="text/javascript">
 	$(document).ready(function(){
 		// $('#ClientsTable').DataTable();

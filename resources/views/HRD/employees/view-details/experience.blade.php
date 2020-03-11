@@ -37,6 +37,23 @@
 								<b>Company Location : </b>
 								{{strtoupper($exp->comp_loc)}}
 							</div>
+							
+							<div class="col-6 form-group">
+								<b>Experience Certificate : </b>
+								@if($exp->file_path != null)
+									<a href="{{route('employees.download', ['db_table' => 'hrms_emp_exp', $exp->id])}}"><i class="fa fa-arrow-down"></i>Download</a>
+								@else
+									Not Available
+								@endif
+							</div>	
+							<div class="col-6 form-group">
+								<b>Start Date : </b>
+								{{$exp->start_dt}}
+							</div>
+							<div class="col-6 form-group">
+								<b>End Date : </b>
+								{{$exp->end_dt}}
+							</div>
 							<div class="col-6 form-group">
 								<b>Company Email : </b>
 								{{$exp->comp_email}}
@@ -46,20 +63,8 @@
 								{{$exp->comp_website}}
 							</div>
 							<div class="col-6 form-group">
-								<b>Experience Certificate : </b>
-								@if($exp->file_path != null)
-									<a href="{{route('employees.download', ['db_table' => 'hrms_emp_exp', $exp->id])}}"><i class="fa fa-arrow-down"></i>Download</a>
-								@else
-									Not Available
-								@endif
-						</div>	
-							<div class="col-6 form-group">
-								<b>Start Date : </b>
-								{{$exp->start_dt}}
-							</div>
-							<div class="col-6 form-group">
-								<b>End Date : </b>
-								{{$exp->end_dt}}
+								<b>Total Experience (In Years) : </b>
+								{{$exp->total_exp}}
 							</div>
 							<div class="col-6 form-group">
 								<b>Reason of Leaving : </b>

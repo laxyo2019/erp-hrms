@@ -118,7 +118,7 @@
 								@enderror
 							@else
 							<div align="right">
-								<img src="{{asset('storage/'.trim($employee->emp_img, 'public'))}}" height="180" width="180" class="app-sidebar__user-avatar">
+								<img src="{{asset('storage/'.trim($employee->emp_img, 'public'))}}" height="180" width="180" class="">
 								<div class="col-8">
 								<input type="file" name="file_path" class="form-group-file" id="file_path" value="{{ old('file_path')}}">
 								</div>

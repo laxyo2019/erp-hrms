@@ -95,7 +95,7 @@
 				      	@enderror
 					</div>
 					<div class="col-6 form-group">
-						<label for="">Total Experience ( In months )</label>
+						<label for="">Total Experience ( In Years )</label>
 						<input type="text" class="form-control datepicker" name="total_exp"
 							value="{{old('total_exp',isset($exp->total_exp) ? $exp->total_exp : '')}}" autocomplete="off" id="total_exp">
 						@error('total_exp')
