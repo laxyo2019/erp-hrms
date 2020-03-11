@@ -131,7 +131,7 @@ class UserController extends Controller
         //return $user_id;
         $employee = new EmployeeMast;
         $employee->emp_name = strtolower($request->name);
-        $employee->email    = strtolower($request->email);
+        $employee->comp_email    = strtolower($request->email);
         $employee->user_id  = $user_id;
         $employee->save();
 
