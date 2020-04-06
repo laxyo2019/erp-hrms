@@ -7,6 +7,7 @@ use App\Imports\UsersImport;
 use App\Exports\UsersExport;
 use App\Models\Birthday;
 use Maatwebsite\Excel\Facades\Excel;
+use App\MessageFormate;
 
 
 class BirthdayWish extends Controller
@@ -68,5 +69,31 @@ class BirthdayWish extends Controller
     {
         $data = Excel::download(new UsersExport, 'birthdayPersons.xlsx');
         return redirect('birthday_wish');
+    }
+
+    public function getMessage(){
+        $data = MessageFormate::all();
+        return view('message.index',compact('data'));
+    }
+
+    public function create_message(){
+       return view('message.create');
+    }
+
+     public function edit_message($id){
+        $data = MessageFormate::find($id);
+       return view('message.edit',compact('data'));
+    }
+
+    public function save_message(Request $request){
+       $data = $request->validate(['message'=>'required']);
+       MessageFormate::create($data);
+       return redirect('get_message');
+    }
+
+    public function update_message(Request $request,$id){
+        $data = $request->validate(['message'=>'required']);
+        MessageFormate::where('id',$id)->update($data);
+        return redirect('get_message');   
     }
 }

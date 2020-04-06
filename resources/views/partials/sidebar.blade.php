@@ -92,9 +92,10 @@
       <li><a class="app-menu__item {{Request::segment(1) == 'settings' ? 'active' : ''}}" href="{{route('mast_entity.home')}}"><i class="app-menu__icon fa fa-cog"></i><span class="app-menu__label">Settings</span></a></li>
       
       <li><a class="app-menu__item {{Request::segment(1) == 'branches' ? 'active' : ''}}" href="{{route('branches.index')}}"><i class="app-menu__icon fa fa-plus-square-o"></i><span class="app-menu__label">Add Branch</span></a></li>
-      <li><a class="app-menu__item {{Request::segment(1) == 'branches' ? 'active' : ''}}" href="{{route('birthday_wish.index')}}"><i class="app-menu__icon fa fa-plus-square-o"></i><span class="app-menu__label">Birthdat Wish</span></a></li>
+      <li><a class="app-menu__item {{Request::segment(1) == 'branches' ? 'active' : ''}}" href="{{route('birthday_wish.index')}}"><i class="app-menu__icon fa fa-plus-square-o"></i><span class="app-menu__label">Birthday Wish</span></a></li>
+      <li><a class="app-menu__item {{Request::segment(1) == 'get_message' ? 'active' : ''}}" href="{{route('get_message')}}"><i class="app-menu__icon fa fa-plus-square-o"></i><span class="app-menu__label">Add  B'day Message</span></a></li>
 
-    {{-- User's role & permissions --}}
+    {{-- User's role & permissions --}} 
     
 
     <li class="treeview {{call_user_func_array('Request::is', (array)['acl*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-book "></i><span class="app-menu__label">User Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
