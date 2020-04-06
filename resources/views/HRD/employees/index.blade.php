@@ -93,7 +93,7 @@
 		                    </div>
 		                @endif
 						</div>
-              			</td>	
+              			</td>
 						<td class='d-flex' style="border-bottom:none">
 							<span>
 								<a href="{{route('employee.view-details',['id'=>$employee->user_id,'view'=>'personal'])}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>

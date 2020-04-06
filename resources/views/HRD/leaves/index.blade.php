@@ -18,24 +18,24 @@
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
-									<th>##</th>
-									<th>EMPLOYEE</th>
-									<th>TYPE</th>
-									<th>DETAILS</th>
-									<th>LEAVE PERIOD</th>
-									<th>DURATION</th>
-									<th>POSTED ON</th>
-									@if(auth()->user()->hasrole('hrms_teamlead'))
-										<th>HR</th>
-										<th>ADMIN</th>
-									@elseif(auth()->user()->hasrole('hrms_hr'))
-										<th>TEAM LEAD</th>
-										<th>ADMIN</th>
-									@else
-										<th>TEAM LEAD</th>
-										<th>HR</th>
-									@endif
-									<th style="text-align: center;">ACTIONS</th>
+								<th>##</th>
+								<th>EMPLOYEE</th>
+								<th>TYPE</th>
+								<th>DETAILS</th>
+								<th>LEAVE PERIOD</th>
+								<th>DURATION</th>
+								<th>POSTED ON</th>
+								@if(auth()->user()->hasrole('hrms_teamlead'))
+									<th>HR</th>
+									<th>ADMIN</th>
+								@elseif(auth()->user()->hasrole('hrms_hr'))
+									<th>TEAM LEAD</th>
+									<th>ADMIN</th>
+								@else
+									<th>TEAM LEAD</th>
+									<th>HR</th>
+								@endif
+								<th style="text-align: center;">ACTIONS</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -49,20 +49,20 @@
 									<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}">
 										<i class="fa fa-eye" style="font-size: 12px;"></i>
 									</button></td>
-									<div class="modal fade" id="reqModal" role="dialog">
-									    <div class="modal-dialog modal-lg" >
-									    	<div class="modal-content" >
-									        	<div class="modal-header">
-									        		<h4 class="modal-title">Request Detail</h4>
-									        	</div>
-									        	<div class="modal-body table-responsive" id="detailTable" style="background: #ececec">
-									        	</div>
-									        	 <div class="modal-footer">
-									          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-									        </div>
-									        </div>
-									    </div>
-									</div>
+<div class="modal fade" id="reqModal" role="dialog">
+    <div class="modal-dialog modal-lg" >
+    	<div class="modal-content" >
+        	<div class="modal-header">
+        		<h4 class="modal-title">Request Detail</h4>
+        	</div>
+        	<div class="modal-body table-responsive" id="detailTable" style="background: #ececec">
+        	</div>
+        	 <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div>
 									<td>
 									@if($request->from && $request->to)
 										{{date('d M', strtotime($request->from))}} <strong>To</strong> {{date('d M, Y', strtotime($request->to))}}

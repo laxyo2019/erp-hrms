@@ -17,7 +17,6 @@ Route::post('/logout', 'LoginController@logout')->name('logout');
 //Auth::routes(['register' => false]);
 
 
-
 Route::resource('/information', 'InformationController');
 
 Route::resource('/employee/leaves','Employee\LeavesController');
@@ -193,9 +192,45 @@ Route::get('balance', 'Employee\LeavesController@balance');
 
 Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_designation')->name('employees.fetch_designation');
 
+/*****************************************/
+	//	Recruitement Requests
+
+Route::resource('recruitment', 'recruitment\RequestController');
 
 
 
+
+/** SubAdmin ***/
+Route::get('recruit-posting/subadmin', 'recruitment\RecruitPostingController@indexSubAdmin')->name('recruit.subadmin');
+
+Route::post('recruit-posting/subadmin/{id}', 'recruitment\RecruitPostingController@SubAdminApproval')->name('recruit.subadmin.approved');
+
+/*** Admin ***/
+
+Route::get('recruit-posting/admin', 'recruitment\RecruitPostingController@indexAdmin')->name('recruit.admin');
+
+Route::post('recruit-posting/admin/{id}', 'recruitment\RecruitPostingController@AdminApproval')->name('recruit.admin.approved');
+
+/*** HR ***/
+Route::get('recruit-posting/hr', 'recruitment\RecruitPostingController@indexHr')->name('recruit.hr');
+
+Route::post('recruit-posting/hr/{id}', 'recruitment\RecruitPostingController@HrApproval')->name('recruit.hr.approved');
+
+Route::resource('recruit-posting', 'recruitment\RecruitPostingController', ['except' => 'index']);
+
+/***Add Users with job posting respectivly***/
+
+Route::get('/recruit/{job_id}/candidates', 'recruitment\CandidateController@index')->name('candidates.index');
+
+Route::post('/recruit/candidates/store', 'recruitment\CandidateController@store')->name('candidates.store');
+
+Route::get('/recruit/candidates/{id}', 'recruitment\CandidateController@show');
+
+Route::delete('/recruit/candidate/{candidate_id}', 'recruitment\CandidateController@destroy')->name('candidates.destroy');
+
+Route::get('candidate/{id}/download', 'recruitment\CandidateController@downloadResume')->name('download.resume');
+
+// End of Recruitement Requests -----------
 
 
 /******User Registration******/
@@ -203,7 +238,6 @@ Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_de
 
 
 Route::get('/home', 'HomeController@index')->name('home');
-
 
 
 /*

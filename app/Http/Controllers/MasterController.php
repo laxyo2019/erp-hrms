@@ -14,6 +14,9 @@ use App\Models\Master\DocTypeMast;
 use App\Models\Master\Designation;
 use App\Models\Master\MaritalStatus;
 use App\Models\Master\NomineeType;
+use App\Models\Master\EmployementType;
+use App\Models\Master\EduLevel;
+use App\Models\Master\ExpLevel;
 
 
 class MasterController extends Controller
@@ -87,6 +90,27 @@ class MasterController extends Controller
 						'icon'			=> 'fa fa-user-secret',
 						'bg_color'		=> '#28a745',
 						'count'			=> NomineeType::count()
+						),
+				array(
+						'table_name'	=> 'recruit_employement_type',
+						'display_name'	=> 'Employement Types',
+						'icon'			=> 'fa fa-user-secret',
+						'bg_color'		=> '#28a745',
+						'count'			=> EmployementType::count()
+						),
+				array(
+						'table_name'	=> 'recruit_exp_level',
+						'display_name'	=> 'Experienced Levels',
+						'icon'			=> 'fa fa-user-secret',
+						'bg_color'		=> '#28a745',
+						'count'			=> EmployementType::count()
+						),
+				array(
+						'table_name'	=> 'recruit_education_level',
+						'display_name'	=> 'Education Levels',
+						'icon'			=> 'fa fa-user-secret',
+						'bg_color'		=> '#28a745',
+						'count'			=> EmployementType::count()
 						),
 /*
 				array(
@@ -185,7 +209,10 @@ class MasterController extends Controller
 					'hrms_desg_mast'		=>  'Employee Designations',
 					'hrms_emp_type_mast'	=>  'Employee Types',
 					'hrms_emp_grade_mast'	=> 	'Employee Grades',
-					'hrms_nominee_type'		=> 	'Nominee Types'
+					'hrms_nominee_type'		=> 	'Nominee Types',
+					'employement_type' 		=> 	'Employement Types',
+					'recruit_exp_level' 	=> 	'Experienced Levels',
+					'recruit_education_level'=> 'Education Levels',
 					/*'leave_type_mast'		=> 	'Leave Types',
 				  	'acitvity_mast'			=> 	'Activities'
 					'asset_mast'			=>	'Assets',
