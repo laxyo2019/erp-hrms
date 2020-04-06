@@ -38,9 +38,6 @@
     {{-- For HR --}}
     @role('hrms_hr')
     
-    {{-- @if(session('leave')['allotment'] && !empty(session('leave')['reallotment'][0]->status)?session('leave')['reallotment'][0]->status:'' == 1)
-     <li><a class="app-menu__item"   href="{{url('employee/leaves')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Apply Leave</span></a></li>
-    @endif --}}
     <li>
       <a class="app-menu__item {{Request::segment(2) == 'hr' ? 'active' : ''}} " href="{{route('request.hr')}}"><i class="app-menu__icon fa fa-pencil-square-o"></i><span class="app-menu__label">Leaves Request (HR)</span>
       </a>
@@ -55,28 +52,54 @@
       <a class="app-menu__item {{Request::segment(2) == 'teamlead' ? 'active' : ''}} " href="{{route('request.teamlead')}}"><i class="app-menu__icon fa fa-pencil-square-o"></i><span class="app-menu__label">Leaves Request (TL)</span>
       </a>
     </li>
-   {{--  @if(session('leave')['allotment'] && !empty(session('leave')['reallotment'][0]->status)?session('leave')['reallotment'][0]->status:'' == 1)
-     <li><a class="app-menu__item"   href="{{url('employee/leaves')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Apply Leave</span></a></li>
-    @endif --}}
     
     @endrole
 
     {{-- For Employees --}}
     @role('hrms_employee|hrms_teamlead|hrms_hr')
-    {{-- <li>
-      <a class="app-menu__item {{request()->segment(1) == 'information' ? 'active' : ''}} " href="{{route('information.index')}}">
-        <i class="app-menu__icon fa fa-address-book-o"></i><span class="app-menu__label">Profile</span>
-      </a>
-    </li> --}}
+    
     @if(session('leave')['allotment'] && !empty(session('leave')['reallotment'][0]->status)?session('leave')['reallotment'][0]->status:'' == 1)
      <li><a class="app-menu__item"   href="{{url('employee/leaves')}}"><i class="app-menu__icon fa fa-angle-double-right"></i><span class="app-menu__label">Apply Leave</span></a></li>
     @endif
     @endrole
 
+
+    {{---  Recruitment   --}}
+      
+      @role('hrms_admin')
+        <li>
+          <a class="app-menu__item {{Request::segment(1) == 'recruit-posting' ? 'active' : ''}} " href="{{route('recruit.admin')}}"><i class="app-menu__icon fa fa-pencil-square-o"></i><span class="app-menu__label">Recruitment Posting</span>
+          </a>
+        </li>
+      @endrole
+
+      @role('hrms_subadmin')
+
+      <li>
+        <a class="app-menu__item {{Request::segment(1) == 'recruit-posting' ? 'active' : ''}} " href="{{route('recruit.subadmin')}}"><i class="app-menu__icon fa fa-pencil-square-o"></i><span class="app-menu__label">Recruitment Posting</span>
+        </a>
+      </li>
+
+      @endrole
+
+      @role('hrms_recruiter')
+      <li>
+        <a class="app-menu__item {{Request::segment(1) == 'recruitment' ? 'active' : ''}} " href="{{route('recruitment.index')}}"><i class="app-menu__icon fa fa-pencil-square-o"></i><span class="app-menu__label">Recruitment Requests</span>
+        </a>
+      </li>
+      @endrole
+
+      @role('hrms_hr')
+      <li>
+        <a class="app-menu__item {{Request::segment(1) == 'recruit-posting' ? 'active' : ''}} " href="{{route('recruit.hr')}}"><i class="app-menu__icon fa fa-pencil-square-o"></i><span class="app-menu__label">Recruitment Posting</span>
+        </a>
+      </li>
+      @endrole
+
     {{-- Employees tab --}}
 
-
     @role('hrms_admin|hrms_hr')
+
     {{-- Leave Management Tab --}}
 
       <li class="treeview {{call_user_func_array('Request::is', (array)['leave*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">Leave Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
@@ -103,7 +126,10 @@
         <li class={{call_user_func_array('Request::is', (array)['acl/roles*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('roles.index')}}"><i class="icon fa fa-angle-double-right"></i>Roles</a></li>
          <li class={{call_user_func_array('Request::is', (array)['acl/users*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('users.index')}}"><i class="icon fa fa-angle-double-right"></i>Users</a></li>
       @endrole
-  </ul>
+
+      
+
+      </ul>
 </aside>
 <script>
   $("#nav").click(function(e){

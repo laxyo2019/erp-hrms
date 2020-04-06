@@ -31,8 +31,7 @@
 			@elseif($data->day_status == 3)
 				{{$data->count}} days
 			@endif
-{{-- 
-
+{{--
 {{ !empty($data->first_half || $data->second_half) ? 'Half day' : $data->count.' days'}} --}}
 		</div>
 	</div>
