@@ -25,7 +25,7 @@ class CandidateController extends Controller
     public function index($job_id)
     {
         $requirement = RecruitRequest::where('id', $job_id)
-                        ->select('id', 'job_title')
+                        ->select('id', 'job_title', 'hr_actions')
                         ->first();
 
         $candidates = Candidate::where('job_title_id', $job_id)
@@ -52,41 +52,49 @@ class CandidateController extends Controller
      */
     public function store(Request $request)
     {
-        /*$this->validate($request, [
+        $request = RecruitRequest::where('id', $request->job_title_id)->first();
+
+        if($request->hr_actions == 0){
+
+            /*$this->validate($request, [
             'job_title_id'      => 'required',
             'candidate_name'    => 'required',
             'education_level'   => 'required',
             'contact'           => 'required',
             'email'             => 'email|required',
             'file_path'         => 'required'
-        ]);*/
+             ]);*/
 
         
 
-        /*** Directory structure ***/
+            /*** Directory structure ***/
 
-        if($request->hasFile('file_path')){
+            if($request->hasFile('file_path')){
 
-          $dir      = 'public/'.date("Y").'/'.date("F");
-          $file_ext = $request->file('file_path')->extension();
-          $filename = $request->job_title_id.'_'.time().'_candidate_CV.'.$file_ext;
-          $path     = $request->file('file_path')->storeAs($dir, $filename);
+              $dir      = 'public/'.date("Y").'/'.date("F");
+              $file_ext = $request->file('file_path')->extension();
+              $filename = $request->job_title_id.'_'.time().'_candidate_CV.'.$file_ext;
+              $path     = $request->file('file_path')->storeAs($dir, $filename);
 
+            }
+
+            Candidate::create([
+                'job_title_id' => $request->job_title_id,
+                'candidate_name' => $request->candidate_name,
+                'education_level' => $request->education_level,
+                'contact' => $request->contact,
+                'alt_contact' => $request->alt_contact,
+                'email' => $request->email,
+                'resume' => $path,
+                'candidate_details' => $request->Candidate_details
+
+            ]);
+
+            return back()->with('success', 'New candidate has been added.');
+        }else{
+            return back()->with('failed', 'You can\'t add new candidates now.');
         }
-
-        Candidate::create([
-            'job_title_id' => $request->job_title_id,
-            'candidate_name' => $request->candidate_name,
-            'education_level' => $request->education_level,
-            'contact' => $request->contact,
-            'alt_contact' => $request->alt_contact,
-            'email' => $request->email,
-            'resume' => $path,
-            'candidate_details' => $request->Candidate_details
-
-        ]);
-
-        return back()->with('success', 'New candidate has been added.');
+        
     }
 
     /**
@@ -145,6 +153,32 @@ class CandidateController extends Controller
         $candidate->delete();
 
         return back()->with('success', 'Record has been deleted.');
+    }
 
+    public function listing( $id){
+
+        $request    = RecruitRequest::where('id', $id)
+                        ->first();
+
+        $candidates = Candidate::where('job_title_id', $id)
+                        ->with(['education'])
+                        ->get();
+
+        return view('recruitment.candidates.listing', compact('candidates', 'request'));
+    }
+
+    public function listingShow( $id){
+
+        $candidate = Candidate::findOrFail($id)
+                        ->with(['education'])
+                        ->first();
+
+        return view('recruitment.candidates.view', compact('candidate'));
+    }
+
+    public function shortlist( $id){
+
+        $candidate = Candidate::where('id', $id)
+                        ->update(['recruiter_approval' => 1]);
     }
 }

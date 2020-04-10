@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\recruitment;
 
+use Auth;
 use Illuminate\Http\Request;
 use App\Models\Master\EmpType;
 use App\Models\Master\CompMast;
@@ -54,6 +55,7 @@ class RequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -63,9 +65,10 @@ class RequestController extends Controller
             'employement_type'  => 'required',
             'department'        => 'required',
             'requirements'      => 'required',
-
         ]);
+
         RecruitRequest::create([
+            'requested_by'          => Auth::id(),
             'job_title'             => $request->job_title,
             'comp_id'               => $request->company_name,
             'short_description'     => $request->short_description,
@@ -104,14 +107,21 @@ class RequestController extends Controller
      */
     public function edit($id)
     {
-        $request = RecruitRequest::find($id);
-        $comps          = CompMast::all();
-        $departments    = DeptMast::all();
-        $eduLevels      = EduLevel::all();
-        $expLevels      = ExpLevel::all();
-        $empTypes       = EmployementType::all();
 
-        return view('recruitment.edit', compact('request', 'comps', 'departments', 'empTypes', 'eduLevels', 'expLevels'));
+        $request = RecruitRequest::find($id);
+
+        if($request->subadmin_approval != 0){
+            $comps          = CompMast::all();
+            $departments    = DeptMast::all();
+            $eduLevels      = EduLevel::all();
+            $expLevels      = ExpLevel::all();
+            $empTypes       = EmployementType::all();
+
+            return view('recruitment.edit', compact('request', 'comps', 'departments', 'empTypes', 'eduLevels', 'expLevels'));
+        }else{
+
+        
+        }
     }
 
     /**
@@ -163,5 +173,20 @@ class RequestController extends Controller
             ->delete();
 
         return back()->with('success', 'Request Deleted Succesfully.');
+    }
+
+
+    public function apporvedByRecruiter( $id){
+
+        $request = RecruitRequest::where('id', $id)->first();
+
+        if($request->recruiter_approval == 0){
+
+            RecruitRequest::where('id', $id)
+                ->update(['recruiter_approval' => 1]);
+        }else{
+            return false;
+        }
+
     }
 }

@@ -15,6 +15,7 @@ class CreateRecruitmentsTable extends Migration
     {
         Schema::create('recruitments', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('requested_by');
             $table->string('job_title_id');
             $table->string('comp_id');
             $table->string('short_description')->nullable();
@@ -26,7 +27,7 @@ class CreateRecruitmentsTable extends Migration
             $table->string('employement_type_id')->nullable();
             $table->string('experience_level_id')->nullable();
             $table->string('education_level_id')->nullable();
-            $table->string('hr_approval')->default(0);
+            $table->string('hr_actions')->default(0);
             $table->string('subadmin_approval')->default(0);
             $table->string('admin_approval')->default(0);
             $table->timestamps();
@@ -41,6 +42,8 @@ class CreateRecruitmentsTable extends Migration
             $table->string('alt_contact')->nullable();
             $table->string('resume')->nullable();
             $table->string('candidate_details')->nullable();
+            $table->integer('recruiter_approval')->default(0);
+            $table->integer('hr_approval')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -10,11 +10,27 @@
 			<button type="button" class="close" data-dismiss="alert">×</button>
 			{{$message}}
 		</div>
+		@elseif($message = Session::get('failed'))
+		<div class="alert alert-danger alert-block">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			{{$message}}
+		</div>
 		@endif
 		<br>
 		<div>
 			<h4 style="color: grey">Job Title - {{ucwords($requirement->job_title)}}</h4>
-		</div><br>
+		</div>
+		<div>
+			<h4 style="color: grey">Status - 
+				@if($requirement->hr_actions == 0)
+					<span style="color: #0cac0c;">Open</span>
+				@elseif($requirement->hr_actions == 1)
+					<span style="color: #167cff;">Submitted</span>
+				@endif
+			</h4>
+		</div>
+		<br>
+		@if($requirement->hr_actions == 0)
 		<form action="{{route('candidates.store')}}" method="POST" enctype="multipart/form-data">
 			@csrf
 			<input type="text" name="job_title_id" value="{{$requirement->id}}" hidden="">
@@ -80,6 +96,7 @@
 			</div>
 			<input type="hidden" id="form_type" value="experiences">
 		</form><hr>
+		@endif
 		<table class="table table-striped table-hover table-bordered" id="CandidatesTable">
 				<thead class="thead-dark">
 					<tr>
@@ -90,16 +107,18 @@
 						<th class="text-center">Contact</th>
 						<th class="text-center">Details</th>
 						<th class="text-center">Candidate's CV</th>
-						<th class="text-center">Actions</th>
+						<th class="text-center">
+							{{$requirement->hr_actions == 0 ? 'Actions' : 'Status'}}
+						</th>
 					</tr>
 				</thead>
 				<tbody id="experiencesTbody">
 					@foreach($candidates as $candidate)
 					<tr>
 						<td>{{$candidate->id}}</td>
-						<td>{{$candidate->candidate_name}}</td>
-						<td>{{$candidate->education_level}}</td>
-						<td>{{$candidate->email}}</td>
+						<td>{{ucwords($candidate->candidate_name)}}</td>
+						<td>{{ucwords($candidate->education_level)}}</td>
+						<td>{{ucwords($candidate->email)}}</td>
 						<td>{{$candidate->contact}}</td>
 						<td class="text-center">
 							<button class="btn btn-sm btn-info modalResume ml-2 " data-id="{{$candidate->id}}">
@@ -122,13 +141,21 @@
 						</td>
 						<td class="text-center"><a href="{{route('download.resume', $candidate->id)}}"><i class="fa fa-arrow-down"></i>Download</a></td>
 						<td>
-						<span class="text-center">
-							<form action="{{route('candidates.destroy', $candidate->id)}}" method="POST" id="delform_{{ $candidate->id}}">
-									@csrf
-									@method('DELETE')
-								<a href="javascript:$('#delform_{{$candidate->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
-							</form>
-						</span> 
+							@if($candidate->recruiter_approval == 0 && $requirement->hr_actions == 0)
+							<span class="text-center">
+								<form action="{{route('candidates.destroy', $candidate->id)}}" method="POST" id="delform_{{ $candidate->id}}">
+										@csrf
+										@method('DELETE')
+									<a href="javascript:$('#delform_{{$candidate->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
+								</form>
+							</span>
+							@elseif($requirement->hr_actions == 1)
+								@if($candidate->recruiter_approval == 0)
+									<strong class="dec_msg" >REJECTED</strong>
+								@elseif($candidate->recruiter_approval == 1)
+									<strong class="apprv_msg" >SELECTED</strong>
+								@endif
+							@endif
 						</td>
 					</tr>
 					@endforeach
@@ -166,4 +193,27 @@ $(document).ready(function(){
 
 });
 </script>
+<style type="text/css">
+  .approve
+  {
+    background: #0cac0c;
+    color: white;
+  }
+  .decline
+  {
+    background: #ff1414;
+    color: white;
+  }
+ 
+  .apprv_msg{
+    color: #0cac0c;
+  }
+  .dec_msg{
+    color: #ff1414;
+  }
+  .rev_msg{
+    color: #3375ca;
+  }
+
+</style>
 @endsection

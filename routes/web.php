@@ -92,8 +92,7 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 		Route::post('/employee/save_nominee/{user_id}', 'EmployeesController@save_nominee')->name('employees.nominee');
 		Route::post('/employees/save_bankdetails/{user_id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
 		Route::post('/employees/save_familydetails/{user_id}', 'EmployeesController@save_familydetails')->name('employees.familydetails');
-		
-		
+
 });
 	Route::get('/familydetails/{id}/edit', 'HRD\EmployeesController@edit_familydetails')->name('edit.familydetails');
 	Route::post('/familydetails/{id}/update', 'HRD\EmployeesController@update_family')->name('update.familydetails');
@@ -230,6 +229,16 @@ Route::delete('/recruit/candidate/{candidate_id}', 'recruitment\CandidateControl
 
 Route::get('candidate/{id}/download', 'recruitment\CandidateController@downloadResume')->name('download.resume');
 
+# For Recruiter ----
+# Candidate listing -----
+
+Route::get('recruit-listing/{request_id}', 'recruitment\CandidateController@listing')->name('recruit.listing.index');
+
+Route::get('listing/{request_id}', 'recruitment\CandidateController@listingShow')->name('listing.show');
+
+Route::post('shortlist/{user_id}', 'recruitment\CandidateController@shortlist')->name('shortlist');
+
+Route::post('recruitment/approved/{user_id}', 'recruitment\RequestController@apporvedByRecruiter');
 // End of Recruitement Requests -----------
 
 

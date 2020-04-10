@@ -31,6 +31,8 @@
                   <th>HR APPROVAL</th>
                   <th>Sub-Admin APPROVAL</th>
                   <th>Admin APPROVAL</th>
+                  <th>Details</th>
+                  <th>Add Candidates</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -52,66 +54,82 @@
                 <td >{{ucwords($index->city)}}</td>
                 <td >{{ucwords($index['department']->name)}}</td>
                 <td >
-                  @if($index->hr_approval == 0)
-                    Pending
-                  @elseif($index->hr_approval == 1)
-                    Approved
-                  @elseif($index->hr_approval == 2)
-                    Declined
+                  @if($index->hr_actions == 0)
+                    <strong style="color: grey;">PENDING</strong>
+                  @elseif($index->hr_actions == 1)
+                    <strong class="apprv_msg">SUBMITTED</strong>
+                  @elseif($index->hr_actions == 2)
+                    <strong class="dec_msg">DECLINED</strong>
                   @endif
                 </td>
                 <td >
                   @if($index->subadmin_approval == 0)
-                    Pending
+                    <strong style="color: grey;">PENDING</strong>
                   @elseif($index->subadmin_approval == 1)
-                    Approved
+                    <strong class="apprv_msg">APPROVED</strong>
                   @elseif($index->subadmin_approval == 2)
-                    Declined
+                    <strong class="dec_msg">DECLINED</strong>
                   @endif
                 </td>
                 <td >
                   @if($index->admin_approval == 0)
-                    Pending
+                    <strong style="color: grey;">PENDING</strong>
                   @elseif($index->admin_approval == 1)
-                    Approved
+                    <strong class="apprv_msg">APPROVED</strong>
                   @elseif($index->admin_approval == 2)
-                    Declined
+                    <strong class="dec_msg">DECLINED</strong>
                   @endif
                 </td>
-                <td class='d-flex' >
+                <td>
                   <span >
-                      
-
-                      <button alt="View" class="btn btn-sm btn-info modalReq" data-id="{{$index->id}}"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></button>
+                    <button alt="View" class="btn btn-sm btn-info modalReq" data-id="{{$index->id}}"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></button>
 
                       <!-- Modal -->
-<div class="modal fade" id="reqModal" role="dialog">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Recruitment Request Details</h4>
-      </div>
-      <div class="modal-body table-responsive" id="reqDetailTable" style="background: #ececec">
-        <p>Some text in the modal.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-    
-  </div>
-</div>
+                    <div class="modal fade" id="reqModal" role="dialog">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title">Recruitment Request Details</h4>
+                          </div>
+                          <div class="modal-body table-responsive" id="reqDetailTable" style="background: #ececec">
+                            <p>Some text in the modal.</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
                   </span>
-                  <span class="ml-2">
-                      <a href="{{route('recruitment.edit',$index->id)}}" class="btn btn-sm btn-success"><i class="fa fa-eye text-white" style="font-size: 12px;"></i> </a>
-                  </span>
-                  <span class="ml-2">
-                    <form  action="{{route('recruitment.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
-                      @csrf
-                      @method('DELETE')
-                      <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
-                      </form>
+                </td>
+                <td>
+                  @if($index->hr_actions == 0)
+                    <strong style="color: grey;" >UNDER PROCESS</strong>
+                    {{-- <span class="text-center">
+                       <button type="button" data-id="{{$index->id}}" class="btn btn-success btn-sm editRequest" id="editBtn_{{$index->id}}"><i class="fa fa-pencil text-white" style="font-size: 12px;"></i> </button>
                     </span>
+                    <span class="ml-2">
+                      <form  action="{{route('recruitment.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
+                        @csrf
+                        @method('DELETE')
+                        <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
+                        </form>
+                      </span> --}}
+
+                    @elseif($index->hr_actions == 1)
+                      <a href="{{route('recruit.listing.index', $index->id)}}" class="btn btn-sm btn-success" ><i class="fa fa-user-plus text-white"  style="font-size: 12px;"></i> ADD</a>
+                    @endif
+                </td>
+                <td >
+                  @if($index->recruiter_approval == 0 && $index->hr_approval == 0)
+                    <strong style="color: grey;">PENDING</strong>
+                  @elseif($index->recruiter_approval == 0 )
+                    <button type="button" data-id="{{$index->id}}" class="btn btn-success btn-sm approveReq" id="approveBtn_{{$index->id}}">APPROVE</i> </button>
+                    <strong class="apprv_msg" id="approveMsg_{{$index->id}}" style="display: none">APPROVED</strong>
+                  @elseif($index->recruiter_approval == 1)
+                    <strong class="apprv_msg" >APPROVED</strong>
+                  @endif
                   </td>
               </tr>
               @endforeach
@@ -146,7 +164,60 @@ $(document).ready(function(){
     });
 
   });
- 
+
+  $('.editRequest').on('click', function(){
+
+    var req_id = $(this).data('id');
+
+    $.ajax({
+      type: 'GET',
+      url: '/recruitment/'+req_id+'/edit',
+      success:function(res){
+        
+      }
+    });
+
+  });
+
+  $('.approveReq').on('click', function(){
+
+    var req_id = $(this).data('id');
+
+    $.ajax({
+      type: 'POST',
+      url: '/recruitment/approved/'+req_id,
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      success:function(res){
+
+        $('#approveBtn_'+req_id).hide();
+        $('#approveMsg_'+req_id).show();
+      }
+    });
+  });
+
 });
 </script>
+<style type="text/css">
+  .approve
+  {
+    background: #0cac0c;
+    color: white;
+  }
+  .decline
+  {
+    background: #ff1414;
+    color: white;
+  }
+ 
+  .apprv_msg{
+    color: #0cac0c;
+  }
+  .dec_msg{
+    color: #ff1414;
+  }
+  .rev_msg{
+    color: #3375ca;
+  }
+
+</style>
 @endsection

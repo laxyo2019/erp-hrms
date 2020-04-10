@@ -20,12 +20,15 @@
               <thead>
                 <tr class="text-center">
                   <th>#</th>
-                  <th>Title</th>
-                  <th>Company</th>
-                  <th>City</th>
-                  <th>Department</th>
-                  <th>Details</th>
-                  <th>Actions</th>
+                  <th>TITLE</th>
+                  <th>COMPANY</th>
+                  <th>CITY</th>
+                  <th>DEPARTMENT</th>
+                  <th>REQUESTED BY</th>
+                  <th>DETAILS</th>
+                  <th>MANAGER</th>
+                  <th>ADD RECRUITS</th>
+                  <th>ACTIONS</th>
                 </tr>
               </thead>
               <tbody>
@@ -41,12 +44,12 @@
               @foreach($postings as $index)
               <tr class="text-center">
                 <td>{{++$count}}</td>
-                <td >{{ucwords($index->job_title)}}</td>
-                <td >{{ucwords($index['company']->name)}}</td>
-                <td >{{ucwords($index->city)}}</td>
-                <td >{{ucwords($index['department']->name)}}</td>
-              
-                <td class='text-center' >
+                <td>{{ucwords($index->job_title)}}</td>
+                <td>{{ucwords($index['company']->name)}}</td>
+                <td>{{ucwords($index->city)}}</td>
+                <td>{{ucwords($index['department']->name)}}</td>
+                <td>{{ ucwords($index['employee']->emp_name) }}</td>
+                <td class='text-center'>
                   <span>
                     <button alt="View" class="btn btn-sm btn-info modalReq" data-id="{{$index->id}}"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></button>
                     <!-- Modal -->
@@ -66,14 +69,29 @@
                       </div>
                     </div>
                   </span>
-                  </td>
-                  <td>
+                </td>
+                <td>
+                  @if($index->recruiter_approval == 0)
+                    <strong style="color: grey;">DISABLE</strong></td>
+                  @elseif($index->recruiter_approval == 1)
+                    <strong class="apprv_msg">APPROVED</strong></td>
+                  @endif
+                <td>
+                     <div class='text-center'>
+                     <a href="{{route('candidates.index', $index->id)}}" class="btn btn-sm btn-success addUser"><i class="fa fa-user-plus text-white"  style="font-size: 20px;" ></i></a>
+                     </div>
+                </td>
+                <td>
                     <div class='text-center'>
-                     <a href="{{route('candidates.index', $index->id)}}" class="btn btn-sm btn-success addUser"><i class="fa fa-plus text-white"  style="font-size: 20px;" ></i></a>
-					           </div>
-						
-                      </a>
-                    </td>
+                      @if($index->hr_actions == 0)
+                        <button class="btn btn-sm btn-success submit" id="submit_{{$index->id}}" data-id="{{$index->id}}" value="submit"><i class="fa fa-check text-white" style="font-size: 12px;">Submit</i></button>
+                        
+                        <span style="color: #0cac0c; display:none" id="msg_{{$index->id}}">SUBMITTED</span>
+                      @endif
+                        <span style="color: #0cac0c;" id="msg_{{$index->id}}">SUBMITTED</span>
+					          </div>
+                      
+                </td>
                   </div>
                   </tr>
                 </tr>
@@ -96,12 +114,13 @@ $(document).ready(function(){
     ]
   });
 
+  //To view details of request
   $('.modalReq').on('click', function(){
 
     var req_id = $(this).data('id');
     $.ajax({
       type: 'GET',
-      url: '/recruitment/'+req_id,
+      url: '/recruit-posting/'+req_id,
       success:function(res){
         $('#reqDetailTable').empty().html(res);
         $('#reqModal').modal('show');
@@ -109,6 +128,29 @@ $(document).ready(function(){
     });
 
   });
+
+  //To take actions regarding requests
+
+  $('.submit').on('click', function(){
+
+    var req_id = $(this).data('id');
+
+    var value  = $(this).val();
+
+    $.ajax({
+      type: 'PATCH',
+      url: '/recruit-posting/'+req_id,
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      data: {'button': value},
+      success:function(res){
+        //console.log()
+        $('#submit_'+req_id).hide();
+        $('#msg_'+req_id).show();
+
+      }
+    })
+
+  })
  
 });
 </script>
