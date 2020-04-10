@@ -55,6 +55,12 @@ Route::resource('/birthday_wish','BirthdayWish');
 Route::post('/import_birthday','BirthdayWish@import')->name('Birthday_user');
 Route::get('/export_birthday','BirthdayWish@export')->name('Birthday_export_user');
 Route::get('/birth_delete/{id}','BirthdayWish@destroy')->name('Birthday_destroy');
+Route::get('/get_message','BirthdayWish@getMessage')->name('get_message');
+Route::get('/create_message','BirthdayWish@create_message')->name('create_message');
+Route::post('/save_message','BirthdayWish@save_message')->name('save_message');
+Route::get('/edit_message/{id}','BirthdayWish@edit_message')->name('edit_message');
+Route::post('/update_message/{id}','BirthdayWish@update_message')->name('update_message');
+
 // Leave Requests
 
 Route::resource('/hrd/leaves', 'HRD\LeavesController');
