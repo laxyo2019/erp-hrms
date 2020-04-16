@@ -31,6 +31,7 @@
 		    		<option value="">Please Select </option>
 		    		<option value="submitted"  {{ old('doc_status') == 's' ? 'selected' : ''}} >Submitted</option>
 		    		<option value="pending">Pending</option>
+				<option value="provided">Provided</option>
 		    	</select>
 		    	@error('doc_status')
 					<span class="text-danger" role="alert">

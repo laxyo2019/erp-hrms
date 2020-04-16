@@ -41,7 +41,7 @@
 							@foreach($data as $row)
 							<tr>
 								<td>{{$row->id}}</td>
-								<td>{{$row->name}}</td>
+								<td>{{strtoupper($row->name)}}</td>
 								<td>{{$row->description}}</td>
 								<td class="d-flex">
 									<span>
