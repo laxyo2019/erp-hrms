@@ -18,7 +18,7 @@
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
-									<th>##</th>
+									<th>#</th>
 									<th>EMPLOYEE</th>
 									<th>TYPE</th>
 									<th>LEAVE PERIOD</th>

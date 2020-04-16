@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\recruitment;
 
+use Auth;
 use Illuminate\Http\Request;
 use App\Models\Master\EmpType;
 use App\Models\Master\CompMast;
 use App\Models\Master\DeptMast;
-use App\Http\Controllers\Controller;
-use App\Models\recruitment\RecruitRequest; 
-use App\Models\Master\EmployementType;
 use App\Models\Master\ExpLevel;
 use App\Models\Master\EduLevel;
+use App\Http\Controllers\Controller;
+use App\Models\recruitment\Candidate;
+use App\Models\Master\EmployementType;
+use App\Models\recruitment\RecruitRequest;
 
 class RequestController extends Controller
 {
@@ -27,6 +29,7 @@ class RequestController extends Controller
     public function index()
     {
         $indexes = RecruitRequest::with(['company', 'department', 'employement', 'experience', 'education'])
+                    ->where('requested_by', Auth::id())
                         ->get();
 
         return view('recruitment.index', compact('indexes'));
@@ -54,6 +57,7 @@ class RequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -63,9 +67,10 @@ class RequestController extends Controller
             'employement_type'  => 'required',
             'department'        => 'required',
             'requirements'      => 'required',
-
         ]);
+
         RecruitRequest::create([
+            'requested_by'          => Auth::id(),
             'job_title'             => $request->job_title,
             'comp_id'               => $request->company_name,
             'short_description'     => $request->short_description,
@@ -104,14 +109,21 @@ class RequestController extends Controller
      */
     public function edit($id)
     {
-        $request = RecruitRequest::find($id);
-        $comps          = CompMast::all();
-        $departments    = DeptMast::all();
-        $eduLevels      = EduLevel::all();
-        $expLevels      = ExpLevel::all();
-        $empTypes       = EmployementType::all();
 
-        return view('recruitment.edit', compact('request', 'comps', 'departments', 'empTypes', 'eduLevels', 'expLevels'));
+        $request = RecruitRequest::find($id);
+
+        if($request->subadmin_approval != 0){
+            $comps          = CompMast::all();
+            $departments    = DeptMast::all();
+            $eduLevels      = EduLevel::all();
+            $expLevels      = ExpLevel::all();
+            $empTypes       = EmployementType::all();
+
+            return view('recruitment.edit', compact('request', 'comps', 'departments', 'empTypes', 'eduLevels', 'expLevels'));
+        }else{
+
+        
+        }
     }
 
     /**
@@ -163,5 +175,29 @@ class RequestController extends Controller
             ->delete();
 
         return back()->with('success', 'Request Deleted Succesfully.');
+    }
+
+
+    public function apporvedByRecruiter( $id){
+
+        $request = RecruitRequest::where('id', $id)->first();
+
+        if($request->recruiter_approval == 0){
+
+            RecruitRequest::where('id', $id)
+                ->update(['recruiter_approval' => 1]);
+
+            Candidate::where('job_title_id', $id)
+                    ->where('recruiter_approval', 0)
+                    ->update(['recruiter_approval' => 2]);
+        }else{
+            return false;
+        }
+
+    }
+
+    public function closeRequest( $id){
+
+        RecruitRequest::where('id', $id)->update(['hr_actions' => 3]);
     }
 }

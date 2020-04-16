@@ -14,6 +14,10 @@ class RecruitRequest extends Model
     	return $this->belongsTo('App\Models\Master\CompMast', 'comp_id');
     }
 
+    public function employee(){
+        return $this->belongsTo('App\Models\Employees\EmployeeMast', 'requested_by', 'user_id');
+    }    
+
     public function department(){
     	return $this->belongsTo('App\Models\Master\DeptMast', 'depart_id');
     }
@@ -29,4 +33,6 @@ class RecruitRequest extends Model
     public function education(){
     	return $this->belongsTo('App\Models\Master\EduLevel', 'education_level_id');
     }
+
+
 }

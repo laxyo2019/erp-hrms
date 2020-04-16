@@ -35,7 +35,8 @@ class RecruitPostingController extends Controller
 
     public function indexHr()
     {
-        $postings = RecruitRequest::where('subadmin_approval', 1)
+        $postings = RecruitRequest::with(['employee'])
+                        ->where('subadmin_approval', 1)
                         ->where('admin_approval', 1)
                         ->get();
 
@@ -108,7 +109,11 @@ class RecruitPostingController extends Controller
      */
     public function show($id)
     {
-        //
+        $request = RecruitRequest::findOrFail($id)
+                        ->with(['company', 'department', 'employement', 'experience', 'education'])
+                        ->first();
+
+        return view('recruitment.posting.show', compact('request'));
     }
 
     /**
@@ -119,7 +124,10 @@ class RecruitPostingController extends Controller
      */
     public function edit($id)
     {
-        //
+        $request = RecruitRequest::where('id', $id)
+                    ->first();
+
+        //return view('recruitment.posting.actions', compact('request'));
     }
 
     /**
@@ -129,9 +137,22 @@ class RecruitPostingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    /**
+        *0 = Pending
+        *1 = Submitted
+        */
     public function update(Request $request, $id)
     {
-        //
+        if($request->button == 'submit'){
+            RecruitRequest::where('id', $id)
+                ->update(['hr_actions' => 1]);
+
+            return 'Submitted';
+
+        }elseif($request->button == '6854'){
+
+        }
+       
     }
 
     /**
