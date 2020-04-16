@@ -28,9 +28,9 @@
                   <th>Company</th>
                   <th>City</th>
                   <th>Department</th>
-                  <th>HR APPROVAL</th>
-                  <th>Sub-Admin APPROVAL</th>
-                  <th>Admin APPROVAL</th>
+                  <th>Sub-Admin </th>
+                  <th>Admin </th>
+                  <th>HR</th>
                   <th>Details</th>
                   <th>Add Candidates</th>
                   <th>Actions</th>
@@ -54,15 +54,6 @@
                 <td >{{ucwords($index->city)}}</td>
                 <td >{{ucwords($index['department']->name)}}</td>
                 <td >
-                  @if($index->hr_actions == 0)
-                    <strong style="color: grey;">PENDING</strong>
-                  @elseif($index->hr_actions == 1)
-                    <strong class="apprv_msg">SUBMITTED</strong>
-                  @elseif($index->hr_actions == 2)
-                    <strong class="dec_msg">DECLINED</strong>
-                  @endif
-                </td>
-                <td >
                   @if($index->subadmin_approval == 0)
                     <strong style="color: grey;">PENDING</strong>
                   @elseif($index->subadmin_approval == 1)
@@ -81,7 +72,18 @@
                   @endif
                 </td>
                 <td>
-                  <span >
+                  @if($index->hr_actions == 0)
+                    <strong style="color: grey;">PENDING</strong>
+                  @elseif($index->hr_actions == 1)
+                    <strong class="apprv_msg">SUBMITTED</strong>
+                  @elseif($index->hr_actions == 2)
+                    <strong class="dec_msg">DECLINED</strong>
+                    @elseif($index->hr_actions == 3)
+                    <strong class="rev_msg">CLOSED</strong>
+                  @endif
+                </td>
+                <td>
+                  <span>
                     <button alt="View" class="btn btn-sm btn-info modalReq" data-id="{{$index->id}}"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></button>
 
                       <!-- Modal -->
@@ -98,7 +100,6 @@
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                           </div>
                         </div>
-                        
                       </div>
                     </div>
                   </span>
@@ -106,23 +107,19 @@
                 <td>
                   @if($index->hr_actions == 0)
                     <strong style="color: grey;" >UNDER PROCESS</strong>
-                    {{-- <span class="text-center">
-                       <button type="button" data-id="{{$index->id}}" class="btn btn-success btn-sm editRequest" id="editBtn_{{$index->id}}"><i class="fa fa-pencil text-white" style="font-size: 12px;"></i> </button>
-                    </span>
-                    <span class="ml-2">
-                      <form  action="{{route('recruitment.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
-                        @csrf
-                        @method('DELETE')
-                        <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
-                        </form>
-                      </span> --}}
+                  @elseif($index->hr_actions == 1)
 
-                    @elseif($index->hr_actions == 1)
-                      <a href="{{route('recruit.listing.index', $index->id)}}" class="btn btn-sm btn-success" ><i class="fa fa-user-plus text-white"  style="font-size: 12px;"></i> ADD</a>
+                    @if($index->recruiter_approval == 0)
+                      <a href="{{route('recruiter.index', $index->id)}}" class="btn btn-sm btn-success" ><i class="fa fa-user-plus text-white"  style="font-size: 12px;"></i> ADD</a>
+                    @else
+                      <a href="{{route('recruiter.index', $index->id)}}" class="btn btn-sm btn-success" ><i class="fa fa-user text-white"  style="font-size: 12px;"></i> VIEW</a>
                     @endif
+                  @else
+                    <a href="{{route('recruiter.index', $index->id)}}" class="btn btn-sm btn-success" ><i class="fa fa-user text-white"  style="font-size: 12px;"></i> VIEW</a>
+                  @endif
                 </td>
                 <td >
-                  @if($index->recruiter_approval == 0 && $index->hr_approval == 0)
+                  @if($index->recruiter_approval == 0 && $index->hr_actions == 0)
                     <strong style="color: grey;">PENDING</strong>
                   @elseif($index->recruiter_approval == 0 )
                     <button type="button" data-id="{{$index->id}}" class="btn btn-success btn-sm approveReq" id="approveBtn_{{$index->id}}">APPROVE</i> </button>

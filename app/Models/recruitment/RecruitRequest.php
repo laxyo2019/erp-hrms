@@ -15,7 +15,7 @@ class RecruitRequest extends Model
     }
 
     public function employee(){
-        return $this->belongsTo('App\Models\Employees\EmployeeMast', 'requested_by');
+        return $this->belongsTo('App\Models\Employees\EmployeeMast', 'requested_by', 'user_id');
     }    
 
     public function department(){

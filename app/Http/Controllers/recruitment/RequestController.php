@@ -7,11 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\Master\EmpType;
 use App\Models\Master\CompMast;
 use App\Models\Master\DeptMast;
-use App\Http\Controllers\Controller;
-use App\Models\recruitment\RecruitRequest; 
-use App\Models\Master\EmployementType;
 use App\Models\Master\ExpLevel;
 use App\Models\Master\EduLevel;
+use App\Http\Controllers\Controller;
+use App\Models\recruitment\Candidate;
+use App\Models\Master\EmployementType;
+use App\Models\recruitment\RecruitRequest;
 
 class RequestController extends Controller
 {
@@ -28,6 +29,7 @@ class RequestController extends Controller
     public function index()
     {
         $indexes = RecruitRequest::with(['company', 'department', 'employement', 'experience', 'education'])
+                    ->where('requested_by', Auth::id())
                         ->get();
 
         return view('recruitment.index', compact('indexes'));
@@ -184,9 +186,18 @@ class RequestController extends Controller
 
             RecruitRequest::where('id', $id)
                 ->update(['recruiter_approval' => 1]);
+
+            Candidate::where('job_title_id', $id)
+                    ->where('recruiter_approval', 0)
+                    ->update(['recruiter_approval' => 2]);
         }else{
             return false;
         }
 
+    }
+
+    public function closeRequest( $id){
+
+        RecruitRequest::where('id', $id)->update(['hr_actions' => 3]);
     }
 }

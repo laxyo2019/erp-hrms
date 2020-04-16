@@ -39,7 +39,7 @@
             #0 = Pending
             #1 = Approved
             #2 = Declined
-
+            #3 = Closed
             @endphp
               @foreach($postings as $index)
               <tr class="text-center">
@@ -71,15 +71,30 @@
                   </span>
                 </td>
                 <td>
-                  @if($index->recruiter_approval == 0)
-                    <strong style="color: grey;">DISABLE</strong></td>
-                  @elseif($index->recruiter_approval == 1)
+
+                  @if($index->hr_actions == 0)
+                    @if($index->recruiter_approval == 0)
+                      <strong style="color: grey;">DISABLE</strong></td>
+                    @endif
+                  @elseif($index->hr_actions == 1)
+                    @if($index->recruiter_approval == 0)
+                      <strong style="color: grey">PENDING</strong></td>
+                    @elseif($index->recruiter_approval == 1)
+                      <strong class="apprv_msg">APPROVED</strong></td>
+                    @endif
+                  @else
                     <strong class="apprv_msg">APPROVED</strong></td>
                   @endif
                 <td>
+                  @if($index->hr_actions == 3)
                      <div class='text-center'>
-                     <a href="{{route('candidates.index', $index->id)}}" class="btn btn-sm btn-success addUser"><i class="fa fa-user-plus text-white"  style="font-size: 20px;" ></i></a>
+                     <a href="{{url('/recruit/'.$index->id.'/candidates/hr')}}" class="btn btn-sm btn-success addUser"><i class="fa fa-user text-white"  style="font-size: 20px;" ></i> VIEW</a>
                      </div>
+                  @else
+                    <div class='text-center'>
+                     <a href="{{url('/recruit/'.$index->id.'/candidates/hr')}}" class="btn btn-sm btn-success addUser"><i class="fa fa-user-plus text-white"  style="font-size: 20px;" ></i></a>
+                     </div>
+                  @endif
                 </td>
                 <td>
                     <div class='text-center'>
@@ -87,8 +102,23 @@
                         <button class="btn btn-sm btn-success submit" id="submit_{{$index->id}}" data-id="{{$index->id}}" value="submit"><i class="fa fa-check text-white" style="font-size: 12px;">Submit</i></button>
                         
                         <span style="color: #0cac0c; display:none" id="msg_{{$index->id}}">SUBMITTED</span>
+                      @elseif($index->hr_actions == 1)
+
+                        @if($index->recruiter_approval == 0)
+                          <span style="color: #0cac0c;" id="msg_{{$index->id}}">SUBMITTED</span>
+                        @elseif($index->recruiter_approval == 1)
+
+                          {{-- <button class="btn btn-sm btn-info close"  data-id="{{$index->id}}" id="close_{{$index->id}}">CLOSE</button> --}}
+
+                          <button class="btn btn-sm Crequest" style="background-color:#3375ca; color:white" id="close_{{$index->id}}" data-id="{{$index->id}}">CLOSE</button>
+
+                          <strong class="rev_msg" style="display:none" id="closeMsg_{{$index->id}}">CLOSED</strong>
+
+                        @endif
+
+                      @elseif($index->hr_actions == 3)
+                        <strong class="rev_msg" >CLOSED</strong>
                       @endif
-                        <span style="color: #0cac0c;" id="msg_{{$index->id}}">SUBMITTED</span>
 					          </div>
                       
                 </td>
@@ -152,6 +182,26 @@ $(document).ready(function(){
 
   })
  
+  //Close Recruitment Request
+
+  $('.Crequest').on('click', function(){
+
+    var req_id = $(this).data('id');
+
+    $.ajax({
+      type: 'POST',
+      url: '/close-request/'+req_id,
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      success:function(res){
+        //console.log()
+        $('#close_'+req_id).hide();
+        $('#closeMsg_'+req_id).show();
+
+      }
+    })
+
+  })
+
 });
 </script>
 <style type="text/css">

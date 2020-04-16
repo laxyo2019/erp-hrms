@@ -24,10 +24,11 @@
                   <th>Company</th>
                   <th>City</th>
                   <th>Department</th>
-                  <th>HR APPROVAL</th>
-                  {{-- <th>Sub-Admin APPROVAL</th> --}}
-                  <th>Admin APPROVAL</th>
+                  <th>Admin</th>
+                  <th>Manager </th>
+                  <th>HR </th>
                   <th>Details</th>
+                  <th>View Recruites</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -48,17 +49,8 @@
                 <td >{{ucwords($index['company']->name)}}</td>
                 <td >{{ucwords($index->city)}}</td>
                 <td >{{ucwords($index['department']->name)}}</td>
-                <td >
-                  @if($index->hr_approval == 0)
-                    <strong style="color: grey;">PENDING</strong>
-                  @elseif($index->hr_approval == 1)
-                    <strong class="apprv_msg">APPROVED</strong>
-                  @elseif($index->hr_approval == 2)
-                    <strong class="dec_msg">DECLINED</strong>
-                  @endif
-                </td>
-                <td >
-                  @if($index->admin_approval == 0)
+                <td>
+                   @if($index->admin_approval == 0)
                     <strong style="color: grey;">PENDING</strong>
                   @elseif($index->admin_approval == 1)
                     <strong class="apprv_msg">APPROVED</strong>
@@ -66,7 +58,32 @@
                     <strong class="dec_msg">DECLINED</strong>
                   @endif
                 </td>
-                <td class='d-flex' >
+                 <td >
+                 
+
+                  @if($index->recruiter_approval == 0)
+                    <strong style="color: grey;">PENDING</strong>
+                  @elseif($index->recruiter_approval == 1)
+                    <strong class="apprv_msg">APPROVED</strong>
+                  @elseif($index->recruiter_approval == 2)
+                    <strong class="dec_msg">DECLINED</strong>
+                  @endif
+                </td>
+                <td class="text-center">
+                  
+
+
+                  @if($index->hr_actions == 0)
+                    <strong style="color: grey;">PENDING</strong>
+                  @elseif($index->hr_actions == 1)
+                    <strong class="apprv_msg">APPROVED</strong>
+                  @elseif($index->hr_actions == 2)
+                    <strong class="dec_msg">DECLINED</strong>
+                  @elseif($index->hr_actions == 3)
+                    <strong class="rev_msg">CLOSED</strong>
+                  @endif
+                </td>
+                <td class='text-center' >
                   <span>
                     <button alt="View" class="btn btn-sm btn-info modalReq" data-id="{{$index->id}}"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></button>
                     <!-- Modal -->
@@ -87,6 +104,15 @@
                     </div>
                   </span>
                   </td>
+                  <td>
+                    @if($index->hr_actions == 1)
+                      <strong style="color: grey;">UNDER PROCESS</strong>
+                    @else
+                      <div class='text-center'>
+                     <a href="{{url('/recruit/'.$index->id.'/candidates/hr')}}" class="btn btn-sm btn-success addUser"><i class="fa fa-user text-white"  style="font-size: 20px;" ></i> VIEW</a>
+                     </div>
+                    @endif
+                   </td>
                   <td>
                     <div class='d-flex'>
                       @if($index->subadmin_approval == 0)

@@ -223,9 +223,14 @@ Route::post('recruit-posting/hr/{id}', 'recruitment\RecruitPostingController@HrA
 
 Route::resource('recruit-posting', 'recruitment\RecruitPostingController', ['except' => 'index']);
 
+Route::post('join/{user_id}', 'recruitment\CandidateController@joinCandidate');
+
+Route::post('close-request/{request_id}', 'recruitment\RequestController@closeRequest');
 /***Add Users with job posting respectivly***/
 
-Route::get('/recruit/{job_id}/candidates', 'recruitment\CandidateController@index')->name('candidates.index');
+Route::get('/recruit/{job_id}/candidates/hr', 'recruitment\CandidateController@indexHr')->name('candidates.indexhr');
+
+//For Recruiter
 
 Route::post('/recruit/candidates/store', 'recruitment\CandidateController@store')->name('candidates.store');
 
@@ -236,11 +241,12 @@ Route::delete('/recruit/candidate/{candidate_id}', 'recruitment\CandidateControl
 Route::get('candidate/{id}/download', 'recruitment\CandidateController@downloadResume')->name('download.resume');
 
 # For Recruiter ----
-# Candidate listing -----
 
-Route::get('recruit-listing/{request_id}', 'recruitment\CandidateController@listing')->name('recruit.listing.index');
+Route::get('recruiter-request/{request_id}', 'recruitment\CandidateController@indexRecruiter')->name('recruiter.index');
 
-Route::get('listing/{request_id}', 'recruitment\CandidateController@listingShow')->name('listing.show');
+Route::post('finalised/{user_id}/candidate', 'recruitment\CandidateController@finaliseCandidate');
+
+//Route::get('listing/{request_id}', 'recruitment\CandidateController@listingShow')->name('listing.show');
 
 Route::post('shortlist/{user_id}', 'recruitment\CandidateController@shortlist')->name('shortlist');
 

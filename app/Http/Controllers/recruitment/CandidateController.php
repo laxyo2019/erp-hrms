@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\recruitment;
 
 use Illuminate\Http\Request;
+use App\Models\Master\EduLevel;
 use App\Http\Controllers\Controller;
 use App\Models\recruitment\Candidate;
 use Illuminate\Support\Facades\Storage;
@@ -22,16 +23,34 @@ class CandidateController extends Controller
         $this->middleware('auth');
     }
 
-    public function index($job_id)
+    public function indexHr( $job_id)
     {
-        $requirement = RecruitRequest::where('id', $job_id)
-                        ->select('id', 'job_title', 'hr_actions')
+        $requirement = RecruitRequest::with(['education'])
+                        ->where('id', $job_id)
+                        ->select('id', 'job_title', 'hr_actions', 'recruiter_approval')
                         ->first();
 
         $candidates = Candidate::where('job_title_id', $job_id)
+                        ->where('recruiter_approval', '<>', 2)
                         ->get();
 
-        return view('recruitment.candidates.index', compact('requirement', 'candidates'));
+        $education = EduLevel::all();
+        return view('recruitment.candidates.hr.index', compact('requirement', 'candidates', 'education'));
+    }
+
+    public function indexRecruiter( $job_id)
+    {
+        $requirement = RecruitRequest::with(['education'])
+                        ->where('id', $job_id)
+                        ->select('id', 'job_title', 'hr_actions', 'recruiter_approval')
+                        ->first();
+
+        $candidates = Candidate::where('job_title_id', $job_id)
+                        ->where('recruiter_approval', '<>', 2)
+                        ->get();
+
+
+        return view('recruitment.candidates.recruiter.index', compact('requirement', 'candidates'));
     }
 
     /**
@@ -52,9 +71,9 @@ class CandidateController extends Controller
      */
     public function store(Request $request)
     {
-        $request = RecruitRequest::where('id', $request->job_title_id)->first();
+        $requests = RecruitRequest::where('id', $request->job_title_id)->first();
 
-        if($request->hr_actions == 0){
+        if($requests->hr_actions == 0){
 
             /*$this->validate($request, [
             'job_title_id'      => 'required',
@@ -79,13 +98,13 @@ class CandidateController extends Controller
             }
 
             Candidate::create([
-                'job_title_id' => $request->job_title_id,
-                'candidate_name' => $request->candidate_name,
-                'education_level' => $request->education_level,
-                'contact' => $request->contact,
-                'alt_contact' => $request->alt_contact,
-                'email' => $request->email,
-                'resume' => $path,
+                'job_title_id'      => $request->job_title_id,
+                'candidate_name'    => $request->candidate_name,
+                'education_level'   => $request->education_level,
+                'contact'           => $request->contact,
+                'alt_contact'       => $request->alt_contact,
+                'email'             => $request->email,
+                'resume'            => $path,
                 'candidate_details' => $request->Candidate_details
 
             ]);
@@ -113,7 +132,7 @@ class CandidateController extends Controller
 
     public function show(Request $request)
     {
-        $candidate = Candidate::where('id', $request->id)->first();
+        $candidate = Candidate::with(['education'])->where('id', $request->id)->first();
         return view('recruitment.candidates.show', compact('candidate'));
     }
 
@@ -178,7 +197,21 @@ class CandidateController extends Controller
 
     public function shortlist( $id){
 
-        $candidate = Candidate::where('id', $id)
-                        ->update(['recruiter_approval' => 1]);
+        Candidate::where('id', $id)->update(['recruiter_approval' => 1]);
     }
+
+    public function finaliseCandidate( $id){
+
+        Candidate::where('id', $id)->update(['recruiter_approval' => 1]);
+    }
+
+    public function joinCandidate( $id){
+
+        if(Candidate::where('id', $id)->first()->recruiter_approval == 1){
+
+            Candidate::where('id', $id)->update(['hr_approval' => 1]);
+        }
+    }
+
+
 }

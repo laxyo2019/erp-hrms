@@ -23,9 +23,13 @@
 		<div>
 			<h4 style="color: grey">Status - 
 				@if($requirement->hr_actions == 0)
-					<span style="color: #0cac0c;">Open</span>
-				@elseif($requirement->hr_actions == 1)
-					<span style="color: #167cff;">Submitted</span>
+					<span style="color: #0cac0c;">OPEN</span>
+				@elseif($requirement->hr_actions == 1 && $requirement->recruiter_approval == 0)
+					<span style="color: #167cff;">SELECTED</span>
+				@elseif($requirement->hr_actions == 1 && $requirement->recruiter_approval == 1)
+					<span style="color: #167cff;">FINALISED</span>
+				@elseif($requirement->hr_actions == 3)
+					<span style="color: #167cff;">JOINED</span>
 				@endif
 			</h4>
 		</div>
@@ -45,8 +49,13 @@
 	      			@enderror
 				</div>
 				<div class="col-6 form-group">
-					<label for="">Candidate's Level</label>
-					<input type="text" class="form-control" name="education_level" value="{{-- {{ old('education_level') }} --}}">
+					<label for="">Education Level</label>
+					<select name="education_level" id="education_level" class="form-control">
+						<option value=""> Select here </option>
+						@foreach($education as $edu)
+						<option value="{{$edu->id}}">{{ucwords($edu->name)}}</option>
+						@endforeach
+					</select>
 					@error('education_level')
 		          	<span class="text-danger" role="alert">
 		            	<strong>* {{ $message }}</strong>
@@ -82,7 +91,7 @@
 				</div>
 				<div class="col-6 form-group">
 					<label for="file_path">Upload Resume</label>
-					<input type="file" name="file_path" class="form-control-file" id="file_path" value="{{-- {{ old('file_path')}} --}}">
+					<input type="file" name="file_path" class="form-control-file" id="file_path" value="">
 				</div>
 				<div class="col form-group ">
 			    	<label for="">Candiate's Details</label>
@@ -114,10 +123,10 @@
 				</thead>
 				<tbody id="experiencesTbody">
 					@foreach($candidates as $candidate)
-					<tr>
+					<tr class="text-center">
 						<td>{{$candidate->id}}</td>
 						<td>{{ucwords($candidate->candidate_name)}}</td>
-						<td>{{ucwords($candidate->education_level)}}</td>
+						<td>{{ucwords($candidate['education']->name)}}</td>
 						<td>{{ucwords($candidate->email)}}</td>
 						<td>{{$candidate->contact}}</td>
 						<td class="text-center">
@@ -139,9 +148,9 @@
 							    </div>
 							</div>
 						</td>
-						<td class="text-center"><a href="{{route('download.resume', $candidate->id)}}"><i class="fa fa-arrow-down"></i>Download</a></td>
+						<td class="text-center"><a href="{{route('download.resume', $candidate->id)}}"><i class="fa fa-arrow-down"></i> Download</a></td>
 						<td>
-							@if($candidate->recruiter_approval == 0 && $requirement->hr_actions == 0)
+							@if($requirement->hr_actions == 0)
 							<span class="text-center">
 								<form action="{{route('candidates.destroy', $candidate->id)}}" method="POST" id="delform_{{ $candidate->id}}">
 										@csrf
@@ -150,11 +159,26 @@
 								</form>
 							</span>
 							@elseif($requirement->hr_actions == 1)
-								@if($candidate->recruiter_approval == 0)
-									<strong class="dec_msg" >REJECTED</strong>
-								@elseif($candidate->recruiter_approval == 1)
-									<strong class="apprv_msg" >SELECTED</strong>
+
+								@if($candidate->recruiter_approval == 1)
+
+
+									@if($candidate->hr_approval == 0)
+										<strong class="apprv_msg" style="display: none" id="joinMsg_{{$candidate->id}}">JOINED</strong>
+										<button class="btn btn-sm btn-success joinCandidate" id="join_{{$candidate->id}}" data-id="{{$candidate->id}}">Join</button>
+									@elseif($candidate->hr_approval == 1)
+										<strong class="apprv_msg" id="joinMsg_{{$candidate->id}}">JOINED</strong>
+									@endif
+								@elseif($candidate->recruiter_approval == 0)
+									<strong style="color: grey;">PENDING</strong>
 								@endif
+							@elseif($requirement->hr_actions == 3)
+								@if($candidate->hr_approval == 0)
+										<strong class="dec_msg" id="joinMsg_{{$candidate->id}}">REJECTED</strong>
+										
+									@elseif($candidate->hr_approval == 1)
+										<strong class="apprv_msg" id="joinMsg_{{$candidate->id}}">JOINED</strong>
+									@endif
 							@endif
 						</td>
 					</tr>
@@ -167,14 +191,15 @@
 $(document).ready(function(){
 
 	$('#CandidatesTable').dataTable( {
-	"ordering":   true,
-	order : [[1, 'asc']],
-	"columnDefs": [ 
-	  { "orderable": false, "targets": 0,  }
-	]
-});
+		"ordering":   true,
+		order : [[1, 'asc']],
+		"columnDefs": [ 
+		  { "orderable": false, "targets": 0,  }
+		]
+	});
 
 
+	//Modal view
 	$('.modalResume').on('click', function(e){
 		e.preventDefault();
 		var candidate_id = $(this).data('id');
@@ -187,6 +212,25 @@ $(document).ready(function(){
 				// alert(data);
 				$('#cvModal').modal('show');
 				$('#cvTable').html(data);					
+			}
+		})
+	});
+
+	//Join candidates
+
+	$('.joinCandidate').on('click', function(){
+		
+		var user_id = $(this).data('id');
+
+		$.ajax({
+
+			type: 'POST',
+			url: '/join/'+user_id,
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			success:function(res){
+
+				$('#join_'+user_id).hide();
+				$('#joinMsg_'+user_id).show();
 			}
 		})
 	});
