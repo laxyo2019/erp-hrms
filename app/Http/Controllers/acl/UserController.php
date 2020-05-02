@@ -38,23 +38,24 @@ class UserController extends Controller
     	$user          = User::findOrFail($id);
         $employee      = EmployeeMast::where('user_id', $id)->first();
     	$roles         = Role::all();
-        //$permissions   = Permission::all();
+        $permissions   = Permission::all();
 
         $roles_given = [];
 
-        //Get all roles
+        #Get all roles
         foreach($user->roles as $index){
             $roles_given[] = $index->id;
         }
 
-        //Get all direct permissions
-        //$permissions_given = [];
-        // foreach($user->getDirectPermissions() as $data){
-        //     $permissions_given[] = $data->id;
-        // }
+        #Get all direct permissions
+        $permissions_given = [];
+         foreach($user->allPermissions() as $data){
+             $permissions_given[] = $data->id;
+        }
 
 
-    	return view('acl.users.edit', compact('user', 'roles', 'roles_given', /*'permissions', 'permissions_given', */'employee'));
+
+    	return view('acl.users.edit', compact('user', 'roles', 'roles_given', 'permissions', 'permissions_given', 'employee'));
     }
 
     public function update(Request $request, $id){
@@ -62,6 +63,7 @@ class UserController extends Controller
         $this->validate($request,
                 ['name' => 'required']);
 
+       
         $user       = User::find($id);
         $user->name = $request->name;
         $user->save();
@@ -76,7 +78,7 @@ class UserController extends Controller
         //$user->syncRoles($request->roles);
 
         //Save direct permissions to user
-        //$user->syncPermissions($request->perms);
+        $user->syncPermissions($request->perms);
 
         return back()->with('success', 'User information updated.');
     }

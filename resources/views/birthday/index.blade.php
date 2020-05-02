@@ -49,8 +49,12 @@
 									<th>{{$Data->mobile_number}}</th>
 									<th>{{$Data->date_of_birth}}</th>
 									<th>
-										<a href="{{route('Birthday_destroy',$Data->id)}}" class="btn btn-sm btn-danger btn-xs"><i class="fa fa-trash text-white" style="font-size:12px;"></i></a>
-										<a data-id='{{$Data->id}}' href="{{route('birthday_wish.edit',$Data->id)}}" class="btn btn-sm btn-info btn-xs edit"><i class="fa fa-pencil text-white" style="font-size:12px;"></i></a>
+										@ability('hrms_admin', 'hrms-edit')
+											<a data-id='{{$Data->id}}' href="{{route('birthday_wish.edit',$Data->id)}}" class="btn btn-sm btn-info btn-xs edit"><i class="fa fa-pencil text-white" style="font-size:12px;"></i></a>
+										@endability
+										@ability('hrms_admin', 'hrms-delete')
+											<a href="{{route('Birthday_destroy',$Data->id)}}" class="btn btn-sm btn-danger btn-xs"><i class="fa fa-trash text-white" style="font-size:12px;"></i></a>
+										@endabiity
 									</th>
 								</tr>
 								@endforeach

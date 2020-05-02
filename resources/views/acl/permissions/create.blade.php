@@ -22,33 +22,14 @@
 			@csrf
 			<div class="row">
 				<div class="col-12 form-group" style="text-align: center">
-						<input type="text" id="permission"  name="permission" value="{{old('permission')}}" style="width:60%">
-						@error('permission')
+					<input type="text" id="permission"  name="permission" value="{{old('permission')}}" style="width:60%">
+					@error('permission')
 				          {{-- <span class="text-danger" role="alert"> --}}
-				          	<small class="form-text text-danger" id="emailHelp">
-				          	*{{ $message }}
-				          	</small>
-				            {{-- <strong>* {{ $message }}</strong> --}}
-				          {{-- </span> --}}
-				      	@enderror
-					</div>
-					{{-- <div class="col-6 form-group">
-						<label for="permission_alias">Permission Alias</label>
-						<input type="text" id="permission_alias" class="form-control" name="permission_alias" value="{{old('permission_alias')}}">
-						@error('permission_alias')
-				         <small class="form-text text-danger" id="emailHelp">
-				          	*{{ $message }}
-				          	</small>
-				      	@enderror
-					</div>
-				<div class="col-12" style="text-align: center;">
-					<input type="text" name="permission" value="{{old('start')}}" style="width:60%;">
-					@error('start')
-			          <span class="text-danger" role="alert">
-			            <strong>* {{ $message }}</strong>
-			          </span>
-			      	@enderror
-				</div>	 --}}		
+				    <small class="form-text text-danger" id="emailHelp">
+				     	*{{ $message }}
+				    </small>
+				    @enderror
+				</div>
 			</div>
 			<br><br>
     		<div class="col-12 form-group text-center">

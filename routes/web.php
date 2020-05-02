@@ -18,7 +18,6 @@ Route::post('/logout', 'LoginController@logout')->name('logout');
 
 
 Route::resource('/information', 'InformationController');
-
 Route::resource('/employee/leaves','Employee\LeavesController');
 
 
@@ -51,15 +50,6 @@ Route::group(['middleware' => ['role:hrms_admin']], function() {
 	Route::post('/reverse/admin/{req_id}', 'HRD\LeavesController@admin_reverse');
 });
 
-Route::resource('/birthday_wish','BirthdayWish');
-Route::post('/import_birthday','BirthdayWish@import')->name('Birthday_user');
-Route::get('/export_birthday','BirthdayWish@export')->name('Birthday_export_user');
-Route::get('/birth_delete/{id}','BirthdayWish@destroy')->name('Birthday_destroy');
-Route::get('/get_message','BirthdayWish@getMessage')->name('get_message');
-Route::get('/create_message','BirthdayWish@create_message')->name('create_message');
-Route::post('/save_message','BirthdayWish@save_message')->name('save_message');
-Route::get('/edit_message/{id}','BirthdayWish@edit_message')->name('edit_message');
-Route::post('/update_message/{id}','BirthdayWish@update_message')->name('update_message');
 
 // Leave Requests
 
@@ -68,16 +58,6 @@ Route::resource('/hrd/leaves', 'HRD\LeavesController');
 Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 
 	Route::resource('/hrd/employees','HRD\EmployeesController');
-
-	Route::resource('/leave-management/types', 'Leave\LeaveTypeController');
-	Route::resource('/leave-management/allotments', 'Leave\AllotmentController');
-	Route::resource('/leave-management/holidays', 'Leave\HolidayController');
-	Route::resource('/settings/categories','Settings\CategoryController');
-	Route::resource('/settings/designations','Settings\DesignationController');
-	Route::resource('/settings/statuses','Settings\StatusController');
-	Route::resource('/settings/grades','Settings\GradesController');
-
-	/***Birthdays***/
 
 	//Delete Employees Info
 
@@ -103,15 +83,19 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 	Route::get('/familydetails/{id}/edit', 'HRD\EmployeesController@edit_familydetails')->name('edit.familydetails');
 	Route::post('/familydetails/{id}/update', 'HRD\EmployeesController@update_family')->name('update.familydetails');
 
-//Add Branches
+
+	//Add Branches
 	Route::resource('/branches', 'Settings\CompBranchController');
 
-//Location > Branches
+	//Location > Branches
 	Route::post('/location/branches', 'HRD\EmployeesController@showBranches')->name('company.branches');
 
-//Employee Active/Inactive
+	#Employee Active/Inactive
 
-	Route::post('employee/active/{user_id}', 'acl\UserController@active')->name('active');
+	#Route::group(['middleware' => ['ability:hrms_admin, can_activate_employees']], function(){
+
+		Route::post('employee/active/{user_id}', 'acl\UserController@active')->name('active');
+	#});
 
 // HRD > Employees Module
 Route::get('employees/export/', 'HRD\EmployeesController@export')->name('employees.export');
@@ -125,61 +109,90 @@ Route::get('hrd/employees/download/{db_table}/{user_id}', 'HRD\EmployeesControll
 Route::post('import', 'HRD\EmployeesController@import')->name('employees.import');
 
 
-// Master CRUD
-Route::get('settings/mast_entity/{db_table}', 'MasterController@index')->name('mast_entity.all');
-Route::get('settings/mast_entity', 'MasterController@start_page')->name('mast_entity.home');
-Route::get('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@createOrEditOrShow')->name('mast_entity.get');
-Route::post('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@storeOrUpdate')->name('mast_entity.post');
-Route::delete('settings/mast_entity/{db_table}/{id}', 'MasterController@destroy')->name('mast_entity.delete');
-
-
 
 /************Leave Management**************/
 
-//Hold leaves or Reset
-Route::get('leave-management/hold/{id}', 'Leave\AllotmentController@hold')->name('hold.leave');
-Route::get('leave-management/reallot/{id}', 'Leave\AllotmentController@reallot')->name('reallot.leave');
 
 
 
-//Export Import holidays
+	#Export Import holidays
 
-Route::post('holidays/import', 'Leave\HolidayController@import')->name('import.holidays');
-Route::get('holidays/export', 'Leave\HolidayController@export')->name('export.holidays');
+	Route::post('holidays/import', 'Leave\HolidayController@import')->name('import.holidays');
+	Route::get('holidays/export', 'Leave\HolidayController@export')->name('export.holidays');
 
-Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_page')->name('employee.show_page');
+	Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_page')->name('employee.show_page');
+
+	#Birthday Management
+	#Route::group(['middleware' => ['ability:hrms_admin, manage_birthday']], function(){
+
+		Route::resource('/birthday_wish','BirthdayWish');
+		Route::post('/import_birthday','BirthdayWish@import')->name('Birthday_user');
+		Route::get('/export_birthday','BirthdayWish@export')->name('Birthday_export_user');
+		Route::get('/birth_delete/{id}','BirthdayWish@destroy')->name('Birthday_destroy');
+		Route::get('/get_message','BirthdayWish@getMessage')->name('get_message');
+		Route::get('/create_message','BirthdayWish@create_message')->name('create_message');
+		Route::post('/save_message','BirthdayWish@save_message')->name('save_message');
+		Route::get('/edit_message/{id}','BirthdayWish@edit_message')->name('edit_message');
+		Route::post('/update_message/{id}','BirthdayWish@update_message')->name('update_message');
+	#});
+
+	// Settings CRUD
+
+	#Route::group(['middleware' => ['ability:hrms_admin, manage_settings']], function(){
+
+		Route::get('settings/mast_entity/{db_table}', 'MasterController@index')->name('mast_entity.all');
+		Route::get('settings/mast_entity', 'MasterController@start_page')->name('mast_entity.home');
+		Route::get('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@createOrEditOrShow')->name('mast_entity.get');
+		Route::post('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@storeOrUpdate')->name('mast_entity.post');
+		Route::delete('settings/mast_entity/{db_table}/{id}', 'MasterController@destroy')->name('mast_entity.delete');
+	#});
 
 
-/*******ACL********/
- 
-Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
+	#Leave Management
 
-	Route::resource('acl/permissions', 'acl\PermissionController');
-	Route::resource('acl/roles', 'acl\RoleController');
-	Route::resource('acl/users', 'acl\UserController');
-	Route::post('user/assign/', 'acl\UserController@assign')->name('assign.role');
+	#Route::group(['middleware' => ['ability:hrms_admin, leave_management']], function(){
+
+		Route::resource('/leave-management/types', 'Leave\LeaveTypeController');
+		Route::resource('/leave-management/allotments', 'Leave\AllotmentController');
+		Route::resource('/leave-management/holidays', 'Leave\HolidayController');
+
+		#Hold leaves or Reset
+
+		Route::get('leave-management/hold/{id}', 'Leave\AllotmentController@hold')->name('hold.leave');
+		Route::get('leave-management/reallot/{id}', 'Leave\AllotmentController@reallot')->name('reallot.leave');
+
+	#});
+
+	#User Management 
+
+	#Route::group(['middleware' => ['ability:hrms_admin, user_management']], function() {
+
+		Route::resource('acl/permissions', 'acl\PermissionController');
+		Route::resource('acl/roles', 'acl\RoleController');
+		Route::resource('acl/users', 'acl\UserController');
+		Route::post('user/assign/', 'acl\UserController@assign')->name('assign.role');
+
+	#});
 
 });
 
-});
-
-/*************************************/
 
 /*******Leave Request**********/
 
 Route::get('/leave-show/{id}', 'Employee\LeavesController@showrequest')->name('show.leave');
 
-//Holidays
+	/*	create by kishan for export data using checkbox or unchecheked and view  enployee details*/
+	#Route::group(['middleware' => ['ability:hrms_admin, can_view_employee_info']], function() {
 
+		Route::get('/hrd/employees/view-details/{id}/{view}','HRD\EmployeesController@viewDetails')->name('employee.view-details');
+	#});
 
+	Route::post('/hrd/employee/save_session','HRD\EmployeesController@save_session')->name('employee.save_session');
 
-/*	create by kishan for export data using checkbox or unchecheked and view  enployee details*/
-
-Route::get('/hrd/employees/view-details/{id}/{view}','HRD\EmployeesController@viewDetails')->name('employee.view-details');
-Route::post('/hrd/employee/save_session','HRD\EmployeesController@save_session')->name('employee.save_session');
-Route::post('/hrd/employees/activeInactive','HRD\EmployeesController@activeInactive')->name('employee.active-inactive');
 
 //...................................//
+
+//Route::post('/hrd/employees/activeInactive','HRD\EmployeesController@activeInactive')->name('employee.active-inactive');
 
 Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
 
@@ -198,12 +211,9 @@ Route::get('balance', 'Employee\LeavesController@balance');
 Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_designation')->name('employees.fetch_designation');
 
 /*****************************************/
-	//	Recruitement Requests
+	# Recruitement Requests
 
 Route::resource('recruitment', 'recruitment\RequestController');
-
-
-
 
 /** SubAdmin ***/
 Route::get('recruit-posting/subadmin', 'recruitment\RecruitPostingController@indexSubAdmin')->name('recruit.subadmin');
@@ -217,6 +227,7 @@ Route::get('recruit-posting/admin', 'recruitment\RecruitPostingController@indexA
 Route::post('recruit-posting/admin/{id}', 'recruitment\RecruitPostingController@AdminApproval')->name('recruit.admin.approved');
 
 /*** HR ***/
+
 Route::get('recruit-posting/hr', 'recruitment\RecruitPostingController@indexHr')->name('recruit.hr');
 
 Route::post('recruit-posting/hr/{id}', 'recruitment\RecruitPostingController@HrApproval')->name('recruit.hr.approved');
@@ -253,9 +264,6 @@ Route::post('shortlist/{user_id}', 'recruitment\CandidateController@shortlist')-
 Route::post('recruitment/approved/{user_id}', 'recruitment\RequestController@apporvedByRecruiter');
 // End of Recruitement Requests -----------
 
-
-/******User Registration******/
-//Route::get('auth/create', 'UserController@create');
 
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -305,16 +313,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 	Route::group(['prefix' => 'tenders', 'namespace' => 'Tender'], function ()  {
 
 	});
-*/
-//  Employee Leaves
-/*
-	Route::resource('/hrd/rules', 'HRD\LeavesController');
-	Route::get('emp_leave','Employee\LeavesController@emp_leave')->name('emp_leave');
-	Route::post('emp_leave_store','Employee\LeavesController@store')->name('emp_leave_store');
-	Route::get('employee/leaves/{id}/create', 'Employee\LeavesController@applyform')->name('apply.leave');
-	Route::get('/employee/apply_leaves/{id}','Employee\LeavesController@apply_leaves')->name('employee.apply_leaves');
-
-	Route::post('/hrd/employees/leave-allotment/{id}', 'Leave\AllotmentController@store')->name('alloting.leave');
-
-	
 */

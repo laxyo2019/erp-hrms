@@ -720,10 +720,10 @@ class EmployeesController extends Controller
     Session::put('user_ids',$user_ids);
   }
 
-  public function activeInactive(Request $request){
+  /*public function activeInactive(Request $request){
 
    return EmployeeMast::where('id',$request->id)->update(array('active' => '0'));
-  }
+  }*/
 
   //Employees Import
 

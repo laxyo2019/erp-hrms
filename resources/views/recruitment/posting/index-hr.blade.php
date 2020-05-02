@@ -25,7 +25,9 @@
                   <th>CITY</th>
                   <th>DEPARTMENT</th>
                   <th>REQUESTED BY</th>
-                  <th>DETAILS</th>
+                  @permission('hrms-view')
+                    <th>DETAILS</th>
+                  @endpermission
                   <th>MANAGER</th>
                   <th>ADD RECRUITS</th>
                   <th>ACTIONS</th>
@@ -49,6 +51,7 @@
                 <td>{{ucwords($index->city)}}</td>
                 <td>{{ucwords($index['department']->name)}}</td>
                 <td>{{ ucwords($index['employee']->emp_name) }}</td>
+                @permission('hrms-view')
                 <td class='text-center'>
                   <span>
                     <button alt="View" class="btn btn-sm btn-info modalReq" data-id="{{$index->id}}"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></button>
@@ -70,6 +73,7 @@
                     </div>
                   </span>
                 </td>
+                @endpermission
                 <td>
 
                   @if($index->hr_actions == 0)
