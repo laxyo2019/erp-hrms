@@ -45,6 +45,14 @@
           </div>
         </div>
       </div>
+      {{-- <div class="col-md-6">
+          <div class="tile">
+            <h3 class="tile-title">Pie Chart</h3>
+            <div class="embed-responsive embed-responsive-16by9">
+              <canvas class="embed-responsive-item" id="pieChartDemo" width="347" height="195" style="width: 434px; height: 244px;"></canvas>
+            </div>
+          </div>
+        </div> --}}
      
    
     </main>

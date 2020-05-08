@@ -7,10 +7,12 @@
         <div class="col-md-12 col-xl-12" style="margin-top: 15px"> 
           <h1 style="font-size: 24px">Manage users
               <a href="{{ route('users.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+               @ability('hrms_admin', 'hrms-create')
               <span class="ml-2">
                 <a href="{{route('users.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
               <span class="fa fa-plus "></span> Add Users</a>
              </span>
+             @endability
           </h1>
         </div>
         <div class="card-body table-responsive">
@@ -26,7 +28,9 @@
                 <th>#</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Actions</th>
+                @ability('hrms_admin', 'hrms-edit')
+                  <th>Actions</th>
+                @endability
               </tr>
             </thead>
             <tbody>
@@ -36,13 +40,17 @@
                       <td> {{++$count}}</td>
                       <td>{{ucwords($index->name)}}</td>
                       <td>{{$index->email}}</td>
-                      <td  >
-                        <div class="row">
-                          <div class="col" align="center">
-                          <a href="{{route('users.edit',$index->id)}}" class="btn btn-sm btn-info">EDIT</a>
+                      @ability('hrms_admin', 'hrms-edit')
+                        <td >
+                          <div class="row">
+                            
+                              <div class="col" align="center">
+                              <a href="{{route('users.edit',$index->id)}}" class="btn btn-sm btn-info">EDIT</a>
+                              </div>
+                            
                           </div>
-                        </div>
-                      </td>
+                        </td>
+                      @endability
                     </tr>
                 @endforeach
             </tbody>

@@ -24,7 +24,6 @@
 				@csrf
 				<div class="container-fluid">
 					<div class="row">
-						
 						<div class="col-6 form-group">
 							<label for="job_title">Job Title
 							@error('job_title')
@@ -60,11 +59,11 @@
 							</label>
 							<input type="text" name="city" value="{{old('city')}}" class="form-control">
 						</div>
-						<div class="col-6 form-group">
+						{{-- <div class="col-6 form-group">
 							<label for="postal_code">Postal Code</label>
 							<input type="text" name="postal_code" value="{{old('postal_code')}}" class="form-control">
 						</div>
-						
+						 --}}
 						<div class="col-6 form-group">
 							<label for="department">Department
 								@error('department')
@@ -132,9 +131,9 @@
 							</select>
 						</div>
 						
-
-						<div class="col-6 form-group">
-							<label for="requirements">Job Requirements 
+						<br>
+						<div class="col-12 form-group">
+							<label for="requirements">Job Description 
 								@error('requirements')
 						          	<span style="color: red">
 										| {{ $message }}
@@ -143,7 +142,7 @@
 							<textarea  class="form-control" id="requirements" name="requirements" >{{old('requriements')}}</textarea>
 						</div>
 
-						<div class="col-6 form-group">
+						{{-- <div class="col-6 form-group">
 							<label for="short_description">Short Description 
 								@error('short_description')
 						          	<span style="color: red">
@@ -151,7 +150,7 @@
 									</span>
 						      	@enderror</label>
 							<textarea  class="form-control" id="short_description" name="short_description" >{{old('short_description')}}</textarea>
-						</div>
+						</div> --}}
 					</div>
 					<br>
 					{{-- <div><h5>NECESSARY DOCUMENTS</h5></div><hr>

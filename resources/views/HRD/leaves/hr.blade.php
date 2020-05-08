@@ -26,7 +26,9 @@
 									<th>POSTED ON</th>
 									<th>TEAM LEAD</th>
 									<th>ADMIN</th>
-									<th>DETAILS</th>
+									@permission('hrms-view')
+										<th>DETAILS</th>
+									@endpermission
 									<th style="text-align: center;">ACTIONS</th>
 								</tr>
 							</thead>
@@ -78,24 +80,27 @@
 					<td><strong class="rev_msg">REVERSED</strong></td>
 				@endif
 		</td>
-		<td>
-									<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}">
-										<i class="fa fa-eye" style="font-size: 12px;"></i>
-									</button></td>
-									<div class="modal fade" id="reqModal" role="dialog">
-									    <div class="modal-dialog modal-lg" >
-									    	<div class="modal-content" >
-									        	<div class="modal-header">
-									        		<h4 class="modal-title">Request Detail</h4>
-									        	</div>
-									        	<div class="modal-body table-responsive" id="detailTable" style="background: #ececec">
-									        	</div>
-									        	 <div class="modal-footer">
-									          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-									        </div>
-									        </div>
-									    </div>
-									</div>
+					@permission('hrms-view')
+						<td>
+							<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}">
+								<i class="fa fa-eye" style="font-size: 12px;"></i>
+							</button>
+						</td>
+						<div class="modal fade" id="reqModal" role="dialog">
+						    <div class="modal-dialog modal-lg" >
+						    	<div class="modal-content" >
+						        	<div class="modal-header">
+						        		<h4 class="modal-title">Request Detail</h4>
+						        	</div>
+						        	<div class="modal-body table-responsive" id="detailTable" style="background: #ececec">
+						        	</div>
+						        	 <div class="modal-footer">
+						          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+						        </div>
+						        </div>
+						    </div>
+						</div>
+					@endpermission
 <td class='d-flex' style="border-bottom:none">
 
 	

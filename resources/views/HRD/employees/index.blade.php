@@ -41,9 +41,15 @@
 								<th>Employee Code</th>
 								<th>Grade Code</th>
 								<th>Designation</th>
-								<th>Leaves</th>
+								@ability('hrms_admin', 'can-allot-leaves')
+									<th>Leaves</th>
+								@endability
+								@ability('hrms_admin', 'can-activate-employees')
 								<th>Status</th>
+								@endability
+								@ability('hrms_admin', 'hrms-view|hrms-edit|hrms-delete')
 								<th>Action</th>
+								@endability
 							</tr>
 						</thead>
 						<tbody>
@@ -55,9 +61,11 @@
 								<td>{{$employee->emp_code}}</td>
 								<td>@if($employee->grade!=null) {{ucwords($employee->grade->name)}} @endif</td>
 								<td>{{ucwords($employee['designation']['name'])}}</td>
+								@ability('hrms_admin', 'can-allot-leaves')
 								<td>
 
 								{{-- hide allotment button if leave is not created --}}
+
 								@if(count($leaves) == null)
 
 									No leaves to assign
@@ -73,6 +81,9 @@
 									@endif
 								@endif
 								</td>
+								@endability
+
+								@ability('hrms_admin', 'can-activate-employees')
 								<td >
 						<div class="row">
 						@if($employee->status == 0)
@@ -94,13 +105,23 @@
 		                @endif
 						</div>
               			</td>
+              			@endability
+              			@ability('hrms_admin', 'hrms-view|hrms-edit|hrms-delete')
 						<td class='d-flex' style="border-bottom:none">
+							@ability('hrms_admin', 'hrms-view')
 							<span>
 								<a href="{{route('employee.view-details',['id'=>$employee->user_id,'view'=>'personal'])}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>
 							</span>
+							@endability
+
+							@ability('hrms_admin', 'hrms-edit')
 							<span class="ml-2">
 							<a href="
-							{{route('employee.show_page',['id'=>$employee->user_id,'tab'=>'personal'])}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a></span><span class="ml-2">
+							{{route('employee.show_page',['id'=>$employee->user_id,'tab'=>'personal'])}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
+							</span>
+							@endability
+							@ability('hrms_admin', 'hrms-delete')
+							<span class="ml-2">
 							<form action="
 							{{route('employees.destroy', ['id' => $employee->user_id])}}" method="POST" id="delform_{{ $employee->user_id}}">
 								@csrf
@@ -108,7 +129,9 @@
 								<a href="javascript:$('#delform_{{$employee->user_id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>			
 							</form>
 							</span>
+							@endability
 						</td>
+						@endability
 							</tr>
 						@endforeach
 						</tbody>

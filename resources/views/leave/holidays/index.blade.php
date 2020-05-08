@@ -8,10 +8,12 @@
             <div class="col-sm-3">
                 <h1 style="font-size: 20px">Company Holidays </h1>
             </div>
+            @ability('hrms_admin', 'hrms-create')
             <div class="col-sm-2" align="center">
                 <a href="{{route('holidays.create')}}" class="btn btn-primary btn-sm " style="font-size:13px">
                 <span class="fa fa-plus"></span> Add holiday</a>
             </div>
+            @endability
             <div class="col-sm-1">
                 <a href="{{route('export.holidays')}}" class="btn btn-sm btn-primary pull-right" style="font-size:13px">Export
                 <span class="fa fa-cloud-download"></span></a>
@@ -42,7 +44,9 @@
                                 <th>TITLE</th>
                                 <th>DATE</th>
                                 <th>DESCRIPTION</th>
-                                <th>Actions</th>
+                                @ability('hrms_admin', 'hrms-edit|hrms-delete')
+                                    <th>Actions</th>
+                                @endability
                             </tr>
                         </thead>
                         <tbody>
@@ -53,18 +57,24 @@
                                     <td>{{ucwords($index->title)}}</td>
                                     <td>{{$index->date}}</td>
                                     <td>{{$index->desc}}</td>
-                                    <td class='d-flex' style="border-bottom:none">
-                                      <span class="ml-2 text-center">
-                                        <a href="{{route('holidays.edit', $index->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
-                                      </span>
-                                      <span class="ml-2">
-                                    <form  action="{{route('holidays.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
-                                    </form>
-                                </span>
-                                    </td>
+                                    @ability('hrms_admin', 'hrms-view|hrms-edit|hrms-delete')
+                                        <td class='d-flex' style="border-bottom:none">
+                                            @ability('hrms_admin', 'hrms-edit')
+                                              <span class="ml-2 text-center">
+                                                <a href="{{route('holidays.edit', $index->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
+                                              </span>
+                                            @endability
+                                            @ability('hrms_admin', 'hrms-delete')
+                                                <span class="ml-2">
+                                                    <form  action="{{route('holidays.destroy',$index->id)}}" method="POST" id="delform_{{ $index->id}}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <a href="javascript:$('#delform_{{ $index->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">DELETE</a>
+                                                    </form>
+                                                </span>
+                                            @endability
+                                        </td>
+                                    @endability
                                 </tr>
                            @endforeach
                         </tbody>
