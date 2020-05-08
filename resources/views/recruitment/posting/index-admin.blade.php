@@ -90,7 +90,7 @@
                   </span>
                   </td>
                   <td>
-                    @if($index->hr_actions == 1)
+                    @if($index->hr_actions == 0)
                       <strong style="color: grey;">UNDER PROCESS</strong>
                     @else
                       <div class='text-center'>
