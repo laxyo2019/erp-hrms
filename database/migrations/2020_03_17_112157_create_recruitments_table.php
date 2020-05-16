@@ -18,7 +18,8 @@ class CreateRecruitmentsTable extends Migration
             $table->string('requested_by');
             $table->string('job_title_id');
             $table->string('comp_id');
-            $table->string('short_description')->nullable();
+            $table->string('from')->nullable();
+            $table->string('to')->nullable();
             $table->string('job_description')->nullable();
             $table->string('requirements')->nullable();
             $table->string('city')->nullable();

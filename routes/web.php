@@ -55,15 +55,13 @@ Route::group(['middleware' => ['role:hrms_admin']], function() {
 
 Route::resource('/hrd/leaves', 'HRD\LeavesController');
 
-Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
+Route::group(['middleware' => ['role:hrms_admin|hrms_hr|hrms_subadmin']], function() {
 
 	Route::resource('/hrd/employees','HRD\EmployeesController');
 
 	//Delete Employees Info
 
 	Route::get('/hrd/employees/delete_row/{db_table}/{id}', 'HRD\EmployeesController@delete_row')->name('employee.delete_row');
-
-
 
 	//Employee Save or Update Methods
 	Route::prefix('hrd')->namespace('HRD')->group(function () {
@@ -79,7 +77,7 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 		Route::post('/employees/save_bankdetails/{user_id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
 		Route::post('/employees/save_familydetails/{user_id}', 'EmployeesController@save_familydetails')->name('employees.familydetails');
 
-});
+	});
 	Route::get('/familydetails/{id}/edit', 'HRD\EmployeesController@edit_familydetails')->name('edit.familydetails');
 	Route::post('/familydetails/{id}/update', 'HRD\EmployeesController@update_family')->name('update.familydetails');
 
@@ -91,29 +89,22 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr']], function() {
 	Route::post('/location/branches', 'HRD\EmployeesController@showBranches')->name('company.branches');
 
 	#Employee Active/Inactive
+	Route::post('employee/active/{user_id}', 'acl\UserController@active')->name('active');
 
-	#Route::group(['middleware' => ['ability:hrms_admin, can_activate_employees']], function(){
+	// HRD > Employees Module
+	Route::get('employees/export/', 'HRD\EmployeesController@export')->name('employees.export');
 
-		Route::post('employee/active/{user_id}', 'acl\UserController@active')->name('active');
-	#});
+	//Download documents
 
-// HRD > Employees Module
-Route::get('employees/export/', 'HRD\EmployeesController@export')->name('employees.export');
+	Route::get('hrd/employees/download/{db_table}/{user_id}', 'HRD\EmployeesController@downloadDocs')->name('employees.download');
 
-//Download documents
+	//Import Export
 
-Route::get('hrd/employees/download/{db_table}/{user_id}', 'HRD\EmployeesController@downloadDocs')->name('employees.download');
-
-//Import Export
-
-Route::post('import', 'HRD\EmployeesController@import')->name('employees.import');
+	Route::post('import', 'HRD\EmployeesController@import')->name('employees.import');
 
 
 
-/************Leave Management**************/
-
-
-
+	/************Leave Management**************/
 
 	#Export Import holidays
 
@@ -122,7 +113,8 @@ Route::post('import', 'HRD\EmployeesController@import')->name('employees.import'
 
 	Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_page')->name('employee.show_page');
 
-	#Birthday Management
+	#Birthday Management -----------
+
 	#Route::group(['middleware' => ['ability:hrms_admin, manage_birthday']], function(){
 
 		Route::resource('/birthday_wish','BirthdayWish');
@@ -176,6 +168,31 @@ Route::post('import', 'HRD\EmployeesController@import')->name('employees.import'
 
 });
 
+
+#  Staff \ Employees Separation -------------
+	
+# HR
+Route::get('separation/hr', 'separation\SeparationController@indexHR')->name('separation-hr.index');
+
+# Subadmin
+Route::get('separation/subadmin', 'separation\SeparationController@indexSubAdmin')->name('separation-subadmin.index');
+Route::post('separation-request/subadmin/{request_id}', 'separation\SeparationController@SubAdminApproval');
+
+#Admin
+Route::get('separation/admin', 'separation\SeparationController@indexAdmin')->name('separation-admin.index');
+Route::post('separation-request/admin/{request_id}', 'separation\SeparationController@AdminApproval');
+
+#Close Account/ Finale Settlement
+
+Route::post('separation/close-account/{id}', 'separation\StaffSettlementController@closeAccount');
+
+Route::resource('separation', 'separation\SeparationController');
+Route::resource('staff-settlement', 'separation\StaffSettlementController');
+
+
+# Loan Request 
+
+Route::resource('loan-request', 'loan\LoanRequestController');
 
 /*******Leave Request**********/
 
@@ -267,7 +284,7 @@ Route::post('recruitment/approved/{user_id}', 'recruitment\RequestController@app
 
 
 Route::get('/home', 'HomeController@index')->name('home');
-
+Route::resource('/attendance', 'attendance\AttendanceController');
 
 /*
  //Expanses
