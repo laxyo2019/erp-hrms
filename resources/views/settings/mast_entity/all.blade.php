@@ -6,10 +6,10 @@
 				<h4><i class="fa fa-asterisk"></i> Entity :  {{ $table_name }}
 				
 				</h4>
-				@ability('hrms_admin', 'hrms_create')
+{{--				@ability('hrms_admin', 'hrms_create') --}}
 				<a href="{{ route('mast_entity.get', ['create', $db_table]) }}" class="btn btn-outline-success ml-2" style="font-size: 13px">
 					<span class="fa fa-plus"></span> Add New</a>
-				@endability
+				{{-- @endability --}}
 			</div>
 			<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
 		</div>
@@ -36,9 +36,9 @@
 									<th>ID</th>
 									<th>Name</th>
 									<th>Description</th>
-									@ability('hrms_admin', 'hrms-edit|hrms-delete')
+									{{-- @ability('hrms_admin', 'hrms-edit|hrms-delete') --}}
 										<th>Actions</th>
-									@enability
+									{{-- @enability --}}
 								</tr>
 							</thead>
 							<tbody>
@@ -47,14 +47,14 @@
 								<td>{{$row->id}}</td>
 								<td>{{strtoupper($row->name)}}</td>
 								<td>{{$row->description}}</td>
-								@ability('hrms_admin', 'hrms-edit|hrms-delete')
+								{{-- @ability('hrms_admin', 'hrms-edit|hrms-delete') --}}
 									<td class="d-flex">
-										@ability('hrms_admin', 'hrms_edit')
+										{{-- @ability('hrms_admin', 'hrms_edit') --}}
 										<span>
 											<a href="{{route('mast_entity.get', ['edit', $db_table, $row->id])}}" class="btn btn-sm btn-outline-warning"><i class="fa fa-edit"></i> Edit</a>
 										</span>
-										@endability
-										@ability('hrms_admin', 'hrms-delete')
+										{{-- @endability --}}
+										{{-- @ability('hrms_admin', 'hrms-delete') --}}
 										<span class="ml-2">
 											<form action="{{route('mast_entity.delete', [$db_table, $row->id])}}" method="POST" id="delform_{{ $row->id}}">
 												@csrf
@@ -62,9 +62,9 @@
 												<a href="javascript:$('#delform_{{ $row->id }}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
 											</form>
 										</span>
-										@endability
+										{{-- @endability --}}
 									</td>
-								@endability
+								{{-- @endability --}}
 							</tr>
 							@endforeach
 							</tbody>
