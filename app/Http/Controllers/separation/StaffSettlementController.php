@@ -62,6 +62,8 @@ class StaffSettlementController extends Controller
     {
         $separation = StaffSeparation::findOrFail($id);
         $emp = EmployeeMast::where('emp_code', $separation->emp_code)->first();
+
+
         $settlement = StaffSettlement::where('separation_request_id', $id)->first();
 
         return view('separation.show', compact('separation', 'emp', 'settlement'));
@@ -86,7 +88,11 @@ class StaffSettlementController extends Controller
             'laptop'                => 'required',
             'sim'                   => 'required',
             'mediclaim'             => 'required',
+<<<<<<< HEAD
 	    'others'		    => 'required',
+=======
+            'others'                => 'required',
+>>>>>>> 0f05885b5dd5bc72d02beabcf0d3236b80a896ca
             'laxyo_email'           => 'required',
             'laxyo_connect'         => 'required',
             'erp_id'                => 'required',
@@ -115,7 +121,11 @@ class StaffSettlementController extends Controller
                     'laxyo_email'           => $request->laxyo_email,
                     'laxyo_connect'         => $request->laxyo_connect,
                     'laxyo_erp_id'          => $request->erp_id,
+<<<<<<< HEAD
 		    'complete_form'	    => 1 ]);
+=======
+                    'complete_form'         => 1 ]);
+>>>>>>> 0f05885b5dd5bc72d02beabcf0d3236b80a896ca
         }
         
         return back()->with('success', 'Successfully updated.');

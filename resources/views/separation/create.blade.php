@@ -50,7 +50,7 @@
 					</div>
 					<div class="col-6 form-group ">
 						<label for="">Requested On</label>
-						<input type="text" class="form-control datepicker" name="requested_on" value="{{old('requested_on')}}">
+						<input type="text" class="form-control datepicker" name="requested_on" value="{{old('requested_on')}}" autocomplete="off">
 						@error('requested_on')
 							<span class="text-danger" role="alert">
 								<strong>* {{ $message }}</strong>
@@ -59,7 +59,7 @@
 					</div>
 					<div class="col-6 form-group ">
 						<label for="">Separation Date</label>
-						<input type="text" class="form-control datepicker" name="separation_date" value="{{old('separation_date')}}">
+						<input type="text" class="form-control datepicker" name="separation_date" value="{{old('separation_date')}}" autocomplete="off">
 						@error('separation_date')
 							<span class="text-danger" role="alert">
 								<strong>* {{ $message }}</strong>

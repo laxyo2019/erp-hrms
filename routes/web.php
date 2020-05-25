@@ -194,6 +194,48 @@ Route::resource('staff-settlement', 'separation\StaffSettlementController');
 
 Route::resource('loan-request', 'loan\LoanRequestController');
 
+# Loan Listing
+
+	# HR
+
+	Route::get('loan-listing/hr', 'loan\LoanListingController@indexHr')->name('loan-listing-hr.index');
+
+	Route::post('loan-listing/hr/{req_id}', 'loan\LoanListingController@HrApproval');
+
+	Route::get('loan-listing/{req_id}/history', 'loan\LoanListingController@loanMonthlyHistory')->name('loan-listing.history');
+
+	Route::post('loan-listing/{req_id}/history', 'loan\LoanHistoryController@updateLoanHistory')->name('loan-listing-update.history');
+
+	# SubADMIN
+
+	Route::get('loan-listing/subadmin', 'loan\LoanListingController@indexSubAdmin')->name('loan-listing-subadmin.index');
+
+	Route::post('loan-listing/subadmin/{req_id}', 'loan\LoanListingController@SubAdminApproval');
+
+	# ADMIN
+
+	Route::get('loan-listing/admin', 'loan\LoanListingController@indexAdmin')->name('loan-listing-admin.index');
+
+	Route::post('loan-listing/admin/{req_id}', 'loan\LoanListingController@AdminApproval');
+
+	# ACCOUNTANT
+
+	Route::get('loan-listing/accountant', 'loan\LoanListingController@indexAccountant')->name('loan-listing-accountant.index');
+
+	Route::post('loan-disburse/{req_id}', 'loan\LoanListingController@loanDisburse');
+	
+	Route::resource('loan-listing', 'loan\LoanListingController');
+
+	//Route::get('loan-request/{req_id}/history', 'loan\LoanRequestController@loanMonthlyHistory')->name('loan-request.history');
+	//Route::get('loan-history/{req_id}/', 'loan\LoanRequestController@destroy')->name('loan-request.history');
+	Route::resource('loan-listing/history', 'loan\LoanHistoryController');
+
+# Loan Settings
+
+Route::resource('loan-setting', 'loan\LoanSettingController');
+
+
+
 /*******Leave Request**********/
 
 Route::get('/leave-show/{id}', 'Employee\LeavesController@showrequest')->name('show.leave');
