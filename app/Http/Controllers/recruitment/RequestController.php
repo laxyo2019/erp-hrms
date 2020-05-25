@@ -66,15 +66,22 @@ class RequestController extends Controller
             'city'              => 'required',
             'employement_type'  => 'required',
             'department'        => 'required',
-            'requirements'      => 'required',
-        ]);
+            'from'             => 'required|date',
+            'to'               => 'required|date|after:from',
+            'job_description'   => 'required',
+            ],
+            [
+                'to.after' => 'This date should be greater.'
+            ]
+        );
 
         RecruitRequest::create([
             'requested_by'          => Auth::id(),
             'job_title'             => $request->job_title,
             'comp_id'               => $request->company_name,
-            'short_description'     => $request->short_description,
-            'requirements'          => $request->requirements,
+            'job_description'       => $request->job_description,
+            'from'                  => $request->from,
+            'to'                    => $request->to,
             'city'                  => $request->city,
             'postal_code'           => $request->postal_code,
             'depart_id'             => $request->department,
@@ -141,7 +148,7 @@ class RequestController extends Controller
             'city'              => 'required',
             'employement_type'  => 'required',
             'department'        => 'required',
-            'requirements'      => 'required',
+            'job_description'   => 'required',
 
         ]);
 
@@ -149,8 +156,9 @@ class RequestController extends Controller
             ->update([
                 'job_title'             => $request->job_title,
                 'comp_id'               => $request->company_name,
-                'short_description'     => $request->short_description,
-                'requirements'          => $request->requirements,
+                'job_description'       => $request->job_description,
+                'from'                  => $request->from,
+                'to'                    => $request->to,
                 'city'                  => $request->city,
                 'postal_code'           => $request->postal_code,
                 'depart_id'             => $request->department,

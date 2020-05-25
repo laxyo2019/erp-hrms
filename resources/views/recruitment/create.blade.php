@@ -130,16 +130,37 @@
 								@endforeach
 							</select>
 						</div>
+						<div class="col-3 form-group">
+						<label for="">From
+							@error('from')
+			            		<span style="color: red">
+									| {{ $message }}
+								</span>
+				      		@enderror
+						</label>
+						<input type="text" class="form-control datepicker" name="from" value="{{old('from')}}" autocomplete="off" id="first_date">
+					</div>
+					<div class="col-3 form-group">
+						<label for="">To
+							@error('to')
+			            		<span style="color: red">
+									| {{ $message }}
+								</span>
+				      		@enderror
+						</label>
+						<input type="text" class="form-control datepicker" name="to"
+							value="{{old('to')}}" autocomplete="off" id="to">
+					</div>
 						
 						<br>
 						<div class="col-12 form-group">
-							<label for="requirements">Job Description 
-								@error('requirements')
+							<label for="job_description">Job Description 
+								@error('job_description')
 						          	<span style="color: red">
 										| {{ $message }}
 									</span>
 						      	@enderror</label>
-							<textarea  class="form-control" id="requirements" name="requirements" >{{old('requriements')}}</textarea>
+							<textarea  class="form-control" id="job_description" name="job_description" >{{old('job_description')}}</textarea>
 						</div>
 
 						{{-- <div class="col-6 form-group">
@@ -193,4 +214,12 @@
 		<img src="{{asset('images/loading1.gif')}}" alt="">
 	</div>
 </main>
+<script type="text/javascript">
+	$('.datepicker').datepicker({
+		orientation: "bottom",
+		format: "yyyy-mm-dd",
+		autoclose: true,
+		todayHighlight: true
+		});
+</script>
 @endsection

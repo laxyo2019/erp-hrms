@@ -36,12 +36,16 @@
 		<h4>Experience Level</h4>
 		<div>{{ucwords($request['experience']->name)}}</div>
 	</div>
+	<div class="col-6">
+		<h4>Time Period</h4>
+		<div>{{$request->from}} to {{$request->to}}</div>
+	</div>
 	
 </div>
 <div class="row card-body text-center">
 	<div class="col-12" >
-		<h4>Job Requirement</h4>
-		<div>{{$request->requirements}}</div>
+		<h4>Job Description</h4>
+		<div>{{$request->job_description}}</div>
 	</div>
 	
 </div>
