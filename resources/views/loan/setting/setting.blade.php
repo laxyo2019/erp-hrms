@@ -41,7 +41,7 @@
 			<div class="row">
 				<div class="col-6 form-group ">
 					<label for="">Interest Rate ( % )</label>
-					<input type="text" class="form-control" name="interest_rate" value="{{$interest->description}}" readonly="" id="interest_rate">
+					<input type="text" class="form-control" name="interest_rate" value="{{old('interest_rate')}}" readonly="">
 					@error('interest_rate')
 						<span class="text-danger" role="alert">
 							<strong>* {{ $message }}</strong>
@@ -64,7 +64,7 @@
 				</div>
 				<div class="col-6 form-group">
 					<label for="">Loan Amount (In INR)</label>
-					<input type="text" class="form-control" name="loan_amount" value="{{old('loan_amount')}}" id="loan_amount">
+					<input type="text" class="form-control" name="loan_amount" value="{{old('loan_amount')}}">
 					@error('loan_amount')
 						<span class="text-danger" role="alert">
 							<strong>* {{ $message }}</strong>
@@ -73,7 +73,7 @@
 				</div>
 				<div class="col-6 form-group">
 					<label for="monthly_deduction">Monthly Deduction (In INR)</label>
-					<input type="text" class="form-control" name="monthly_deduction" value="{{old('monthly_deduction')}}" readonly="" id="monthly_deduction" >
+					<input type="text" class="form-control" name="monthly_deduction" value="{{old('monthly_deduction')}}" disabled="">
 					@error('monthly_deduction')
 						<span class="text-danger" role="alert">
 							<strong>* {{ $message }}</strong>
@@ -82,17 +82,8 @@
 				</div>			
 				<div class="col-6 form-group ">
 					<label for="">Tenure ( Months )</label>
-					<input type="number" class="form-control " name="tenure" value="{{old('tenure')}}" id="tenure" min="1">
+					<input type="number" class="form-control " name="tenure" value="{{old('tenure')}}">
 					@error('tenure')
-						<span class="text-danger" role="alert">
-							<strong>* {{ $message }}</strong>
-						</span>
-					@enderror
-				</div>
-				<div class="col-6 form-group ">
-					<label for="">Total Interest (In INR)</label>
-					<input type="text" class="form-control " name="total_interest" value="{{old('total_interest')}}" id="total_interest" min="1" readonly="" id="total_interest">
-					@error('total_interest')
 						<span class="text-danger" role="alert">
 							<strong>* {{ $message }}</strong>
 						</span>
@@ -118,8 +109,7 @@
 					<button class="btn btn-info btn-sm" style="width: 20%">SAVE</button>
 					{{-- <a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Cancel</a> --}}
 				</div>
-			</div>
-				
+			</div>		
 			</div>
 			<br>
 			
@@ -133,35 +123,7 @@
 		format: "mm-dd-yyyy",
 		autoclose: true,
 		todayHighlight: true
-	});
-
-	$('#tenure').on('change', function(){
-
-		var interest 	= parseFloat($('#interest_rate').val());
-		var loan_amount = parseFloat($('#loan_amount').val());
-		var tenure 		= parseFloat($('#tenure').val());
-
-		//var total_amount = loan_amount/100*interest + loan_amount;
-		var total_interest = loan_amount/100*interest * tenure;
-
-		var total_amount = total_interest + loan_amount;
-
-		var monthly_deduction = total_amount / tenure;
-
-		//$('#monthly_deduction').val(monthly.toFixed(2));
-		$('#monthly_deduction').val(monthly_deduction.toFixed(2));
-		$('#total_interest').val(total_interest.toFixed(2));
-	});
-
-	/*$('#loan_amount').on('change', function(){
-
-		var interest 	= parseFloat($('#interest_rate').val());
-		var loan_amount	= parseFloat($('#loan_amount').val());
-
-		var total_interest = loan_amount/100*interest;
-		
-		$('#total_interest').val(total_interest.toFixed(2));
-	})*/
+		});
 </script>
 
 @endsection

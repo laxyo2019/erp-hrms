@@ -28,14 +28,18 @@
       <h4 style="color: grey">Status - 
       	@if($separation->status == 0)
       		<span style="color: #0cac0c;" id="openSts">OPEN</span>
-      		<span style="color: #3375ca;display: none;" id="closeSts">CLOSED</span>
-      		&nbsp&nbsp<button class="btn btn-info btn-sm" id="closeAccount">CLOSE THE ACCOUNT</button>
+      		@if($settlement->complete_form == 1)
+      			<span style="color: #3375ca;display: none;" id="closeSts">CLOSED</span>
+      			&nbsp&nbsp<button class="btn btn-info btn-sm" id="closeAccount">CLOSE THE ACCOUNT</button>
+      		@endif
       	@elseif($separation->status == 1)
       		<span style="color: #3375ca;" >CLOSED</span>
       	@endif
        </h4> 
     </div>
-		<form action="{{route('staff-settlement.update', $separation->id)}}" method="POST" >
+    @if($separation->status == 0)
+		<form action="{{route('staff-settlement.update', $separation->id)}}" method="POST" id="form">
+	@endif
 			@csrf
 			@method('PATCH')
 			<div class="row">
@@ -240,7 +244,9 @@
 			</div>
 			</div>
 			<br>
+			@if($separation->status == 0)
 		</form>
+		@endif
 	</div>
 </main>
 
@@ -252,6 +258,17 @@
 		todayHighlight: true
 		});
 */
+	$('#other_recovery').keyup(function(){
+		var gratuity 				= parseFloat($('#gratuity').val());
+		var pending_salary			= parseFloat($('#pending_salary').val());
+		var loan_advance_recovery	= parseFloat($('#loan_advance_recovery').val());
+		var other_recovery			= parseFloat($('#other_recovery').val());
+
+		var total = gratuity + pending_salary + loan_advance_recovery + other_recovery;
+
+		$('#settlement_amt').val(total);
+	})
+
 	//Close Account
 
 	$('#closeAccount').on('click', function(){
@@ -268,21 +285,13 @@
 				$('#closeSts').show();
 				$('#update').hide();
 				$('#cancel').hide();
+				$('#form').content().unwrap();
 
 			}
 		})
 	});
 
-	$('#other_recovery').keyup(function(){
-		var gratuity 				= parseFloat($('#gratuity').val());
-		var pending_salary			= parseFloat($('#pending_salary').val());
-		var loan_advance_recovery	= parseFloat($('#loan_advance_recovery').val());
-		var other_recovery			= parseFloat($('#other_recovery').val());
-
-		var total = gratuity + pending_salary + loan_advance_recovery + other_recovery;
-
-		$('#settlement_amt').val(total);
-	})
+	
 </script>
 
 @endsection

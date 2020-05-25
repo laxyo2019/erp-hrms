@@ -8,15 +8,18 @@ use App\Models\Master\Grade;
 use App\Models\Master\EmpType;
 use App\Models\Master\CompMast;
 use App\Models\Master\DeptMast;
+use App\Models\Master\EduLevel;
+use App\Models\Master\ExpLevel;
+use App\Models\Master\LoanType;
 use App\Models\Master\EmpStatus;
+use App\Models\loan\LoanInterest;
 use Illuminate\Support\Facades\DB;
 use App\Models\Master\DocTypeMast;
 use App\Models\Master\Designation;
-use App\Models\Master\MaritalStatus;
 use App\Models\Master\NomineeType;
+use App\Models\Master\MaritalStatus;
 use App\Models\Master\EmployementType;
-use App\Models\Master\EduLevel;
-use App\Models\Master\ExpLevel;
+
 
 
 class MasterController extends Controller
@@ -112,24 +115,24 @@ class MasterController extends Controller
 						'bg_color'		=> '#28a745',
 						'count'			=> EmployementType::count()
 						),
-/*
-				array(
-							'table_name'	=> 'leave_type_mast',
-							'display_name'	=> 'Leave Type',
-							'icon'			=> 'fa fa-users',
-							'bg_color'		=> '#22615fa6',
-							'count'			=> DB::table('leave_type_mast')->get()->count()
-							),
 
 				array(
-				 			'table_name'	=> 'activity_mast',
-							'display_name'	=> 'Activity',
-							'icon'			=> 'fa fa-futbol-o',
-							'bg_color'		=> '#17a2b8',
-							'count'			=> DB::table('activity_mast')->get()->count()
+						'table_name'	=> 'hrms_loan_types',
+						'display_name'	=> 'Loan Type',
+						'icon'			=> 'fa fa-users',
+						'bg_color'		=> '#22615fa6',
+						'count'			=> LoanType::count()
+						),
+
+				array(
+			 			'table_name'	=> 'hrms_loan_interest',
+						'display_name'	=> 'Rate of Interest (Loan)',
+						'icon'			=> 'fa fa-futbol-o',
+						'bg_color'		=> '#17a2b8',
+						'count'			=> LoanInterest::count()
 						),
 				
-				array(
+/*				array(
 							'table_name'	=> 'tender_catg_mast',
 							'display_name'	=> 'Tender Categories',
 							'icon'			=> 'fa fa-cubes',
@@ -213,6 +216,8 @@ class MasterController extends Controller
 					'employement_type' 		=> 	'Employement Types',
 					'recruit_exp_level' 	=> 	'Experienced Levels',
 					'recruit_education_level'=> 'Education Levels',
+					'hrms_loan_types'		=> 	'Loan Types',
+					'hrms_loan_interest'	=> 'Rate of Interest (Loan)'
 					/*'leave_type_mast'		=> 	'Leave Types',
 				  	'acitvity_mast'			=> 	'Activities'
 					'asset_mast'			=>	'Assets',

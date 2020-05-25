@@ -39,7 +39,7 @@
     @role('hrms_hr')
     
     <li>
-      <a class="app-menu__item {{Request::segment(2) == 'hr' ? 'active' : ''}} " href="{{route('request.hr')}}"><i class="app-menu__icon fa fa-pencil-square-o"></i><span class="app-menu__label">Leaves Request (HR)</span>
+      <a class="app-menu__item {{Request::segment(1) == 'leave-request' ? 'active' : ''}} " href="{{route('request.hr')}}"><i class="app-menu__icon fa fa-pencil-square-o"></i><span class="app-menu__label">Leaves Request (HR)</span>
       </a>
     </li>
      
@@ -114,6 +114,13 @@
 
       @endability
 
+      {{-- Loan Tab --}}  
+    <li><a class="app-menu__item {{Request::segment(1) == 'loan-request' ? 'active' : ''}}" href="{{route('loan-request.index')}}"><i class="app-menu__icon fa fa-cog"></i><span class="app-menu__label">Loan</span></a></li>
+    
+    {{--  --}}
+
+     
+
     {{-- Separation Tab --}}
 
 
@@ -131,15 +138,33 @@
 
     {{--  --}}
 
-    {{-- Loan Tab --}}
+    {{-- Loan Listing --}}
+     @permission('hrms-manage-loan-request')
+        {{-- <li class={{call_user_func_array('Request::is', (array)['loan-management/listing*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-hr.index')}}"><i class="icon fa fa-angle-double-right"></i>Loan Listings (HR)</a></li>
+ --}}
+        <li><a class="app-menu__item {{Request::segment(1) == 'loan-listing' ? 'active' : ''}}" href="{{route('loan-listing-hr.index')}}"><i class="app-menu__icon fa fa-cog"></i><span class="app-menu__label">Loan Listings (HR)</span></a></li>
 
+        {{-- {{dd(Request::segment(1))}} --}}
+      @endpermission
 
-      
-        <li><a class="app-menu__item {{Request::segment(1) == 'loan' ? 'active' : ''}}" href="{{route('loan-request.index')}}"><i class="app-menu__icon fa fa-cog"></i><span class="app-menu__label">Loan</span></a></li>
-      
+      @role('hrms_subadmin')
+       {{--  <li class={{call_user_func_array('Request::is', (array)['loan-management/listing*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-subadmin.index')}}"><i class="icon fa fa-angle-double-right"></i>Loan Listings (SubAdmin)</a></li> --}}
 
+         <li><a class="app-menu__item {{Request::segment(1) == 'loan-listing' ? 'active' : ''}}" href="{{route('loan-listing-subadmin.index')}}"><i class="app-menu__icon fa fa-cog"></i><span class="app-menu__label">Loan Listings (SubAdmin)</span></a></li>
+      @endrole
 
-    {{--  --}}
+      @role('hrms_admin')
+        {{-- <li class={{call_user_func_array('Request::is', (array)['loan-management/listing*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-admin.index')}}"><i class="icon fa fa-angle-double-right"></i>Loan Listings (Admin)</a></li> --}}
+
+        <li><a class="app-menu__item {{Request::segment(1) == 'loan-listing' ? 'active' : ''}}" href="{{route('loan-listing-admin.index')}}"><i class="app-menu__icon fa fa-cog"></i><span class="app-menu__label">Loan Listings (Admin)</span></a></li>
+      @endrole
+
+      @permission('hrms-accountant')
+       
+        <li><a class="app-menu__item {{Request::segment(1) == 'loan-listing' ? 'active' : ''}}" href="{{route('loan-listing-accountant.index')}}"><i class="app-menu__icon fa fa-cog"></i><span class="app-menu__label">Loan Listings (Acc.)</span></a></li>
+      @endpermission
+
+    
 
      {{-- Settings Tab --}}
 

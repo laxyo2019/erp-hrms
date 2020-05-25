@@ -10,6 +10,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <script src="{{ asset('js/app.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/mdb.min.css') }}">
 
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     
@@ -43,6 +45,7 @@
 
     @yield('content')
     
+    <script src="{{asset('themes/vali/js/jquery.min.js')}}"></script>
     <script src="{{asset('themes/vali/js/popper.min.js')}}"></script>
     <script src="{{asset('themes/vali/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('themes/vali/js/main.js')}}"></script>

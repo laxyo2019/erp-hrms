@@ -6,32 +6,33 @@
 <main class="app-content">
 	
 	<div style=" padding: 1.5rem; border: 1px solid white;background: white">
-			<h1 style="font-size: 24px">Edit Loan Request
-				<a href="{{ route('loan-request.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+		{{-- <div class="col-md-12 col-xl-12"> --}}
+			<h1 style="font-size: 24px">Loan Request
+				<a href="{{URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
 		</h1>
+		{{-- </div> --}}
 		@if($message = Session::get('success'))
 			<div class="alert alert-success alert-block">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				{{$message}}
 			</div>
-		@endif
+		@endif 
 		<div>
-	     {{--  <h4 style="color: grey">@if($request->hr_approval != 0) Status - @endif
-	      	@if($request->admin_approval == 1 && $request->accountant_approval == 0)
-	      		<span style="color: #0cac0c;" >SANCTIONED</span>
-	      	@elseif($request->admin_approval == 1 && $request->accountant_approval == 1)
+	      <h4 style="color: grey">Status - 
+	      	@if($request->accountant_approval == 0)
+	      		<span style="color: #0cac0c;" id="sanctionSts">SANCTIONED</span>
+	      		<span style="color: #3375ca;display: none;" id="disburseSts">DISBURSED</span>
+	      			&nbsp&nbsp
+	      			@if(!empty($request->disburse_amt))
+	      				<button class="btn btn-info btn-sm" id="disburseAmount">DISBURSE</button>
+	      			@endif
+	      	@elseif($request->accountant_approval == 1)
 	      		<span style="color: #3375ca;" >DISBURSED</span>
-	      	@elseif($request->hr_approval != 0)
-	      		<span style="color: #3375ca;" >AWAITING SANCTION</span>
-	      	@elseif($request->hr_approval == 2)
-	      		<span style="color: grey;" >DECLINED</span>
 	      	@endif
-	       </h4>  --}}
+	       </h4> 
 	    </div>
-		@if($request->hr_approval == 0 )
-		<form action="{{route('loan-request.store')}}" method="POST" >
-			@csrf
-		@endif
+		{{-- <form action="{{route('loan-request.store')}}" method="POST" >
+			@csrf --}}
 			<h5>Employee Detail</h5><hr>
 			<div class="row">
 				<div class="col-6 form-group">
@@ -126,48 +127,58 @@
 					<textarea  class="form-control" id="reason" name="reason" >{{$request->reason}}</textarea>
 				</div>
 			
-			{{-- <h5>Account Detail</h5><hr>
-			<div class="row">
-				<div class="col-6 form-group ">
-					<label for="">Account Holder Name</label>
-					<input type="text" class="form-control " name="total_interest" value="{{old('total_interest')}}" id="total_interest" min="1"  id="total_interest">
-					@error('total_interest')
-						<span class="text-danger" role="alert">
-							<strong>* {{ $message }}</strong>
-						</span>
-					@enderror
-				</div>
-				<div class="col-6 form-group ">
-					<label for="">IFSC Code</label>
-					<input type="text" class="form-control " name="total_interest" value="{{old('total_interest')}}" id="total_interest" min="1"  id="total_interest">
-					@error('total_interest')
-						<span class="text-danger" role="alert">
-							<strong>* {{ $message }}</strong>
-						</span>
-					@enderror
-				</div>
-				<div class="col-6 form-group ">
-					<label for="">Account No.</label>
-					<input type="text" class="form-control " name="total_interest" value="{{old('total_interest')}}" id="total_interest" min="1"  id="total_interest">
-					@error('total_interest')
-						<span class="text-danger" role="alert">
-							<strong>* {{ $message }}</strong>
-						</span>
-					@enderror
-				</div>
-			</div> --}}
-			@if($request->hr_approval == 0 )	
-				<div class="col-12 form-group text-center">
+			
+				
+				{{-- <div class="col-12 form-group text-center">
 					<button class="btn btn-info btn-sm" style="width: 20%">SAVE</button>
-					{{-- <a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Cancel</a> --}}
+					 <a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Cancel</a>
+				</div> --}}
+			</div>
+			<form action="{{route('loan-listing.update', $request->id)}}" method="POST" id="form">
+				@csrf
+				@method('PUT')
+			<h5>For Accountant Only</h5><hr>
+				<div class="row">
+					<div class="col-6 form-group ">
+						<label for="">Disbursed Date</label>
+						<input type="text" class="form-control datepicker" name="disburse_date" value="{{old('disburse_date', $request->disburse_date)}}" id="disburse_date" id="disburse_date" autocomplete="off">
+						@error('disburse_date')
+							<span class="text-danger" role="alert">
+								<strong>* {{ $message }}</strong>
+							</span>
+						@enderror
+					</div>
+					<div class="col-6 form-group ">
+						<label for="">Account No.</label>
+						<input type="text" class="form-control " name="account" value="{{old('account', $request->account_no)}}" id="account"  id="account">
+						@error('account')
+							<span class="text-danger" role="alert">
+								<strong>* {{ $message }}</strong>
+							</span>
+						@enderror
+					</div>
+					<div class="col-6 form-group ">
+						<label for="">Disbursed Amount (In INR)</label>
+						<input type="text" class="form-control " name="disburse_amt" value="{{old('disburse_amt', $request->disburse_amt)}}" id="disburse_amt"  id="disburse_amt">
+						@error('disburse_amt')
+							<span class="text-danger" role="alert">
+								<strong>* {{ $message }}</strong>
+							</span>
+						@enderror
+					</div>
 				</div>
-			@endif
-			</div>		
+				@if($request->accountant_approval == 0)
+				<div class="col-12 form-group text-center">
+					<button class="btn btn-info btn-sm" style="width: 20%" id="update">UPDATE</button>
+					 <a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 20%" id="cancel">CANCEL</a>
+				</div>
+				@endif
+			</form>
 			</div>
 			<br>
-		@if($request->hr_approval != 0 )
-			</form>
-		@endif
+
+			
+		{{-- </form> --}}
 	</div>
 </main>
 
@@ -179,8 +190,29 @@
 		todayHighlight: true
 	});
 
-	//Monthly Deduction Formula or EMI
-	$('#tenure').on('change', function(){
+	//Disbursed Amount
+
+	$('#disburseAmount').on('click', function(){
+
+		var request_id = '{{$request->id}}';
+
+		$.ajax({
+			type: 'POST',
+			url: '/loan-disburse/'+request_id,
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			success:function(res){
+				$('#disburseAmount').hide();
+				$('#sanctionSts').hide();
+				$('#disburseSts').show();
+				$('#update').hide();
+				$('#cancel').hide();
+				$('#form').content().unwrap();
+
+			}
+		})
+	});
+
+	/*$('#tenure').on('change', function(){
 
 		var interest 	= parseFloat($('#interest_rate').val());
 		var loan_amount = parseFloat($('#loan_amount').val());
@@ -201,7 +233,7 @@
 		var total_interest = loan_amount/100*interest;
 		
 		$('#total_interest').val(total_interest.toFixed(2));
-	})
+	})*/
 </script>
 
 @endsection

@@ -58,7 +58,7 @@ class CreateEmployeeTables extends Migration
           $table->date('leave_dt')->nullable();
           $table->integer('leave_allotted')->nullable();
           $table->timestamps();
-          $table->softDeletes();			
+          $table->softDeletes();
         });
 
         Schema::create('hrms_birthdays', function (Blueprint $table) {

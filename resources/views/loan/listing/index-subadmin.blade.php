@@ -31,7 +31,7 @@
                 <th>Reason</th>
                 <th>Status</th>
                 <th>Hr</th>
-                <th>SubAdmin</th>
+                <th>Admin</th>
                 <th>Details</th>
                 {{-- @ability('hrms_admin', 'hrms-edit') --}}
                   <th>Actions</th>
@@ -69,13 +69,13 @@
                   @endif
                 </td>
                 <td>
-                  @if($index->subadmin_approval == 0)
+                  @if($index->admin_approval == 0)
                     <strong style="color: grey;">PENDING</strong>
-                  @elseif($index->subadmin_approval == 1)
+                  @elseif($index->admin_approval == 1)
                     <strong style="color: #0cac0c;">APPROVED</strong>
-                  @elseif($index->subadmin_approval == 2)
+                  @elseif($index->admin_approval == 2)
                     <strong style="color: #3375ca;">DECLINED</strong>
-                  @elseif($index->subadmin_approval == 3)
+                  @elseif($index->admin_approval == 3)
                     <strong class="dec_msg">DISBURSED</strong>
                   @endif
                 </td>
@@ -83,6 +83,7 @@
                 <td>
                  <span>
                     <button alt="View" class="btn btn-sm btn-info modalReq" data-id="{{$index->id}}"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></button>
+
                       <!-- Modal -->
                     <div class="modal fade" id="reqModal" role="dialog">
                       <div class="modal-dialog modal-lg">
@@ -102,12 +103,12 @@
 
                 </td>
                 <td class='text-center' style="border-bottom:none">
-                   @if($index->admin_approval == 0)
-                    <button type="button"  data-id="{{$index->id}}" class="btn btn-success btn-sm action" value="1" id="apprvBtn_{{$index->id}}">SANCTIONED</button>
+                   @if($index->subadmin_approval == 0)
+                    <button type="button"  data-id="{{$index->id}}" class="btn btn-success btn-sm action" value="1" id="apprvBtn_{{$index->id}}">APPROVE</button>
 
                     <button type="button" data-id="{{$index->id}}" class="btn btn-danger btn-sm ml-2 action decline" value="2" id="decBtn_{{$index->id}}">DECLINE</button>
 
-                    <strong class="apprv_msg" id="apprv_msg_{{$index->id}}" style="display: none;" >SANCTIONED</strong>
+                    <strong class="apprv_msg" id="apprv_msg_{{$index->id}}" style="display: none;" >APPROVED</strong>
                     <strong class="dec_msg" id="dec_msg_{{$index->id}}" style="display: none;" >DECLINED</strong>
 
                   @elseif($index->accountant_approval == 1)
@@ -116,11 +117,11 @@
                       <a href="{{route('loan-listing.history',$index->id)}}" class="btn btn-sm btn-info"><i class="fa fa-flickr" aria-hidden="true"></i> History</a>
                     </span>
 
-                  @elseif($index->admin_approval == 1)
+                  @elseif($index->subadmin_approval == 1)
 
-                    <strong class="apprv_msg">SANCTIONED</strong>
+                    <strong class="apprv_msg">APPROVED</strong>
 
-                  @elseif($index->admin_approval == 2)
+                  @elseif($index->subadmin_approval == 2)
 
                     <strong class="dec_msg">DECLINED</strong>
                     
@@ -167,12 +168,12 @@ $(document).ready(function(){
 
   $('.action').on('click', function(){
 
-    var action      = $(this).val();
+    var action    = $(this).val();
     var request_id  = $(this).data('id');
 
     $.ajax({
       type: 'POST',
-      url: "/loan-listing/admin/"+request_id,
+      url: "/loan-listing/subadmin/"+request_id,
       headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
       data: {'action':action},
       success:function(res){

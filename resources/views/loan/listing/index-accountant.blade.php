@@ -5,12 +5,20 @@
     <div class="col-md-12 col-xl-12">
       <div class="card shadow-xs">
         <div class="col-md-12 col-xl-12" style="margin-top: 15px"> 
-          <h1 style="font-size: 24px">Loan Listing</h1>
+          <h1 style="font-size: 24px">Loan Listing
+              <a href="{{URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+                {{-- @ability('hrms_admin', 'hrms-create|hrms-manage-staff-separation')
+             <span class="ml-2">
+                <a href="{{route('loan-request.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
+              <span class="fa fa-plus "></span>Apply</a>
+             </span>
+             @endability --}}
+          </h1>
         </div>
         {{-- 
         
         0 = Pending 
-        1 = Approved
+        1 = Disbursed
         2 = Declined
 
         --}}
@@ -30,8 +38,6 @@
                 <th>Loan Amt</th>
                 <th>Reason</th>
                 <th>Status</th>
-                <th>Hr</th>
-                <th>SubAdmin</th>
                 <th>Details</th>
                 {{-- @ability('hrms_admin', 'hrms-edit') --}}
                   <th>Actions</th>
@@ -48,16 +54,16 @@
                 <td>{{$index->requested_amt}}</td>
                 <td>{{$index->reason}}</td>
                 <td>
-                  @if($index->accountant_approval == 1 && $index->admin_approval == 1)
-                    <strong style="color: #0cac0c;">DISBURSED</strong>
+                  @if($index->accountant_approval == 1)
+                    <strong class="apprv_msg">DISBURSED</strong>
                   @elseif($index->admin_approval == 1)
                     <strong class="rev_msg">SANCTIONED</strong>
                   @else
-                    <strong style="color: grey;">AWAITING SANCTION</strong>
+                    <strong style="color: grey;">PENDING</strong>
                   @endif
                 </td>
                 
-                <td>
+               {{--  <td>
                   @if($index->hr_approval == 0)
                     <strong style="color: grey;">PENDING</strong>
                   @elseif($index->hr_approval == 1)
@@ -78,7 +84,7 @@
                   @elseif($index->subadmin_approval == 3)
                     <strong class="dec_msg">DISBURSED</strong>
                   @endif
-                </td>
+                </td> --}}
                 {{-- @ability('hrms_admin', 'hrms-edit') --}}
                 <td>
                  <span>
@@ -102,31 +108,15 @@
 
                 </td>
                 <td class='text-center' style="border-bottom:none">
-                   @if($index->admin_approval == 0)
-                    <button type="button"  data-id="{{$index->id}}" class="btn btn-success btn-sm action" value="1" id="apprvBtn_{{$index->id}}">SANCTIONED</button>
-
-                    <button type="button" data-id="{{$index->id}}" class="btn btn-danger btn-sm ml-2 action decline" value="2" id="decBtn_{{$index->id}}">DECLINE</button>
-
-                    <strong class="apprv_msg" id="apprv_msg_{{$index->id}}" style="display: none;" >SANCTIONED</strong>
-                    <strong class="dec_msg" id="dec_msg_{{$index->id}}" style="display: none;" >DECLINED</strong>
-
-                  @elseif($index->accountant_approval == 1)
-
+                  @if($index->accountant_approval == 0)
                     <span class="ml-2">
-                      <a href="{{route('loan-listing.history',$index->id)}}" class="btn btn-sm btn-info"><i class="fa fa-flickr" aria-hidden="true"></i> History</a>
+                      
+                      <a href="{{route('loan-listing.edit',$index->id)}}" class="btn btn-sm btn-info"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
                     </span>
-
-                  @elseif($index->admin_approval == 1)
-
-                    <strong class="apprv_msg">SANCTIONED</strong>
-
-                  @elseif($index->admin_approval == 2)
-
-                    <strong class="dec_msg">DECLINED</strong>
-                    
-                  {{-- @elseif($index->subadmin_approval == 3)
-
-                    <strong class="rev_msg">DISBURSED</strong> --}}
+                  @elseif($index->accountant_approval == 1)
+                      <span class="ml-2">
+                        <a href="{{route('loan-listing.history',$index->id)}}" class="btn btn-sm btn-info"><i class="fa fa-flickr" aria-hidden="true"></i> History</a>
+                      </span>
                   @endif
                 </td>
               </tr>
@@ -172,7 +162,7 @@ $(document).ready(function(){
 
     $.ajax({
       type: 'POST',
-      url: "/loan-listing/admin/"+request_id,
+      url: "/loan-listing/accountant/"+request_id,
       headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
       data: {'action':action},
       success:function(res){
