@@ -5,15 +5,8 @@
 		<div class="row">
 		<div class="col-md-12 col-xl-12">
 			<h1 style="font-size: 24px">Final Settlement
-			@role('hrms_hr')
-				<a href="{{ route('separation-hr.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-			@endrole
-			@role('hrms_subadmin')
-				<a href="{{ route('separation-subadmin.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-			@endrole
-			@role('hrms_admin')
-				<a href="{{ route('separation-admin.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-			@endrole</h1>
+				<a href="{{URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+			</h1>
 		</div>
 	</div>
 		@if($message = Session::get('success'))
