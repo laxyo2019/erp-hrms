@@ -10,12 +10,12 @@
 				@role('hrms_hr')
 				<a href="{{ route('separation-hr.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
 				@endrole
-				@role('hrms_subadmin')
+				{{--@role('hrms_subadmin')
 				<a href="{{ route('separation-subadmin.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-				@endrole
-				@role('hrms_admin')
+				@endrole--}}
+				{{--@role('hrms_admin')
 				<a href="{{ route('separation-admin.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-				@endrole
+				@endrole--}}
 		</h1>
 		</div>
 	</div>

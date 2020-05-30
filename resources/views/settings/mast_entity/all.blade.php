@@ -6,7 +6,11 @@
 				<h4><i class="fa fa-asterisk"></i> Entity :  {{ $table_name }}
 				
 				</h4>
+<<<<<<< HEAD
+{{--				@ability('hrms_admin', 'hrms_create') --}}
+=======
 {{-- 				@ability('hrms_admin', 'hrms_create') --}}
+>>>>>>> 39f05faaee3491c5c06b93a865788b65a101b2bb
 				<a href="{{ route('mast_entity.get', ['create', $db_table]) }}" class="btn btn-outline-success ml-2" style="font-size: 13px">
 					<span class="fa fa-plus"></span> Add New</a>
 				{{-- @endability --}}
