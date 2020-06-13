@@ -3,17 +3,15 @@
 	<main class="app-content">
 		<div class="app-title">
 			<div class="div row mt-2">
-				<h4><i class="fa fa-asterisk"></i> Entity :  {{ $table_name }}
-				
-				</h4>
-<<<<<<< HEAD
-{{--				@ability('hrms_admin', 'hrms_create') --}}
-=======
-{{-- 				@ability('hrms_admin', 'hrms_create') --}}
->>>>>>> 39f05faaee3491c5c06b93a865788b65a101b2bb
-				<a href="{{ route('mast_entity.get', ['create', $db_table]) }}" class="btn btn-outline-success ml-2" style="font-size: 13px">
-					<span class="fa fa-plus"></span> Add New</a>
 				{{-- @endability --}}
+				<h1 style="font-size: 24px">Entity :  {{ $table_name }}
+             		<span class="ml-2">
+                		<a href="{{ route('mast_entity.get', ['create', $db_table]) }}" class="btn btn-sm btn-success" style="font-size: 13px">
+              			<span class="fa fa-plus "></span>Add New</a>
+             		</span>
+             		{{-- @endability --}}
+          		</h1>
+          		
 			</div>
 			<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
 		</div>

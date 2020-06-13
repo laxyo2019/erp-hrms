@@ -40,7 +40,16 @@ class SeparationController extends Controller
      */
     public function create()
     {
-        return view('separation.create');
+        $employees = EmployeeMast::orderBy('user_id')->get();
+
+        return view('separation.create', compact('employees'));
+    }
+
+    public function findEmpCode(Request $request){
+
+        $emp_code = EmployeeMast::where('user_id', $request->user_id)->first()->emp_code;
+
+        return $emp_code;
     }
 
     /**
@@ -55,7 +64,7 @@ class SeparationController extends Controller
             'emp_name'         => 'required',
             'emp_code'         => 'required',
             'requested_on'     => 'required',
-            'short_description'=> 'required'
+            'reason'           => 'required'
         ]);
 
         $request = StaffSeparation::create([

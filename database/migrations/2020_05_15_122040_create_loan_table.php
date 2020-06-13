@@ -13,27 +13,39 @@ class CreateLoanTable extends Migration
      */
     public function up()
     {
-        Schema::create('loan', function (Blueprint $table) {
+        Schema::create('hrms_loan_request', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
-            $table->string('requested_amt');
-            $table->string('interest_rate');
+            $table->integer('requested_amt', 10, 2);
+            $table->string('interest_rate', 8, 2);
             $table->string('loan_type_id');
             $table->string('tenure');
             $table->string('emi');
-            $table->string('monthly_deduction');
+            $table->integer('monthly_deduction', 10, 2);
             $table->string('reason');
-            $table->string('sanctioned_on');
-            $table->string('sanctioned_amt');
+            $table->string('sanctioned_date');
+            $table->string('sanctioned_amt', 10, 2);
+            $table->string('total_interest', 10, 2);
+            $table->string('account_no');
+            $table->smallinteger('posted');
             $table->smallinteger('hr_approval');
             $table->smallinteger('subadmin_approval');
             $table->smallinteger('admin_approval');
             $table->string('accountant_approval');
-            $table->string('account_no');
             $table->string('disburse_date');
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::create('hrms_loan_monthly_deduction', function (Blueprint, $table){
+            $table->bigIncrements('id');
+            $table->integer('loan_request_id');
+            $table->integer('user_id');
+            $table->integer('balance', 10, 2);
+            $table->integer('deduction', 10, 2);
+            $table->timestamps();
+            $table->softDeletes();
+        })
     }
 
     /**
@@ -43,6 +55,7 @@ class CreateLoanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('loan');
+        Schema::dropIfExists('hrms_loan_request');
+        Schema::dropIfExists('hrms_loan_monthly_deduction');
     }
 }

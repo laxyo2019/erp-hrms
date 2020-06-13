@@ -21,24 +21,18 @@
       <h4 style="color: grey">Status - 
       	@if($separation->status == 0)
       		<span style="color: #0cac0c;" id="openSts">OPEN</span>
-<<<<<<< HEAD
-		@if($settlement->complete_form == 1)
-=======
       		@if($settlement->complete_form == 1)
->>>>>>> 0f05885b5dd5bc72d02beabcf0d3236b80a896ca
+
       			<span style="color: #3375ca;display: none;" id="closeSts">CLOSED</span>
       			&nbsp&nbsp<button class="btn btn-info btn-sm" id="closeAccount">CLOSE THE ACCOUNT</button>
+
       		@endif
       	@elseif($separation->status == 1)
       		<span style="color: #3375ca;" >CLOSED</span>
       	@endif
        </h4> 
     </div>
-<<<<<<< HEAD
-		@if($separation->status == 0)
-=======
     @if($separation->status == 0)
->>>>>>> 0f05885b5dd5bc72d02beabcf0d3236b80a896ca
 		<form action="{{route('staff-settlement.update', $separation->id)}}" method="POST" id="form">
 	@endif
 			@csrf
@@ -245,16 +239,9 @@
 			</div>
 			</div>
 			<br>
-<<<<<<< HEAD
-		@if($separation->status == 0)
-		</form>
-	@endif
-		
-=======
 			@if($separation->status == 0)
 		</form>
 		@endif
->>>>>>> 0f05885b5dd5bc72d02beabcf0d3236b80a896ca
 	</div>
 </main>
 
@@ -294,12 +281,8 @@
 				$('#update').hide();
 				$('#cancel').hide();
 				$('#form').content().unwrap();
-<<<<<<< HEAD
-=======
-
->>>>>>> 0f05885b5dd5bc72d02beabcf0d3236b80a896ca
 			}
-		})
+		});
 	});
 
 	

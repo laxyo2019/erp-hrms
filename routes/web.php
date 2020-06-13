@@ -182,6 +182,8 @@ Route::post('separation-request/subadmin/{request_id}', 'separation\SeparationCo
 Route::get('separation/admin', 'separation\SeparationController@indexAdmin')->name('separation-admin.index');
 Route::post('separation-request/admin/{request_id}', 'separation\SeparationController@AdminApproval');
 
+Route::post('separation/emp-code/', 'separation\SeparationController@findEmpCode');
+
 #Close Account/ Finale Settlement
 
 Route::post('separation/close-account/{id}', 'separation\StaffSettlementController@closeAccount');
@@ -232,8 +234,40 @@ Route::resource('loan-request', 'loan\LoanRequestController');
 
 # Loan Settings
 
-Route::resource('loan-setting', 'loan\LoanSettingController');
+//Route::resource('loan-setting', 'loan\LoanSettingController');
 
+#PAYROLL
+
+#Chapter 6 Sections & Welfare --------
+
+Route::resource('hrpayroll/chapter6-exemption', 'payroll\Chapt6ExemptionController');
+
+Route::post('show-heads/', 'payroll\Chapt6ExemptionController@showHeads')->name('section.heads');
+	
+#Welfare
+
+Route::resource('hrpayroll/welfare', 'payroll\WelfareController');
+
+#Allowance Index Page
+
+Route::get('hrpayroll/allowance', 'payroll\allowance\ByCadreController@allowanceIndex')->name('allowance.index');
+
+Route::resource('hrpayroll/allowance/by-cadre', 'payroll\allowance\ByCadreController');
+Route::resource('hrpayroll/allowance/by-department', 'payroll\allowance\ByDepartmentController');
+Route::resource('hrpayroll/allowance/by-designation', 'payroll\allowance\ByDesignationController');
+Route::resource('hrpayroll/allowance/by-employee', 'payroll\allowance\ByEmployeeController');
+Route::resource('hrpayroll/allowance/by-site', 'payroll\allowance\BySiteController');
+
+#Financial Year
+Route::resource('hrpayroll/financial-year', 'payroll\settings\FinancialYearController');
+
+#Chapter 6 Section settings--------
+
+Route::resource('payroll-settings/chapter6-head', 'payroll\settings\Chapter6HeadController');
+
+
+
+#______________________________
 
 
 /*******Leave Request**********/

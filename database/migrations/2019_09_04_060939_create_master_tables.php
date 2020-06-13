@@ -123,6 +123,30 @@ class CreateMasterTables extends Migration
 			$table->timestamps();
 			$table->softDeletes();   
 		});
+
+		Schema::create('hrms_loan_interest', function (Blueprint $table) {
+			$table->increments('id');
+			$table->string('name');
+			$table->string('description');
+			$table->timestmaps();
+			$table->softDeletes();
+		});
+
+		Schema::create('hrms_loan_types', function (Blueprint $table) {
+			$table->increments('id');
+			$table->string('name');
+			$table->string('description');
+			$table->timestamps();
+			$table->softDeletes();
+		});
+
+		Schema::create('hrms_chapt6_sections', function (Blueprint $table) {
+			$table->increments('id');
+			$table->string('name');
+			$table->string('description');
+			$table->timestamps();
+			$table->softDeletes();
+		});
     }
 
     /**
@@ -145,5 +169,8 @@ class CreateMasterTables extends Migration
         Schema::dropIfExists('hrms_emp_grade_mast');
         Schema::dropIfExists('hrms_emp_type_mast');
         Schema::dropIfExists('hrms_marital_status');
+        Schema::dropIfExists('hrms_loan_interest');
+        Schema::dropIfExists('hrms_loan_types');
+        Schema::dropIfExists('hrms_chapt6_sections');
     }
 }

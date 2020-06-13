@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Session;
+use App\Models\Master\Site;
 use Illuminate\Http\Request;
 use App\Models\Master\Grade;
+use App\Models\Master\Cadre;
 use App\Models\Master\EmpType;
 use App\Models\Master\CompMast;
 use App\Models\Master\DeptMast;
@@ -12,12 +14,15 @@ use App\Models\Master\EduLevel;
 use App\Models\Master\ExpLevel;
 use App\Models\Master\LoanType;
 use App\Models\Master\EmpStatus;
+use App\Models\Master\LedgerMast;
+use App\Models\Master\BloodGroup;
 use App\Models\loan\LoanInterest;
 use Illuminate\Support\Facades\DB;
 use App\Models\Master\DocTypeMast;
 use App\Models\Master\Designation;
 use App\Models\Master\NomineeType;
 use App\Models\Master\MaritalStatus;
+use App\Models\Master\Chapt6Section;
 use App\Models\Master\EmployementType;
 
 
@@ -131,37 +136,44 @@ class MasterController extends Controller
 						'bg_color'		=> '#17a2b8',
 						'count'			=> LoanInterest::count()
 						),
+				array(
+			 			'table_name'	=> 'hrms_blood_group',
+						'display_name'	=> 'Blood Group',
+						'icon'			=> 'fa fa-futbol-o',
+						'bg_color'		=> '#17a2b8',
+						'count'			=> BloodGroup::count()
+						),
 				
-/*				array(
-							'table_name'	=> 'tender_catg_mast',
-							'display_name'	=> 'Tender Categories',
-							'icon'			=> 'fa fa-cubes',
-							'bg_color'		=> '#ff0064',
-							'count'			=> DB::table('tender_catg_mast')->get()->count()
-							),
 				array(
-							'table_name'	=> 'tender_type_mast',
-							'display_name'	=> 'Tender Types',
-							'icon'			=> 'fa fa-clone',
-							'bg_color'		=> '#22615fa6',
-							'count'			=> DB::table('tender_type_mast')->get()->count()
-							),
+						'table_name'	=> 'hrms_chapt6_sections',
+						'display_name'	=> 'Chapter 6 Sections',
+						'icon'			=> 'fa fa-cubes',
+						'bg_color'		=> '#ff0064',
+						'count'			=> Chapt6Section::count()
+						),
 				array(
-							'table_name'	=> 'expense_catg_mast',
-							'display_name'	=> 'Expense Categories',
-							'icon'			=> 'fa fa-money',
-							'bg_color'		=> '#d2335b',
-							'count'			=> DB::table('expense_catg_mast')->where('deleted_at',null)->get()->count()
-							),
+						'table_name'	=> 'hrms_ledger',
+						'display_name'	=> 'Ledgers',
+						'icon'			=> 'fa fa-clone',
+						'bg_color'		=> '#22615fa6',
+						'count'			=> LedgerMast::count()
+						),
 				array(
-							'table_name'	=> 'asset_mast',
-							'display_name'	=> 'Assets',
-							'icon'			=> 'fa fa-anchor',
-							'bg_color'		=> '#ef06ac',
-							'count'			=> DB::table('asset_mast')->get()->count()
+						'table_name'	=> 'hrms_cadre',
+						'display_name'	=> 'Cadre',
+						'icon'			=> 'fa fa-money',
+						'bg_color'		=> '#d2335b',
+						'count'			=> Cadre::count()
+						),
+				array(
+							'table_name'	=>	'hrms_site',
+							'display_name'	=>	'Sites',
+							'icon'			=>	'fa fa-anchor',
+							'bg_color'		=>	'#ef06ac',
+							'count'			=> 	Site::count()
 							),
 
-				array(
+/*				array(
 							'table_name'	=> 'emp_event_mast',
 							'display_name'	=> 'Employee Events',
 							'icon'			=> 'fa fa-line-chart',
@@ -217,12 +229,13 @@ class MasterController extends Controller
 					'recruit_exp_level' 	=> 	'Experienced Levels',
 					'recruit_education_level'=> 'Education Levels',
 					'hrms_loan_types'		=> 	'Loan Types',
-					'hrms_loan_interest'	=> 'Rate of Interest (Loan)'
-					/*'leave_type_mast'		=> 	'Leave Types',
-				  	'acitvity_mast'			=> 	'Activities'
-					'asset_mast'			=>	'Assets',
-					'emp_event_mast'		=>  'Employee Events',
-					'expense_catg_mast'		=>  'Expense Categories',
+					'hrms_loan_interest'	=> 	'Rate of Interest (Loan)',
+					'hrms_blood_group'		=> 	'Blood Group',
+					'hrms_chapt6_sections'	=> 	'Chapter 6 Sections',
+				  	'hrms_ledger'			=> 	'Ledgers',
+					'hrms_cadre'			=>	'Cadre',
+					'hrms_site'				=>  'Sites',
+					/*'expense_catg_mast'		=>  'Expense Categories',
 					'expense_mode_mast'		=>  'Expense Modes',
 					'tender_catg_mast'		=> 	'Tender Categories',
 					'tender_client_mast'	=> 	'Tender Clients',

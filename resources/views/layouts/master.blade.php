@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/main.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/mdb.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/select2.min.css') }}">
 
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     
@@ -30,6 +31,7 @@
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="{{ asset('js/notify.min.js') }}"></script>
+    <script src="{{asset('themes/vali/js/plugins/select2.min.js')}}"></script>
     @stack('styles')
   </head>
   <style>
@@ -55,7 +57,6 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> --}}
 <script>
     $(document).ready(function(){
     $(".pending").css("display", "none");
