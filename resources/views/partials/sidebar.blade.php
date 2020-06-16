@@ -152,13 +152,32 @@
       <li><a class="app-menu__item {{Request::segment(1) == 'loan-listing' ? 'active' : ''}}" href="{{route('loan-listing-accountant.index')}}"><i class="app-menu__icon fa fa-cog"></i><span class="app-menu__label">Loan Listings (Acc.)</span></a></li>
     @endpermission
 
+    <li class="treeview {{call_user_func_array('Request::is', (array)['loan-management*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-book "></i><span class="app-menu__label">Loan Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+      <ul class="treeview-menu">
+        @permission('hrms-manage-loan-request')
+        <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/hr*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-hr.index')}}"><i class="icon fa fa-angle-double-right"></i>Loan Listing (Hr)</a></li>
+        @endpermission
+        @role('hrms_subadmin')
+        <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/subadmin*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-subadmin.index')}}"><i class="icon fa fa-angle-double-right"></i>Loan Listing (SubAdmin)</a></li>
+        @endrole
+        @role('hrms_admin')
+        <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/admin*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-admin.index')}}"><i class="icon fa fa-angle-double-right"></i>Loan Listing (Admin)</a></li>
+        @endrole
+        @permission('hrms-accountant')
+        <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/accountant*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-accountant.index')}}"><i class="icon fa fa-angle-double-right"></i>Loan Listing (Acc.)</a></li>
+        @endpermission
+        <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-types*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-types.index')}}"><i class="icon fa fa-angle-double-right"></i>Types</a></li>
+      </ul>
+    </li>
+
     <!--Payroll -->
     <li class="treeview {{call_user_func_array('Request::is', (array)['hrpayroll*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-book "></i><span class="app-menu__label">Payroll</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
         <li class={{call_user_func_array('Request::is', (array)['hrpayroll/chapter6-exemption*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('chapter6-exemption.index')}}"><i class="icon fa fa-angle-double-right"></i>Chapter 6 Exemptions</a></li>
         <li class={{call_user_func_array('Request::is', (array)['hrpayroll/welfare*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('welfare.index')}}"><i class="icon fa fa-angle-double-right"></i>Welfare</a></li>
         <li class={{call_user_func_array('Request::is', (array)['hrpayroll/allowance*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('allowance.index')}}"><i class="icon fa fa-angle-double-right"></i>Allowance</a></li>
-        {{-- <li class={{call_user_func_array('Request::is', (array)['hrpayroll/financial-year*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('financial-year.index')}}"><i class="icon fa fa-angle-double-right"></i>Financial Year</a></li> --}}
+        <li class={{call_user_func_array('Request::is', (array)['hrpayroll/chapt6-head*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('chapt6-head.index')}}"><i class="icon fa fa-angle-double-right"></i>Chapter 6 Head</a></li>
+        
       </ul>
     </li>
     
@@ -166,13 +185,13 @@
 
 
   {{-- payroll Tab --}}
-
+{{-- 
     <li class="treeview {{call_user_func_array('Request::is', (array)['payroll-settings*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-book "></i><span class="app-menu__label">Payroll Setting</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
-        <li class={{call_user_func_array('Request::is', (array)['payroll-settings/chapter6-head*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('chapter6-head.index')}}"><i class="icon fa fa-angle-double-right"></i>Chapter 6 Section Head</a></li>
+        <li class={{call_user_func_array('Request::is', (array)['payroll-settings/chapter6-head*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{-- {{route('chapter6-head.index')}} "><i class="icon fa fa-angle-double-right"></i>Chapter 6 Section Head</a></li>
         <li class={{call_user_func_array('Request::is', (array)['payroll-settings/financial-year*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('financial-year.index')}}"><i class="icon fa fa-angle-double-right"></i>Financial Year</a></li>
       </ul>
-    </li>
+    </li> --}}
 
     @ability('hrms_admin', 'manage-settings')
        <li><a class="app-menu__item {{Request::segment(1) == 'settings' ? 'active' : ''}}" href="{{route('mast_entity.home')}}"><i class="app-menu__icon fa fa-cog"></i><span class="app-menu__label">Settings</span></a></li>

@@ -34,36 +34,10 @@
 						@enderror
 					</label>
 					<input type="text" class="form-control" name="emp_code" value="{{old('emp_code', $emp->emp_code)}}" readonly="">
-					
 				</div>
 			</div>
 			<h5>Loan Application Detail</h5><hr>
 			<div class="row">
-				<div class="col-6 form-group ">
-					<label for="">Interest Rate ( % )
-						@error('interest_rate')
-					   		<span style="color: red">| {{ $message }}</span>
-						@enderror
-					</label>
-					<input type="text" class="form-control" name="interest_rate" value="{{$interest->description}}" readonly="" id="interest_rate">
-					
-				</div>	
-				<div class="col-6 form-group ">
-					<label for="">Loan Types
-						@error('loan_type')
-					   		<span style="color: red">| {{ $message }}</span>
-						@enderror
-					</label>
-					<select name="loan_type" class="custom-select form-control select2">
-						<option value="">Select Types
-							
-						</option>
-							@foreach($types as $type)
-								<option value="{{$type->id}}">{{ucwords($type->name)}}</option>
-							@endforeach
-					</select>
-					
-				</div>
 				<div class="col-6 form-group">
 					<label for="">Loan Amount (In INR)
 						@error('loan_amount')
@@ -73,15 +47,31 @@
 					<input type="text" class="form-control" name="loan_amount" value="{{old('loan_amount')}}" id="loan_amount">
 					
 				</div>
-				<div class="col-6 form-group">
-					<label for="monthly_deduction">Monthly Deduction (In INR)
-						@error('monthly_deduction')
+				<div class="col-6 form-group ">
+					<label for="">Loan Types
+						@error('loan_type')
 					   		<span style="color: red">| {{ $message }}</span>
 						@enderror
 					</label>
-					<input type="text" class="form-control" name="monthly_deduction" value="{{old('monthly_deduction')}}" readonly="" id="monthly_deduction" >
+					<select name="loan_type" class="custom-select form-control select2" id="loanType">
+						<option value="" >Select Types
+							
+						</option>
+							@foreach($types as $type)
+								<option value="{{$type->id}}">{{ucwords($type->name)}}</option>
+							@endforeach
+					</select>
 					
-				</div>			
+				</div>
+				<div class="col-6 form-group ">
+					<label for="">Interest Rate ( % )
+						@error('interest_rate')
+					   		<span style="color: red">| {{ $message }}</span>
+						@enderror
+					</label>
+					<input type="text" class="form-control" name="interest_rate" value="" readonly="" id="interest_rate">
+					
+				</div>	
 				<div class="col-6 form-group ">
 					<label for="">Tenure ( Months )
 						@error('tenure')
@@ -100,6 +90,26 @@
 					<input type="text" class="form-control " name="total_interest" value="{{old('total_interest')}}" id="total_interest" min="1" readonly="" id="total_interest">
 					
 				</div>
+				<div class="col-6 form-group ">
+					<label for="">Total Amount (In INR)
+						@error('total_interest')
+					   		<span style="color: red">| {{ $message }}</span>
+						@enderror
+					</label>
+					<input type="text" class="form-control " name="total_interest" value="{{old('total_interest')}}" id="total_payout" min="1" readonly="" id="total_interest">
+					
+				</div>
+				<div class="col-6 form-group">
+					<label for="monthly_deduction">Monthly Deduction (In INR)
+						@error('monthly_deduction')
+					   		<span style="color: red">| {{ $message }}</span>
+						@enderror
+					</label>
+					<input type="text" class="form-control" name="monthly_deduction" value="{{old('monthly_deduction')}}" readonly="" id="monthly_deduction" >
+					
+				</div>			
+				
+				
 			</div>
 			<div class="row">
 				<div class="col-12 form-group">
@@ -133,6 +143,21 @@
 		todayHighlight: true
 	});
 
+	$('#loanType').on('change', function(){
+		var type = $(this).val();
+
+		$.ajax({
+			type: 'POST',
+			url: '/loan-request/show-type',
+			data: {'type': type},
+			headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			success: function(res){
+				$('#interest_rate').val(res.interest_rate);
+			}
+		})
+		
+	})
+
 	$('#tenure').on('change', function(){
 
 		var interest 	= parseFloat($('#interest_rate').val());
@@ -140,14 +165,31 @@
 		var tenure 		= parseFloat($('#tenure').val());
 
 		//var total_amount = loan_amount/100*interest + loan_amount;
-		var total_interest = loan_amount/100*interest * tenure;
+		var unit_interest = loan_amount/100*interest * tenure;
 
-		var total_amount = total_interest + loan_amount;
+		var total_amount  = total_interest + loan_amount;
 
 		var monthly_deduction = total_amount / tenure;
+		/***********************************************/
 
-		//$('#monthly_deduction').val(monthly.toFixed(2));
-		$('#monthly_deduction').val(monthly_deduction.toFixed(2));
+ /*NEW*/
+		//var total_amount = loan_amount/100*interest + loan_amount;
+		//var interest = (loan_amount/100*interest)/12; //Only INTEREST for 1 month
+
+		var principal_monthly = loan_amount/tenure; //Only Principal Monthly for 1 month 
+
+		var total_emi = principal_monthly + interest ;
+
+		var total_interest	= (loan_amount/100*interest);
+
+		var to	= (loan_amount/100*interest)/tenure;
+
+//		alert(interest)
+
+		var total_payout	= loan_amount + to*tenure;
+
+		$('#total_payout').val(total_payout.toFixed(2));
+		$('#monthly_deduction').val(total_emi.toFixed(2));
 		$('#total_interest').val(total_interest.toFixed(2));
 	});
 

@@ -44,6 +44,13 @@ class LoanRequestController extends Controller
         return view('loan.requests.create', compact('emp', 'types', 'interest'));
     }
 
+    public function showType(Request $request){
+
+        $type = LoanType::where('id', $request->type)->first();
+
+        return $type;
+    }
+
     /**
      * Store a newly created resource in storage.
      *

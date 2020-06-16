@@ -45,7 +45,7 @@
 					   		<span style="color: red">| {{ $message }}</span>
 						@enderror
 					</label>
-					<input type="text" class="form-control" name="emp_code" value="{{old('emp_code')}}" id="empCode" readonly="">
+					<input type="text" class="form-control" name="emp_code" value="" id="empCode" >
 					{{-- @error('emp_code')
 						<span class="text-danger" role="alert">
 							<strong>* {{ $message }}</strong>
@@ -128,8 +128,7 @@
 			data: {'user_id': user_id},
 			headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			success: function(res){
-				console.log(res)
-				$('#empCode').val(res);
+				$('#empCode').val(res.trim());
 			}
 		});
 	})

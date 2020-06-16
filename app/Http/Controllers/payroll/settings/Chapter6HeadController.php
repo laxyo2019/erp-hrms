@@ -19,7 +19,8 @@ class Chapter6HeadController extends Controller
         $data = Chapt6Head::with('section')
                     ->get();
 
-        return view('settings.payroll.index', compact('data'));
+        return view('payroll.settings.chapt6head.index', compact('data'));
+        //return view('settings.payroll.index', compact('data'));
     }
 
     /**
@@ -30,7 +31,7 @@ class Chapter6HeadController extends Controller
     public function create()
     {
         $chapt6 = Chapt6Section::all();
-        return view('settings.payroll.create', compact('chapt6'));
+        return view('payroll.settings.chapt6head.create', compact('chapt6'));
     }
 
     /**
@@ -77,7 +78,7 @@ class Chapter6HeadController extends Controller
         $head     = Chapt6Head::where('id', $id)->first();
         $sections = Chapt6Section::all();
 
-        return view('settings.payroll.edit', compact('head', 'sections'));
+        return view('payroll.settings.chapt6head.edit', compact('head', 'sections'));
     }
 
     /**
