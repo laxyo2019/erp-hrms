@@ -133,7 +133,7 @@
 
   {{-- Loan Listing --}}
 
-    @permission('hrms-manage-loan-request')
+    {{-- @permission('hrms-manage-loan-request')
       
       <li><a class="app-menu__item {{Request::segment(1) == 'loan-listing' ? 'active' : ''}}" href="{{route('loan-listing-hr.index')}}"><i class="app-menu__icon fa fa-cog"></i><span class="app-menu__label">Loan Listings (HR)</span></a></li>
 
@@ -150,7 +150,7 @@
     @permission('hrms-accountant')
      
       <li><a class="app-menu__item {{Request::segment(1) == 'loan-listing' ? 'active' : ''}}" href="{{route('loan-listing-accountant.index')}}"><i class="app-menu__icon fa fa-cog"></i><span class="app-menu__label">Loan Listings (Acc.)</span></a></li>
-    @endpermission
+    @endpermission --}}
 
     <li class="treeview {{call_user_func_array('Request::is', (array)['loan-management*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-book "></i><span class="app-menu__label">Loan Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">

@@ -61,9 +61,10 @@ class LoanRequestController extends Controller
     {
         $request->validate([
             'interest_rate'     => 'required',
-            'emp_code'          => 'required',
+            //'emp_code'          => 'required',
             'loan_type'         => 'required',
             'loan_amount'       => 'required',
+            'total_amount'      => 'required',
             'monthly_deduction' => 'required',
             'tenure'            => 'required',
             'total_interest'    => 'required',
@@ -77,6 +78,7 @@ class LoanRequestController extends Controller
             'loan_type_id'      => $request->loan_type,
             'requested_amt'     => $request->loan_amount,
             'tenure'            => $request->tenure,
+            'total_amount'      => $request->total_amount,
             'monthly_deduction' => $request->monthly_deduction,
             'total_interest'    => $request->total_interest,
             'reason'            => $request->reason,

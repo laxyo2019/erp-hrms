@@ -91,12 +91,12 @@
 					
 				</div>
 				<div class="col-6 form-group ">
-					<label for="">Total Amount (In INR)
-						@error('total_interest')
+					<label for="">Total Amount with Interest(In INR)
+						@error('total_amount')
 					   		<span style="color: red">| {{ $message }}</span>
 						@enderror
 					</label>
-					<input type="text" class="form-control " name="total_interest" value="{{old('total_interest')}}" id="total_payout" min="1" readonly="" id="total_interest">
+					<input type="text" class="form-control " name="total_amount" value="{{old('total_amount')}}" id="total_amount" readonly="" id="total_amount">
 					
 				</div>
 				<div class="col-6 form-group">
@@ -188,7 +188,7 @@
 
 		var total_payout	= loan_amount + to*tenure;
 
-		$('#total_payout').val(total_payout.toFixed(2));
+		$('#total_amount').val(total_payout.toFixed(2));
 		$('#monthly_deduction').val(total_emi.toFixed(2));
 		$('#total_interest').val(total_interest.toFixed(2));
 	});
