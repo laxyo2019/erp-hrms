@@ -5,15 +5,8 @@
 		<div class="row">
 		<div class="col-md-12 col-xl-12">
 			<h1 style="font-size: 24px">Final Settlement
-			@role('hrms_hr')
-				<a href="{{ route('separation-hr.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-			@endrole
-			@role('hrms_subadmin')
-				<a href="{{ route('separation-subadmin.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-			@endrole
-			@role('hrms_admin')
-				<a href="{{ route('separation-admin.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-			@endrole</h1>
+				<a href="{{URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+			</h1>
 		</div>
 	</div>
 		@if($message = Session::get('success'))
@@ -28,11 +21,8 @@
       <h4 style="color: grey">Status - 
       	@if($separation->status == 0)
       		<span style="color: #0cac0c;" id="openSts">OPEN</span>
-<<<<<<< HEAD
-		@if($settlement->complete_form == 1)
-=======
       		@if($settlement->complete_form == 1)
->>>>>>> 0f05885b5dd5bc72d02beabcf0d3236b80a896ca
+
       			<span style="color: #3375ca;display: none;" id="closeSts">CLOSED</span>
       			&nbsp&nbsp<button class="btn btn-info btn-sm" id="closeAccount">CLOSE THE ACCOUNT</button>
       		@endif
@@ -41,11 +31,9 @@
       	@endif
        </h4> 
     </div>
-<<<<<<< HEAD
-		@if($separation->status == 0)
-=======
+
     @if($separation->status == 0)
->>>>>>> 0f05885b5dd5bc72d02beabcf0d3236b80a896ca
+
 		<form action="{{route('staff-settlement.update', $separation->id)}}" method="POST" id="form">
 	@endif
 			@csrf
@@ -252,16 +240,9 @@
 			</div>
 			</div>
 			<br>
-<<<<<<< HEAD
-		@if($separation->status == 0)
-		</form>
-	@endif
-		
-=======
 			@if($separation->status == 0)
 		</form>
 		@endif
->>>>>>> 0f05885b5dd5bc72d02beabcf0d3236b80a896ca
 	</div>
 </main>
 
@@ -301,10 +282,6 @@
 				$('#update').hide();
 				$('#cancel').hide();
 				$('#form').content().unwrap();
-<<<<<<< HEAD
-=======
-
->>>>>>> 0f05885b5dd5bc72d02beabcf0d3236b80a896ca
 			}
 		})
 	});

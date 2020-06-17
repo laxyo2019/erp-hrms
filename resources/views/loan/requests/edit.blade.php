@@ -16,21 +16,11 @@
 			</div>
 		@endif
 		<div>
-	     {{--  <h4 style="color: grey">@if($request->hr_approval != 0) Status - @endif
-	      	@if($request->admin_approval == 1 && $request->accountant_approval == 0)
-	      		<span style="color: #0cac0c;" >SANCTIONED</span>
-	      	@elseif($request->admin_approval == 1 && $request->accountant_approval == 1)
-	      		<span style="color: #3375ca;" >DISBURSED</span>
-	      	@elseif($request->hr_approval != 0)
-	      		<span style="color: #3375ca;" >AWAITING SANCTION</span>
-	      	@elseif($request->hr_approval == 2)
-	      		<span style="color: grey;" >DECLINED</span>
-	      	@endif
-	       </h4>  --}}
 	    </div>
 		@if($request->hr_approval == 0 )
-		<form action="{{route('loan-request.store')}}" method="POST" >
+		<form action="{{route('loan-request.update', $request->id)}}" method="POST" >
 			@csrf
+			@method('PATCH')
 		@endif
 			<h5>Employee Detail</h5><hr>
 			<div class="row">

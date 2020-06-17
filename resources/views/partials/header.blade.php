@@ -1,5 +1,7 @@
 <header class="app-header" style="background-color: #607fd7">
-  <a class="app-header__logo" href="http://laxyo.org" style="background-color: #607fd7"><img src="https://laxyo.org/images/logos/logo.png" height="25" ></img>&nbsp<span style="font-size: 22px;color: #000; ">HRMS</span></a>
+
+  <a class="app-header__logo" href="http://laxyo.org" style="background-color: #607fd7 "><img src="https://laxyo.org/images/logos/logo.png" height="25" ></img>&nbsp<span style="font-size: 22px;color: #000; ">HRMS</span></a>
+
   <hr>
 <!-- Sidebar toggle button-->
 <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>

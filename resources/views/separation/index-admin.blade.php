@@ -6,7 +6,7 @@
       <div class="card shadow-xs">
         <div class="col-md-12 col-xl-12" style="margin-top: 15px"> 
           <h1 style="font-size: 24px">Staff Separation
-              <a href="{{ route('separation.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+             <a href="{{URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
                @ability('hrms_admin', 'hrms-create|hrms-manage-staff-separation')
               <span class="ml-2">
                 <a href="{{route('separation.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
