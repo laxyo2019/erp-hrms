@@ -84,87 +84,18 @@ class HolidayController extends Controller
 
     public function import(Request $request){
 
-    	$records = Excel::toCollection(new HolidaysImport, $request->file('import'));
-
-    	$status = TRUE;
-    	$error  = [];
-
-    	foreach($records as $record){
-
-    		foreach($record as $data){
-
-                if($status == true){
-
-                    if($data['title'] == ''){
-                        $status = false;
-                    }else{
-                        $status = true;
-                    }
-                }
-
-                if($status == true){
-
-                    if($data['date'] == ''){
-                        $status = false;
-                    }else{
-                        $status = true;
-                    }
-                }
-
-            /*
-    			if($status == true ){
-
-    				if($data['id'] == ''){
-    					$status = false;
-    				}else{
-
-    					if($data['id'] == Holiday::find($data['id'])->id){
-    						$status = false;
-    					}else{
-    						$status = true;
-    					}
-
-    					$status = true;
-    				}
-    			}
-
-                if($status == true){
-
-                    if($data['desc'] == ''){
-                        $status = false;
-                    }else{
-                        $status = true;
-                    }
-                }
-            */
-
-    			if($status == true){
-
-    				$data = $this->array_data($data);
-
-    				Holiday::create($data);
-    			}else if($status == false){
-
-    				$error[] = $this->array_data($data);
-
-    			}
-    			$status = true;
-    		}
-    	}
-
-    	if(count($error) != 0) {
-
-    		return Excel::download(new ErrorHolidayExport($error), 'errorholidayexport.xlsx');
-    	}
-
-    	return redirect()->route('holidays.index')->with('success', 'Updated Holidays');
+    	$records = Excel::import(new HolidaysImport, $request->file('import'));
+        die;
+        if($records){
+            return redirect()->route('holidays.index')->with('success', 'Updated Holidays');    
+        }    	
     }
 
     public function export(){
     	return Excel::download(new HolidaysExport, 'holidaysExport.xlsx');
     }
 
-    public function array_Data( $data){
+    /*public function array_Data( $data){
 
     	return $data = [
     					'id'	=> $data['id'],
@@ -172,7 +103,7 @@ class HolidayController extends Controller
     					'date'	=> $data['date'],
     					'desc'	=> $data['desc']
     					];
-    }
+    }*/
 
     
 }

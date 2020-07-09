@@ -24,6 +24,7 @@ use App\Models\Master\NomineeType;
 use App\Models\Master\MaritalStatus;
 use App\Models\Master\Chapt6Section;
 use App\Models\Master\EmployementType;
+use App\Models\Master\StaffDisability;
 
 
 
@@ -166,22 +167,22 @@ class MasterController extends Controller
 						'count'			=> Cadre::count()
 						),
 				array(
-							'table_name'	=>	'hrms_site',
-							'display_name'	=>	'Sites',
-							'icon'			=>	'fa fa-anchor',
-							'bg_color'		=>	'#ef06ac',
-							'count'			=> 	Site::count()
-							),
-
-/*				array(
-							'table_name'	=> 'emp_event_mast',
-							'display_name'	=> 'Employee Events',
-							'icon'			=> 'fa fa-line-chart',
-							'bg_color'		=> '#3e4a56a6',
-							'count'			=> DB::table('emp_event_mast')->get()->count()
-							),
+						'table_name'	=>	'hrms_site',
+						'display_name'	=>	'Sites',
+						'icon'			=>	'fa fa-anchor',
+						'bg_color'		=>	'#ef06ac',
+						'count'			=> 	Site::count()
+						),
 
 				array(
+						'table_name'	=> 'hrms_staff_disability',
+						'display_name'	=> 'Staff Disability',
+						'icon'			=> 'fa fa-line-chart',
+						'bg_color'		=> '#3e4a56a6',
+						'count'			=> StaffDisability::count()
+						),
+
+/*				array(
 							'table_name'	=> 'expense_mode_mast',
 							'display_name'	=> 'Expense Modes',
 							'icon'			=> 'fa fa-modx',
@@ -235,8 +236,8 @@ class MasterController extends Controller
 				  	'hrms_ledger'			=> 	'Ledgers',
 					'hrms_cadre'			=>	'Cadre',
 					'hrms_site'				=>  'Sites',
-					/*'expense_catg_mast'		=>  'Expense Categories',
-					'expense_mode_mast'		=>  'Expense Modes',
+					'hrms_staff_disability'	=>  'Staff Disability',
+					/*'expense_mode_mast'		=>  'Expense Modes',
 					'tender_catg_mast'		=> 	'Tender Categories',
 					'tender_client_mast'	=> 	'Tender Clients',
 					'tender_type_mast'		=> 	'Tender Types'*/

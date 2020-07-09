@@ -67,7 +67,7 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr|hrms_subadmin']], functi
 
 	//Employee Save or Update Methods
 	Route::prefix('hrd')->namespace('HRD')->group(function () {
-		Route::post('/employees/{type}', 'EmployeesController@getForm');
+		Route::post('/employees/{usertype}', 'EmployeesController@getForm');
 		Route::post('/employees/insert_employee','EmployeesController@insert_employee');
 		Route::post('/employee/save_main/{user_id}', 'EmployeesController@save_main')->name('employees.main');
 		Route::post('/employee/save_personal/{user_id}', 'EmployeesController@save_personal')->name('employees.personal');
@@ -160,16 +160,25 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr|hrms_subadmin']], functi
 	#User Management 
 
 	#Route::group(['middleware' => ['ability:hrms_admin, user_management']], function() {
+	Route::prefix('acl')->group(function () {
 
-		Route::resource('acl/permissions', 'acl\PermissionController');
-		Route::resource('acl/roles', 'acl\RoleController');
-		Route::resource('acl/users', 'acl\UserController');
-		Route::post('user/assign/', 'acl\UserController@assign')->name('assign.role');
+		Route::resource('/permissions', 'acl\PermissionController');
+		Route::resource('/roles', 'acl\RoleController');
+		Route::resource('/users', 'acl\UserController');
+	});
+
+	Route::post('user/assign/', 'acl\UserController@assign')->name('assign.role');
 
 	#});
 
 });
 
+
+#Employee No Dues -------------------
+
+//Route::resource('no-dues-request', '')
+
+#------------------------------------
 
 #  Staff \ Employees Separation -------------
 	
@@ -199,7 +208,14 @@ Route::resource('staff-settlement', 'separation\StaffSettlementController');
 Route::resource('/loan-request', 'loan\LoanRequestController');
 Route::post('/loan-request/show-type', 'loan\LoanRequestController@ShowType');
 
+
+Route::resource('no-dues-request', 'NoDuesController');
+
+Route::resource('hod', 'HodController');
+
 # Loan Listing
+Route::prefix('loan-management')->namespace('loan')->group(function () {
+
 Route::prefix('loan-management')->namespace('loan')->group(function () {
 
 	# HR
@@ -238,11 +254,14 @@ Route::prefix('loan-management')->namespace('loan')->group(function () {
 	//Route::get('loan-request/{req_id}/history', 'loan\LoanRequestController@loanMonthlyHistory')->name('loan-request.history');
 	//Route::get('loan-history/{req_id}/', 'loan\LoanRequestController@destroy')->name('loan-request.history');
 	Route::resource('/loan-listing/history', 'LoanHistoryController');
+<<<<<<< HEAD
 
 });
 # Loan Settings
+=======
+>>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
 
-//Route::resource('loan-setting', 'loan\LoanSettingController');
+});
 
 #PAYROLL
 
@@ -273,9 +292,6 @@ Route::resource('hrpayroll/financial-year', 'payroll\settings\FinancialYearContr
 
 Route::resource('hrpayroll/chapt6-head', 'payroll\settings\Chapter6HeadController');
 
-
-
-
 #______________________________
 
 
@@ -302,13 +318,13 @@ Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
 
 
 Route::post('/approve_leave/{leave_id}', 'HRD\LeavesController@approve_leave');
+Route::get('/url_test', 'HRD\LeavesController@updateLeaveBalance');
 
 
 Route::post('employee/holidaycheck', 'Employee\LeavesController@holidayCheck')->name('holiday.check');
 
 Route::get('leave-request/{id}/download', 'Employee\LeavesController@download')->name('request.document');
 Route::get('balance', 'Employee\LeavesController@balance');
-
 
 Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_designation')->name('employees.fetch_designation');
 

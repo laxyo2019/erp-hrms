@@ -40,7 +40,7 @@ class LoanListingController extends Controller
                         ->where('subadmin_approval', 1)
                         ->where('hr_approval', 1)
                         ->get();
-                        
+
         return view('loan.listing.index-admin', compact('requests'));
     }
 

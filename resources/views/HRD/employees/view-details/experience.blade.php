@@ -8,73 +8,73 @@
 <div style="margin-top: 1.5rem; padding: 1.5rem; " class="tile">
 <div class="row mt-2 ">
   	<div class="col-md-12">
-    		<div class="container-fluid">
-					@if(!empty($employee->experiences))
-						@php $count = 0;@endphp
-						@foreach($employee->experiences as $exp)
-
-						<div class="row mb-2">
-			                <span style="color: grey; font-size: 20px; font-weight: bold"><i class="fa fa-globe"></i> Company - {{++$count}}</span>
-		           		</div><hr>
-						<div class="row col-12">
-		                	<div class="col-6 form-group">
-								<b>Company Name : </b>
-								{{strtoupper($exp->comp_name)}}
-							</div>
-							<div class="col-6 form-group">
-								<b>Job Type : </b>
-								{{strtoupper($exp->job_type)}}
-							</div>
-							<div class="col-6 form-group">
-								<b>Monthly CTC : </b>
-								{{$exp->monthly_ctc}}
-							</div> 
-							<div class="col-6 form-group">
-								<b>Designation : </b>
-								{{strtoupper($exp->desg)}}
-							</div>
-							<div class="col-6 form-group">
-								<b>Company Location : </b>
-								{{strtoupper($exp->comp_loc)}}
-							</div>
-							
-							<div class="col-6 form-group">
-								<b>Experience Certificate : </b>
-								@if($exp->file_path != null)
-									<a href="{{route('employees.download', ['db_table' => 'hrms_emp_exp', $exp->id])}}"><i class="fa fa-arrow-down"></i>Download</a>
-								@else
-									Not Available
-								@endif
-							</div>	
-							<div class="col-6 form-group">
-								<b>Start Date : </b>
-								{{$exp->start_dt}}
-							</div>
-							<div class="col-6 form-group">
-								<b>End Date : </b>
-								{{$exp->end_dt}}
-							</div>
-							<div class="col-6 form-group">
-								<b>Company Email : </b>
-								{{$exp->comp_email}}
-							</div>
-							<div class="col-6 form-group">
-								<b>Company Website : </b>
-								{{$exp->comp_website}}
-							</div>
-							<div class="col-6 form-group">
-								<b>Total Experience (In Years) : </b>
-								{{$exp->total_exp}}
-							</div>
-							<div class="col-6 form-group">
-								<b>Reason of Leaving : </b>
-								{{$exp->reason_of_leaving}}
-							</div>
-						</div>
-	        			@endforeach
-					@endif			
+		<div class="container-fluid">
+			@if(!empty($employee->experiences))
+				@php $count = 0;@endphp
+				@foreach($employee->experiences as $exp)
+				<div class="row mb-2">
+	                <span style="color: grey; font-size: 20px; font-weight: bold"><i class="fa fa-globe"></i> Company - {{++$count}}</span>
+           		</div><hr>
+				<div class="row col-12">
+                	<div class="col-6 form-group">
+						<b>Company Name : </b>
+						{{strtoupper($exp->comp_name)}}
+					</div>
+					<div class="col-6 form-group">
+						<b>Job Type : </b>
+						{{strtoupper($exp->job_type)}}
+					</div>
+					<div class="col-6 form-group">
+						<b>Monthly CTC : </b>
+						{{$exp->monthly_ctc}}
+					</div> 
+					<div class="col-6 form-group">
+						<b>Designation : </b>
+						{{strtoupper($exp->desg)}}
+					</div>
+					<div class="col-6 form-group">
+						<b>Company Location : </b>
+						{{strtoupper($exp->comp_loc)}}
+					</div>
+					<div class="col-6 form-group">
+						<b>Experience Certificate : </b>
+						@if($exp->file_path != null)
+							<a href="{{route('employees.download', ['db_table' => 'hrms_emp_exp', $exp->id])}}"><i class="fa fa-arrow-down"></i>Download</a>
+						@else
+							Not Available
+						@endif
+					</div>	
+					<div class="col-6 form-group">
+						<b>Start Date : </b>
+						{{$exp->start_dt}}
+					</div>
+					<div class="col-6 form-group">
+						<b>End Date : </b>
+						{{$exp->end_dt}}
+					</div>
+					<div class="col-6 form-group">
+						<b>Company Email : </b>
+						{{$exp->comp_email}}
+					</div>
+					<div class="col-6 form-group">
+						<b>Company Website : </b>
+						{{$exp->comp_website}}
+					</div>
+					<div class="col-6 form-group">
+						<b>Total Experience (In Years) : </b>
+						{{$exp->total_exp}}
+					</div>
+					<div class="col-6 form-group">
+						<b>Reason of Leaving : </b>
+						{{$exp->reason_of_leaving}}
+					</div>
+				</div>
+    			@endforeach
+			@endif			
 		</div>
    	</div>
+   </div>
+</div>
 </main>
 <script>
 $(document).ready(function(){

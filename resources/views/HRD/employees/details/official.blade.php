@@ -139,6 +139,20 @@
 							</span>
 							@enderror
 						</div>
+						<div class="col-6 form-group" >
+							<label for="">Head of Department (Hod)</label>
+							<select name="emp_hod" class="form-control">
+								<option value="">Select Employee </option>
+								@foreach($meta['emp_mast'] as $index)
+								<option value="{{$index->user_id}}" {{old('emp_hod', $employee->emp_hod) == $index->user_id ? 'selected' : ''}}>{{ucwords($index->emp_name)}}</option>
+								@endforeach
+							</select>
+							@error('emp_hod')
+							<span class="text-danger" role="alert">
+								<strong>* {{ $message }}</strong>
+							</span>
+							@enderror
+						</div>
 					</div>
 					<br>
 					<div><h5>NECESSARY DOCUMENTS</h5></div><hr>

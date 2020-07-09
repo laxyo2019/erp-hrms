@@ -16,7 +16,7 @@
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				{{$message}}
 			</div>
-		@endif 
+		@endif
 		<div>
 	      <h4 style="color: grey">Status - 
 	      	@if($request->accountant_approval == 0)

@@ -170,6 +170,7 @@ class EmployeesController extends Controller
         'old_esi'    => $request->old_esi,
         'curr_esi'   => $request->curr_esi,
         'passport_id'=> $request->passport_id,
+        'emp_hod'    => $request->emp_hod
       ]);
 
     return redirect()->route('employee.show_page',['user_id'=>$user_id,'tab'=>'official'])->with('success','Updated successfully.');
@@ -563,7 +564,7 @@ class EmployeesController extends Controller
     return view($path,compact('employee','meta'));
   }
 
-/*end Created by kishan developer*/
+/*end Created by kisan developer*/
 
   public function edit($id)
   {
@@ -571,7 +572,6 @@ class EmployeesController extends Controller
 	  $data['reports_to']   = EmployeeMast::all();
     $data['grades']       = Grade::all();
 		$data['designations'] = Designation::all();
-    //return $data['reports_to'];
     
     return view('HRD.employees.edit',compact('data'));
   }
@@ -588,7 +588,6 @@ class EmployeesController extends Controller
 			],[
 				'emp_dob.required'  => 'The Date of Birth is requred.',
 				'join_dt.required'  => 'The Joining date is requred.',
-				/*'emp_desg.required' => 'The Designation is requred.',*/
 			]);
 
     $employee = EmployeeMast::findOrfail($id);
@@ -710,7 +709,7 @@ class EmployeesController extends Controller
   //Employees Export
   public function export(){
 
-    return Excel::download(new EmployeesExport, 'employee.xlsx');      
+    return Excel::download(new EmployeesExport, 'employee.csv');      
   }
 
   public function save_session(Request $request){

@@ -1,3 +1,7 @@
+@push('styles')
+	
+	{{--<script src='{{asset('js/select2.min.js')}}' type='text/javascript'></script>--}}
+@endpush
 <div><h4>{{ucwords($employee->emp_name)}}</h4></div>
 <form action="{{route('allotments.store')}}" method="POST" >
 	@csrf

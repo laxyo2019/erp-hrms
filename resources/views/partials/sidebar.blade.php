@@ -116,6 +116,13 @@
     {{-- Loan Tab --}}
 
     <li><a class="app-menu__item {{Request::segment(1) == 'loan-request' ? 'active' : ''}}" href="{{route('loan-request.index')}}"><i class="app-menu__icon fa fa-money"></i><span class="app-menu__label">Apply for Loan </span></a></li>
+<<<<<<< HEAD
+=======
+
+    {{-- No Dues Request --}}
+
+    <li><a class="app-menu__item {{Request::segment(1) == 'no-dues-request.index' ? 'active' : ''}}" href="{{route('no-dues-request.index')}}"><i class="app-menu__icon fa fa-money"></i><span class="app-menu__label">No Dues Request </span></a></li>
+>>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
     
     {{-- Separation Tab --}}
 
@@ -162,10 +169,17 @@
         @endrole
         @role('hrms_admin')
         <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/admin*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-admin.index')}}"><i class="icon fa fa-chevron-right"></i>Loan Listing (Admin)</a></li>
+<<<<<<< HEAD
         @endrole
         @role('hrms_accountant')
         <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/accountant*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-accountant.index')}}"><i class="icon fa fa-chevron-right"></i>Loan Listing (Acc.)</a></li>
         @endrole
+=======
+        @endrole
+        @role('hrms_accountant')
+        <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/accountant*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-accountant.index')}}"><i class="icon fa fa-chevron-right"></i>Loan Listing (Acc.)</a></li>
+        @endrole
+>>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
         <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-types*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-types.index')}}"><i class="icon fa fa-chevron-right"></i>Types</a></li>
       </ul>
       </li>
@@ -196,8 +210,17 @@
       </ul>
     </li> --}}
 
+<<<<<<< HEAD
     @ability('hrms_admin', 'manage-settings')
        <li><a class="app-menu__item {{Request::segment(1) == 'settings' ? 'active' : ''}}" href="{{route('mast_entity.home')}}"><i class="app-menu__icon fa fa-bars"></i><span class="app-menu__label">Settings</span></a></li>
+=======
+    @ability('hrms_admin|hrms_hr', 'manage-settings')
+       <li><a class="app-menu__item {{Request::segment(1) == 'settings' ? 'active' : ''}}" href="{{route('mast_entity.home')}}"><i class="app-menu__icon fa fa-bars"></i><span class="app-menu__label">Settings</span></a></li>
+    @endability
+
+    @ability('hrms_admin|hrms_hr', 'manage-settings')
+       <li><a class="app-menu__item {{Request::segment(1) == 'hod' ? 'active' : ''}}" href="{{route('hod.index')}}"><i class="app-menu__icon fa fa-bars"></i><span class="app-menu__label">HOD</span></a></li>
+>>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
     @endability
     
     @ability('hrms_admin|hrms_hr', 'manage-birthday')

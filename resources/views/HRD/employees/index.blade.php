@@ -73,7 +73,7 @@
 								@else
 									@if($employee->leave_allotted == 0)
 									<button class="btn btn-sm btn-info ml-2 modalAllot1 "  data-id="{{$employee->user_id}}">
-									<span style="font-size: 12px">Allot</span>
+										<span style="font-size: 12px">Allot</span>
 									</button>
 									@else
 									<b style="color: green">Allotted</b>
