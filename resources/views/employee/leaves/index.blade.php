@@ -47,6 +47,17 @@
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
 					<div class="card-body table-responsive">
+						@if($message = Session::get('success'))
+				            <div class="alert alert-success alert-block">
+				            	<button type="button" class="close" data-dismiss="alert">×</button>
+				            	{{$message}}
+				            </div>
+				        @elseif($message = Session::get('failure'))
+				            <div class="alert alert-danger alert-block">
+				            	<button type="button" class="close" data-dismiss="alert">×</button>
+				            	{{$message}}
+				            </div>
+				        @endif
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
@@ -202,37 +213,43 @@
 										</div>
 									@endif
 								</td>
-									
-									<td class='d-flex' style="border-bottom:none">
-										<button class="btn btn-sm btn-info modalLeave ml-2" data-id="{{$leaveapply->id}}">
-											<i class="fa fa-eye" style="font-size: 12px"></i>
-										</button>
-										<div class="modal fade" id="expModal" role="dialog">
-										     <div class="modal-dialog modal-lg" >
-										    	<div class="modal-content" >
-										        	<div class="modal-header">
-										        		<h4 class="modal-title">Leave Details</h4>
-										        	</div>
-										        	<div class="modal-body table-responsive" id="modalTable" style="background: #ececec">
-										        	</div>
-										        	<div class="modal-footer">
-										          		<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-										        	</div>
-										        </div>
-										    </div>
-										</div>
+								<td class='d-flex' style="border-bottom:none">
+									<button class="btn btn-sm btn-info modalLeave ml-2" data-id="{{$leaveapply->id}}">
+										<i class="fa fa-eye" style="font-size: 12px"></i>
+									</button>
+									<div class="modal fade" id="expModal" role="dialog">
+									     <div class="modal-dialog modal-lg" >
+									    	<div class="modal-content" >
+									        	<div class="modal-header">
+									        		<h4 class="modal-title">Leave Details</h4>
+									        	</div>
+									        	<div class="modal-body table-responsive" id="modalTable" style="background: #ececec">
+									        	</div>
+									        	<div class="modal-footer">
+									          		<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+									        	</div>
+									        </div>
+									    </div>
+									</div>
 										
 								@if($leaveapply->teamlead_approval == 0)
-									<span class="ml-2">
+									{{-- <div class="ml-2 ">
 										<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
 												@csrf
 												@method('DELETE')
-											<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
+											<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger modalLeave ml-2" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
 										</form>
-									</span> 
-									<span class="ml-2" >
+									</div> --}}
+									<div class="ml-2 ">
+										<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
+					                    	@csrf
+					                     	@method('DELETE')
+					                      	<a href="javascript:$('#delform_{{ $leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i></a>
+					                    </form>
+									</div>  
+									{{-- <span class="ml-2" >
 										<button class="btn btn-sm btn-danger"><i class="fa fa-trash text-white"  style="font-size: 12px;" id="requestDel" data-id={{$leaveapply->id}}></i></button>
-									</span>
+									</span> --}}
 								@endif
 									</td>
 								</tr>
@@ -264,7 +281,7 @@
 			})
 		});
 
-		$('#requestDel').on('click', function(){
+		/*$('#requestDel').on('click', function(){
 			
 			var leave_req = $(this).data('id');
 			//alert(leave_req)
@@ -286,7 +303,7 @@
 					}
 				}
 			})
-		});
+		});*/
 	});
 
 

@@ -25,15 +25,20 @@
 
       			<span style="color: #3375ca;display: none;" id="closeSts">CLOSED</span>
       			&nbsp&nbsp<button class="btn btn-info btn-sm" id="closeAccount">CLOSE THE ACCOUNT</button>
+
       		@endif
       	@elseif($separation->status == 1)
       		<span style="color: #3375ca;" >CLOSED</span>
       	@endif
        </h4> 
     </div>
+<<<<<<< HEAD
 
     @if($separation->status == 0)
 
+=======
+    @if($separation->status == 0)
+>>>>>>> 53c035c214fc083b97629ed31b17428aaaf014a7
 		<form action="{{route('staff-settlement.update', $separation->id)}}" method="POST" id="form">
 	@endif
 			@csrf
@@ -283,7 +288,7 @@
 				$('#cancel').hide();
 				$('#form').content().unwrap();
 			}
-		})
+		});
 	});
 
 	

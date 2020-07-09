@@ -65,6 +65,8 @@
 					<td><strong class="dec_msg">DECLINED</strong></td>
 				@elseif($request->teamlead_approval == 3)
 					<td><strong class="rev_msg">REVERSED</strong></td>
+				@elseif($request->teamlead_approval == 4)
+					<td><strong >N/A</strong></td>
 				@endif
 
 
@@ -113,7 +115,8 @@
 
 {{-- Reverse button for ADMIN --}}
 
-@elseif($request->teamlead_approval == 1 && $request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin'))
+@elseif($request->teamlead_approval == 1  && $request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin') || $request->teamlead_approval == 4  && $request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin'))
+
 	<strong class="rev_msg" id="rev_msg_{{$request->id}}" style="display: none;" >REVERSED</strong>
 
 	<button type="button" data-id="{{$request->id}}" class="btn btn-sm reverse" value="{{$request->id}}" id="revBtn_{{$request->id}}">REVERSE</button>

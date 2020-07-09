@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @push('styles')
-	<script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
-	<script src='{{asset('js/select2.min.js')}}' type='text/javascript'></script>
+	{{-- <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script> 
+	<script src='{{asset('js/select2.min.js')}}' type='text/javascript'></script>--}}
 @endpush
 @section('content')
 <main class="app-content ">
@@ -257,14 +257,15 @@
 	</div>
 </main>
 <script type="text/javascript">
-$(document).ready(function(){
-	$('.official').addClass('active');
 	$('.datepicker').datepicker({
-		orientation: "bottom",
+		orientation: "auto",
 		format: "yyyy-mm-dd",
 		autoclose: true,
 		todayHighlight: true
-		});
+	});
+$(document).ready(function(){
+	$('.official').addClass('active');
+	
 
 	$('#emp_type').change(function(){
 		//$('#emp_type option:selected').text();	
@@ -278,14 +279,13 @@ $(document).ready(function(){
 	})
 	
 	// Initialize select2
-	$("#reportsTo").select2();
+	//$("#reportsTo").select2();
 
 	/**Select Branch for companies**/
 
 	$('#company').change(function(){
 
 		var comp_id = $(this).children("option:selected").val();
-
 		$.ajax({
 			type: 'POST',
 			url: '{{route('company.branches')}}',

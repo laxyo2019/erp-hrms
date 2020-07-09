@@ -45,7 +45,7 @@
            @foreach($requests as $index)
               <tr class="text-center" >
                 <td>{{++$count}}</td>
-                <td>{{ucwords($index['loanType']->name)}}</td>
+                <td>{{-- {{ucwords($index['loanType']->name)}} --}}</td>
                 <td>{{$index->posted}}</td>
                 <td>{{$index->requested_amt}}</td>
                 <td>{{$index->reason}}</td>

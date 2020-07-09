@@ -183,7 +183,7 @@ class LeavesController extends Controller
    }
   
    public function holidayCheck(Request $request){
-
+    
     $sandwichRule = Holiday::select('id', 'title', 'date')
                       ->where('date', '>', $request->start)
                       ->where('date', '<', $request->end )
@@ -197,15 +197,15 @@ class LeavesController extends Controller
 
    public function store(Request $request)
    {
-     $data = $request->validate([
-       'leave_type_id'    => 'required',
-       'start_date'       => 'required',
-       'reason'           => 'required',
-       'reports_to'       => 'required',
-       'duration'         => 'required|string',
-       'contact_no'       => 'nullable',
-       'applicant_remark' => 'nullable',
-       'address_leave'    => 'nullable'
+    $data = $request->validate([
+      'leave_type_id'    => 'required',
+      'start_date'       => 'required',
+      'reason'           => 'required',
+      'reports_to'       => 'required',
+      'duration'         => 'required|string',
+      'contact_no'       => 'nullable',
+      'applicant_remark' => 'nullable',
+      'address_leave'    => 'nullable'
     ]);
 
       $btnId = $request->btnId;
@@ -402,53 +402,7 @@ class LeavesController extends Controller
         }
       }
 
-/*
-    //return $request->all();
-    //return $data;
-    //return 'no error';
-      
 
-    // return $leaveData;
-    //   $data = request()->validate([
-    //     'leave_type_id' => 'required',
-    //     'reports_to'    => 'required',
-    //     'start_date'    => 'required',
-    //     'count'         => 'required',
-    //     'file_path'     => 'sometimes|required',
-    //     'leave_type_id' => 'required',
-    //     'reports_to'    => 'required',
-    //     'start_date'    => 'required'
-    //   ]);
-    //   //return $request->all();
-    //   $leave_type = LeaveMast::where('id',$data['leave_type_id'])->first();
-
-    //   if( $leave_type->name == 'Sick Leave'){
-    //     $data = request()->validate([
-    //     'file_path'     => 'required',
-    //     'leave_type_id' => 'required',
-    //     'reports_to'    => 'required',
-    //     'start_date'    => 'required',
-    //     'count'         => 'required',]);
-    //   }
-
-       
-
-    //   //Store full, first/second half day
-
-    //   switch($request->day){
-    //     case "full":
-    //       $request->full_day = 1;
-    //       break;
-
-    //     case "first_half":
-    //       $request->first_half = 1;
-    //       break;
-
-    //     case "second_half":
-    //       $request->second_half = 1;
-    //       break;
-    //   }
-*/
     $user_id = Auth::id();
 
     //Uploading documents to hrmsupload directory
@@ -465,6 +419,11 @@ class LeavesController extends Controller
 
     }
 
+    $role = User::where('id', $request->reports_to)->first();
+
+    //return ([$role->hasRole('hrms_admin')]);
+    //return $role;
+
     $leaveapply = new LeaveApply;
     $leaveapply->user_id           = $user_id;
     $leaveapply->reports_to        = $request->reports_to;
@@ -480,6 +439,8 @@ class LeavesController extends Controller
     $leaveapply->paid_count        = $paid_count;
     $leaveapply->unpaid_count      = $unpaid_count;
     $leaveapply->applicant_remark  = $request->applicant_remark;
+    $leaveapply->posted            = date('d M Y');
+    $leaveapply->teamlead_approval = $role->isAbleTo('hrms-superadmin') == true ? 4 : 0;
     $leaveapply->save();
       
     //Deduct/Add leave based on without pay is active or not.
@@ -565,11 +526,9 @@ class LeavesController extends Controller
         Storage::delete($leave_app->file_path);
         $leave_app->delete();
 
-        $res['msg'] = "Request deleted successfully.";
-        $res['flag']= 1;
+        return back()->with('success', 'Record has been deleted.');
       }else{
-        $res['msg'] = "You can't Delete leave request. Click ok to refresh.";
-        $res['flag']= 0;
+        return back()->with('failure', 'Record is not deleted yet.');
       }
 
 

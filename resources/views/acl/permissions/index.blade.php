@@ -1,15 +1,9 @@
 @extends('layouts.master')
 @section('content')
 <main class="app-content">
-<<<<<<< HEAD
   <div class="row">
     <div class="col-md-12 col-xl-12">
       <h1 style="font-size: 24px">Permissions
-=======
-	<div class="row">
-		<div class="col-md-12 col-xl-12">
-			<h1 style="font-size: 24px">Permissions
->>>>>>> 171611f30ebfb7ef5196e7768f6b8f10cf113f2c
         <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
         @ability('hrms_admin', 'hrms-create')
         <span class="ml-2">
@@ -17,21 +11,12 @@
           <span class="fa fa-plus "></span> Add Permission</a>
         </span>
         @endability
-<<<<<<< HEAD
       </h1>
       <hr>
     </div>
   </div>
   
     <div class="row">
-=======
-			</h1>
-			<hr>
-		</div>
-	</div>
-	
-		<div class="row">
->>>>>>> 171611f30ebfb7ef5196e7768f6b8f10cf113f2c
     <div class="col-md-12 col-xl-12">
       <div class="card shadow-xs">
         

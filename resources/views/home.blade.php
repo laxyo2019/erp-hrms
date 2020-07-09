@@ -26,7 +26,6 @@
               <p><b>10</b></p>
             </div>
           </div>
-         
         </div>
         <div class="col-md-6 col-lg-3">
            <div class="widget-small info coloured-icon"><i class="icon fa fa-thumbs-o-up fa-3x"></i>

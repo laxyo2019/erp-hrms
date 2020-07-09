@@ -54,7 +54,7 @@
 <div class="row card-body text-center">
 	<div class="col-6" >
 		<h4>Address</h4>
-		<div>{{!empty($leave_req->address) ? $leave_req->address : 'Not Mentioned'}}</div>
+		<div>{{!empty($leave_req->addr_during_leave) ? $leave_req->addr_during_leave : 'Not Mentioned'}}</div>
 	</div>
 	<div class="col-6" >
 		<h4>Leave Reversed</h4>

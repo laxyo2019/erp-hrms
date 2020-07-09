@@ -5,7 +5,7 @@
 			<div class="col-md-12 col-xl-12">
 				<h1 style="font-size: 24px">
 					<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="background-color: #e7e7e7; color: black;font-size:13px;" >Go Back</a>
-					<a href="{{Route('create_message')}}" class="btn btn-sm btn-primary pull-right" style="font-size:13px; margin-right: 10px;"  style="{background-color: #e7e7e7; color: black;}" >Add New</a>
+					<!-- <a href="{{Route('create_message')}}" class="btn btn-sm btn-primary pull-right" style="font-size:13px; margin-right: 10px;"  style="{background-color: #e7e7e7; color: black;}" >Add New</a> -->
 					<span class="ml-2">
 
 						<!-- 	<button class="btn btn-sm btn-info"  data-toggle="modal" data-target="#import-modal" style="font-size:13px" >

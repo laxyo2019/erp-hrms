@@ -58,7 +58,7 @@
 	</div>
 	<div class="col-6" >
 		<h4>Address</h4>
-		<div>{{!empty($data->address) ? $data->address : 'Not Mentioned'}}</div>
+		<div>{{!empty($data->addr_during_leave) ? $data->addr_during_leave : 'Not Mentioned'}}</div>
 	</div>
 </div>
 <div class="row card-body text-center">

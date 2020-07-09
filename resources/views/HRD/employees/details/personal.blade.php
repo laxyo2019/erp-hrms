@@ -1,7 +1,7 @@
 @extends('layouts.master')
-@push('styles')
+{{-- @push('styles')
 	<script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
-@endpush
+@endpush --}}
 @section('content')
 @php
 	$blood_groups	= array('O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-');
@@ -260,14 +260,15 @@
 </main>
 
 <script type="text/javascript">
-	$(document).ready(function(){
-		$('.personal').addClass('active');
-		$('.datepicker').datepicker({
-			orientation: "bottom",
+	$('.datepicker').datepicker({
+			orientation: "auto",
 			format: "yyyy-mm-dd",
 			autoclose: true,
 			todayHighlight: true
 		});
+	$(document).ready(function(){
+		$('.personal').addClass('active');
+		
 
 		  $('#check-address').click(function(){
 		    if($('#check-address').is(':checked')){

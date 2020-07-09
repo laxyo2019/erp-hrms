@@ -19,7 +19,7 @@
 								<div class="col-sm-4"></div>
 								<div class="col-sm-4">
 									<label>Message</label>
-									<textarea name="message" class="form-control">{{$data->message}}</textarea>
+									<textarea name="message" class="form-control" maxlength="165">{{$data->message}}</textarea>
 								</div>
 								<div class="col-sm-4"></div>
 								<div class="col-md-12 text-center mt-3">

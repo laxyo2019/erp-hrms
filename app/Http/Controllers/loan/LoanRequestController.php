@@ -23,7 +23,6 @@ class LoanRequestController extends Controller
     {
         $requests = LoanRequest::with(['loanType'])
                         ->where('user_id', Auth::id())->get();
-        //return $requests[0];
 
         return view('loan.requests.index', compact('requests'));
     }
@@ -44,6 +43,13 @@ class LoanRequestController extends Controller
         return view('loan.requests.create', compact('emp', 'types', 'interest'));
     }
 
+    public function showType(Request $request){
+
+        $type = LoanType::where('id', $request->type)->first();
+
+        return $type;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -54,8 +60,10 @@ class LoanRequestController extends Controller
     {
         $request->validate([
             'interest_rate'     => 'required',
+            //'emp_code'          => 'required',
             'loan_type'         => 'required',
             'loan_amount'       => 'required',
+            'total_amount'      => 'required',
             'monthly_deduction' => 'required',
             'tenure'            => 'required',
             'total_interest'    => 'required',
@@ -69,6 +77,7 @@ class LoanRequestController extends Controller
             'loan_type_id'      => $request->loan_type,
             'requested_amt'     => $request->loan_amount,
             'tenure'            => $request->tenure,
+            'total_amount'      => $request->total_amount,
             'monthly_deduction' => $request->monthly_deduction,
             'total_interest'    => $request->total_interest,
             'reason'            => $request->reason,

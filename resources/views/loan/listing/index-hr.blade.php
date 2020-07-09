@@ -174,7 +174,7 @@ $(document).ready(function(){
     var req_id = $(this).data('id');
     $.ajax({
       type: 'GET',
-      url: '/loan-listing/'+req_id,
+      url: '/loan-management/loan-listing/'+req_id,
       success:function(res){
         $('#reqDetailTable').empty().html(res);
         $('#reqModal').modal('show');
@@ -187,14 +187,14 @@ $(document).ready(function(){
 
   $('.action').on('click', function(){
 
+
     var action    = $(this).val();
     var request_id  = $(this).data('id');
-
     $.ajax({
       type: 'POST',
-      url: "/loan-listing/hr/"+request_id,
+      url: "{{route('listing.hr')}}",
       headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-      data: {'action':action},
+      data: {'action':action, 'request_id':request_id},
       success:function(res){
 
         $('#apprvBtn_'+request_id).hide();

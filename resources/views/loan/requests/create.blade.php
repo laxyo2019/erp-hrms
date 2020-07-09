@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @push('styles')
   <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
+  <script type="text/javascript" src="https://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js"></script>;	
 @endpush
 @section('content')
 <main class="app-content">
@@ -18,7 +19,7 @@
 			</div>
 		@endif 
 		
-		<form action="{{route('loan-request.store')}}" method="POST" >
+		<form action="{{route('loan-request.store')}}" method="POST" id="loanRequest">
 			@csrf
 			<h5>Employee Detail</h5><hr>
 			<div class="row">
@@ -28,78 +29,87 @@
 					
 				</div>
 				<div class="col-6 form-group">
-					<label for="emp_code">Employee Code</label>
+					<label for="emp_code">Employee Code
+						@error('emp_code')
+					   		<span style="color: red">| {{ $message }}</span>
+						@enderror
+					</label>
 					<input type="text" class="form-control" name="emp_code" value="{{old('emp_code', $emp->emp_code)}}" readonly="">
-					@error('emp_code')
-						<span class="text-danger" role="alert">
-							<strong>* {{ $message }}</strong>
-						</span>
-					@enderror
 				</div>
 			</div>
 			<h5>Loan Application Detail</h5><hr>
 			<div class="row">
+				<div class="col-6 form-group">
+					<label for="">Loan Amount (In INR)
+						@error('loan_amount')
+					   		<span style="color: red">| {{ $message }}</span>
+						@enderror
+					</label>
+					<input type="text" class="form-control" name="loan_amount" value="{{old('loan_amount')}}" id="loan_amount">
+					
+				</div>
 				<div class="col-6 form-group ">
-					<label for="">Interest Rate ( % )</label>
-					<input type="text" class="form-control" name="interest_rate" value="{{$interest->description}}" readonly="" id="interest_rate">
-					@error('interest_rate')
-						<span class="text-danger" role="alert">
-							<strong>* {{ $message }}</strong>
-						</span>
-					@enderror
-				</div>	
-				<div class="col-6 form-group ">
-					<label for="">Loan Types</label>
-					<select name="loan_type" class="custom-select form-control select2">
-						<option value="">Select Type</option>
+					<label for="">Loan Types
+						{{-- @error('loan_type')
+					   		<span style="color: red">| {{ $message }}</span> 
+					   		<span for="loan_amount" generated="true" class="dangerCls"></span>
+						@enderror --}}
+					</label>
+					<select name="loan_type" class="custom-select form-control select2" id="loanType">
+						<option value="" >Select Types
+							
+						</option>
 							@foreach($types as $type)
 								<option value="{{$type->id}}">{{ucwords($type->name)}}</option>
 							@endforeach
 					</select>
-					@error('loan_type')
-		                  <span class="text-danger" role="alert">
-		                      <strong>{{ $message }}</strong>
-		                  </span>
-		              @enderror
+					
 				</div>
-				<div class="col-6 form-group">
-					<label for="">Loan Amount (In INR)</label>
-					<input type="text" class="form-control" name="loan_amount" value="{{old('loan_amount')}}" id="loan_amount">
-					@error('loan_amount')
-						<span class="text-danger" role="alert">
-							<strong>* {{ $message }}</strong>
-						</span>
-					@enderror
-				</div>
-				<div class="col-6 form-group">
-					<label for="monthly_deduction">Monthly Deduction (In INR)</label>
-					<input type="text" class="form-control" name="monthly_deduction" value="{{old('monthly_deduction')}}" readonly="" id="monthly_deduction" >
-					@error('monthly_deduction')
-						<span class="text-danger" role="alert">
-							<strong>* {{ $message }}</strong>
-						</span>
-					@enderror
-				</div>			
 				<div class="col-6 form-group ">
-					<label for="">Tenure ( Months )</label>
+					<label for="">Interest Rate ( % )
+						@error('interest_rate')
+					   		<span style="color: red">| {{ $message }}</span>
+						@enderror
+					</label>
+					<input type="text" class="form-control" name="interest_rate" value="" readonly="" id="interest_rate">
+					
+				</div>	
+				<div class="col-6 form-group ">
+					<label for="">Tenure ( Months )
+						@error('tenure')
+					   		<span style="color: red">| {{ $message }}</span>
+						@enderror
+					</label>
 					<input type="number" class="form-control " name="tenure" value="{{old('tenure')}}" id="tenure" min="1">
-					@error('tenure')
-						<span class="text-danger" role="alert">
-							<strong>* {{ $message }}</strong>
-						</span>
-					@enderror
+					
 				</div>
 				<div class="col-6 form-group ">
-					<label for="">Total Interest (In INR)</label>
+					<label for="">Total Interest (In INR)
+						@error('total_interest')
+					   		<span style="color: red">| {{ $message }}</span>
+						@enderror
+					</label>
 					<input type="text" class="form-control " name="total_interest" value="{{old('total_interest')}}" id="total_interest" min="1" readonly="" id="total_interest">
-					@error('total_interest')
-						<span class="text-danger" role="alert">
-							<strong>* {{ $message }}</strong>
-						</span>
-					@enderror
+					
 				</div>
-				
-				
+				<div class="col-6 form-group ">
+					<label for="">Total Amount with Interest(In INR)
+						@error('total_amount')
+					   		<span style="color: red">| {{ $message }}</span>
+						@enderror
+					</label>
+					<input type="text" class="form-control " name="total_amount" value="{{old('total_amount')}}" id="total_amount" readonly="" id="total_amount">
+					
+				</div>
+				<div class="col-6 form-group">
+					<label for="monthly_deduction">Monthly Deduction (In INR)
+						@error('monthly_deduction')
+					   		<span style="color: red">| {{ $message }}</span>
+						@enderror
+					</label>
+					<input type="text" class="form-control" name="monthly_deduction" value="{{old('monthly_deduction')}}" readonly="" id="monthly_deduction" >
+					
+				</div>			
 				
 				
 			</div>
@@ -116,7 +126,7 @@
 				
 				<div class="col-12 form-group text-center">
 					<button class="btn btn-info btn-sm" style="width: 20%">SAVE</button>
-					{{-- <a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Cancel</a> --}}
+					<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 20%">CANCEL</a>
 				</div>
 			</div>
 				
@@ -126,7 +136,11 @@
 		</form>
 	</div>
 </main>
-
+<style type="text/css">
+	.dangerCls{
+		color : red;
+	}
+</style>
 <script type="text/javascript">
 	$('.datepicker').datepicker({
 		orientation: "bottom",
@@ -135,23 +149,75 @@
 		todayHighlight: true
 	});
 
-	$('#tenure').on('change', function(){
+	$('#loanRequest').validate({
+		errorElement: 'p',
+		errorClass: 'dangerCls',
 
-		var interest 	= parseFloat($('#interest_rate').val());
+		rules: {
+			loan_amount:{
+				required: true
+			},
+			loan_type: {
+				required: true
+			},
+			interest_rate:{
+				required: true
+			},
+			tenure: {
+				required: true
+			},
+			total_interest:{
+				required: true
+			},
+			total_amount: {
+				required: true
+			},
+			monthly_deduction: {
+				required: true
+			}
+
+		}
+	});
+
+	$('#loanType').on('change', function(){
+		var type = $(this).val();
+
+		$.ajax({
+			type: 'POST',
+			url: '/loan-request/show-type',
+			data: {'type': type},
+			headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			success: function(res){
+				$('#interest_rate').val(res.interest_rate);
+			}
+		})
+		
+	})
+
+	$("#tenure").bind('keyup mouseup', function () {
+    	var interest 	= parseFloat($('#interest_rate').val());
 		var loan_amount = parseFloat($('#loan_amount').val());
 		var tenure 		= parseFloat($('#tenure').val());
 
-		//var total_amount = loan_amount/100*interest + loan_amount;
-		var total_interest = loan_amount/100*interest * tenure;
+		var principal_monthly = loan_amount/tenure; //Only Principal Monthly for 1 month 
 
-		var total_amount = total_interest + loan_amount;
+		var unitInterest	= (loan_amount/100*interest)/tenure; //Just for 1 month
 
-		var monthly_deduction = total_amount / tenure;
+		var total_interest	= (loan_amount/100*interest)/12*tenure; //Interest for 12 Months
 
-		//$('#monthly_deduction').val(monthly.toFixed(2));
-		$('#monthly_deduction').val(monthly_deduction.toFixed(2));
-		$('#total_interest').val(total_interest.toFixed(2));
+		var total_payout	= loan_amount + total_interest;
+
+		var total_emi = total_payout / tenure ;
+
+		$('#total_amount').val(total_payout.toFixed(2));
+		$('#monthly_deduction').val(total_emi.toFixed(2));
+		$('#total_interest').val(total_interest.toFixed(2));          
 	});
+
+	/*$('#tenure').bind('keyup mouseup', function(){
+
+		
+	});*/
 
 	/*$('#loan_amount').on('change', function(){
 

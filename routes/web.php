@@ -19,6 +19,8 @@ Route::post('/logout', 'LoginController@logout')->name('logout');
 
 Route::resource('/information', 'InformationController');
 Route::resource('/employee/leaves','Employee\LeavesController');
+Route::get('/url_test', 'HRD\LeavesController@updateLeaveBalance');
+
 
 
 Route::group(['middleware' => ['role:hrms_teamlead']], function() {
@@ -182,6 +184,8 @@ Route::post('separation-request/subadmin/{request_id}', 'separation\SeparationCo
 Route::get('separation/admin', 'separation\SeparationController@indexAdmin')->name('separation-admin.index');
 Route::post('separation-request/admin/{request_id}', 'separation\SeparationController@AdminApproval');
 
+Route::post('separation/emp-code/', 'separation\SeparationController@findEmpCode');
+
 #Close Account/ Finale Settlement
 
 Route::post('separation/close-account/{id}', 'separation\StaffSettlementController@closeAccount');
@@ -192,48 +196,87 @@ Route::resource('staff-settlement', 'separation\StaffSettlementController');
 
 # Loan Request 
 
-Route::resource('loan-request', 'loan\LoanRequestController');
+Route::resource('/loan-request', 'loan\LoanRequestController');
+Route::post('/loan-request/show-type', 'loan\LoanRequestController@ShowType');
 
 # Loan Listing
+Route::prefix('loan-management')->namespace('loan')->group(function () {
 
 	# HR
 
-	Route::get('loan-listing/hr', 'loan\LoanListingController@indexHr')->name('loan-listing-hr.index');
+	Route::get('/loan-listing/hr', 'LoanListingController@indexHr')->name('loan-listing-hr.index');
 
-	Route::post('loan-listing/hr/{req_id}', 'loan\LoanListingController@HrApproval');
+	Route::post('/loan-listing/hr', 'LoanListingController@HrApproval')->name('listing.hr');
 
-	Route::get('loan-listing/{req_id}/history', 'loan\LoanListingController@loanMonthlyHistory')->name('loan-listing.history');
+	Route::get('/loan-listing/{req_id}/history', 'LoanListingController@loanMonthlyHistory')->name('loan-listing.history');
 
-	Route::post('loan-listing/{req_id}/history', 'loan\LoanHistoryController@updateLoanHistory')->name('loan-listing-update.history');
+	Route::post('/loan-listing/{req_id}/history', 'LoanHistoryController@updateLoanHistory')->name('loan-listing-update.history');
 
 	# SubADMIN
 
-	Route::get('loan-listing/subadmin', 'loan\LoanListingController@indexSubAdmin')->name('loan-listing-subadmin.index');
+	Route::get('/loan-listing/subadmin', 'LoanListingController@indexSubAdmin')->name('loan-listing-subadmin.index');
 
-	Route::post('loan-listing/subadmin/{req_id}', 'loan\LoanListingController@SubAdminApproval');
+	Route::post('/loan-listing/subadmin/{req_id}', 'LoanListingController@SubAdminApproval');
 
 	# ADMIN
 
-	Route::get('loan-listing/admin', 'loan\LoanListingController@indexAdmin')->name('loan-listing-admin.index');
+	Route::get('/loan-listing/admin', 'LoanListingController@indexAdmin')->name('loan-listing-admin.index');
 
-	Route::post('loan-listing/admin/{req_id}', 'loan\LoanListingController@AdminApproval');
+	Route::post('/loan-listing/admin/{req_id}', 'LoanListingController@AdminApproval');
 
 	# ACCOUNTANT
 
-	Route::get('loan-listing/accountant', 'loan\LoanListingController@indexAccountant')->name('loan-listing-accountant.index');
+	Route::get('/loan-listing/accountant', 'LoanListingController@indexAccountant')->name('loan-listing-accountant.index');
 
-	Route::post('loan-disburse/{req_id}', 'loan\LoanListingController@loanDisburse');
+	Route::post('/loan-disburse/{req_id}', 'LoanListingController@loanDisburse');
 	
-	Route::resource('loan-listing', 'loan\LoanListingController');
+	Route::resource('/loan-listing', 'LoanListingController');
+
+	Route::resource('/loan-types', 'LoanTypeController');
+
 
 	//Route::get('loan-request/{req_id}/history', 'loan\LoanRequestController@loanMonthlyHistory')->name('loan-request.history');
 	//Route::get('loan-history/{req_id}/', 'loan\LoanRequestController@destroy')->name('loan-request.history');
-	Route::resource('loan-listing/history', 'loan\LoanHistoryController');
+	Route::resource('/loan-listing/history', 'LoanHistoryController');
 
+});
 # Loan Settings
 
-Route::resource('loan-setting', 'loan\LoanSettingController');
+//Route::resource('loan-setting', 'loan\LoanSettingController');
 
+#PAYROLL
+
+#Chapter 6 Sections & Welfare --------
+
+Route::resource('hrpayroll/chapter6-exemption', 'payroll\Chapt6ExemptionController');
+
+Route::post('show-heads/', 'payroll\Chapt6ExemptionController@showHeads')->name('section.heads');
+
+#Welfare
+
+Route::resource('hrpayroll/welfare', 'payroll\WelfareController');
+
+#Allowance Index Page
+
+Route::get('hrpayroll/allowance', 'payroll\allowance\ByCadreController@allowanceIndex')->name('allowance.index');
+
+Route::resource('hrpayroll/allowance/by-cadre', 'payroll\allowance\ByCadreController');
+Route::resource('hrpayroll/allowance/by-department', 'payroll\allowance\ByDepartmentController');
+Route::resource('hrpayroll/allowance/by-designation', 'payroll\allowance\ByDesignationController');
+Route::resource('hrpayroll/allowance/by-employee', 'payroll\allowance\ByEmployeeController');
+Route::resource('hrpayroll/allowance/by-site', 'payroll\allowance\BySiteController');
+
+#Financial Year
+Route::resource('hrpayroll/financial-year', 'payroll\settings\FinancialYearController');
+
+#Chapter 6 Section settings--------
+
+Route::resource('hrpayroll/chapt6-head', 'payroll\settings\Chapter6HeadController');
+
+
+
+
+#______________________________
 
 
 /*******Leave Request**********/

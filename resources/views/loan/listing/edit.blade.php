@@ -8,7 +8,7 @@
 	<div style=" padding: 1.5rem; border: 1px solid white;background: white">
 		{{-- <div class="col-md-12 col-xl-12"> --}}
 			<h1 style="font-size: 24px">Loan Request
-				<a href="{{URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+				<a href="{{URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Back</a>
 		</h1>
 		{{-- </div> --}}
 		@if($message = Session::get('success'))
@@ -198,7 +198,7 @@
 
 		$.ajax({
 			type: 'POST',
-			url: '/loan-disburse/'+request_id,
+			url: '/loan-management/loan-disburse/'+request_id,
 			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			success:function(res){
 				$('#disburseAmount').hide();

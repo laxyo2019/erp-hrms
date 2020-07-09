@@ -20,9 +20,9 @@ use App\Models\Employees\LeaveApprovalDetail;
 
 class LeavesController extends Controller
 {
-    public function __construct(){
-        $this->middleware('auth');
-    }
+  //  public function __construct(){
+   //     $this->middleware('auth');
+    //}
 
     /****APPLICATION REQUEST STATUS****/
 
@@ -30,6 +30,7 @@ class LeavesController extends Controller
     //1 = Approved
     //2 = Declined
     //3 = Reversed
+    //4 = Ignore/Neglect
 
     public function indexrt(){
 
@@ -51,6 +52,7 @@ class LeavesController extends Controller
             $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
                 ->orderBy('id', 'DESC')
                 ->where('user_id', '<>', Auth::id())
+                ->where('teamlead_approval', 4)
                 ->whereIn('teamlead_approval', [1, 3])
                 ->get();
 
@@ -65,7 +67,7 @@ class LeavesController extends Controller
         }
 
         return view('HRD.leaves.index', compact('leave_request'));
-	}
+    }
 
     public function indexTeamlead(){
 
@@ -75,7 +77,8 @@ class LeavesController extends Controller
 
         $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail', 'leave_rejected'])
             ->orderBy('id', 'DESC')
-            ->where('user_id', '<>', Auth::id())
+            //->where('user_id', '<>', Auth::id())
+            ->where('teamlead_approval', '<>', 4)
             ->where('reports_to', Auth::id())
             ->get();
 
@@ -90,12 +93,12 @@ class LeavesController extends Controller
 
         $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
             ->orderBy('id', 'DESC')
-            ->where('user_id', '<>', Auth::id())
-            ->whereIn('teamlead_approval', [1, 3])
+            //->where('user_id', '<>', Auth::id())
+            //->where('teamlead_approval', 4)
+            ->whereIn('teamlead_approval', [1, 3, 4])
             ->get();
 
         return view('HRD.leaves.hr', compact('leave_request'));
-        
     }
 
     public function indexAdmin(){
@@ -105,7 +108,7 @@ class LeavesController extends Controller
         /* For Admin*/
         $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
             ->orderBy('id', 'DESC')
-            ->where('user_id', '<>', Auth::id())
+            //->where('user_id', '<>', Auth::id())
             ->whereIn('subadmin_approval', [1, 3])
             ->get();
 
@@ -114,9 +117,9 @@ class LeavesController extends Controller
     }
 
 
-	public function edit($id){
+    public function edit($id){
 
-	}
+    }
 
     public function tl_approval(Request $request, $request_id){
 
@@ -222,18 +225,25 @@ class LeavesController extends Controller
 
                 //Update record when application approve
 
+                if($leaveApp->teamlead_approval == 4){
+                    
+                   LeaveApprovalDetail::create([
+                        'leave_apply_id' => $request_id,
+                        'user_id'        => $leaveApp->user_id,
+                        'approver_id'    => json_encode(['subadmin_approval' => Auth::id()])
+                    ]);
+                }else{
+                    $detail = LeaveApprovalDetail::where('leave_apply_id', $request_id)->first();
 
-                $detail = LeaveApprovalDetail::where('leave_apply_id', $request_id)->first();
+                    $json = json_decode($detail['approver_id']);
 
-                $json = json_decode($detail['approver_id']);
-
-                LeaveApprovalDetail::where('leave_apply_id', $request_id)
-                    ->update([
-                    'approver_id' => json_encode(
-                    ['teamlead_approval' => $json->teamlead_approval,
-                     'subadmin_approval' => Auth::id() ])
-                        ]);
-
+                    LeaveApprovalDetail::where('leave_apply_id', $request_id)
+                        ->update([
+                        'approver_id' => json_encode(
+                        ['teamlead_approval' => $json->teamlead_approval,
+                         'subadmin_approval' => Auth::id() ])
+                            ]);
+                }
               
 
             }else{
@@ -288,7 +298,6 @@ class LeavesController extends Controller
             return $res;
         }
 
-        
     }
 
     public function admin_approval(Request $request, $request_id){
@@ -316,12 +325,22 @@ class LeavesController extends Controller
 
                 $json = json_decode($detail['approver_id']);
 
-                LeaveApprovalDetail::where('leave_apply_id', $request_id)
-                    ->update([
-                    'approver_id' => json_encode(
-                        ['teamlead_approval' => $json->teamlead_approval,
-                         'subadmin_approval' => $json->subadmin_approval,
-                         'admin_approval' => Auth::id() ]) ]);
+
+                if($leaveApp->teamlead_approval == 4){
+                    
+                   LeaveApprovalDetail::where('leave_apply_id', $request_id)
+                        ->update([
+                        'approver_id' => json_encode(
+                            ['subadmin_approval' => $json->subadmin_approval,
+                             'admin_approval'    => Auth::id() ]) ]);
+                }else{
+                    LeaveApprovalDetail::where('leave_apply_id', $request_id)
+                        ->update([
+                        'approver_id' => json_encode(
+                            ['teamlead_approval' => $json->teamlead_approval,
+                             'subadmin_approval' => $json->subadmin_approval,
+                             'admin_approval'    => Auth::id() ]) ]);
+                }
             }else{
 
                     LeaveApply::findOrFail($request_id)
@@ -374,7 +393,7 @@ class LeavesController extends Controller
     }
     public function approve_leave(Request $request, $request_id){
 
-    	$data = User::find(Auth::user()->id);
+        $data = User::find(Auth::user()->id);
 
         //Update leave aaplication status and approver' id.
 
@@ -730,6 +749,21 @@ class LeavesController extends Controller
             return $res;
         }
         
+    }
+
+
+    #Update leaves Balance bby Scheduling
+
+    public function updateLeaveBalance(){
+
+        $leaves = LeaveMast::all();
+
+        foreach($leaves as $data){
+
+            LeaveAllotment::where('leave_mast_id', $data->id)
+                ->increment('initial_bal', $data->generate_days);
+      }
+      
     }
 
    /* public function reverse($request_id){
