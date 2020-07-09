@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @push('styles')
   <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
+  <script type="text/javascript" src="https://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js"></script>	
 @endpush
 @section('content')
 <main class="app-content">
@@ -18,7 +19,7 @@
 			</div>
 		@endif 
 		
-		<form action="{{route('loan-request.store')}}" method="POST" >
+		<form action="{{route('loan-request.store')}}" method="POST" id="loanRequest">
 			@csrf
 			<h5>Employee Detail</h5><hr>
 			<div class="row">
@@ -49,17 +50,16 @@
 				</div>
 				<div class="col-6 form-group ">
 					<label for="">Loan Types
-						@error('loan_type')
-					   		<span style="color: red">| {{ $message }}</span>
-						@enderror
+						{{-- @error('loan_type')
+					   		<span style="color: red">| {{ $message }}</span> 
+					   		<span for="loan_amount" generated="true" class="dangerCls"></span>
+						@enderror --}}
 					</label>
 					<select name="loan_type" class="custom-select form-control select2" id="loanType">
-						<option value="" >Select Types
-							
-						</option>
-							@foreach($types as $type)
-								<option value="{{$type->id}}">{{ucwords($type->name)}}</option>
-							@endforeach
+						<option value="" >Select Types</option>
+						@foreach($types as $type)
+							<option value="{{$type->id}}">{{ucwords($type->name)}}</option>
+						@endforeach
 					</select>
 					
 				</div>
@@ -134,13 +134,47 @@
 		</form>
 	</div>
 </main>
-
+<style type="text/css">
+	.dangerCls{
+		color : red;
+	}
+</style>
 <script type="text/javascript">
 	$('.datepicker').datepicker({
 		orientation: "bottom",
 		format: "mm-dd-yyyy",
 		autoclose: true,
 		todayHighlight: true
+	});
+
+	$('#loanRequest').validate({
+		errorElement: 'p',
+		errorClass: 'dangerCls',
+
+		rules: {
+			loan_amount:{
+				required: true
+			},
+			loan_type: {
+				required: true
+			},
+			interest_rate:{
+				required: true
+			},
+			tenure: {
+				required: true
+			},
+			total_interest:{
+				required: true
+			},
+			total_amount: {
+				required: true
+			},
+			monthly_deduction: {
+				required: true
+			}
+
+		}
 	});
 
 	$('#loanType').on('change', function(){
@@ -158,40 +192,30 @@
 		
 	})
 
-	$('#tenure').on('change', function(){
-
-		var interest 	= parseFloat($('#interest_rate').val());
+	$("#tenure").bind('keyup mouseup', function () {
+    	var interest 	= parseFloat($('#interest_rate').val());
 		var loan_amount = parseFloat($('#loan_amount').val());
 		var tenure 		= parseFloat($('#tenure').val());
 
-		//var total_amount = loan_amount/100*interest + loan_amount;
-		var unit_interest = loan_amount/100*interest * tenure;
-
-		var total_amount  = total_interest + loan_amount;
-
-		var monthly_deduction = total_amount / tenure;
-		/***********************************************/
-
- /*NEW*/
-		//var total_amount = loan_amount/100*interest + loan_amount;
-		//var interest = (loan_amount/100*interest)/12; //Only INTEREST for 1 month
-
 		var principal_monthly = loan_amount/tenure; //Only Principal Monthly for 1 month 
 
-		var total_emi = principal_monthly + interest ;
+		var unitInterest	= (loan_amount/100*interest)/tenure; //Just for 1 month
 
-		var total_interest	= (loan_amount/100*interest);
+		var total_interest	= (loan_amount/100*interest)/12*tenure; //Interest for 12 Months
 
-		var to	= (loan_amount/100*interest)/tenure;
+		var total_payout	= loan_amount + total_interest;
 
-//		alert(interest)
-
-		var total_payout	= loan_amount + to*tenure;
+		var total_emi = total_payout / tenure ;
 
 		$('#total_amount').val(total_payout.toFixed(2));
 		$('#monthly_deduction').val(total_emi.toFixed(2));
-		$('#total_interest').val(total_interest.toFixed(2));
+		$('#total_interest').val(total_interest.toFixed(2));          
 	});
+
+	/*$('#tenure').bind('keyup mouseup', function(){
+
+		
+	});*/
 
 	/*$('#loan_amount').on('change', function(){
 

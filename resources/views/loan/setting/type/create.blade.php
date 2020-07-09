@@ -31,7 +31,7 @@
 					@enderror
 				</div>
 				<div class="col-6 form-group ">
-					<label for="interest_rate">Interest Rate</label>
+					<label for="interest_rate">Interest Rate (In %)</label>
 					<input type="text" class="form-control" name="interest_rate" value="{{old('interest_rate')}}" id="interest_rate">
 					@error('interest_rate')
 						<span class="text-danger" role="alert">

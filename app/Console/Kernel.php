@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-            Commands\UpdateLeaveBalance::class
+            //Commands\UpdateLeaveBalance::class
             ];
 
     /**
@@ -24,9 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('leave:update')
-                    ->everyMinute()
-                  ->timezone('Asia/Kolkata');
+        $schedule->call('App\Http\Controllers\HRD\LeavesController@updateLeaveBalance')->dailyAt('14:30');
                    //->monthlyOn(1, '0:00')
                   //->monthlyOn(4, '15:00');
     }

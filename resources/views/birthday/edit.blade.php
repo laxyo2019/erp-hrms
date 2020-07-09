@@ -54,7 +54,7 @@
 							<div class="col-md-12 mt-3">
 								<input type="hidden" name="grp_code" value="1">
 								<button class="btn btn-md btn-success" type="submit"><span class="fa fa-save"></span> Submit</button>
-								<span class="ml-2" ><a href="{{route('categories.index')}}" class="btn btn-md btn-default" style="background-color: #f4f4f4;color: #444;    border-color: #ddd;"><span class="fa fa-times-circle"></span> Cancel</a></span>
+								<span class="ml-2" ><a href="{{route('birthday_wish.index')}}" class="btn btn-md btn-default" style="background-color: #f4f4f4;color: #444;    border-color: #ddd;"><span class="fa fa-times-circle"></span> Cancel</a></span>
 							</div>
 						</div>
 							</div>

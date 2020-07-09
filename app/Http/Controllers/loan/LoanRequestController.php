@@ -23,7 +23,6 @@ class LoanRequestController extends Controller
     {
         $requests = LoanRequest::with(['loanType'])
                         ->where('user_id', Auth::id())->get();
-        //return $requests[0];
 
         return view('loan.requests.index', compact('requests'));
     }

@@ -75,6 +75,7 @@ class AllotmentController extends Controller
 
 		$employee 	= LeaveAllotment::with('leaves')
 						->where('user_id', '=', $user_id)
+						->orderBy('leave_mast_id', 'ASC')
 						->get();
 
     	return view('leave.allotment.edit', compact('name', 'employee'));

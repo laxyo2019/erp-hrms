@@ -13,25 +13,27 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/mdb.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/select2.min.css') }}">
+{{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" /> --}}
 
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     
     @yield('title')
-    <link rel="stylesheet" href="{{asset('themes/vali/css/parts-selector.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('themes/vali/css/parts-selector.css')}}"> --}}
     
     <!-- Start DatePicker CDN-->
+    <script type="text/javascript" src="https://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+
     <!-- End DatePicker CDN-->
 
     <!-- Start Models Popup CDN -->
     
     <!-- End Model Popup CDN -->  
      
-
+    <script type="text/javascript" src="https://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="{{ asset('js/notify.min.js') }}"></script>
-    <script src="{{asset('themes/vali/js/plugins/select2.min.js')}}"></script>
     @stack('styles')
   </head>
   <style>
@@ -51,7 +53,9 @@
     <script src="{{asset('themes/vali/js/popper.min.js')}}"></script>
     <script src="{{asset('themes/vali/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('themes/vali/js/main.js')}}"></script>
-    <script src="{{asset('themes/vali/js/plugins/parts-selector.js')}}"></script>
+    {{-- <script src="{{asset('themes/vali/js/plugins/parts-selector.js')}}"></script> --}}
+    <script src="{{asset('themes/vali/js/plugins/select2.min.js')}}"></script>
+    
     @stack('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>

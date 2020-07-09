@@ -1,3 +1,7 @@
+@push('styles')
+	
+	{{--<script src='{{asset('js/select2.min.js')}}' type='text/javascript'></script>--}}
+@endpush
 <div><h4>{{ucwords($employee->emp_name)}}</h4></div>
 <form action="{{route('allotments.store')}}" method="POST" >
 	@csrf
@@ -45,20 +49,13 @@
 		<button class="btn btn-info btn-sm m-2" style="width: 40%">Save</button>
 	</div>
 </form>
-
+<script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
 <script type="text/javascript">
-$(document).ready(function(){
 
-	$('.datepicker').datepicker({
-		format: "yyyy-mm-dd",
-		autoclose: true,
-		todayHighlight: true,
-		pickerPosition: "top-left"
-		});
+$('.datepicker').datepicker({
+	format: "yyyy-mm-dd",
+	autoclose: true,
+	todayHighlight: true,
+	pickerPosition: "top-left"
 });
 </script>
-
-
-{{-- <input type="text" class="form-control" name="leave[]"
-				autocomplete="off" id="leave_{{$index->id}}" value="0">
-				<input type="hidden" name="leave[{{$index->id}}]" value="{{$index->id}}"> --}}

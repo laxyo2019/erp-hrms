@@ -15,6 +15,7 @@ class HolidaysImport implements ToCollection, WithHeadingRow
     * @return \Illuminate\Database\Eloquent\Model|null
     */
     public function collection(Collection $collection){
-
+    	echo "<pre>";
+    	print_r($collection); 
     }
 }

@@ -26,9 +26,7 @@
 									<th>POSTED ON</th>
 									<th>TEAM LEAD</th>
 									<th>ADMIN</th>
-									@permission('hrms-view')
-										<th>DETAILS</th>
-									@endpermission
+									<th>DETAILS</th>
 									<th style="text-align: center;">ACTIONS</th>
 								</tr>
 							</thead>
@@ -61,13 +59,16 @@
 									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
 							
 				@if($request->teamlead_approval == 0)
-					<td><strong style="color: grey;">PENDING</strong></td>
+					<td><strong style="
+					color: grey;">PENDING</strong></td>
 				@elseif($request->teamlead_approval == 1)
 					<td><strong class="apprv_msg">APPROVED</strong></td>
 				@elseif($request->teamlead_approval == 2)
 					<td><strong class="dec_msg">DECLINED</strong></td>
 				@elseif($request->teamlead_approval == 3)
 					<td><strong class="rev_msg">REVERSED</strong></td>
+				@elseif($request->teamlead_approval == 4)
+					<td><strong >N/A</strong></td>
 				@endif
 
 				@if($request->admin_approval == 0)
@@ -80,7 +81,6 @@
 					<td><strong class="rev_msg">REVERSED</strong></td>
 				@endif
 		</td>
-					@permission('hrms-view')
 						<td>
 							<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}">
 								<i class="fa fa-eye" style="font-size: 12px;"></i>
@@ -100,7 +100,6 @@
 						        </div>
 						    </div>
 						</div>
-					@endpermission
 <td class='d-flex' style="border-bottom:none">
 
 	
@@ -109,7 +108,7 @@
 
 {{-- 	Approve/Decline button for SubAdmin 	--}}
 
-@if($request->teamlead_approval == 1 && $request->subadmin_approval == 0 && auth()->user()->hasrole('hrms_hr'))
+@if($request->teamlead_approval == 1 && $request->subadmin_approval == 0 && auth()->user()->hasrole('hrms_hr') || $request->teamlead_approval == 4 && $request->subadmin_approval == 0 && auth()->user()->hasrole('hrms_hr'))
 
 	<strong class="apprv_msg" id="apprv_msg_{{$request->id}}" style="display: none;" >APPROVED</strong>
 	<strong class="dec_msg" id="dec_msg_{{$request->id}}" style="display: none;" >DECLINED</strong>
@@ -120,7 +119,7 @@
 
 {{-- Reverse Leave button for SubAdmin --}}
 
-@elseif($request->teamlead_approval == 1 && $request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_hr'))
+@elseif($request->teamlead_approval == 1 && $request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_hr') || $request->teamlead_approval == 4 && $request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_hr'))
 	
 	<div class="rev_msg" id="rev_msg_{{$request->id}}" style="display: none;">REVERSED</div>
 

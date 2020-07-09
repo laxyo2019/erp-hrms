@@ -18,13 +18,13 @@ class EmployeesExport implements FromQuery, WithMapping, WithHeadings, ShouldAut
 		
 		$array = session('user_ids');
 		if (!empty($array)) {
-			$employees = EmployeeMast::whereIn('user_id', $array);	
-			return $employees;
+			$employees = EmployeeMast::query()->whereIn('user_id', $array);	
+			// return $employees;
 		}else{
 		
-		$employees = EmployeeMast::where('deleted_at', null);
-		return $employees;
+		$employees = EmployeeMast::query();
 		}
+		return $employees;
 	}
 
 	public function map($employees): array {

@@ -37,6 +37,13 @@ class LeaveApply extends Model
     }
 
     public function leave_rejected(){
+
         return $this->belongsTo('App\User', 'rejected_by');
     }
+
+    public function report_role(){
+
+        return $this->belongsToMany('App\Role', 'reports_to');
+    }
+
 }

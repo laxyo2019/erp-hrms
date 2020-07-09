@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @push('styles')
-	<script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
-	<script src='{{asset('js/select2.min.js')}}' type='text/javascript'></script>
+	{{-- <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script> 
+	<script src='{{asset('js/select2.min.js')}}' type='text/javascript'></script>--}}
 @endpush
 @section('content')
 <main class="app-content ">
@@ -139,6 +139,20 @@
 							</span>
 							@enderror
 						</div>
+						<div class="col-6 form-group" >
+							<label for="">Head of Department (Hod)</label>
+							<select name="emp_hod" class="form-control">
+								<option value="">Select Employee </option>
+								@foreach($meta['emp_mast'] as $index)
+								<option value="{{$index->user_id}}" {{old('emp_hod', $employee->emp_hod) == $index->user_id ? 'selected' : ''}}>{{ucwords($index->emp_name)}}</option>
+								@endforeach
+							</select>
+							@error('emp_hod')
+							<span class="text-danger" role="alert">
+								<strong>* {{ $message }}</strong>
+							</span>
+							@enderror
+						</div>
 					</div>
 					<br>
 					<div><h5>NECESSARY DOCUMENTS</h5></div><hr>
@@ -257,14 +271,15 @@
 	</div>
 </main>
 <script type="text/javascript">
-$(document).ready(function(){
-	$('.official').addClass('active');
 	$('.datepicker').datepicker({
-		orientation: "bottom",
+		orientation: "auto",
 		format: "yyyy-mm-dd",
 		autoclose: true,
 		todayHighlight: true
-		});
+	});
+$(document).ready(function(){
+	$('.official').addClass('active');
+	
 
 	$('#emp_type').change(function(){
 		//$('#emp_type option:selected').text();	
@@ -278,14 +293,13 @@ $(document).ready(function(){
 	})
 	
 	// Initialize select2
-	$("#reportsTo").select2();
+	//$("#reportsTo").select2();
 
 	/**Select Branch for companies**/
 
 	$('#company').change(function(){
 
 		var comp_id = $(this).children("option:selected").val();
-
 		$.ajax({
 			type: 'POST',
 			url: '{{route('company.branches')}}',

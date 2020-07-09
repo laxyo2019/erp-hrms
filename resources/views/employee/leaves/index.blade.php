@@ -47,6 +47,17 @@
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
 					<div class="card-body table-responsive">
+						@if($message = Session::get('success'))
+				            <div class="alert alert-success alert-block">
+				            	<button type="button" class="close" data-dismiss="alert">×</button>
+				            	{{$message}}
+				            </div>
+				        @elseif($message = Session::get('failure'))
+				            <div class="alert alert-danger alert-block">
+				            	<button type="button" class="close" data-dismiss="alert">×</button>
+				            	{{$message}}
+				            </div>
+				        @endif
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
@@ -108,10 +119,16 @@
 										 		DECLINE
 											</strong>
 										</div>
-									@else
+									@elseif($leaveapply->teamlead_approval == 3)
+										<div >
+										 	<strong style="color: #ff4545;">
+										 		DECLINE
+											</strong>
+										</div>
+									@elseif($leaveapply->teamlead_approval == 4)
 										<div >
 										 	<strong style="color: #5858ff;">
-										 		REVERSED
+										 		--
 											</strong>
 										</div>
 									@endif
@@ -189,7 +206,7 @@
 											</strong>
 										</div>
 									@elseif($leaveapply->admin_approval == 2)
-										<div >
+										<div>
 										 	<strong style="color: #ff4545;">
 										 		DECLINE
 											</strong>
@@ -225,14 +242,14 @@
 								@if($leaveapply->teamlead_approval == 0)
 									<span class="ml-2">
 										<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
-												@csrf
-												@method('DELETE')
-											<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
-										</form>
+					                    	@csrf
+					                     	@method('DELETE')
+					                      	<a href="javascript:$('#delform_{{ $leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i></a>
+					                    </form>
 									</span> 
-									<span class="ml-2" >
+									{{-- <span class="ml-2" >
 										<button class="btn btn-sm btn-danger"><i class="fa fa-trash text-white"  style="font-size: 12px;" id="requestDel" data-id={{$leaveapply->id}}></i></button>
-									</span>
+									</span> --}}
 								@endif
 									</td>
 								</tr>
@@ -265,25 +282,26 @@
 		});
 
 		$('#requestDel').on('click', function(){
-			
+			alert(45)
 			var leave_req = $(this).data('id');
-			//alert(leave_req)
+			alert(leave_req)
 			$.ajax({
 				type: 'delete',
 				url: "/employee/leaves/"+leave_req,
 				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 				success:function(res){
 
-					if(res.flag == 1){
+					//return 683543;
+					/*if(res.flag == 1){*/
 
-						alert(res.msg)
+						alert(res)
 						location.reload();
 
-					}else{
+					/*}else{
 
 						alert(res.msg);
 						location.reload();
-					}
+					}*/
 				}
 			})
 		});

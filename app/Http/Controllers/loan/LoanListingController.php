@@ -40,7 +40,7 @@ class LoanListingController extends Controller
                         ->where('subadmin_approval', 1)
                         ->where('hr_approval', 1)
                         ->get();
-                        
+
         return view('loan.listing.index-admin', compact('requests'));
     }
 
@@ -90,12 +90,11 @@ class LoanListingController extends Controller
         return view('loan.listing.show', compact('request'));
     }
 
-    public function HrApproval(Request $request, $request_id){
+    public function HrApproval(Request $request){
 
-        //return $request_id;
         $status = $request->action == 1 ? 1 : 2;
 
-        LoanRequest::where('id', $request_id)
+        LoanRequest::where('id', $request->request_id)
             ->update(['hr_approval' => $status]);
 
         if($status == 1){

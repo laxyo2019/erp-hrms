@@ -64,7 +64,6 @@ class BirthdayWish extends Controller
         return redirect('birthday_wish');
     }
 
-
     public function export(Request $request) 
     {
         $data = Excel::download(new UsersExport, 'birthdayPersons.xlsx');
@@ -80,7 +79,7 @@ class BirthdayWish extends Controller
        return view('message.create');
     }
 
-     public function edit_message($id){
+    public function edit_message($id){
         $data = MessageFormate::find($id);
        return view('message.edit',compact('data'));
     }
