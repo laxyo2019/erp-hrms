@@ -1,11 +1,7 @@
 @extends('layouts.master')
 @push('styles')
   <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
-<<<<<<< HEAD
   <script type="text/javascript" src="https://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js"></script>;	
-=======
-  <script type="text/javascript" src="https://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js"></script>	
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
 @endpush
 @section('content')
 <main class="app-content">

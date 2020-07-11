@@ -5,7 +5,7 @@
       <div class="col-md-12 col-xl-12">
         <div class="card shadow-xs">
           <div class="col-md-12 col-xl-12" style="margin-top: 15px"> 
-              <h1 style="font-size: 24px">Roles
+              <h1 style="font-size: 24px">No Dues Request
                 <a href="{{ route('no-dues-request.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Back</a>
                 {{-- @ability('hrms_admin', 'hrms-create') --}}
                 <span class="ml-2">
@@ -27,6 +27,7 @@
                 <tr class="text-center">
                   <th>#</th>
                   <th>Department Head</th>
+                  <th>Department</th>
                   <th>Posted</th>
                   {{-- @ability('hrms_admin', 'hrms-edit|hrms-delete') --}}
                     <th>ACTIONS</th>
@@ -39,12 +40,14 @@
               <tr class="text-center">
                 <td>{{++$count}}</td>
                 <td >{{ucwords($index->name)}}</td>
-                @ability('hrms_admin', 'hrms-edit|hrms-delete')
+                <td >{{ucwords($index->name)}}</td>
+                <td >{{ucwords($index->name)}}</td>
+                {{-- @ability('hrms_admin', 'hrms-edit|hrms-delete') --}}
                   <td>
-                    <div class="row">
+                    {{-- <div class="row">
                       @ability('hrms_admin', 'hrms-edit')
                         <div class="col" align="right">
-                            <a href="{{route('roles.edit',$index->id)}}" class="btn btn-sm btn-info">Edit Permission</a>
+                            <a href="{{route('roles.edit',$index->id)}}" class="btn btn-sm btn-info">Edit</a>
                         </div>
                       @endability
                       @ability('hrms_admin', 'hrms-delete')
@@ -56,9 +59,9 @@
                             </form>
                         </div>
                       @endability
-                      </div>
+                      </div> --}}
                     </td>
-                  @endability
+                  {{-- @endability --}}
               </tr>
               @endforeach
               </tbody>

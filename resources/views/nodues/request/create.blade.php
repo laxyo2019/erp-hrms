@@ -11,20 +11,20 @@
 		</h1>
 		<div>
 	    </div>
-		{{-- @if($request->hr_approval == 0 ) --}}
+		@if($request->emp_hod != 0 )
 		<form action="{{route('no-dues-request.store')}}" method="POST" >
 			@csrf
-		{{-- @endif --}}
+		@endif
 			<h5>Employee Detail</h5><hr>
 			<div class="row">
 				<div class="col-6 form-group">
 					<label for="">Employee Name</label>
-					<input type="text" class="form-control" name="emp_name" value="{{-- {{old('emp_name' , $emp->emp_name )}} --}}" readonly="">
+					<input type="text" class="form-control" name="emp_name" value=" {{old('emp_name' , $emp->emp_name )}} " readonly="">
 					
 				</div>
 				<div class="col-6 form-group">
 					<label for="emp_code">Employee Code</label>
-					<input type="text" class="form-control" name="emp_code" value="{{-- {{old('emp_code' , $emp->emp_code )}} --}}" readonly="">
+					<input type="text" class="form-control" name="emp_code" value=" {{old('emp_code' , $emp->emp_code )}} " readonly="">
 					@error('emp_code')
 						<span class="text-danger" role="alert">
 							<strong>* {{ $message }}</strong>
@@ -32,7 +32,6 @@
 					@enderror
 				</div>
 			</div>
-			{{-- <h5>Resignation Detail</h5><hr> --}}
 			<div class="row">
 				<div class="col-6 form-group ">
 					<label for="">Date of Joinning</label>
@@ -62,47 +61,44 @@
 					<textarea  class="form-control" id="assets_description" name="assets_description" >{{-- {{$request->reason}} --}}</textarea>
 				</div>
 			</div>
-				<br><h4>Head of Department Approval</h4><hr>
-				<div class="row card-body text-center">
-					{{-- <span>Employee's Department Head</span><hr><br> --}}
-					<div class="col-4">
-						<h5>{{-- {{strtoupper($emp_hod->emp_name)}} --}} (Employee's Department Head)</h5>
-						<div>321654987</div>
-					</div>
-					<div class="col-6" >
-						<h5>Requested Date</h5>
-						<div>321654987</div>
-					</div>
-					<div class="col-6" >
-						<h5>Requested Date</h5>
-						<div>321654987</div>
-					</div>
-				{{-- </div>
-				<div class="row card-body text-center"> --}}
-					{{-- <span>Employee's Department Head</span><hr><br> --}}
-					<div class="col-4">
-						<h5>Loan Type</h5>
-						<div>321654987</div>
-					</div>
-					<div class="col-4" >
-						<h5>Requested Date</h5>
-						<div>321654987</div>
-					</div>
-					<div class="col-4" >
-						<h5>Requested Date</h5>
-						<div>321654987</div>
-					</div>
-				</div>
-				
-
-			
-			
-			{{-- @if($request->hr_approval == 0 ) --}}	
+							
+			@if($request->emp_hod != 0 )
 				<div class="col-12 form-group text-center">
 					<button class="btn btn-info btn-sm" style="width: 20%">SAVE</button>
-					{{-- <a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 30%">Cancel</a> --}}
 				</div>
-			{{-- @endif --}}
+			@endif
+			@if($request != null)
+			<br><h4>Head of Department Approval</h4><hr>
+			<table class="table table-striped table-hover table-bordered" id="CandidatesTable">
+				<thead class="thead-dark">
+					<tr>
+						<th class="text-center">#</th>
+						<th class="text-center">Head of Department</th>
+						<th class="text-center">Department</th>
+						{{-- @ability('hrms_admin', 'Hrms-manage-loan-request') --}}
+							<th class="text-center">Status</th>
+						{{-- @endability --}}
+					</tr>
+				</thead>
+				@php $count = 0; @endphp
+				<tbody id="experiencesTbody">
+					<tr class="text-center">
+						<td>{{++$count}}</td>
+						<td>{{strtoupper($emp_hod->emp_name)}}</td>
+						<td>Employee's Department Head ({{strtoupper($emp_hod['department']->name)}})</td>
+						<td>Pending</td>
+					</tr>
+					@foreach($hod as $hod)
+						<tr class="text-center">
+							<td>{{++$count}}</td>
+							<td>{{strtoupper($hod['employee']->emp_name)}}</td>
+							<td>{{ucwords($hod['employee']->emp_name)}} ({{strtoupper($hod['department']->name)}})</td>
+							<td>Pending</td>
+						</tr>
+					@endforeach
+				</tbody>
+			</table>
+			@endif
 			</div>		
 			</div>
 			<br>

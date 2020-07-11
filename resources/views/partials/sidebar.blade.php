@@ -135,6 +135,16 @@
       <li><a class="app-menu__item {{Request::segment(1) == 'separation' ? 'active' : ''}}" href="{{route('separation-admin.index')}}"><i class="app-menu__icon fa fa-chevron-right"></i><span class="app-menu__label">Separation (Admin)</span></a></li>
     @endrole
 
+      <li class="treeview {{call_user_func_array('Request::is', (array)['miscellaneous*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-table "></i><span class="app-menu__label">Miscellaneous</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <ul class="treeview-menu">
+          @if(hod_check(Auth::user()->id) != null)
+          <li class={{call_user_func_array('Request::is', (array)['miscellaneous/type*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('no-dues-listing.index')}}"><i class="icon fa fa-chevron-right"></i>No dues Listing</a></li>
+          @endif
+          <li class={{call_user_func_array('Request::is', (array)['miscellaneous/allotment*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('allotments.index')}}"><i class="icon fa fa-chevron-right"></i>Leave Allotment</a></li>
+          <li class={{call_user_func_array('Request::is', (array)['miscellaneous/holidays*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('holidays.index')}}"><i class="icon fa fa-chevron-right"></i>Holidays</a></li>
+        </ul>
+      </li>
+
   {{-- Loan Listing --}}
 
     {{-- @permission('hrms-manage-loan-request')
@@ -158,6 +168,7 @@
     @role('hrms_admin|hrms_subadmin|hrms_hr')
       <li class="treeview {{call_user_func_array('Request::is', (array)['loan-management*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-table "></i><span class="app-menu__label">Loan Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
+<<<<<<< HEAD
     @role('hrms_hr')
       <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/hr*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-hr.index')}}"><i class="icon fa fa-chevron-right"></i>Loan Listing (Hr)</a></li>
     @endrole
@@ -174,6 +185,22 @@
 
         {{-- @endrole --}}
         
+=======
+        @role('hrms_hr')
+        <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/hr*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-hr.index')}}"><i class="icon fa fa-chevron-right"></i>Loan Listing (Hr)</a></li>
+        @endrole
+        @role('hrms_subadmin')
+        <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/subadmin*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-subadmin.index')}}"><i class="icon fa fa-chevron-right"></i>Loan Listing (SubAdmin)</a></li>
+        @endrole
+        @role('hrms_admin')
+        <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/admin*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-admin.index')}}"><i class="icon fa fa-chevron-right"></i>Loan Listing (Admin)</a></li>
+
+        @endrole
+        @role('hrms_accountant')
+        <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/accountant*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-accountant.index')}}"><i class="icon fa fa-chevron-right"></i>Loan Listing (Acc.)</a></li>
+        @endrole
+
+>>>>>>> b866db1f69f22990a3701f0764ce4cae9a5a497c
         <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-types*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-types.index')}}"><i class="icon fa fa-chevron-right"></i>Types</a></li>
       </ul>
       </li>

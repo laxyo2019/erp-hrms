@@ -13,6 +13,10 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+<<<<<<< HEAD
+=======
+
+>>>>>>> b866db1f69f22990a3701f0764ce4cae9a5a497c
         //
     ];
 
@@ -20,8 +24,13 @@ class Kernel extends ConsoleKernel
     {
       return 'Asia/Kolkata';
     }
+<<<<<<< HEAD
 
             //Commands\UpdateLeaveBalance::class
+=======
+            //Commands\UpdateLeaveBalance::class            ];
+
+>>>>>>> b866db1f69f22990a3701f0764ce4cae9a5a497c
 
     /**
      * Define the application's command schedule.
@@ -31,8 +40,16 @@ class Kernel extends ConsoleKernel
      */ 
     protected function schedule(Schedule $schedule)
     {
+<<<<<<< HEAD
 	
     $schedule->call('App\Http\Controllers\HRD\LeavesController@updateLeaveBalance')->dailyAt('16:28');
+=======
+        // For Reminders 
+      // $schedule->call('App\Http\Controllers\PMS\Agenda\AgendaMastController@agenda_reminder')->everyThirtyMinutes();
+     // $schedule->call('App\Http\Controllers\PMS\Schedule\ScheduleController@display_reminder')->dailyAt('10:15');
+     // $schedule->call('App\Http\Controllers\PMS\Schedule\ScheduleController@BirthdaySchedule')->dailyAt('10:11');
+    //$schedule->call('App\Http\Controllers\HRD\LeavesController@updateLeaveBalance')->dailyAt('16:28');
+>>>>>>> b866db1f69f22990a3701f0764ce4cae9a5a497c
 
      // $schedule->call('App\Http\Controllers\PMS\TasksController@missed_tasks_alert')->dailyAt('10:00');
      // $schedule->call('App\Http\Controllers\PMS\TasksController@update_task_as_missed')->dailyAt('23:00');
@@ -48,9 +65,17 @@ class Kernel extends ConsoleKernel
 
       // For Cleanups
       // $schedule->call('App\Http\Controllers\Admin\MainController@deleteNotifications')->weekly();
+<<<<<<< HEAD
       //$schedule->call('App\Http\Controllers\HRD\LeavesController@updateLeaveBalance')->dailyAt('14:30');
                    //->monthlyOn(1, '0:00')
                   //->monthlyOn(4, '15:00');
+=======
+
+        //$schedule->call('App\Http\Controllers\HRD\LeavesController@updateLeaveBalance')->dailyAt('14:30');
+                   //->monthlyOn(1, '0:00')
+                  //->monthlyOn(4, '15:00');
+
+>>>>>>> b866db1f69f22990a3701f0764ce4cae9a5a497c
     }
 
     /**

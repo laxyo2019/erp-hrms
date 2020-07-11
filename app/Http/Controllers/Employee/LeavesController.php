@@ -421,8 +421,11 @@ class LeavesController extends Controller
 
     $role = User::where('id', $request->reports_to)->first();
 
+<<<<<<< HEAD
     //return ([$role->hasRole('hrms_admin')]);
 
+=======
+>>>>>>> b866db1f69f22990a3701f0764ce4cae9a5a497c
     $leaveapply = new LeaveApply;
     $leaveapply->user_id           = $user_id;
     $leaveapply->reports_to        = $request->reports_to;
@@ -489,7 +492,7 @@ class LeavesController extends Controller
       
       //return $leave_app->teamlead_approval;
 
-      if($leave_app->teamlead_approval != 0){
+      if($leave_app->teamlead_approval == 0){
         /**Add leave balance back if leave application is deleted**/
 
         $leavesMast = LeaveMast::where('id', $leave_app->leave_type_id)
@@ -528,6 +531,10 @@ class LeavesController extends Controller
         return back()->with('success', 'Record has been deleted.');
       }else{
         return back()->with('failure', 'Record is not deleted yet.');
+<<<<<<< HEAD
+=======
+
+>>>>>>> b866db1f69f22990a3701f0764ce4cae9a5a497c
 
       }
 
