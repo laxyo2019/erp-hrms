@@ -214,7 +214,7 @@ Route::resource('no-dues-request', 'NoDuesController');
 Route::resource('hod', 'HodController');
 
 # Loan Listing
-Route::prefix('loan-management')->namespace('loan')->group(function () {
+//Route::prefix('loan-management')->namespace('loan')->group(function () {
 
 Route::prefix('loan-management')->namespace('loan')->group(function () {
 
@@ -254,14 +254,10 @@ Route::prefix('loan-management')->namespace('loan')->group(function () {
 	//Route::get('loan-request/{req_id}/history', 'loan\LoanRequestController@loanMonthlyHistory')->name('loan-request.history');
 	//Route::get('loan-history/{req_id}/', 'loan\LoanRequestController@destroy')->name('loan-request.history');
 	Route::resource('/loan-listing/history', 'LoanHistoryController');
-<<<<<<< HEAD
-
 });
 # Loan Settings
-=======
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
 
-});
+//});
 
 #PAYROLL
 

@@ -1,12 +1,4 @@
 @extends('layouts.master')
-<<<<<<< HEAD
-{{-- @push('styles')
-	<script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
-@endpush --}}
-=======
-@push('styles')
-@endpush
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
 @section('content')
 @php
 	$blood_groups	= array('O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-');
@@ -266,20 +258,12 @@
 
 <script type="text/javascript">
 	$('.datepicker').datepicker({
-<<<<<<< HEAD
-			orientation: "auto",
-			format: "yyyy-mm-dd",
-			autoclose: true,
-			todayHighlight: true
-		});
-=======
 		orientation: "auto",
 		format: "yyyy-mm-dd",
 		autoclose: true,
 		todayHighlight: true
 	});
 
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
 	$(document).ready(function(){
 		$('.personal').addClass('active');
 		

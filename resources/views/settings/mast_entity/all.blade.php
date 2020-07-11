@@ -3,15 +3,6 @@
 	<main class="app-content">
 		<div class="app-title">
 			<div class="div row mt-2">
-<<<<<<< HEAD
-				<h4><i class="fa fa-asterisk"></i> Entity :  {{ $table_name }}
-				
-				</h4>
-{{-- 				@ability('hrms_admin', 'hrms_create') --}}
-				<a href="{{ route('mast_entity.get', ['create', $db_table]) }}" class="btn btn-outline-success ml-2" style="font-size: 13px">
-					<span class="fa fa-plus"></span> Add New</a>
-=======
->>>>>>> 53c035c214fc083b97629ed31b17428aaaf014a7
 				{{-- @endability --}}
 				<h1 style="font-size: 24px">Entity :  {{ $table_name }}
              		<span class="ml-2">

@@ -13,7 +13,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-<<<<<<< HEAD
         //
     ];
 
@@ -21,10 +20,8 @@ class Kernel extends ConsoleKernel
     {
       return 'Asia/Kolkata';
     }
-=======
+
             //Commands\UpdateLeaveBalance::class
-            ];
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
 
     /**
      * Define the application's command schedule.
@@ -34,11 +31,7 @@ class Kernel extends ConsoleKernel
      */ 
     protected function schedule(Schedule $schedule)
     {
-<<<<<<< HEAD
-        // For Reminders 
-      // $schedule->call('App\Http\Controllers\PMS\Agenda\AgendaMastController@agenda_reminder')->everyThirtyMinutes();
-     // $schedule->call('App\Http\Controllers\PMS\Schedule\ScheduleController@display_reminder')->dailyAt('10:15');
-     // $schedule->call('App\Http\Controllers\PMS\Schedule\ScheduleController@BirthdaySchedule')->dailyAt('10:11');
+	
     $schedule->call('App\Http\Controllers\HRD\LeavesController@updateLeaveBalance')->dailyAt('16:28');
 
      // $schedule->call('App\Http\Controllers\PMS\TasksController@missed_tasks_alert')->dailyAt('10:00');
@@ -55,11 +48,9 @@ class Kernel extends ConsoleKernel
 
       // For Cleanups
       // $schedule->call('App\Http\Controllers\Admin\MainController@deleteNotifications')->weekly();
-=======
-        $schedule->call('App\Http\Controllers\HRD\LeavesController@updateLeaveBalance')->dailyAt('14:30');
+      //$schedule->call('App\Http\Controllers\HRD\LeavesController@updateLeaveBalance')->dailyAt('14:30');
                    //->monthlyOn(1, '0:00')
                   //->monthlyOn(4, '15:00');
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
     }
 
     /**
