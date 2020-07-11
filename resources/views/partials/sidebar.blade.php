@@ -168,24 +168,7 @@
     @role('hrms_admin|hrms_subadmin|hrms_hr')
       <li class="treeview {{call_user_func_array('Request::is', (array)['loan-management*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-table "></i><span class="app-menu__label">Loan Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
-<<<<<<< HEAD
-    @role('hrms_hr')
-      <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/hr*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-hr.index')}}"><i class="icon fa fa-chevron-right"></i>Loan Listing (Hr)</a></li>
-    @endrole
-    @role('hrms_subadmin')
-      <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/subadmin*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-subadmin.index')}}"><i class="icon fa fa-chevron-right"></i>Loan Listing (SubAdmin)</a></li>
-    @endrole
-    @role('hrms_admin')
-      <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/admin*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-admin.index')}}"><i class="icon fa fa-chevron-right"></i>Loan Listing (Admin)</a></li>
 
-    @endrole
-    @role('hrms_accountant')
-        <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/accountant*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-accountant.index')}}"><i class="icon fa fa-chevron-right"></i>Loan Listing (Acc.)</a></li>
-    @endrole
-
-        {{-- @endrole --}}
-        
-=======
         @role('hrms_hr')
         <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/hr*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-hr.index')}}"><i class="icon fa fa-chevron-right"></i>Loan Listing (Hr)</a></li>
         @endrole
@@ -200,7 +183,6 @@
         <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-listing/accountant*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-listing-accountant.index')}}"><i class="icon fa fa-chevron-right"></i>Loan Listing (Acc.)</a></li>
         @endrole
 
->>>>>>> b866db1f69f22990a3701f0764ce4cae9a5a497c
         <li class={{call_user_func_array('Request::is', (array)['loan-management/loan-types*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('loan-types.index')}}"><i class="icon fa fa-chevron-right"></i>Types</a></li>
       </ul>
       </li>

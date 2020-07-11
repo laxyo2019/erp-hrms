@@ -1182,12 +1182,9 @@ class EmployeesController extends Controller
     $employee = EmployeeMast::where('user_id', $id);
     $employee->delete();
 		$employees = EmployeeMast::all();
-<<<<<<< HEAD
-    //return view('HRD.employees.index',compact('employees'));
-=======
+
     return view('HRD.employees.index',compact('employees'));
 
->>>>>>> b866db1f69f22990a3701f0764ce4cae9a5a497c
     return redirect()->route('employees.index')->with('success', 'Record has been deleted.');
   }
 

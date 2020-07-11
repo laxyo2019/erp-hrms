@@ -24,7 +24,7 @@ class NoDuesController extends Controller
 
         $departments = Hod::pluck('depart_id');
 
-        depart
+       
 
         $depart = [] ;
 
@@ -33,10 +33,10 @@ class NoDuesController extends Controller
         }
         $depart_ids = array_unique($depart);
 
-        foreach($depart_ids as $department){
+        // foreach($depart_ids as $department){
 
 
-        }
+        // }
 
         //dd(array_unique($depart));
         //dd($department_head->toJson());
@@ -98,9 +98,7 @@ class NoDuesController extends Controller
 
         $hod = Hod::all();
 
-        foreach(){
-            
-        }
+     
 
         return redirect()->route('no-dues-request.index')->with('success', 'Request has been added.');
 
