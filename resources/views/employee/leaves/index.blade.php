@@ -241,7 +241,7 @@
 								@if($leaveapply->teamlead_approval == 0)
 									{{-- <div class="ml-2 ">
 										<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
-<<<<<<< HEAD
+
 												@csrf
 												@method('DELETE')
 											<a href="javascript:$('#delform_{{$leaveapply->id}}').submit();" class="btn btn-sm btn-danger modalLeave ml-2" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
@@ -249,17 +249,14 @@
 									</div> --}}
 									<div class="ml-2 ">
 										<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
-=======
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
+
 					                    	@csrf
 					                     	@method('DELETE')
 					                      	<a href="javascript:$('#delform_{{ $leaveapply->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i></a>
 					                    </form>
-<<<<<<< HEAD
+
 									</div>  
-=======
-									</span> 
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
+
 									{{-- <span class="ml-2" >
 										<button class="btn btn-sm btn-danger"><i class="fa fa-trash text-white"  style="font-size: 12px;" id="requestDel" data-id={{$leaveapply->id}}></i></button>
 									</span> --}}
@@ -294,35 +291,30 @@
 			})
 		});
 
-<<<<<<< HEAD
-		/*$('#requestDel').on('click', function(){
-			
-=======
-		$('#requestDel').on('click', function(){
-			alert(45)
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
-			var leave_req = $(this).data('id');
-			alert(leave_req)
-			$.ajax({
-				type: 'delete',
-				url: "/employee/leaves/"+leave_req,
-				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-				success:function(res){
 
-					//return 683543;
-					/*if(res.flag == 1){*/
+		// $('#requestDel').on('click', function(){
+		// 	var leave_req = $(this).data('id');
+		// 	alert(leave_req)
+		// 	$.ajax({
+		// 		type: 'delete',
+		// 		url: "/employee/leaves/"+leave_req,
+		// 		headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+		// 		success:function(res){
 
-						alert(res)
-						location.reload();
+		// 			//return 683543;
+		// 			if(res.flag == 1){
 
-					/*}else{
+		// 				alert(res)
+		// 				location.reload();
 
-						alert(res.msg);
-						location.reload();
-					}*/
-				}
-			})
-		});*/
+		// 			}else{
+
+		// 				alert(res.msg);
+		// 				location.reload();
+		// 			}
+		// 		}
+		// 	})
+		// });
 	});
 
 
