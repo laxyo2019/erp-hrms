@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\nodues;
 
 use Auth;
 use App\Models\NoDues;
 use Illuminate\Http\Request;
 use App\Models\Employees\Hod;
+use App\Http\Controllers\Controller;
 use App\Models\Employees\EmployeeMast;
 
 class NoDuesController extends Controller
@@ -18,6 +19,30 @@ class NoDuesController extends Controller
     public function index()
     {
         $nodues = NoDues::all();
+
+        $department_head = Hod::with(['employee', 'department'])->get();
+
+        $departments = Hod::pluck('depart_id');
+
+        depart
+
+        $depart = [] ;
+
+        foreach($departments as $index) {
+            $depart[] = $index;
+        }
+        $depart_ids = array_unique($depart);
+
+        foreach($depart_ids as $department){
+
+
+        }
+
+        //dd(array_unique($depart));
+        //dd($department_head->toJson());
+        /*NoDues::where('id', 1)
+            ->update([
+                'hod_sale_depart' => json_encode()])*/
 
         return view('nodues.request.index', compact('nodues'));
     }
@@ -59,15 +84,23 @@ class NoDuesController extends Controller
         $emp = EmployeeMast::with(['department'])
                 ->where('user_id', Auth::id())->first();
 
-        NoDues::create([
-            'user_id'       => Auth::id(),
-            'department_id' => $emp->dept_id,
-            'emp_hod'       => $emp->emp_hod,
-            'date_join'     => $request->date_join,
-            'date_leave'    => $request->date_leave,
-            'assets_description' => $request->assets_description,
-            'posted'        => date("m-d-Y")
-        ]);
+        $nodues_id = NoDues::create([
+                        'user_id'       => Auth::id(),
+                        'department_id' => $emp->dept_id,
+                        'emp_hod'       => $emp->emp_hod,
+                        'date_join'     => $request->date_join,
+                        'date_leave'    => $request->date_leave,
+                        'assets_description' => $request->assets_description,
+                        'posted'        => date("m-j-Y")
+                    ])->id();
+
+        
+
+        $hod = Hod::all();
+
+        foreach(){
+            
+        }
 
         return redirect()->route('no-dues-request.index')->with('success', 'Request has been added.');
 

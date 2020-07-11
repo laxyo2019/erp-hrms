@@ -16,7 +16,6 @@ use App\Models\Master\LeaveMast;
 use App\Imports\EmployeesImport;
 use App\Exports\EmployeesExport;
 use App\Models\Employees\Family;
-
 use App\Models\Master\Designation;
 use App\Models\Master\DocTypeMast;
 use App\Models\Master\NomineeType;
@@ -1180,10 +1179,12 @@ class EmployeesController extends Controller
 
   public function destroy($id)
   {
-    $employee = EmployeeMast::where('user_id',$id);
+    $employee = EmployeeMast::where('user_id', $id);
     $employee->delete();
 		$employees = EmployeeMast::all();
     return view('HRD.employees.index',compact('employees'));
+
+    return redirect()->route('employees.index')->with('success', 'Record has been deleted.');
   }
 
   public function deleteEmp_detail(Request $request, $id)

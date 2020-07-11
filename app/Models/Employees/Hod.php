@@ -14,6 +14,6 @@ class Hod extends Model
     }
 
     public function department(){
-    	return $this->belongsTo('App\Models\Master\DeptMast', 'depart_id');
+    	return $this->belongsTo('App\Models\Master\DeptMast', 'depart_id')->orderBy('name','ASC');
     }
 }

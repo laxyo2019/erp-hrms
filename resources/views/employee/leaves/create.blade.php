@@ -180,7 +180,7 @@
 	</div>
 </main>
 <script>
-<<<<<<< HEAD
+
 $('.start').datepicker({
 	orientation: "bottom",
 	format: "yyyy-mm-dd",
@@ -197,29 +197,7 @@ $(".end").datepicker({
 /*$(document).ready(function(){*/
 	
 	$('.start').on("change", function(event) {
-=======
-	$('.start').datepicker({
-		orientation: "bottom",
-		format: "yyyy-mm-dd",
-		autoclose: true,
-		todayHighlight: true,
-		//startDate: '-0m',
-	})
 
-	$(".end").datepicker({
-		orientation: "bottom",
-		format: "yyyy-mm-dd",
-		autoclose: true,
-		todayHighlight: true,/*
-	    onSelect: function(dateText) {
-	        console.log("Selected date: " + dateText + "; input's current value: " + this.value);
-	    }*/
-	})
-/*$(document).ready(function(){*/
-
-	$('.start').on("change", function(event) {
-
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
 		var btnId =	$('#btnId').val();
 		var leave_id = $('#leave_type').val();
 
@@ -240,14 +218,11 @@ $(".end").datepicker({
 			var currDate = new Date();
 			var subtractDays = currDate.setDate(currDate.getDate()-3);
 			var leaveGap = subtractDays <= startDate;
-<<<<<<< HEAD
+
 
 			if(leaveGap == true){
 
-=======
 
-			/*if(leaveGap == true){*/
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
 				$.ajax({
 					type:'get',
 					url: '/balance/',
@@ -256,11 +231,7 @@ $(".end").datepicker({
 						
 						var duration = $('#duration').val();
 						if(btnId == 'fullBtn'){
-<<<<<<< HEAD
-							//alert(res.user_bal.initial_bal)
-=======
 
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
 								if(parseFloat(duration) > parseFloat(res.user_bal.initial_bal)  ){
 							if(res.without_pay != 1){
 								alert('You don\'t have enough leaves.');
@@ -287,27 +258,18 @@ $(".end").datepicker({
 
 					}
 				});
-<<<<<<< HEAD
+
 			}else{
-=======
-			/*}else{
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
 				alert('You are not eligible for this leave.');
 				$('#start_date').val('');
 				$('#end_date').val('');
 				$('#duration').val('');
-<<<<<<< HEAD
+
 			}
 		}
 	});
 
-	
-=======
-			}*/
-		}
-	});
 
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
 	$(".end").on("change", function(event) {
 
 		//alert(54)
@@ -322,8 +284,6 @@ $(".end").datepicker({
 		var leaveGap 	= subtractDays <= endDate;
 
 		if(leaveGap == true){
-<<<<<<< HEAD
-
 			if(btnId == 'multiBtn'){
 				if( Date.parse(start) >= Date.parse(end) ){ 
 
@@ -377,61 +337,6 @@ $(".end").datepicker({
 
 								if(res.without_pay != 1){
 
-=======
-			if(btnId == 'multiBtn'){
-				if( Date.parse(start) >= Date.parse(end) ){ 
-
-					alert('End date should be greater.');
-					$('.end').val('');
-					$('#duration').val('');
-					$('#count').val('');
-					$('.rule_alert').hide();
-				
-				}else{
-
-					var OneDay	= 1000 * 60 * 60 * 24;
-					var first	= new Date(start);
-		          	var last	= new Date(end);
-		          	
-		 			var difference_ms = Math.abs(first - last);
-					var count = Math.round(difference_ms/OneDay)+1;
-					//console.log(count)
-					$.ajax({
-						type:'POST',
-						url: "{{route('holiday.check')}}",
-						headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-						data: {'start': start, 'end': end},
-						success:function(res){
-							//alert(res)
-							if(res != 0 ){
-								$('.rule_alert').show();
-							}else{
-								$('.rule_alert').hide();
-							}
-							
-						}
-					})
-
-					if(count == 'NaN'){
-						$('#duration').val('');
-
-					}else{
-						$('#duration').val(count);
-
-					}
-					$.ajax({
-						type:'get',
-						url: '/balance/',
-						data:{'leave_id': leave_id},
-						success: function(res){
-						
-							var duration = $('#duration').val();
-
-							if(parseFloat(duration) > parseFloat(res.user_bal.initial_bal) ){
-
-								if(res.without_pay != 1){
-
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
 									alert('You don\'t have enough leaves.');
 									$('#start_date').val('');
 									$('#end_date').val('');
@@ -448,7 +353,6 @@ $(".end").datepicker({
 
 
 			}
-<<<<<<< HEAD
 
 		}else{
 			alert('You are not eligible for this leave.');
@@ -456,11 +360,7 @@ $(".end").datepicker({
 			$('#end_date').val('');
 			$('#duration').val('');
 		}
-=======
-		}
-		
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
-		
+
 	});
 
 

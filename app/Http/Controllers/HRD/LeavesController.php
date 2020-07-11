@@ -20,15 +20,10 @@ use App\Models\Employees\LeaveApprovalDetail;
 
 class LeavesController extends Controller
 {
-<<<<<<< HEAD
   //  public function __construct(){
-   //     $this->middleware('auth');
-    //}
-=======
-    //public function __construct(){
-     //   $this->middleware('auth');
-  //  }
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
+  //     $this->middleware('auth');
+  //}
+
 
     /****APPLICATION REQUEST STATUS****/
 
@@ -768,10 +763,6 @@ class LeavesController extends Controller
             LeaveAllotment::where('leave_mast_id', $data->id)
                 ->increment('initial_bal', $data->generate_days);
       }
-<<<<<<< HEAD
-      
-=======
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
     }
 
    /* public function reverse($request_id){

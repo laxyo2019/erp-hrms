@@ -421,12 +421,6 @@ class LeavesController extends Controller
 
     $role = User::where('id', $request->reports_to)->first();
 
-    //return ([$role->hasRole('hrms_admin')]);
-<<<<<<< HEAD
-    //return $role;
-=======
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
-
     $leaveapply = new LeaveApply;
     $leaveapply->user_id           = $user_id;
     $leaveapply->reports_to        = $request->reports_to;
@@ -532,10 +526,7 @@ class LeavesController extends Controller
         return back()->with('success', 'Record has been deleted.');
       }else{
         return back()->with('failure', 'Record is not deleted yet.');
-<<<<<<< HEAD
-      }
-=======
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
+
 
       }
 

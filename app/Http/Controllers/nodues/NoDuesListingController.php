@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\nodues;
 
 use Auth;
 use App\Models\NoDues;
 use Illuminate\Http\Request;
 use App\Models\Employees\Hod;
+use App\Http\Controllers\Controller;
 use App\Models\Employees\EmployeeMast;
 
-class NoDuesController extends Controller
+
+class NoDuesListingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +19,18 @@ class NoDuesController extends Controller
      */
     public function index()
     {
-        $nodues = NoDues::all();
+        $request = NoDues::with(['employee', 'department'])->get();
 
-        return view('nodues.request.index', compact('nodues'));
+        //dd($hod[0]->employee->emp_name);
+
+        return view('nodues.listing.index', compact('request'));
+    }
+
+    public function indexHod()
+    {
+        $request = NoDues::with(['employee', 'department'])->get();
+
+        return view('nodues.listing.index', compact('request'));
     }
 
     /**
@@ -27,20 +38,9 @@ class NoDuesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     public function create()
     {
-        $emp     = EmployeeMast::where('user_id', Auth::id())->first();
-
-        $emp_hod = EmployeeMast::with(['department'])
-                        ->where('user_id', $emp->emp_hod)
-                        ->first();
-
-        $hod     = Hod::with(['employee', 'department'])->get();
-
-        $request = NoDues::where('user_id', Auth::id())->first();
-
-        return view('nodues.request.create', compact('hod', 'emp_hod', 'emp', 'request'));
+        //
     }
 
     /**
@@ -51,26 +51,16 @@ class NoDuesController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'date_join' => 'required',
-            'date_leave'=> 'required'
-        ]);
+        $logged_user = EmployeeMast::where('user_id', Auth::id())->first();
+        //dd(Auth::id());
+        $req = NoDues::where('id', $request->id)->first();
+        
 
-        $emp = EmployeeMast::with(['department'])
-                ->where('user_id', Auth::id())->first();
+    }
 
-        NoDues::create([
-            'user_id'       => Auth::id(),
-            'department_id' => $emp->dept_id,
-            'emp_hod'       => $emp->emp_hod,
-            'date_join'     => $request->date_join,
-            'date_leave'    => $request->date_leave,
-            'assets_description' => $request->assets_description,
-            'posted'        => date("m-d-Y")
-        ]);
-
-        return redirect()->route('no-dues-request.index')->with('success', 'Request has been added.');
-
+    public function storeHod(Request $request)
+    {
+        return 685342;
     }
 
     /**
@@ -79,9 +69,15 @@ class NoDuesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $nodues = NoDues::with(['employee', 'department'])
+                    ->where('id', $request->request_id)->first();
+
+        $hod = Hod::with(['employee', 'department'])->get();
+
+        return view('nodues.listing.show', compact('nodues', 'hod'));
+
     }
 
     /**

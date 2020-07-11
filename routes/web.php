@@ -27,7 +27,7 @@ Route::group(['middleware' => ['role:hrms_teamlead']], function() {
 
 	Route::get('leave-request/teamlead', 'HRD\LeavesController@indexTeamlead')->name('request.teamlead');
 
-	route::post('leave-request/teamlead/{req_id}', 'HRD\LeavesController@tl_approval');
+	route::post('leave-request/teamlead/{req_id}', 'HRD\LeavesController@tl_approval');	
 
 	Route::post('/reverse/teamlead/{req_id}', 'HRD\LeavesController@tl_reverse');
 
@@ -209,12 +209,16 @@ Route::resource('/loan-request', 'loan\LoanRequestController');
 Route::post('/loan-request/show-type', 'loan\LoanRequestController@ShowType');
 
 
-Route::resource('no-dues-request', 'NoDuesController');
+Route::resource('no-dues-request', 'nodues\NoDuesController');
+Route::resource('no-dues-listing', 'nodues\NoDuesListingController');
+Route::get('no-dues/department-head', 'nodues\NoDuesController@indexHod');
+Route::post('no-dues/department-head/show', 'nodues\NoDuesListingController@show')->name('hod.show');
+Route::post('no-dues/department-head', 'nodues\NoDuesController@storeHod')->name('depart-head.index');
 
 Route::resource('hod', 'HodController');
 
 # Loan Listing
-Route::prefix('loan-management')->namespace('loan')->group(function () {
+//Route::prefix('loan-management')->namespace('loan')->group(function () {
 
 Route::prefix('loan-management')->namespace('loan')->group(function () {
 
@@ -254,14 +258,10 @@ Route::prefix('loan-management')->namespace('loan')->group(function () {
 	//Route::get('loan-request/{req_id}/history', 'loan\LoanRequestController@loanMonthlyHistory')->name('loan-request.history');
 	//Route::get('loan-history/{req_id}/', 'loan\LoanRequestController@destroy')->name('loan-request.history');
 	Route::resource('/loan-listing/history', 'LoanHistoryController');
-<<<<<<< HEAD
-
 });
 # Loan Settings
-=======
->>>>>>> 89cc7b53088cf7d3000791f024522f6dfd434341
 
-});
+/*});*/
 
 #PAYROLL
 

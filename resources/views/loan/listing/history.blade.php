@@ -98,8 +98,8 @@
 			</div>
 			<div class="row">
 			<div class="col-6 form-group text-center">
-					<button class="btn btn-info btn-sm" style="width: 15%">Save</button>
-					<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 15%">Cancel</a>
+					<button class="btn btn-info btn-sm" style="width: 15">Save</button>
+					<a class="btn btn-danger btn-sm" href="javascript:location.reload()" style="width: 15">Cancel</a>
 				</div>
 			</div>
 		</form>
