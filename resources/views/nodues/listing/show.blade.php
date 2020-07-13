@@ -1,28 +1,3 @@
-{{-- <div class="row col-12">
-	<div class="col-6 form-group">
-		<span >Name :</span>
-		{{ucwords($nodues['employee']->emp_name)}}
-	</div>
-	<div class="col-6 form-group">
-		<b>Work Period :</b>
-		{{$nodues->date_join}} to {{$nodues->date_leave}}
-	</div>
-	<div class="col-6 form-group">
-		<b>Assets & Articles Description :</b>
-		{{ucwords($nodues->assets_description)}}
-	</div>
-	<div class="col-6 form-group">
-		<b>Reason of Resignation :</b>
-		{{ucwords($nodues->reason_of_leaving)}}
-	</div>
-	<div class="col-6 form-group">
-		<b>Loan Amount (In INR) :</b>
-		{{ucwords($request->requested_amt)}}
-	</div> 
-	
-</div><br> --}}
-
-
 <div class="row card-body text-center">
 	<div class="col-6" >
 		<h5>Name </h5>
@@ -61,35 +36,87 @@
 				<td>{{++$count}}</td>
                 <td>{{ucwords($index['employee']->emp_name)}}</td>
                 <td>{{strtoupper($index['department']->name)}}</td>
-                <td>Pending</td>
+                <td>
+                	@if($index->action == 0)
+                		@if($index->hod_user_id == Auth::id())
+
+                			<strong class="apprv_msg" id="apprv_msg_{{$index->nodues_request_id}}" style="display: none;" >APPROVED</strong>
+                    		<strong class="dec_msg" id="dec_msg_{{$index->nodues_request_id}}" style="display: none;" >DECLINED</strong>
+
+
+                			<button type="button"  data-id="{{$index->nodues_request_id}}" class="btn btn-success btn-sm action" value="1" id="apprvBtn_{{$index->nodues_request_id}}"><i class="fa fa-check" aria-hidden="true"></i></button>
+                			<button type="button" data-id="{{$index->nodues_request_id}}" class="btn btn-danger btn-sm ml-2 action decline" value="2" id="decBtn_{{$index->nodues_request_id}}"><i class="fa fa-times" aria-hidden="true"></i></button>
+
+
+
+
+                		@else
+							<strong style="color: grey;">PENDING</strong>
+						@endif
+					@elseif($index->action == 1)
+						<strong style="color: #0cac0c;">APPROVED</strong>
+					@elseif($index->action == 2)
+						<strong style="color: #3375ca;">DECLINED</strong>
+					@endif
+                </td>
 			</tr>
 		@endforeach
 	</tbody>
 </table>
-{{-- <div class="row card-body text-center">
-	
-	<div class="col-6" >
-		<h4>Document</h4>
-		<div>@if($leave_req->file_path != null)
-				<a href="{{route('request.document', [$leave_req->id])}}"><i class="fa fa-arrow-down"></i>Download</a>
-			@else
-				Not Available
-			@endif
-		</div>
-	</div>
-	<div class="col-6" >
-		<h4>Contact No</h4>
-		<div>{{!empty($leave_req->contact_no) ? $leave_req->contact_no : 'Not Mentioned'}}</div>
-	</div>
-</div>
-<div class="row card-body text-center">
-	<div class="col-6" >
-		<h4>Address</h4>
-		<div>{{!empty($leave_req->addr_during_leave) ? $leave_req->addr_during_leave : 'Not Mentioned'}}</div>
-	</div>
-	<div class="col-6" >
-		<h4>Leave Reversed</h4>
-		<div>{{!empty($leave_req->carry) ? 'Yes' : ''}}</div>
-	</div>
-	
-</div> --}}
+<style type="text/css">
+  .approve
+  {
+    background: #0cac0c;
+    color: white;
+  }
+  .decline
+  {
+    background: #ff1414;
+    color: white;
+  }
+ 
+  .apprv_msg{
+    color: #0cac0c;
+  }
+  .dec_msg{
+    color: #ff1414;
+  }
+  .rev_msg{
+    color: #3375ca;
+  }
+
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+
+  // Approve/Decline requests.
+
+  $('.action').on('click', function(){
+
+    var action      = $(this).val();
+    var request_id  = $(this).data('id');
+    $.ajax({
+      type: 'POST',
+      url: "{{route('no-dues-listing.store')}}",
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      data: {'action':action,request_id:request_id},
+
+      success:function(res){
+      	console.log(res);
+        $('#apprvBtn_'+request_id).hide();
+        $('#decBtn_'+request_id).hide();
+        console.log(res)
+        if(res == 1){
+          
+          $('#apprv_msg_'+request_id).show();    
+
+        }else if(res == 2){
+
+          $('#dec_msg_'+request_id).show();
+
+        }
+      }
+    })
+  });
+});
+</script>

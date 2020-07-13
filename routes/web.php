@@ -12,9 +12,9 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 
- Route::get('login/{username}/{pass}', 'LoginController@login');
- Route::post('/logout', 'LoginController@logout')->name('logout');
-//Auth::routes(['register' => false]);
+//Route::get('login/{username}/{pass}', 'LoginController@login');
+//Route::post('/logout', 'LoginController@logout')->name('logout');
+Auth::routes(['register' => false]);
 
 
 Route::resource('/information', 'InformationController');
@@ -213,7 +213,6 @@ Route::resource('no-dues-request', 'nodues\NoDuesController');
 Route::resource('no-dues-listing', 'nodues\NoDuesListingController');
 Route::get('no-dues/department-head', 'nodues\NoDuesController@indexHod');
 Route::post('no-dues/department-head/show', 'nodues\NoDuesListingController@show')->name('hod.show');
-Route::post('no-dues/department-head', 'nodues\NoDuesController@storeHod')->name('depart-head.index');
 
 Route::resource('hod', 'HodController');
 

@@ -7,6 +7,7 @@ use App\Models\NoDues;
 use Illuminate\Http\Request;
 use App\Models\Employees\Hod;
 use App\Http\Controllers\Controller;
+use App\Models\nodues\NoDuesApproval;
 use App\Models\Employees\EmployeeMast;
 
 
@@ -51,16 +52,22 @@ class NoDuesListingController extends Controller
      */
     public function store(Request $request)
     {
-        $logged_user = EmployeeMast::where('user_id', Auth::id())->first();
-        //dd(Auth::id());
-        $req = NoDues::where('id', $request->id)->first();
+        $approval = NoDuesApproval::where('nodues_request_id', $request->request_id)
+                    ->where('hod_user_id', Auth::id())
+                    ->first();
+        if($request->action == 1){
+            NoDuesApproval::where('nodues_request_id', $request->request_id)
+                ->where('hod_user_id', Auth::id())
+                ->update([
+                    'action' => $request->action
+                ]);
+            $flag = 1;
+        }else{
+            $flag = 2;
+        }
+
+        return $flag;
         
-
-    }
-
-    public function storeHod(Request $request)
-    {
-        return 685342;
     }
 
     /**
@@ -74,7 +81,11 @@ class NoDuesListingController extends Controller
         $nodues = NoDues::with(['employee', 'department'])
                     ->where('id', $request->request_id)->first();
 
-        $hod = Hod::with(['employee', 'department'])->get();
+        //$hod = Hod::with(['employee', 'department'])->get();
+
+        $hod = NoDuesApproval::with(['employee', 'department'])
+                ->where('nodues_request_id', $request->request_id)
+                ->get();
 
         return view('nodues.listing.show', compact('nodues', 'hod'));
 

@@ -49,7 +49,8 @@
 						</div>
 						<div class="col-6 form-group">
 							<label for="">Employee Code</label>
-							<input type="text" name="emp_code" value="{{old('emp_code', $employee->emp_code)}}" class="form-control">
+							<input type="text" name="emp_code" 
+					value="{{old('emp_code', $employee->emp_code)}}" class="form-control">
 						</div>
 						<div class="col-6 form-group">
 							<label for="emp_grade">Employee Grade</label>
