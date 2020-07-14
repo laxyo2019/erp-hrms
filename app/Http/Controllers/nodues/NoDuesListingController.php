@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\nodues;
 
 use Auth;
-use App\Models\NoDues;
+//use App\Models\NoDues;
+use App\Models\nodues\NoDues;
 use Illuminate\Http\Request;
 use App\Models\Employees\Hod;
 use App\Http\Controllers\Controller;
@@ -22,15 +23,6 @@ class NoDuesListingController extends Controller
     {
         $request = NoDues::with(['employee', 'department'])->get();
 
-        //dd($hod[0]->employee->emp_name);
-
-        return view('nodues.listing.index', compact('request'));
-    }
-
-    public function indexHod()
-    {
-        $request = NoDues::with(['employee', 'department'])->get();
-
         return view('nodues.listing.index', compact('request'));
     }
 
@@ -45,33 +37,33 @@ class NoDuesListingController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a Approved/Declined in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
+        #Get all information of no dues reuqest
         $approval = NoDuesApproval::where('nodues_request_id', $request->request_id)
                     ->where('hod_user_id', Auth::id())
                     ->first();
-        if($request->action == 1){
-            NoDuesApproval::where('nodues_request_id', $request->request_id)
-                ->where('hod_user_id', Auth::id())
-                ->update([
-                    'action' => $request->action
-                ]);
-            $flag = 1;
-        }else{
-            $flag = 2;
-        }
+
+        #Update action and store flag 1 if action is 1 and store 2 if action is 2
+        NoDuesApproval::where('nodues_request_id', $request->request_id)
+            ->where('hod_user_id', Auth::id())
+            ->update([
+                'action' => $request->action
+            ]);
+
+        $flag = $request->action == 1 ? 1 : 2;
 
         return $flag;
         
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource in model.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

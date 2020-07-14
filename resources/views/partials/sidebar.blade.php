@@ -134,7 +134,7 @@
     @role('hrms_admin')
       <li><a class="app-menu__item {{Request::segment(1) == 'separation' ? 'active' : ''}}" href="{{route('separation-admin.index')}}"><i class="app-menu__icon fa fa-chevron-right"></i><span class="app-menu__label">Separation (Admin)</span></a></li>
     @endrole
-
+    
       <li class="treeview {{call_user_func_array('Request::is', (array)['miscellaneous*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-table "></i><span class="app-menu__label">Miscellaneous</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           @if(hod_check(Auth::user()->id) != null)
