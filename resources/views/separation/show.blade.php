@@ -32,13 +32,7 @@
       	@endif
        </h4> 
     </div>
-<<<<<<< HEAD
-
     @if($separation->status == 0)
-
-=======
-    @if($separation->status == 0)
->>>>>>> 53c035c214fc083b97629ed31b17428aaaf014a7
 		<form action="{{route('staff-settlement.update', $separation->id)}}" method="POST" id="form">
 	@endif
 			@csrf
