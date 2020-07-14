@@ -39,7 +39,7 @@
                 <td >{{ucwords($index['department']->name)}}</td>
                 <td >{{date('M d, Y', strtotime($index->posted))}}</td>
 				<td>
-					<button type="button"  data-id="{{$index->id}}" class="btn btn-info btn-sm action" value="1" id="{{$index->id}}">SHOW</button>
+					<button type="button"  data-id="{{$index->id}}" class="btn btn-info btn-sm actionShow" id="{{$index->id}}">SHOW</button>
 					<!-- Modal -->
           <div class="modal fade" id="reqModal" role="dialog">
             <div class="modal-dialog modal-lg">
@@ -81,7 +81,7 @@ $(document).ready(function(){
   });
 
 
-  $('.action').on('click', function(){
+  $('.actionShow').on('click', function(){
 
   		var request_id	= $(this).data('id');
 

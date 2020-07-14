@@ -46,7 +46,8 @@
 				</div>
 				<div class="col-6 form-group">
 					<label for="department_head">Department's Head</label>
-					<input type="text" class="form-control" name="department_head" value=" {{$depart_hod->emp_name}} " readonly="" >
+					<input type="text" class="form-control" name="department_head" value="{{old('department_head') ?? (!empty($depart_hod) ? $depart_hod->emp_name : '')}} " readonly="" >
+
 					@error('department_head')
 						<span class="text-danger" role="alert">
 							<strong>* {{ $message }}</strong>

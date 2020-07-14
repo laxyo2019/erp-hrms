@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use App\Models\NoDues;
+//use App\Models\NoDues;
+use App\Models\nodues\NoDues;
 use Illuminate\Http\Request;
 use App\Models\Employees\Hod;
 use App\Models\Employees\EmployeeMast;

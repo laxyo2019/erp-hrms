@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\nodues;
 
 use Auth;
-use App\Models\NoDues;
+//use App\Models\NoDues;
+use App\Models\nodues\NoDues;
 use Illuminate\Http\Request;
 use App\Models\Employees\Hod;
 use App\Models\nodues\NoDuesApproval;
@@ -19,13 +20,11 @@ class NoDuesController extends Controller
      */
     public function index()
     {
-
-        $emp     = EmployeeMast::with(['department'])
+        $emp        = EmployeeMast::with(['department'])
                     ->where('user_id', Auth::id())->first();
-
         $depart_hod = EmployeeMast::where('user_id', $emp->emp_hod)->first();
 
-        $request = NoDues::where('user_id', Auth::id())->first();
+        $request    = NoDues::where('user_id', Auth::id())->first();
 
         $hod_approval = NoDuesApproval::with(['employee', 'department'])
                         ->get();
