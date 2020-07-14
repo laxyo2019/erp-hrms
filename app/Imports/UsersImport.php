@@ -17,6 +17,7 @@ class UsersImport implements ToCollection,WithHeadingRow
         foreach ($rows as $row) 
         {
             if($row['mobile_number'] !='' && $row['name'] !='' && $row['date_of_birth'] !='' ){
+
             	$registration_date = Date::excelToDateTimeObject($row['date_of_birth']); 
                 $date1 = strtotime(date('Y').'-'.$registration_date->format('m-d'));
                 $date2 = strtotime(date('Y-m-d'));
@@ -28,7 +29,11 @@ class UsersImport implements ToCollection,WithHeadingRow
                     $date = date('Y').'-'.$registration_date->format('m-d') ;
                 }   
             	$data = ['name'=>$row['name'],'mobile_number'=>$row['mobile_number'],'date_of_birth'=>$registration_date->format('Y-m-d'),'next_date'=>$date];
-                Birthday::create($data);
+
+                $exits = Birthday::where('mobile_number',$data['mobile_number'])->first();
+                if(empty($exits)){
+                    Birthday::create($data);
+                }
             }
         }
         return true;

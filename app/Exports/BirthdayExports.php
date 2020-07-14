@@ -9,13 +9,14 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\Exportable;
-class UsersExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize
+
+class BirthdayExports implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize
 {
 	use Exportable;
-
+   
     public function query()
     {
-        $data = Birthday::all();
+        $data = Birthday::orderBy('name','ASC');
         return $data;
     }
     public function map($data) : array

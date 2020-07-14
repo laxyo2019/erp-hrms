@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Imports\UsersImport;
 use App\Exports\UsersExport;
+use App\Exports\BirthdayExports;
 use App\Models\Birthday;
 use Maatwebsite\Excel\Facades\Excel;
 use App\MessageFormate;
@@ -64,10 +65,12 @@ class BirthdayWish extends Controller
         return redirect('birthday_wish');
     }
 
-    public function export(Request $request) 
+    public function export() 
     {
-        $data = Excel::download(new UsersExport, 'birthdayPersons.xlsx');
-        return redirect('birthday_wish');
+        // return Birthday::all();
+        return Excel::download(new BirthdayExports, 'birthdayPersons.xlsx');
+
+       // return redirect('birthday_wish');
     }
 
     public function getMessage(){
