@@ -140,8 +140,8 @@
           @if(hod_check(Auth::user()->id) != null)
           <li class={{call_user_func_array('Request::is', (array)['miscellaneous/type*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('no-dues-listing.index')}}"><i class="icon fa fa-chevron-right"></i>No dues Listing</a></li>
           @endif
-          <li class={{call_user_func_array('Request::is', (array)['miscellaneous/allotment*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('allotments.index')}}"><i class="icon fa fa-chevron-right"></i>Leave Allotment</a></li>
-          <li class={{call_user_func_array('Request::is', (array)['miscellaneous/holidays*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('holidays.index')}}"><i class="icon fa fa-chevron-right"></i>Holidays</a></li>
+          {{-- <li class={{call_user_func_array('Request::is', (array)['miscellaneous/allotment*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('allotments.index')}}"><i class="icon fa fa-chevron-right"></i>Leave Allotment</a></li>
+          <li class={{call_user_func_array('Request::is', (array)['miscellaneous/holidays*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('holidays.index')}}"><i class="icon fa fa-chevron-right"></i>Holidays</a></li> --}}
         </ul>
       </li>
 

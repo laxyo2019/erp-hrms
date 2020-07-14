@@ -35,6 +35,24 @@
 						</span>
 					@enderror
 				</div>
+				<div class="col-6 form-group">
+					<label for="emp_code">Department</label>
+					<input type="text" class="form-control" name="department" value="{{$emp['department']->name}}" readonly="" >
+					@error('emp_code')
+						<span class="text-danger" role="alert">
+							<strong>* {{ $message }}</strong>
+						</span>
+					@enderror
+				</div>
+				<div class="col-6 form-group">
+					<label for="department_head">Department's Head</label>
+					<input type="text" class="form-control" name="department_head" value=" {{$depart_hod->emp_name}} " readonly="" >
+					@error('department_head')
+						<span class="text-danger" role="alert">
+							<strong>* {{ $message }}</strong>
+						</span>
+					@enderror
+				</div>
 			</div>
 			<div class="row">
 				<div class="col-6 form-group ">
