@@ -68,9 +68,9 @@ class BirthdayWish extends Controller
     public function export() 
     {
         // return Birthday::all();
-        return Excel::download(new BirthdayExports, 'birthdayPersons.xlsx');
+     //   return Excel::download(new UsersExport, 'birthdayPersons.csv');
 
-       // return redirect('birthday_wish');
+        return redirect('birthday_wish');
     }
 
     public function getMessage(){
