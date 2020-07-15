@@ -92,15 +92,27 @@ class UserController extends Controller
         User::where('id', $id)
                 ->update(['deleted_at' => $request->flag]);
 
-
+        $date = date("Y-m-d H:i:s", time());
+        $employee = EmployeeMast::where('user_id',$id)->first();
         if($request->flag == null){
-            $flag = 1;
+
+            $flag = 1; // true active
+            $releave_date = null;
+            $rejoin_date = $date;
+            $leave_dt = $employee->leave_dt !=null ? $employee->leave_dt : $date;
+
+           
         }else{
-            $flag = 0;
+            $releave_date = $employee->leave_dt !=null ? $date : null;
+            $rejoin_date = $employee->rejoin_date;
+            $leave_dt = $employee->leave_dt !=null ? $employee->leave_dt : $date;
+
+            $flag = 0; //false deactive
+
         }
 
         EmployeeMast::where('user_id', $id)
-                ->update(['status' => $flag]);
+                ->update(['status' => $flag,'releave_date' => $releave_date, 'rejoin_date' => $rejoin_date,'leave_dt' => $leave_dt]);
 
         
         if($request->flag == null){

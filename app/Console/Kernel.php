@@ -28,8 +28,8 @@ class Kernel extends ConsoleKernel
      */ 
     protected function schedule(Schedule $schedule)
     {
-	
-    $schedule->call('App\Http\Controllers\HRD\LeavesController@updateLeaveBalance')->dailyAt('16:28');
+      
+    $schedule->call('App\Http\Controllers\HRD\LeavesController@updateLeaveBalance')->monthlyOn(1, '0:00');
         // For Reminders 
       // $schedule->call('App\Http\Controllers\PMS\Agenda\AgendaMastController@agenda_reminder')->everyThirtyMinutes();
      // $schedule->call('App\Http\Controllers\PMS\Schedule\ScheduleController@display_reminder')->dailyAt('10:15');
