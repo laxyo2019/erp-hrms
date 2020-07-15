@@ -48,6 +48,21 @@ class EmployeesController extends Controller
     return view('HRD.employees.index',compact('employees', 'leaves'));
   }
 
+  /**
+   * Show Vacated Employees list in table.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function vacatedIndex(){
+
+    $employees = EmployeeMast::with('company','grade','designation')->orderBy('emp_name','ASC')->get();
+
+    $leaves = LeaveMast::all();
+
+    return view('HRD.employees.index.vacated',compact('employees', 'leaves'));
+    //return 54;
+  }
+
   public function save_main(Request $request,$id){
 
 	  $vdata = request()->validate([

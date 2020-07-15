@@ -52,14 +52,15 @@ Route::group(['middleware' => ['role:hrms_admin']], function() {
 	Route::post('/reverse/admin/{req_id}', 'HRD\LeavesController@admin_reverse');
 });
 
-
-// Leave Requests
+# Leave Requests
 
 Route::resource('/hrd/leaves', 'HRD\LeavesController');
 
 Route::group(['middleware' => ['role:hrms_admin|hrms_hr|hrms_subadmin']], function() {
 
 	Route::resource('/hrd/employees','HRD\EmployeesController');
+
+
 
 	//Delete Employees Info
 
@@ -78,6 +79,9 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr|hrms_subadmin']], functi
 		Route::post('/employee/save_nominee/{user_id}', 'EmployeesController@save_nominee')->name('employees.nominee');
 		Route::post('/employees/save_bankdetails/{user_id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
 		Route::post('/employees/save_familydetails/{user_id}', 'EmployeesController@save_familydetails')->name('employees.familydetails');
+
+		#Vacated Employees
+		Route::get('/employees/vacated/index', 'EmployeesController@vacatedIndex')->name('vacated.index');
 
 	});
 	Route::get('/familydetails/{id}/edit', 'HRD\EmployeesController@edit_familydetails')->name('edit.familydetails');
@@ -179,6 +183,9 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr|hrms_subadmin']], functi
 //Route::resource('no-dues-request', '')
 
 #------------------------------------
+
+##### ISSUE #####
+Route::resource('issue-indent', 'issue\IssueIndentController');
 
 #  Staff \ Employees Separation -------------
 	
