@@ -12,3 +12,5 @@ npm-debug.log
 yarn-error.log
 /app/Role.php
 /app/Permission
+/app/Models/Spatie/Permission.php
+/app/Models/Spatie/Role.php

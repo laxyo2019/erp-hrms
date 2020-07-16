@@ -56,7 +56,7 @@
         <form  action="{{route('active', $employee->user_id)}}" method="POST" id="active_{{ $employee->user_id}}">
           @csrf
           <input type="hidden" name="flag" value="">
-          <a href="javascript:$('#active_{{ $employee->user_id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Activate employee ?')">Active</a>
+          <a href="javascript:$('#active_{{ $employee->user_id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Activate employee ?')">Rejoin</a>
           </form>
         </div>
     @else

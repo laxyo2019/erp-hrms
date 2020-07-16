@@ -100,14 +100,17 @@ class UserController extends Controller
             $releave_date = null;
             $rejoin_date = $date;
             $leave_dt = $employee->leave_dt !=null ? $employee->leave_dt : $date;
-
            
         }else{
+
             $releave_date = $employee->leave_dt !=null ? $date : null;
             $rejoin_date = $employee->rejoin_date;
             $leave_dt = $employee->leave_dt !=null ? $employee->leave_dt : $date;
 
             $flag = 0; //false deactive
+
+            #offline
+            $deleted_at = $date;
 
         }
 
@@ -121,7 +124,7 @@ class UserController extends Controller
             $status = 'dectivated';
         }
 
-        return back()->with('success', 'Employee '.$status.' successfully.');
+        return back()->with('success', 'Employee has been '.$status);
     }
 
     //Add as an employee
@@ -163,7 +166,7 @@ class UserController extends Controller
         if(empty($emp)){
             $employee = EmployeeMast::create([
                         'emp_name' => $user->name,
-                        'email'    => $user->email,
+                        'comp_email'    => $user->email,
                         'user_id'   => $user->id
                     ]);
             return response()->json('User added as an employee',200);

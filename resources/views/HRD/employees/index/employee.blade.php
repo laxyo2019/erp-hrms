@@ -32,9 +32,7 @@
 			{{-- hide allotment button if leave is not created --}}
 
 			@if(count($leaves) == null)
-
 				No leaves to assign
-
 			@else
 				@if($employee->leave_allotted == 0)
 				<button class="btn btn-sm btn-info ml-2 modalAllot1 "  data-id="{{$employee->user_id}}">
@@ -42,7 +40,7 @@
 				</button>
 				@else
 				<b style="color: green">Allotted</b>
-				
+				<button class="btn btn-sm btn-info ml-2"  data-id="{{$employee->user_id}}" ></button>
 				@endif
 			@endif
 			</td>
