@@ -100,6 +100,9 @@ class UserController extends Controller
             $releave_date = null;
             $rejoin_date = $date;
             $leave_dt = $employee->leave_dt !=null ? $employee->leave_dt : $date;
+
+            #Active
+            $deleted_at = $date;
            
         }else{
 
@@ -109,13 +112,19 @@ class UserController extends Controller
 
             $flag = 0; //false deactive
 
-            #offline
+            #DeActivate
             $deleted_at = $date;
 
         }
 
         EmployeeMast::where('user_id', $id)
-                ->update(['status' => $flag,'releave_date' => $releave_date, 'rejoin_date' => $rejoin_date,'leave_dt' => $leave_dt]);
+                ->update([
+                    'status'        => $flag,
+                    'releave_date'  => $releave_date,
+                    'rejoin_date'   => $rejoin_date,
+                    'leave_dt'      => $leave_dt,
+                    'deleted_at'    => $date
+                ]);
 
         
         if($request->flag == null){
