@@ -1,9 +1,9 @@
 @extends('layouts.master')
 @section('content')
-	<main class="app-content">
-		@include ('HRD/employees/tabs')
-		<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid grey;">
-			@if($message = Session::get('success'))
+	<main class="app-content ">
+	<div style="padding: 1.5rem;" class="tile">
+		@include ('HRD/employees/tabs')<hr>
+		@if($message = Session::get('success'))
 				<div class="alert alert-success alert-block">
 		<button type="button" class="close" data-dismiss="alert">×</button>
 					{{$message}}

@@ -93,19 +93,32 @@ class UserController extends Controller
                 ->update(['deleted_at' => $request->flag]);
 
         $date = date("Y-m-d H:i:s", time());
-        $employee = EmployeeMast::where('user_id',$id)->first();
+        // return $id;
+        $employee = EmployeeMast::withTrashed('deleted_at')->where('user_id','119')->first();
         if($request->flag == null){
 
             $flag = 1; // true active
+
+            $join_dt = $employee->join_dt !=null ? $employee->join_dt : $date;
             $releave_date = null;
-            $rejoin_date = $date;
-            $leave_dt = $employee->leave_dt !=null ? $employee->leave_dt : $date;
+            $rejoin_date = $employee->join_dt !=null ? $date : null;
+
+            $leave_dt = $employee->join_dt !=null ?  $date  : null ;
 
             #Active
+<<<<<<< HEAD
             $deleted_at = $date;
            
         }else{
 
+=======
+            $deleted_at = null;
+           
+        }else{
+         // return $rejoin_date;
+
+            $join_dt = $employee->join_dt;
+>>>>>>> 9df472b9d9c865afbfd20505ad5a4b7ae1eb7b63
             $releave_date = $employee->leave_dt !=null ? $date : null;
             $rejoin_date = $employee->rejoin_date;
             $leave_dt = $employee->leave_dt !=null ? $employee->leave_dt : $date;
@@ -114,16 +127,30 @@ class UserController extends Controller
 
             #DeActivate
             $deleted_at = $date;
+<<<<<<< HEAD
 
         }
 
         EmployeeMast::where('user_id', $id)
+=======
+
+        }
+        // return $deleted_at;
+
+        EmployeeMast::withTrashed('deleted_at')->where('user_id', $id)
+>>>>>>> 9df472b9d9c865afbfd20505ad5a4b7ae1eb7b63
                 ->update([
                     'status'        => $flag,
                     'releave_date'  => $releave_date,
                     'rejoin_date'   => $rejoin_date,
+<<<<<<< HEAD
                     'leave_dt'      => $leave_dt,
                     'deleted_at'    => $date
+=======
+                    'join_dt'       => $join_dt,
+                    'leave_dt'      => $leave_dt,
+                    'deleted_at'    => $deleted_at
+>>>>>>> 9df472b9d9c865afbfd20505ad5a4b7ae1eb7b63
                 ]);
 
         

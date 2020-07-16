@@ -157,7 +157,6 @@ class EmployeesController extends Controller
 
   public function save_official(Request $request,$user_id){
       
-      //return $request->all();
     $vdata = request()->validate([
 
       'aadhar_no' => 'string|nullable|max:20',
@@ -197,7 +196,9 @@ class EmployeesController extends Controller
         'old_esi'    => $request->old_esi,
         'curr_esi'   => $request->curr_esi,
         'passport_id'=> $request->passport_id,
-        'emp_hod'    => $request->emp_hod
+        'emp_hod'    => $request->emp_hod,
+        'rejoin_date'=> $request->rejoin_date,
+        'releave_date'=> $request->releave_date
       ]);
 
     return redirect()->route('employee.show_page',['user_id'=>$user_id,'tab'=>'official'])->with('success','Updated successfully.');
@@ -474,6 +475,8 @@ class EmployeesController extends Controller
   {
   	$meta      = array();
     $employee  = EmployeeMast::where('user_id', $user_id)->first();
+
+    //return $employee;
     $path      = "HRD.employees.details.".$tab;
 
     $meta['maritalsts'] = MaritalStatus::all();

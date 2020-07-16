@@ -40,7 +40,7 @@
 				</button>
 				@else
 				<b style="color: green">Allotted</b>
-				<button class="btn btn-sm btn-info ml-2"  data-id="{{$employee->user_id}}" ></button>
+				{{-- <button class="btn btn-sm btn-info ml-2"  data-id="{{$employee->user_id}}" ></button> --}}
 				@endif
 			@endif
 			</td>
@@ -54,7 +54,7 @@
         <form  action="{{route('active', $employee->user_id)}}" method="POST" id="active_{{ $employee->user_id}}">
           @csrf
           <input type="hidden" name="flag" value="">
-          <a href="javascript:$('#active_{{ $employee->user_id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Activate employee ?')">Active</a>
+          <a href="javascript:$('#active_{{ $employee->user_id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Activate employee ?')">{{$employee->leave_dt !=null ? 'Rejoin' : 'Active'}}</a>
           </form>
         </div>
     @else

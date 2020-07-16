@@ -1,12 +1,12 @@
-@extends('layouts.master')
+	@extends('layouts.master')
 @push('styles')
 	{{-- <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script> 
 	<script src='{{asset('js/select2.min.js')}}' type='text/javascript'></script>--}}
 @endpush
 @section('content')
 <main class="app-content ">
-	@include ('HRD/employees/tabs')
-	<div style="margin-top: 1.5rem; padding: 1.5rem;" class="tile">
+	<div style="padding: 1.5rem;" class="tile">
+		@include ('HRD/employees/tabs')<hr>
 		@if($message = Session::get('success'))
 		<div class="alert alert-success alert-block">
 		<button type="button" class="close" data-dismiss="alert">×</button>
@@ -61,7 +61,6 @@
 									@endforeach
 							</select>
 						</div>
-						
 						<div class="col-6 form-group">
 							<label for="designation"><b>Designation</b> </label>
 							<select name="designation" class="form-control" id="">
@@ -69,7 +68,7 @@
 									@foreach($meta['designation'] as $designation)
 									<option value="{{$designation->id}}" {{old('designation',$employee->desg_id) == $designation->id ? 'selected' : ''}} >{{ucwords($designation->name)}}</option>
 									@endforeach
-							</select>			
+							</select>
 						</div>
 						<div class="col-6 form-group">
 							<label for="">Department</label>
@@ -84,24 +83,6 @@
 				                    <strong>{{ $message }}</strong>
 				                </span>
 				            	@enderror
-						</div>
-						<div class="col-6 form-group">
-							<label for="">Joinning Date</label>
-							<input type="text" class="form-control datepicker" name="join_dt" value="{{old('join_dt', $employee->join_dt)}}" autocomplete="off"/>
-							@error('join_dt')
-							<span class="text-danger" role="alert">
-								<strong>* {{ $message }}</strong>
-							</span>
-							@enderror
-						</div>
-						<div class="col-6 form-group">
-							<label for="">Leave Date</label>
-							<input type="text" class="form-control datepicker" name="leave_date" value="{{old('leave_date', $employee->leave_dt)}}" autocomplete="off"/>
-							@error('leave_date')
-							<span class="text-danger" role="alert">
-								<strong>* {{ $message }}</strong>
-							</span>
-							@enderror
 						</div>
 						<div class="col-6 form-group">
 							<label for="">Employee Type</label>
@@ -149,6 +130,46 @@
 								@endforeach
 							</select>
 							@error('emp_hod')
+							<span class="text-danger" role="alert">
+								<strong>* {{ $message }}</strong>
+							</span>
+							@enderror
+						</div>
+					</div>
+					<br>
+					<div><h5>EMPLOYEE WORKING PERIOD</h5></div><hr>
+					<div class="row">
+						<div class="col-6 form-group">
+							<label for="">Joinning Date</label>
+							<input type="text" class="form-control datepicker" name="join_dt" value="{{old('join_dt', $employee->join_dt)}}" autocomplete="off"/>
+							@error('join_dt')
+							<span class="text-danger" role="alert">
+								<strong>* {{ $message }}</strong>
+							</span>
+							@enderror
+						</div>
+						<div class="col-6 form-group">
+							<label for="">Leave Date</label>
+							<input type="text" class="form-control datepicker" name="leave_date" value="{{old('leave_date', $employee->leave_dt)}}" autocomplete="off"/>
+							@error('leave_date')
+							<span class="text-danger" role="alert">
+								<strong>* {{ $message }}</strong>
+							</span>
+							@enderror
+						</div>
+						<div class="col-6 form-group">
+							<label for="">Re-joinning Date</label>
+							<input type="text" class="form-control datepicker" name="rejoin_date" value="{{old('rejoin_date', date('Y-m-d', strtotime($employee->rejoin_date)))}}" autocomplete="off"/>
+							@error('rejoin_date')
+							<span class="text-danger" role="alert">
+								<strong>* {{ $message }}</strong>
+							</span>
+							@enderror
+						</div>
+						<div class="col-6 form-group">
+							<label for="">Re-Leave Date</label>
+							<input type="text" class="form-control datepicker" name="releave_date" value="{{old('releave_date', date('Y-m-d', strtotime($employee->releave_date)))}}" autocomplete="off"/>
+							@error('releave_date')
 							<span class="text-danger" role="alert">
 								<strong>* {{ $message }}</strong>
 							</span>
