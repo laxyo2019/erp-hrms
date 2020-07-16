@@ -93,26 +93,46 @@ class UserController extends Controller
                 ->update(['deleted_at' => $request->flag]);
 
         $date = date("Y-m-d H:i:s", time());
-        $employee = EmployeeMast::where('user_id',$id)->first();
+        // return $id;
+        $employee = EmployeeMast::withTrashed('deleted_at')->where('user_id','119')->first();
         if($request->flag == null){
 
             $flag = 1; // true active
-            $releave_date = null;
-            $rejoin_date = $date;
-            $leave_dt = $employee->leave_dt !=null ? $employee->leave_dt : $date;
 
+            $join_dt = $employee->join_dt !=null ? $employee->join_dt : $date;
+            $releave_date = null;
+            $rejoin_date = $employee->join_dt !=null ? $date : null;
+
+            $leave_dt = $employee->join_dt !=null ?  $date  : null ;
+
+            #Active
+            $deleted_at = null;
            
         }else{
+         // return $rejoin_date;
+
+            $join_dt = $employee->join_dt;
             $releave_date = $employee->leave_dt !=null ? $date : null;
             $rejoin_date = $employee->rejoin_date;
             $leave_dt = $employee->leave_dt !=null ? $employee->leave_dt : $date;
 
             $flag = 0; //false deactive
 
-        }
+            #DeActivate
+            $deleted_at = $date;
 
-        EmployeeMast::where('user_id', $id)
-                ->update(['status' => $flag,'releave_date' => $releave_date, 'rejoin_date' => $rejoin_date,'leave_dt' => $leave_dt]);
+        }
+        // return $deleted_at;
+
+        EmployeeMast::withTrashed('deleted_at')->where('user_id', $id)
+                ->update([
+                    'status'        => $flag,
+                    'releave_date'  => $releave_date,
+                    'rejoin_date'   => $rejoin_date,
+                    'join_dt'       => $join_dt,
+                    'leave_dt'      => $leave_dt,
+                    'deleted_at'    => $deleted_at
+                ]);
 
         
         if($request->flag == null){

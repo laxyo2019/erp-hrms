@@ -41,7 +41,8 @@ class EmployeesController extends Controller
 
   public function index()
   {		
-		$employees = EmployeeMast::where('active', 1)
+    
+		$employees = EmployeeMast::where('deleted_at', null)
                     ->with('company','grade','designation')
                     ->orderBy('emp_name','ASC')->get();
 
@@ -55,15 +56,23 @@ class EmployeesController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function vacatedIndex(){
+  public function vacatedIndex($id){
 
-    $employees = EmployeeMast::where('status', 0)
+
+    if($id == 'vacatedEmp'){
+      $employees = EmployeeMast::with('company','grade','designation')
+                    ->onlyTrashed()
+                    ->orderBy('emp_name','ASC')->get();
+      }else{
+        $employees = EmployeeMast::where('deleted_at', null)
                     ->with('company','grade','designation')
                     ->orderBy('emp_name','ASC')->get();
+      }
+           //->whereRaw('price > IF(state = "TX", ?, 100)', [200])
 
     $leaves = LeaveMast::all();
 
-    return view('HRD.employees.index.vacated',compact('employees', 'leaves'));
+    return view('HRD.employees.index.employee',compact('employees', 'leaves'));
     //return 54;
   }
 

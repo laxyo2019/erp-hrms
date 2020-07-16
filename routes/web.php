@@ -80,7 +80,7 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr|hrms_subadmin']], functi
 		Route::post('/employees/save_familydetails/{user_id}', 'EmployeesController@save_familydetails')->name('employees.familydetails');
 
 		#Vacated Employees
-		Route::get('/employees/vacated/index', 'EmployeesController@vacatedIndex')->name('vacated.index');
+		Route::get('/employees/vacated/{id}', 'EmployeesController@vacatedIndex')->name('vacated.index');
 
 	});
 	Route::get('/familydetails/{id}/edit', 'HRD\EmployeesController@edit_familydetails')->name('edit.familydetails');

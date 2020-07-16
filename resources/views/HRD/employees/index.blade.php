@@ -23,8 +23,9 @@
 							<span class="fa fa-download"></span> Export Employeess
 						</a>
 					</span>
-					<span class="ml-2">
-						<button type="button" value="1" class="btn btn-primary btn-md" id="vacatedEmp">vacated employees</button>
+					<span class="ml-2 btnID">
+						<button type="button" value="1" class="btn btn-primary btn-md" id="vacatedEmp"><span class="fa fa-trash"></span>vacated employees</button>
+						<button type="button" value="1" class="btn btn-primary btn-md" id="empList" style="display: none;"><span class="fa fa-trash"></span>Active Employees </button>
 					</span>
 				</div>
 				<div class="card-body table-responsive" >
@@ -79,14 +80,23 @@ $(document).ready(function(){
 		});
 	});
 
-	$('#vacatedEmp').on('click', function(){
-		var btnId = $(this).val();
+	$('#vacatedEmp,#empList').on('click', function(){
+		// var btnId = $(this).val();
+		var btnId = $(this).attr('id');
+
 		$.ajax({
 			type: 'GET',
-			url: '{{route('vacated.index')}}',
+			url: '/hrd/employees/vacated/'+btnId,
 			success: function(res){
 				//alert()
 				$('#employeeTable').empty().html(res);
+				if(btnId == 'vacatedEmp'){
+					$('#empList').show();
+					$('#vacatedEmp').hide();
+				}else{
+					$('#empList').hide();
+					$('#vacatedEmp').show();
+				}
 				//$('#activeEmployee').html().hide();
 			}
 		})
