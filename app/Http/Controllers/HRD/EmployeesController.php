@@ -41,7 +41,9 @@ class EmployeesController extends Controller
 
   public function index()
   {		
-		$employees = EmployeeMast::with('company','grade','designation')->orderBy('emp_name','ASC')->get();
+		$employees = EmployeeMast::where('active', 1)
+                    ->with('company','grade','designation')
+                    ->orderBy('emp_name','ASC')->get();
 
     $leaves = LeaveMast::all();
 
@@ -55,8 +57,9 @@ class EmployeesController extends Controller
    */
   public function vacatedIndex(){
 
-    $employees = EmployeeMast::where('staus', 0)
-                    ->with('company','grade','designation')->orderBy('emp_name','ASC')->get();
+    $employees = EmployeeMast::where('status', 0)
+                    ->with('company','grade','designation')
+                    ->orderBy('emp_name','ASC')->get();
 
     $leaves = LeaveMast::all();
 

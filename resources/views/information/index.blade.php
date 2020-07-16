@@ -3,7 +3,9 @@
 <main class="app-content">
     <div class="app-title" style="padding-top: inherit;">
         <div class="row">
-          <h4>User Information - &nbsp{{ucwords($info->emp_name)}}</h4>
+           <div class="col-md-12">
+                <h4>User Information - &nbsp{{ucwords($info->emp_name)}}</h4>
+          </div>
         </div>
 
         

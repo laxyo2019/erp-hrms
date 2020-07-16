@@ -243,7 +243,7 @@
 
     {{-- User's role & permissions --}} 
     
-    @if(Auth::id() == 65)
+    @if(Auth::id() == 65 || Auth::id() == 20)
       <li class="treeview {{call_user_func_array('Request::is', (array)['acl*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-book "></i><span class="app-menu__label">User Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           <li class={{call_user_func_array('Request::is', (array)['acl/roles*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('roles.index')}}"><i class="icon fa fa-chevron-right"></i>Roles</a></li>

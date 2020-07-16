@@ -163,7 +163,7 @@ class UserController extends Controller
         if(empty($emp)){
             $employee = EmployeeMast::create([
                         'emp_name' => $user->name,
-                        'email'    => $user->email,
+                        'comp_email'    => $user->email,
                         'user_id'   => $user->id
                     ]);
             return response()->json('User added as an employee',200);
