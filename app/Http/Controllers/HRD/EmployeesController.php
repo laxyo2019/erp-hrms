@@ -35,7 +35,7 @@ use App\Models\Employees\LeaveAllotment;
 
 class EmployeesController extends Controller
 {
- 	public function __construct(){
+  public function __construct(){
     $this->middleware('auth');
   }
 
@@ -78,22 +78,22 @@ class EmployeesController extends Controller
 
   public function save_main(Request $request,$id){
 
-	  $vdata = request()->validate([
-			'name'     => 'required|max:50',
-			'email'    => 'required|email|max:50',
-			'contact'  => 'required|max:10|numeric',
-		],[
-			'contact.required' => 'The contact number field is required.',
-			'contact.max'      => 'The contact number may not be greater than 10 digits.',
-		]);
+    $vdata = request()->validate([
+      'name'     => 'required|max:50',
+      'email'    => 'required|email|max:50',
+      'contact'  => 'required|max:10|numeric',
+    ],[
+      'contact.required' => 'The contact number field is required.',
+      'contact.max'      => 'The contact number may not be greater than 10 digits.',
+    ]);
 
-		$employee = EmployeeMast::findOrfail($id);
-		$employee->emp_name = $vdata['name'];
-		$employee->email    = $vdata['email'];
-		$employee->contact  = $vdata['contact'];
-		$employee->save();
+    $employee = EmployeeMast::findOrfail($id);
+    $employee->emp_name = $vdata['name'];
+    $employee->email    = $vdata['email'];
+    $employee->contact  = $vdata['contact'];
+    $employee->save();
     
-		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'main'])->with('success','Updated successfully.');
+    return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'main'])->with('success','Updated successfully.');
   }
 
   public function save_personal(Request $request, $user_id){
@@ -206,12 +206,12 @@ class EmployeesController extends Controller
 
   public function save_academics(Request $request, $user_id){
 
-	  $vdata = request()->validate([
-			'domain_of_study'    => 'max:90',
-			'board_name'         => 'string|nullable|max:90',
-			'year_of_completion' => 'string|nullable|max:4',
-			'grade_or_percent'   => 'string|nullable|max:10',
-		]);
+    $vdata = request()->validate([
+      'domain_of_study'    => 'max:90',
+      'board_name'         => 'string|nullable|max:90',
+      'year_of_completion' => 'string|nullable|max:4',
+      'grade_or_percent'   => 'string|nullable|max:10',
+    ]);
 
     //Directory structure
 
@@ -229,30 +229,30 @@ class EmployeesController extends Controller
 
     }
 
-		$employee = new EmpAcademic();
-		$employee->user_id           = $user_id;
-		$employee->domain_of_study   = $vdata['domain_of_study'];
-		$employee->name_of_unversity = $vdata['board_name'];
-		$employee->completed_in_year = $vdata['year_of_completion'];
-		$employee->grade_or_pct      = $vdata['grade_or_percent'];
+    $employee = new EmpAcademic();
+    $employee->user_id           = $user_id;
+    $employee->domain_of_study   = $vdata['domain_of_study'];
+    $employee->name_of_unversity = $vdata['board_name'];
+    $employee->completed_in_year = $vdata['year_of_completion'];
+    $employee->grade_or_pct      = $vdata['grade_or_percent'];
     $employee->file_path         = $path;
-		$employee->note              = $request->special_note;
-		$employee->save();
+    $employee->note              = $request->special_note;
+    $employee->save();
 
-		return back()->with('success','Updated successfully.');
+    return back()->with('success','Updated successfully.');
   }
 
   public function save_experience(Request $request,$user_id){
 
-	  $vdata = request()->validate([
-			'company_name' => 'required|max:100',
-			'job_type'     => 'max:50',
-			'designation'  => 'nullable|max:50',
-			'comp_loc'     => 'nullable|max:50',
-			'comp_email'   => 'email|nullable|max:100',
-			'comp_website' => 'nullable|max:100',
-			'monthly_ctc'  => 'nullable|max:11|regex:/^\d{0,6}(\.\d{1,2})?$/'
-		]);
+    $vdata = request()->validate([
+      'company_name' => 'required|max:100',
+      'job_type'     => 'max:50',
+      'designation'  => 'nullable|max:50',
+      'comp_loc'     => 'nullable|max:50',
+      'comp_email'   => 'email|nullable|max:100',
+      'comp_website' => 'nullable|max:100',
+      'monthly_ctc'  => 'nullable|max:11|regex:/^\d{0,6}(\.\d{1,2})?$/'
+    ]);
 
     if($request->hasFile('file_path')){
 
@@ -264,23 +264,23 @@ class EmployeesController extends Controller
       $path = null;
     }
 
-		$experience = new EmpExp();
-		$experience->user_id          = $user_id;
-		$experience->comp_name        = $vdata['company_name'];
-		$experience->job_type         = $vdata['job_type'];
-		$experience->monthly_ctc      = $vdata['monthly_ctc'];
-		$experience->desg             = $vdata['designation'];
-		$experience->comp_loc         = $vdata['comp_loc'];
-		$experience->comp_email       = $vdata['comp_email'];
-		$experience->comp_website     = $vdata['comp_website'];
-		$experience->start_dt         = $request->start_date;
-		$experience->end_dt           = $request->end_date;
+    $experience = new EmpExp();
+    $experience->user_id          = $user_id;
+    $experience->comp_name        = $vdata['company_name'];
+    $experience->job_type         = $vdata['job_type'];
+    $experience->monthly_ctc      = $vdata['monthly_ctc'];
+    $experience->desg             = $vdata['designation'];
+    $experience->comp_loc         = $vdata['comp_loc'];
+    $experience->comp_email       = $vdata['comp_email'];
+    $experience->comp_website     = $vdata['comp_website'];
+    $experience->start_dt         = $request->start_date;
+    $experience->end_dt           = $request->end_date;
     $experience->total_exp      = $request->total_exp;
-		$experience->reason_of_leaving= $request->reason_of_leaving;
+    $experience->reason_of_leaving= $request->reason_of_leaving;
     $experience->file_path        = $path;
-		$experience->save();
+    $experience->save();
 
-		return back()->with('success','Updated successfully.');
+    return back()->with('success','Updated successfully.');
   }  
   
   public function save_documents(Request $request, $user_id)
@@ -295,11 +295,11 @@ class EmployeesController extends Controller
 
     if($request->file('file_path')){
 
-    		$dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
-    		$title    = str_replace(' ', '_', $request->doc_type);
-    		$file_ext = $request->file('file_path')->extension();
-    		$filename = $user_id.'_'.time().'_'.$title.'.'.$file_ext;
-    		$path     = $request->file('file_path')->storeAs($dir, $filename);
+        $dir      = 'hrms_uploads/'.date("Y").'/'.date("F");
+        $title    = str_replace(' ', '_', $request->doc_type);
+        $file_ext = $request->file('file_path')->extension();
+        $filename = $user_id.'_'.time().'_'.$title.'.'.$file_ext;
+        $path     = $request->file('file_path')->storeAs($dir, $filename);
 
     }else{
       $path = null;
@@ -473,8 +473,10 @@ class EmployeesController extends Controller
 
   public function show_page($user_id, $tab)
   {
-  	$meta      = array();
-    $employee  = EmployeeMast::where('user_id', $user_id)->first();
+    $meta      = array();
+    $employee  = EmployeeMast::where('user_id', $user_id)
+                    ->withTrashed()
+                    ->first();
 
     //return $employee;
     $path      = "HRD.employees.details.".$tab;
@@ -483,13 +485,13 @@ class EmployeesController extends Controller
 
     if($tab == 'official'){
 
-    	$meta['emp_types']     = EmpType::where('deleted_at', null)->get();
-    	$meta['emp_statuses']  = EmpStatus::where('deleted_at', null)->get();
+      $meta['emp_types']     = EmpType::where('deleted_at', null)->get();
+      $meta['emp_statuses']  = EmpStatus::where('deleted_at', null)->get();
       $meta['comp_mast']     = CompMast::where('deleted_at', null)->get();
       $meta['dept_mast']     = DeptMast::where('deleted_at', null)->get();
       $meta['grade_mast']    = Grade::all();
       $meta['designation']   = Designation::where('deleted_at', null)->get();
-      $meta['emp_mast']      = EmployeeMast::where('deleted_at', null)->get();
+      $meta['emp_mast']      = EmployeeMast::where('deleted_at', null)->withTrashed()->get();
       $meta['branches']      = CompBranch::with('branch')->get();
 
       
@@ -500,14 +502,17 @@ class EmployeesController extends Controller
     if($tab == 'academics'){
 
       $employee = EmployeeMast::with('academics')
-                ->where('user_id', $user_id)
-                ->first();
+                    ->withTrashed()
+                    ->where('user_id', $user_id)
+                    ->first();
 
     }
 
     if($tab == 'experience'){
 
-    	$employee = EmployeeMast::with('experiences')->where('user_id',$user_id)->first();
+      $employee = EmployeeMast::with('experiences')
+                    ->withTrashed()
+                    ->where('user_id',$user_id)->first();
     }
 
     if($tab == 'documents'){
@@ -515,6 +520,7 @@ class EmployeesController extends Controller
       //$meta['doc_types'] = DocTypeMast::all();
 
       $employee = EmployeeMast::with('documents')
+                    ->withTrashed()
                     ->where('user_id',$user_id)
                     ->first();
     }
@@ -522,6 +528,7 @@ class EmployeesController extends Controller
     if($tab == 'nominee'){
 
       $employee = EmployeeMast::with('nominee')
+                    ->withTrashed()
                     ->where('user_id',$user_id)
                     ->first();
 
@@ -531,6 +538,7 @@ class EmployeesController extends Controller
     if($tab == 'familydetails'){
 
       $employee = EmployeeMast::with('family')
+                    ->withTrashed()
                     ->where('user_id',$user_id)
                     ->first();
 
@@ -551,7 +559,7 @@ class EmployeesController extends Controller
   public function viewDetails($user_id, $view)
   {
     $meta      = array();
-    $employee  = EmployeeMast::where('user_id', $user_id)->first();
+    $employee  = EmployeeMast::withTrashed()->where('user_id', $user_id)->first();
     $path      = "HRD.employees.view-details.".$view;
 
     if($view == 'official'){
@@ -563,32 +571,44 @@ class EmployeesController extends Controller
       $meta['grade_mast']    = Grade::all();
       $meta['designation']   = Designation::where('deleted_at', null)->get();
 
-      $meta      = EmployeeMast::with('company','designation','grade','academics','experiences','documents','department','emptype','empstatus','empgrade','empdesignation','reportto', 'branch')->where('deleted_at', null)->where('user_id',$user_id)->first(); 
-
-      //return $meta;
+      $meta = EmployeeMast::with('company','designation','grade','academics','experiences','documents','department','emptype','empstatus','empgrade','empdesignation','reportto', 'branch')
+                  ->withTrashed()
+                  ->where('deleted_at', null)
+                  ->where('user_id',$user_id)
+                  ->first(); 
     }
 
     if($view == 'academics'){
-      $employee = EmployeeMast::with('academics')->where('user_id', $user_id)->first();
+      $employee = EmployeeMast::with('academics')
+                      ->withTrashed()
+                      ->where('user_id', $user_id)->first();
     }
 
     if($view == 'experience'){
 
-      $employee = EmployeeMast::with('experiences')->where('user_id', $user_id)->first();
+      $employee = EmployeeMast::with('experiences')
+                      ->withTrashed()
+                      ->where('user_id', $user_id)->first();
     }
 
     if($view == 'documents'){
 
-      $employee = EmployeeMast::with('documents')->where('user_id', $user_id)->first();
+      $employee = EmployeeMast::with('documents')
+                      ->withTrashed()
+                      ->where('user_id', $user_id)->first();
      
     }
 
     if($view == 'nominee'){
-       $employee = EmployeeMast::with('nominee')->where('user_id', $user_id)->first();
+       $employee = EmployeeMast::with('nominee')
+                      ->withTrashed()
+                      ->where('user_id', $user_id)->first();
     }
 
     if($view == 'familydetails'){
-      $employee = EmployeeMast::with('family')->where('user_id', $user_id)->first();
+      $employee = EmployeeMast::with('family')
+                      ->withTrashed()
+                      ->where('user_id', $user_id)->first();
     }
 
     return view($path,compact('employee','meta'));
@@ -599,26 +619,26 @@ class EmployeesController extends Controller
   public function edit($id)
   {
     $data['employee']     = EmployeeMast::with('company','designation')->findOrFail($id);
-	  $data['reports_to']   = EmployeeMast::all();
+    $data['reports_to']   = EmployeeMast::all();
     $data['grades']       = Grade::all();
-		$data['designations'] = Designation::all();
+    $data['designations'] = Designation::all();
     
     return view('HRD.employees.edit',compact('data'));
   }
 
   public function update(Request $request, $id)
-  {	
-  	$vdata =  $request->validate([
-			'name'       => 'required|string|max:50',
- 			'emp_code'   => 'nullable|string|max:15',
- 			'emp_gender' => 'nullable',
- 			'emp_dob'    => 'nullable',
- 			'join_dt'    => 'required',
- 			'emp_desg'   => 'nullable',
-			],[
-				'emp_dob.required'  => 'The Date of Birth is requred.',
-				'join_dt.required'  => 'The Joining date is requred.',
-			]);
+  { 
+    $vdata =  $request->validate([
+      'name'       => 'required|string|max:50',
+      'emp_code'   => 'nullable|string|max:15',
+      'emp_gender' => 'nullable',
+      'emp_dob'    => 'nullable',
+      'join_dt'    => 'required',
+      'emp_desg'   => 'nullable',
+      ],[
+        'emp_dob.required'  => 'The Date of Birth is requred.',
+        'join_dt.required'  => 'The Joining date is requred.',
+      ]);
 
     $employee = EmployeeMast::findOrfail($id);
     $employee->emp_name   = $vdata['name']/*." ".$vdata['full_name']*/;
@@ -641,7 +661,7 @@ class EmployeesController extends Controller
 
   public function getForm(Request $request, $type)
   {
-  	$data['employee'] = EmployeeMast::findOrFail($request->emp_id);
+    $data['employee'] = EmployeeMast::findOrFail($request->emp_id);
     return view('HRD.employees.forms.'.$type,$data);
   }
     
@@ -654,9 +674,9 @@ class EmployeesController extends Controller
     /*public function edit($id)
     {
        $data['employee'] = EmployeeMast::with('company','designation')->findOrFail($id);
-  			$data['parent_ids'] = EmployeeMast::where('comp_id',$data['employee']->comp_id)->where('id','!=',$data['employee']->id)->get();
-  			 $data['grades'] = Grade::all();
-  			$data['designations'] = Designation::all();
+        $data['parent_ids'] = EmployeeMast::where('comp_id',$data['employee']->comp_id)->where('id','!=',$data['employee']->id)->get();
+         $data['grades'] = Grade::all();
+        $data['designations'] = Designation::all();
         return view('HRD.employees.edit',$data);
     }*/
 
@@ -668,20 +688,20 @@ class EmployeesController extends Controller
      * @return \Illuminate\Http\Response
      */
     /*public function update(Request $request, $id)
-    {	
-    	$data =  $request->validate([
-    						'name'	=> 'required|string|max:50',
-				   			'emp_code'	=> 'required|string|max:15',
-				   			'emp_gender'	=> 'required',
-				   			'emp_dob'	=> 'required',
-				   			'join_dt'	=> 'required',
-				   			'emp_desg'	=> 'required',
-	    					],[
-	    						'emp_dob.required' => 'The Date of Birth is requred.',
-	    						'join_dt.required' => 'The Joining date is requred.',
-	    						'emp_desg.required' => 'The Designation is requred.',
-	    					]);
-    	 $employee = EmployeeMast::find($id);
+    { 
+      $data =  $request->validate([
+                'name'  => 'required|string|max:50',
+                'emp_code'  => 'required|string|max:15',
+                'emp_gender'  => 'required',
+                'emp_dob' => 'required',
+                'join_dt' => 'required',
+                'emp_desg'  => 'required',
+                ],[
+                  'emp_dob.required' => 'The Date of Birth is requred.',
+                  'join_dt.required' => 'The Joining date is requred.',
+                  'emp_desg.required' => 'The Designation is requred.',
+                ]);
+       $employee = EmployeeMast::find($id);
        $employee->emp_name = trim($data['name']);
        $employee->emp_code = $data['emp_code'];
        $employee->emp_gender = $data['emp_gender'];
@@ -691,12 +711,12 @@ class EmployeesController extends Controller
        $employee->desg_id = $data['emp_desg'];
        $employee->parent_id = $request->parent_id;
        $employee->save();
-	   	return redirect()->route('employees.index')->with('success','Employee details Updated Successfully');
+      return redirect()->route('employees.index')->with('success','Employee details Updated Successfully');
     }
 */
   public function fetch_designation(Request $request){
-  		$designations = Designation::where('comp_id',$request->comp_id)->get();
-  		return $designations;
+      $designations = Designation::where('comp_id',$request->comp_id)->get();
+      return $designations;
 
   }
 
@@ -1212,7 +1232,7 @@ class EmployeesController extends Controller
   {
     $employee = EmployeeMast::where('user_id', $id);
     $employee->delete();
-		$employees = EmployeeMast::all();
+    $employees = EmployeeMast::all();
 
     return view('HRD.employees.index',compact('employees'));
 
