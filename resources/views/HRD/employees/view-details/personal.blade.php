@@ -5,14 +5,15 @@
 @endpush
 @section('content')
 <main class="app-content">
-@include ('HRD/employees/view-tabs')
-<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid grey;">
-	<div class="row mt-2">
-  		<div class="col-md-12">
-    		<div class="tile">
+
+<div style="padding: 1.5rem; " class="tile">
+	@include ('HRD/employees/view-tabs')<br>
+	{{-- <div class="row mt-2"> --}}
+  		{{-- <div class="col-md-12"> --}}
+    		{{-- <div class="tile"> --}}
 				<div class="row">
 	                <div class="col">
-	                  	<h4 class="page-header" style="color: grey"><i class="fa fa-globe"></i> BASIC INFORMATION</h4>
+	                  	<span style="color: grey; font-size: 20px; font-weight: bold"><i style="font-size: 15px;" class="fa fa-globe"></i> BASIC INFORMATION</span>
 	                </div>
            		</div><hr>
 	            <div class="row col-12">
@@ -45,7 +46,7 @@
                 </div>
                 <div class="row mb-6">
 	                <div class="col">
-	                  	<h4 class="page-header" style="color: grey"><i class="fa fa-globe"></i> CONTACT INFORMATION</h4>
+	                  	<span style="color: grey; font-size: 20px; font-weight: bold"><i style="font-size: 15px;" class="fa fa-globe"></i> CONTACT INFORMATION</span>
 	                </div>
            		</div><hr>
 	           		<div class="row col-12">
@@ -78,10 +79,10 @@
 						</div>			
                     
                  </div>
-	            </div>
+	            {{-- </div> --}}
 
-          </div>
-        </div>
+          {{-- </div> --}}
+        {{-- </div> --}}
       </div>
     </main>
 <script type="text/javascript">

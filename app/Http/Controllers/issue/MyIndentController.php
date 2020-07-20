@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\issue;
 
+use Auth;
 use Illuminate\Http\Request;
-use App\Models\Employees\Hod;
-use App\Models\Master\DeptMast;
+use App\Http\Controllers\Controller;
 use App\Models\Employees\EmployeeMast;
 
-class HodController extends Controller
+class MyIndentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +16,9 @@ class HodController extends Controller
      */
     public function index()
     {
-        $hod        = Hod::with(['employee', 'department'])
-                        ->get();
-        $depart     = DeptMast::all();
-        $employees  = EmployeeMast::all();
+        $emp = EmployeeMast::where('user_id', Auth::id())->first();
 
-        return view('hod.index', compact('hod','depart', 'employees'));
+        return view('issue.employees.IndentAcceptance.index', compact('emp'));
     }
 
     /**
@@ -31,9 +28,7 @@ class HodController extends Controller
      */
     public function create()
     {
-        // $depart     = DeptMast::all();
-        // $employees  = EmployeeMast::all();
-        // return view('hod.create', compact('depart', 'employees'));
+        //
     }
 
     /**
@@ -44,17 +39,7 @@ class HodController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'department'=> 'required|not_in:""',
-        ]);
-
-        foreach($request->emp as $emp){
-            Hod::create([
-                'depart_id' => $request->department,
-                'user_id'   => $emp]);
-        }
-
-        return redirect()->route('hod.index')->with('success', 'Request has been submitted.');
+        //
     }
 
     /**
@@ -65,7 +50,7 @@ class HodController extends Controller
      */
     public function show($id)
     {
-        
+        //
     }
 
     /**
@@ -99,8 +84,6 @@ class HodController extends Controller
      */
     public function destroy($id)
     {
-        Hod::where('id', $id)->delete();
-
-        return back()->with('success', 'Record has been deleted.');
+        //
     }
 }

@@ -1,62 +1,42 @@
 @extends('layouts.master')
 @section('content')
 <main class="app-content">
-    <div class="app-title" style="padding-top: inherit;">
-        <div class="row">
-           <div class="col-md-12">
-                <h4>User Information - &nbsp{{ucwords($info->emp_name)}}</h4>
-          </div>
-        </div>
-
-        
-        <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-            <li class="breadcrumb-item"><a href="#">Dashboard </a> </li>
-        </ul>
-    </div>
+    <div style="padding: 1.5rem; border: 1px solid white;background: white">
+        <h4>User Information - &nbsp{{ucwords($info->emp_name)}}</h4>
     <div class="row">
         <div class="col-md-12">
-            <div class="tile">
-                <section class="invoice">
-                    <div class="container-fluid">
-                        <div class="post-media">  
-                            <div class="row mb-4">
-                                <div class="col-md">
-                                    <form method="GET" action="{{route('information.edit', $info->user_id)}}">
-                                        <input type="submit" class="btn btn-info btn-sm " value="Update Info">
-                                    </form>
-                                </div>
-                                <p class="text-muted"><small>{{!empty($info['department']) ? ucwords($info['department']->name) : ''}}</small></p>
-                            </div>
-                        </div>
-                        <div id="form-area">
-                            <div class="row col-12">
-                                <div class="col-4">
-                                    <div class="form-group">
-                                        <label for=""><b>Full Name - </b></label>
-                                        <td>{{ucwords($info->emp_name)}}</td>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class=" form-group">
-                                        <label for=""><b>Date of Birth - </b></label>
-                                        <td>{{empty($info->emp_dob) ? '' : $info->emp_dob}}</td>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class=" form-group">
-                                        <label for=""><b>Gender - </b></label>
-                                        <td>{{empty($info->emp_gender) ? '' : $info->emp_gender}}</td>
-                                    </div> 
-                                </div>
-                            </div>
+            <div class="row mb-4">
+                <div class="col-md">
+                    <form method="GET" action="{{route('information.edit', $info->user_id)}}">
+                        <input type="submit" class="btn btn-info btn-sm " value="Update Info">
+                    </form>
+                </div>
+                <p class="text-muted"><small>{{!empty($info['department']) ? ucwords($info['department']->name) : ''}}</small></p>
+            </div>
+            <div id="form-area">
+                <div class="row col-12">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for=""><b>Full Name - </b></label>
+                            <td>{{ucwords($info->emp_name)}}</td>
                         </div>
                     </div>
-                </section>
+                    <div class="col-4">
+                        <div class=" form-group">
+                            <label for=""><b>Date of Birth - </b></label>
+                            <td>{{empty($info->emp_dob) ? '' : $info->emp_dob}}</td>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class=" form-group">
+                            <label for=""><b>Gender - </b></label>
+                            <td>{{empty($info->emp_gender) ? '' : $info->emp_gender}}</td>
+                        </div> 
+                    </div>
+                </div>
             </div>
-        </div>
         <div class="col-md-12">
-            <div class="tile">
+            {{-- <div class="tile"> --}}
                 <section class="invoice">
                     <div class="container-fluid">
                         <div class="post-media">  
@@ -90,8 +70,9 @@
                         </div>
                     </div>
                 </section>
-            </div>
+            {{-- </div> --}}
         </div>
     </div>
+</div>
 </main>
 @endsection

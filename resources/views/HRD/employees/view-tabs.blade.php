@@ -1,6 +1,5 @@
 
 <ul class="nav nav-pills nav-justified">
-	
 	<li class="nav-item">
 		<a class="nav-link personal" href="{{route('employee.view-details',['id'=>$employee->user_id,'view'=>'personal'])}}">Personal</a>
 	</li>
@@ -20,7 +19,7 @@
 		<a class="nav-link bankdetails" href="{{route('employee.view-details',['id'=>$employee->user_id,'view'=>'bankdetails'])}}">Bank Details</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link bankdetails" href="{{route('employee.view-details',['id'=>$employee->user_id,'view'=>'familydetails'])}}">Family Details</a>
+		<a class="nav-link familydetails" href="{{route('employee.view-details',['id'=>$employee->user_id,'view'=>'familydetails'])}}">Family Details</a>
 	</li>
 	<li class="nav-item">
 		<a class="nav-link documents" href="{{route('employee.view-details',['id'=>$employee->user_id,'view'=>'documents'])}}">Documents</a>

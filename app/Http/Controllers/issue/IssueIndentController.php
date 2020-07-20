@@ -16,7 +16,7 @@ class IssueIndentController extends Controller
      */
     public function index()
     {
-        return view('issue.index');
+        return view('issue.hr.IssueIndent.index');
     }
 
     /**
@@ -26,9 +26,11 @@ class IssueIndentController extends Controller
      */
     public function create()
     {
-        $employees = EmployeeMast::orderBy('emp_name', 'ASC')->get();
+        $employees = EmployeeMast::with(['department'])->get();
 
-        return view('issue.create', compact('employees'));
+       //return $employees;
+
+        return view('issue.hr.IssueIndent.create', compact('employees'));
     }
 
     /**
