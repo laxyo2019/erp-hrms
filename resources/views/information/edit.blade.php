@@ -4,19 +4,15 @@
 @endpush
 @section('content')
 <main class="app-content">
-	<div class="row">
-		<div class="col-md-12 col-xl-12">
-			<h1 style="font-size: 24px">Update Basic information
-			<a href="{{ route('information.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></h1>
-		</div>
-	</div>
-	<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid white;background: white">
+	<div style="padding: 1.5rem; border: 1px solid white;background: white">
+		<h1 style="font-size: 24px">Update Basic information
+			<a href="{{ route('information.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Back</a></h1>
 		@if($message = Session::get('success'))
 			<div class="alert alert-success alert-block">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				{{$message}}
 			</div>
-		@endif 
+		@endif
 		{{-- <div><h5>Write role name</h5></div><hr> --}}
 		<form action="{{route('information.update', $info->user_id)}}" method="POST" >
 			@csrf

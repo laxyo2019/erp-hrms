@@ -6,11 +6,9 @@
 <main class="app-content">
 	
 	<div style=" padding: 1.5rem; border: 1px solid white;background: white">
-		{{-- <div class="col-md-12 col-xl-12"> --}}
 			<h1 style="font-size: 24px">Loan History
 				<a href="{{ route('loan-request.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
 		</h1>
-		{{-- </div> --}}
 		@if($message = Session::get('success'))
 			<div class="alert alert-success alert-block">
 				<button type="button" class="close" data-dismiss="alert">×</button>

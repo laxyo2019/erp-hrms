@@ -5,14 +5,15 @@
 @endpush
 @section('content')
 <main class="app-content">
-@include ('HRD/employees/view-tabs')
-<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid grey;">
-<div class="row mt-2">
-  	<div class="col-md-12">
-    	<div class="tile">
+
+<div style="padding: 1.5rem;" class="tile">
+	@include ('HRD/employees/view-tabs')<br>
+{{-- <div class="row mt-2"> --}}
+  	{{-- <div class="col-md-12"> --}}
+    	{{-- <div class="tile"> --}}
 			<div class="container-fluid">
 				<div class="row mb-3">
-	                <span style="color: grey; font-size: 20px; font-weight: bold"><i class="fa fa-globe"></i> NECESSARY DOCUMENTS</span>
+	                <span style="color: grey; font-size: 20px; font-weight: bold"><i style="font-size: 15px;" class="fa fa-globe"></i> NECESSARY DOCUMENTS</span>
            		</div><hr>
 				<div class="row col-12">
 					<div class="col-6 form-group">
@@ -54,19 +55,15 @@
 						<label for=""><b>Employee Status : </b></label>
 					{{empty($meta['empstatus']->name)?'':strtoupper($meta['empstatus']->name)}}
 					</div>
-					
 					@if(!empty($employee->file_path))
                 	<div class="col-6 form-group">
 						<label for=""><b> Passport : </b></label>
 						<td><a href="{{route('employees.download', ['db_table' => 'emp_mast', $employee->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
 					</div>
 					@endif
-					
                 </div>
                 <div class="row mb-4">
-	                
-	                  	<span style="color: grey; font-size: 20px; font-weight: bold"><i class="fa fa-globe"></i> NECESSARY DOCUMENTS</span>
-	                
+	            	<span style="color: grey; font-size: 20px; font-weight: bold"><i style="font-size: 15px;" class="fa fa-globe"></i> NECESSARY DOCUMENTS</span>
            		</div><hr>
                 <div class="row col-12">
                 	<div class="col-6 form-group">
@@ -89,13 +86,9 @@
 						<label for=""><b>Passport ID : </b></label>
 					{{empty($meta->passport_id) ? '' : $meta->passport_id}}
 					</div>
-					
-                 	
                 </div>
                 <div class="row mb-4">
-	               
-	                  	<span style="color: grey; font-size: 20px; font-weight: bold"><i class="fa fa-globe"></i> EMPLOYEE PROVIDENT FUND INFORMATION</span>
-	                
+	            	<span style="color: grey; font-size: 20px; font-weight: bold"><i style="font-size: 15px;" class="fa fa-globe"></i> EMPLOYEE PROVIDENT FUND INFORMATION</span>
 	            </div><hr>
                 <div class="row col-12">
                 	<div class="col-6 form-group">
@@ -122,10 +115,10 @@
 						<label for=""><b>New ESI Number: </b></label>
 						{{empty($meta->curr_esi)?'':strtoupper($meta->curr_esi)}}
 					</div>
-                </div>
-          </div>
+                {{-- </div> --}}
+          {{-- </div> --}}
        </div>
-   </div>
+   {{-- </div> --}}
 </main>
 <script type="text/javascript">
 	$(document).ready(function(){

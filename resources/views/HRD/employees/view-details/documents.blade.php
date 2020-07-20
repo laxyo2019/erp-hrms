@@ -4,11 +4,10 @@
 @endpush
 @section('content')
 <main class="app-content">
-@include ('HRD/employees/view-tabs')
-  	<div class="row" style="margin-top: 1rem; padding: 1.5rem;">
+  	<div class="tile" style="padding: 1.5rem;">
+      @include ('HRD/employees/view-tabs')<br>
       <div class="col-md-12 col-xl-12">
         <div class="card body">
-          
           <div class="card-body table-responsive">
             <table class="table table-striped table-hover">
               <thead>

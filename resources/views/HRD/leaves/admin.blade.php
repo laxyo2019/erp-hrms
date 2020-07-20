@@ -6,7 +6,7 @@
 				<div class="card">
 					<div class="col-md-12 col-xl-12" style="margin-top: 15px">
 						<h1 style="font-size: 24px">LEAVE REQUESTS
-						<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
+						<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Back</a></h1>
 					</div>
 					<div class="card-body table-responsive">
 						@if($message = Session::get('success'))

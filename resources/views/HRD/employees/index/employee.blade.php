@@ -47,7 +47,7 @@
 			@endability
 
 			@ability('hrms_admin', 'can-activate-employees')
-			<td >
+			<td>
 	<div class="row">
 	@if($employee->status == 0)
       	<div  class="col" align="center">
@@ -69,21 +69,21 @@
 	</div>
 		</td>
 		@endability
-		@ability('hrms_admin', 'hrms-view|hrms-edit|hrms-delete')
+		{{-- @ability('hrms_admin|hrms_hr', 'hrms-view|hrms-edit|hrms-delete') --}}
 	<td class='d-flex' style="border-bottom:none">
-		@ability('hrms_admin', 'hrms-view')
+		{{-- @ability('hrms_admin|hrms_hr', 'hrms-view') --}}
 		<span>
 			<a href="{{route('employee.view-details',['id'=>$employee->user_id,'view'=>'personal'])}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>
 		</span>
-		@endability
+		{{-- @endability --}}
 
-		@ability('hrms_admin', 'hrms-edit')
+		{{-- @ability('hrms_admin|hrms_hr', 'hrms-edit') --}}
 		<span class="ml-2">
 		<a href="
 		{{route('employee.show_page',['id'=>$employee->user_id,'tab'=>'personal'])}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 		</span>
-		@endability
-		@ability('hrms_admin', 'hrms-delete')
+		{{-- @endability --}}
+		{{-- @ability('hrms_admin|hrms_hr', 'hrms-delete') --}}
 		<span class="ml-2">
 		<form action="
 		{{route('employees.destroy', ['id' => $employee->user_id])}}" method="POST" id="delform_{{ $employee->user_id}}">
@@ -92,9 +92,9 @@
 			<a href="javascript:$('#delform_{{$employee->user_id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>			
 		</form>
 		</span>
-		@endability
+		{{-- @endability --}}
 	</td>
-	@endability
+	{{-- @endability --}}
 		</tr>
 	@endforeach
 	</tbody>

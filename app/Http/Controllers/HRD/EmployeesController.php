@@ -36,6 +36,7 @@ use App\Models\Employees\LeaveAllotment;
 class EmployeesController extends Controller
 {
   public function __construct(){
+
     $this->middleware('auth');
   }
 
@@ -68,7 +69,6 @@ class EmployeesController extends Controller
                     ->with('company','grade','designation')
                     ->orderBy('emp_name','ASC')->get();
       }
-           //->whereRaw('price > IF(state = "TX", ?, 100)', [200])
 
     $leaves = LeaveMast::all();
 

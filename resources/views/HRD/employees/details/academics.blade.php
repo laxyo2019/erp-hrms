@@ -2,12 +2,12 @@
 @section('content')
 <main class="app-content ">
 	<div style="padding: 1.5rem;" class="tile">
-		@include ('HRD/employees/tabs')<hr>
+		@include ('HRD/employees/tabs')<br>
 		@if($message = Session::get('success'))
-		<div class="alert alert-success alert-block">
-		<button type="button" class="close" data-dismiss="alert">×</button>
-			{{$message}}
-		</div>
+			<div class="alert alert-success alert-block">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+				{{$message}}
+			</div>
 		@endif
 	<form action="{{route('employees.academics', ['user_id'=>$employee->user_id])}}" method="POST" enctype="multipart/form-data">
 		@csrf

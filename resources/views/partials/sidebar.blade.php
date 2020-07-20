@@ -13,7 +13,6 @@
         <a class="app-menu__item {{request()->path() == '/' ? 'active' : ''}} " href="{{url('/')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a>
       </li>
     @endrole
-
     <li>
       <a class="app-menu__item {{request()->segment(1) == 'information' ? 'active' : ''}} " href="{{route('information.index')}}">
         <i class="app-menu__icon fa fa-address-book-o"></i><span class="app-menu__label">Profile</span>
@@ -121,15 +120,26 @@
 
     <li><a class="app-menu__item {{Request::segment(1) == 'no-dues-request.index' ? 'active' : ''}}" href="{{route('no-dues-request.index')}}"><i class="app-menu__icon fa fa-money"></i><span class="app-menu__label">No Dues Request </span></a></li>
     
-    {{-- Separation Tab --}}
 
-    <li class="treeview {{call_user_func_array('Request::is', (array)['issue*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-table "></i><span class="app-menu__label">Issue</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-        <ul class="treeview-menu">
-          <li class={{call_user_func_array('Request::is', (array)['type*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('issue-indent.index')}}"><i class="icon fa fa-chevron-right"></i>Issue Indent</a></li>
-          {{-- <li class={{call_user_func_array('Request::is', (array)['leave-management/allotment*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('allotments.index')}}"><i class="icon fa fa-chevron-right"></i>Leave Allotment</a></li>
-          <li class={{call_user_func_array('Request::is', (array)['leave-management/holidays*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('holidays.index')}}"><i class="icon fa fa-chevron-right"></i>Holidays</a></li> --}}
-        </ul>
-      </li>
+    {{-- For Employees --}}
+    <li class="treeview {{call_user_func_array('Request::is', (array)['issue*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-table "></i><span class="app-menu__label">Indent & No Dues</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+      <ul class="treeview-menu">
+          <li class={{call_user_func_array('Request::is', (array)['my-indent*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('my-indent.index')}}"><i class="icon fa fa-chevron-right"></i>My Indent</a></li>
+          <li class={{call_user_func_array('Request::is', (array)['no-dues-request*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('no-dues-request.index')}}"><i class="icon fa fa-chevron-right"></i>No Dues Request</a></li>
+      </ul>
+    </li>
+    
+      {{-- For HR --}}
+
+    <li class="treeview {{call_user_func_array('Request::is', (array)['issue*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-table "></i><span class="app-menu__label">Indent & No Dues</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+      <ul class="treeview-menu">
+          <li class={{call_user_func_array('Request::is', (array)['issue-indent*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('issue-indent.index')}}"><i class="icon fa fa-chevron-right"></i>Issue Indent</a></li>
+          <li class={{call_user_func_array('Request::is', (array)['leave-management/allotment*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('allotments.index')}}"><i class="icon fa fa-chevron-right"></i>No Dues Listing</a></li>
+          {{-- <li class={{call_user_func_array('Request::is', (array)['leave-management/holidays*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('holidays.index')}}"><i class="icon fa fa-chevron-right"></i>Holidays</a></li> --}}
+      </ul>
+    </li>
+
+
 
     @permission('hrms-manage-staff-separation')
       <li><a class="app-menu__item {{Request::segment(1) == 'separation' ? 'active' : ''}}" href="{{route('separation-hr.index')}}"><i class="app-menu__icon fa fa-chevron-right"></i><span class="app-menu__label">Separation (HR)</span></a></li>
@@ -202,7 +212,7 @@
       <ul class="treeview-menu">
         <li class={{call_user_func_array('Request::is', (array)['hrpayroll/chapter6-exemption*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('chapter6-exemption.index')}}"><i class="icon fa fa-chevron-right"></i>Chapter 6 Exemptions</a></li>
         <li class={{call_user_func_array('Request::is', (array)['hrpayroll/welfare*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('welfare.index')}}"><i class="icon fa fa-chevron-right"></i>Welfare</a></li>
-        <li class={{call_user_func_array('Request::is', (array)['hrpayroll/allowance*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('allowance.index')}}"><i class="icon fa fachevron-right"></i>Allowance</a></li>
+        <li class={{call_user_func_array('Request::is', (array)['hrpayroll/allowance*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('allowance.index')}}"><i class="icon fa fa-chevron-right"></i>Allowance</a></li>
         <li class={{call_user_func_array('Request::is', (array)['hrpayroll/chapt6-head*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('chapt6-head.index')}}"><i class="icon fa fa-chevron-right"></i>Chapter 6 Head</a></li>
         
       </ul>

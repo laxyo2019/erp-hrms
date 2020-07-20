@@ -23,21 +23,21 @@ class UserController extends Controller
 
     public function index(){
 
-    	$users = User::orderBy('name','ASC')->paginate(100);
+        $users = User::orderBy('name','ASC')->paginate(100);
 
-    	return view('acl.users.index', compact('users'));
+        return view('acl.users.index', compact('users'));
     }
 
     public function create(Request $request){
 
-    	return view('acl.users.create');
+        return view('acl.users.create');
     }
 
     public function edit( $id){
-    	
-    	$user          = User::findOrFail($id);
+        
+        $user          = User::findOrFail($id);
         $employee      = EmployeeMast::where('user_id', $id)->first();
-    	$roles         = Role::all();
+        $roles         = Role::all();
         $permissions   = Permission::all();
 
         $roles_given = [];
@@ -53,9 +53,7 @@ class UserController extends Controller
              $permissions_given[] = $data->id;
         }
 
-
-
-    	return view('acl.users.edit', compact('user', 'roles', 'roles_given', 'permissions', 'permissions_given', 'employee'));
+        return view('acl.users.edit', compact('user', 'roles', 'roles_given', 'permissions', 'permissions_given', 'employee'));
     }
 
     public function update(Request $request, $id){
@@ -67,7 +65,6 @@ class UserController extends Controller
         $user       = User::find($id);
         $user->name = $request->name;
         $user->save();
-
 
         //Save roles
         // $roles =  $request->roles;
@@ -82,7 +79,6 @@ class UserController extends Controller
 
         return back()->with('success', 'User information updated.');
     }
-
 
     public function active(Request $request, $id){
 
@@ -105,12 +101,9 @@ class UserController extends Controller
 
             $leave_dt = $employee->join_dt !=null ?  $date  : null ;
 
-           #Active
-
             $deleted_at = null;
            
         }else{
-         // return $rejoin_date;
 
             $join_dt = $employee->join_dt;
             $releave_date = $employee->leave_dt !=null ? $date : null;
@@ -121,8 +114,10 @@ class UserController extends Controller
 
             #DeActivate
             $deleted_at = $date;
+
         }
         // return $deleted_at;
+
 
         EmployeeMast::withTrashed('deleted_at')->where('user_id', $id)
                 ->update([
@@ -143,7 +138,7 @@ class UserController extends Controller
 
         return back()->with('success', 'Employee has been '.$status);
     }
-
+}
     //Add as an employee
     
     public function store(Request $request){

@@ -10,7 +10,7 @@ class Hod extends Model
     protected $guarded = [];
 
     public function employee(){
-    	return $this->belongsTo('App\Models\Employees\EmployeeMast', 'user_id', 'user_id');
+    	return $this->belongsTo('App\Models\Employees\EmployeeMast', 'user_id', 'user_id')->withTrashed();
     }
 
     public function department(){

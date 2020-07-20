@@ -4,19 +4,17 @@
 @endpush
 @section('content')
 <main class="app-content">
-@include ('HRD/employees/view-tabs')
-<div style="margin-top: 1.5rem; padding: 1.5rem; " class="tile">
-<div class="row mt-2 ">
-  	<div class="col-md-12">
+	<div style="padding: 1.5rem; " class="tile">
+		@include ('HRD/employees/view-tabs')<br>
 		<div class="container-fluid">
 			@if(!empty($employee->experiences))
 				@php $count = 0;@endphp
 				@foreach($employee->experiences as $exp)
 				<div class="row mb-2">
-	                <span style="color: grey; font-size: 20px; font-weight: bold"><i class="fa fa-globe"></i> Company - {{++$count}}</span>
-           		</div><hr>
+	                <span style="color: grey; font-size: 20px; font-weight: bold"><i style="font-size: 15px;" class="fa fa-globe"></i> Company - {{++$count}}</span>
+	       		</div><hr>
 				<div class="row col-12">
-                	<div class="col-6 form-group">
+	            	<div class="col-6 form-group">
 						<b>Company Name : </b>
 						{{strtoupper($exp->comp_name)}}
 					</div>
@@ -69,12 +67,10 @@
 						{{$exp->reason_of_leaving}}
 					</div>
 				</div>
-    			@endforeach
-			@endif			
+				@endforeach
+			@endif
 		</div>
-   	</div>
-   </div>
-</div>
+	</div>
 </main>
 <script>
 $(document).ready(function(){

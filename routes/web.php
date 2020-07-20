@@ -176,15 +176,18 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr|hrms_subadmin']], functi
 
 });
 
-
-#Employee No Dues -------------------
-
-//Route::resource('no-dues-request', '')
-
 #------------------------------------
 
-##### ISSUE #####
+##### ISSUE Indent & No Dues#####
 Route::resource('issue-indent', 'issue\IssueIndentController');
+
+Route::resource('issue/my-indent', 'issue\MyIndentController');
+
+
+######## No-dues ########
+Route::resource('issue/no-dues-request', 'nodues\NoDuesController');
+Route::resource('no-dues-listing', 'nodues\NoDuesListingController');
+Route::post('no-dues/department-head/show', 'nodues\NoDuesListingController@show')->name('hod.show');
 
 #  Staff \ Employees Separation -------------
 	
@@ -214,11 +217,7 @@ Route::resource('staff-settlement', 'separation\StaffSettlementController');
 Route::resource('/loan-request', 'loan\LoanRequestController');
 Route::post('/loan-request/show-type', 'loan\LoanRequestController@ShowType');
 
-######## No-dues ########
-Route::resource('no-dues-request', 'nodues\NoDuesController');
-Route::resource('no-dues-listing', 'nodues\NoDuesListingController');
-//Route::get('no-dues/department-head', 'nodues\NoDuesController@indexHod');
-Route::post('no-dues/department-head/show', 'nodues\NoDuesListingController@show')->name('hod.show');
+
 
 Route::resource('hod', 'HodController');
 
