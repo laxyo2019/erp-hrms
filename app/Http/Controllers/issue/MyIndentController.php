@@ -4,8 +4,11 @@ namespace App\Http\Controllers\issue;
 
 use Auth;
 use Illuminate\Http\Request;
+use App\Models\issue\MyIndent;
+use App\Models\issue\IssueIndent;
 use App\Http\Controllers\Controller;
 use App\Models\Employees\EmployeeMast;
+
 
 class MyIndentController extends Controller
 {
@@ -18,7 +21,9 @@ class MyIndentController extends Controller
     {
         $emp = EmployeeMast::where('user_id', Auth::id())->first();
 
-        return view('issue.employees.IndentAcceptance.index', compact('emp'));
+        $indent = IssueIndent::where('user_id', Auth::id())->get();
+
+        return view('issue.employees.IndentAcceptance.index', compact('emp', 'indent'));
     }
 
     /**
@@ -39,7 +44,16 @@ class MyIndentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'description' => 'required'
+        ]);
+
+        $req = MyIndent::create([
+                    'user_id'       => Auth::id(),
+                    'description'   => $request->description
+                ]);
+
+        return redirect()->route('my-indent.index')->with('success', 'Request has been submitted.');
     }
 
     /**
@@ -48,9 +62,28 @@ class MyIndentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    /*public function show($user_id)
     {
-        //
+        $myrequest = MyIndent::where('user_id', $user_id)->get();
+
+        return view('issue.employees.IndentAcceptance.show', compact('myrequest'));
+    }*/
+
+    
+    public function showTab(Request $request, $btnId)
+    {
+        
+        if($btnId == 'myIndentList'){
+
+            return view('issue.employees.IndentAcceptance.myindent');
+
+        }else{
+
+            $myrequest = MyIndent::where('user_id', $request->user_id)->get();
+
+            return view('issue.employees.IndentAcceptance.show', compact('myrequest'));
+
+        }
     }
 
     /**
@@ -73,7 +106,12 @@ class MyIndentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        IssueIndent::where('id', $id)
+            ->update([
+                'user_action'   => 1,
+                'received_date' => $request->received_date
+            ]);
     }
 
     /**
@@ -84,6 +122,7 @@ class MyIndentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        MyIndent::where('id', $id)->delete();
+
     }
 }

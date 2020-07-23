@@ -238,7 +238,7 @@
 									    </div>
 									</div>
 										
-								@if($leaveapply->teamlead_approval == 0)
+								@if($leaveapply->teamlead_approval == 0 || $leaveapply->teamlead_approval == 4)
 									{{-- <div class="ml-2 ">
 										<form action="{{url('employee/leaves/'.$leaveapply->id)}}" method="POST" id="delform_{{ $leaveapply->id}}">
 

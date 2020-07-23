@@ -13,7 +13,7 @@
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('login/{username}/{pass}', 'LoginController@login');
 Route::post('/logout', 'LoginController@logout')->name('logout');
-//Auth::routes(['register' => false]);
+Auth::routes(['register' => false]);
 
 
 Route::resource('/information', 'InformationController');
@@ -182,6 +182,8 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr|hrms_subadmin']], functi
 Route::resource('issue-indent', 'issue\IssueIndentController');
 
 Route::resource('issue/my-indent', 'issue\MyIndentController');
+
+Route::post('issue/my-indent/tab/{tab}', 'issue\MyIndentController@showTab');
 
 
 ######## No-dues ########

@@ -5,8 +5,8 @@
 @section('content')
 <main class="app-content">
 	<div style=" padding: 1.5rem; border: 1px solid white;background: white">
-			<h1 style="font-size: 24px">Generate No Dues Request
-				<a href="{{ route('no-dues-request.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Back</a>
+		<h1 style="font-size: 24px">Generate Issue Indent
+			<a href="{{ route('issue-indent.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Back</a>
 		</h1><hr>
 		<div>
 			@if($message = Session::get('success'))
@@ -16,23 +16,19 @@
               </div>
             @endif
 	    </div>
-		{{-- @if($request == null ) --}}
-		<form action="{{route('no-dues-request.store')}}" method="POST" >
+		<form action="{{route('issue-indent.store')}}" method="POST" >
 			@csrf
-		{{-- @endif --}}
-			<h5>Employee Detail</h5><hr>
-			<div class="row">
+			<h5>Employee Detail</h5><br>
+			<div class="row col-12">
 				<div class="col-6 form-group">
 					<label for="">Employee Name</label>
-					<select name="employees" class="custom-select form-control select2" id="select2">
-
+					<select name="employees" class="form-control" id="select2">
 						<option value=""></option>
 						@foreach($employees as $index)
-							<option data-departid="{{$index->dept_id == null ? '' : $index->dept_id }}" data-depart="{{$index['department'] == null ? '' : $index['department']->name }}" value="{{$index->user_id}}">{{strtoupper($index->emp_name)}}</option>
+							<option data-id="{{$index->dept_id == null ? '' : $index->dept_id }}" value="{{$index->user_id}}">{{strtoupper($index->emp_code)}} : {{strtoupper($index->emp_name)}}</option>
 						@endforeach
 					</select>
 				</div>
-
 				<div class="col-6 form-group">
 					<label for="emp_code">Employee Code</label>
 					<input type="text" class="form-control" name="emp_code" id="emp_code" value="{{old('emp_code')}}" readonly="" >
@@ -42,77 +38,72 @@
 						</span>
 					@enderror
 				</div>
-				<div class="col-6 form-group">
-					<label for="emp_code">Department</label>
-					<input type="text" class="form-control" name="department" value="" readonly="" id="department">
-					@error('emp_code')
-						<span class="text-danger" role="alert">
-							<strong>* {{ $message }}</strong>
-						</span>
-					@enderror
-					<input type="hidden" name="emp_depart_id" value="">
-				</div>
-				<div class="col-6 form-group">
-					<label for="department_head">Department's Head</label>
-					<input type="text" class="form-control" name="department_head" value="{{-- {{old('department_head') ?? (!empty($depart_hod) ? $depart_hod->emp_name : '')}} --}} " readonly="" >
-
-					@error('department_head')
-						<span class="text-danger" role="alert">
-							<strong>* {{ $message }}</strong>
-						</span>
-					@enderror
-				</div>
 			</div>
 			<div class="row">
-				<div class="col-6 form-group ">
-					<label for="">Date of Joinning</label>
-					<input type="text" class="form-control datepicker" name="date_join" value="{{-- {{old('date_join') ?? (!empty($request) ? $request->date_join : '') }} --}}" id="date_join" autocomplete="off">
-					@error('date_join')
-						<span class="text-danger" role="alert">
-							<strong>* {{ $message }}</strong>
-						</span>
-					@enderror
-				</div>	
-				<div class="col-6 form-group ">
-					<label for="">Date of Leaving</label>
-					<input type="text" name="date_leave" class="form-control datepicker" autocomplete="off" value="{{-- {{old('date_leave') ?? (!empty($request) ? $request->date_leave : '')}} --}}">
-					@error('date_leave')
-		                  <span class="text-danger" role="alert">
-		                      <strong>{{ $message }}</strong>
-		                  </span>
-		              @enderror
-				</div>
-				<div class="col-12 form-group">
-					<label for="assets_description">Name of the Assets/Articles 
-						@error('assets_description')
-				          	<span style="color: red">
-								| {{ $message }}
-							</span>
-				      	@enderror</label>
-					<textarea  class="form-control" id="assets_description" name="assets_description" >{{-- {{old('assets_description') ?? (!empty($request) ? $request->assets_description : '') }} --}}</textarea>
+				<div class="col-6"><h5>Item Detail </h5></div>
+				<div class="col-6">
+					<button class="btn-sm btn-primary rounded-sm" style="font-size:18px;float: right;" id="addMore" title="Add More Person"><i class="fa fa-plus"></i></button>
 				</div>
 			</div>
-
-			{{-- @if($request == null ) --}}
-				<div class="col-12 form-group text-center">
-					<button class="btn btn-info btn-sm" style="width: 20%">SAVE</button>
+			{{-- <div> Item - 1</div> --}}
+			<hr>
+			<div id="addRow">
+			<div class="row col-12">
+				<div class="col-3 form-group">
+					<label for="serial">Serial no.</label>
+					<input type="text" class="form-control" name="serial[]" id="emp_code" value="{{old('emp_code')}}" >
 				</div>
-			{{-- @endif --}}
-			</div>		
+				<div class="col-3 form-group">
+					<label for="name">Name</label>
+					<input type="text" name="name[]" class="form-control" >
+				</div>
+				<div class="col-3 form-group">
+					<label for="model">Model</label>
+					<input type="text" name="model[]" class="form-control">
+				</div>
+				<div class="col-3 form-group">
+					<label for="color">Color</label>
+					<input type="text" name="color[]" class="form-control">
+				</div>
+				<div class="col-3 form-group">
+					<label for="given_date">Issue Date</label>
+					<input type="text" name="given_date[]" class="form-control datepicker" autocomplete="off">
+				</div>
+				<div class="col-3 form-group">
+					<label for="quantity">Quantity</label>
+					<input type="number" min="1" name="quantity[]" class="form-control">
+				</div>
+				{{-- <div class="col-3 form-group">
+					<label for="received_date">Received Date</label>
+					<input type="text" name="received_date[]" class="form-control">
+				</div> --}}
 			</div>
-			<br>
-		{{-- @if($request->hr_approval != 0 ) --}}
-			</form>
-		{{-- @endif --}}
-	</div>
+			</div>
+			<div class="col-12 form-group text-center">
+				<button class="btn btn-info btn-sm" style="width: 20%">SAVE</button>
+			</div>
+		</form>
+	</div><br>
 </main>
+<style type="text/css">
+.select2 {
+	width:100%!important;
+}
+</style>
 
 <script type="text/javascript">
 
-
+$('.datepicker').datepicker({
+		orientation: "bottom",
+		format: "mm-dd-yyyy",
+		autoclose: true,
+		todayHighlight: true
+	});
 $(document).ready(function(){
 
-	$('.select2').select2({
+	
+
+	$('#select2').select2({
 		placeholder: "Select employees",
     	allowClear : true,
 
@@ -121,25 +112,29 @@ $(document).ready(function(){
 	$('#select2').on('change', function(){
 		
 		var user_id = $(this).val();
-		var depart_id = $('this').data('departid')
-		var depart = $('this').data('depart')
+		var name 	= $("#select2 option:selected").text();
+		var code = name.split(' ');
 
-		
-		$('#emp_code').val(user_id);
-
-		$('#emp_depart_id').val(depart_id);
-		$('#department').val(depart);
-
+		$('#emp_code').val(code[0]);
 	});
+	
+	//Add row in table 
 
-	$('.datepicker').datepicker({
-		orientation: "bottom",
-		format: "mm-dd-yyyy",
-		autoclose: true,
-		todayHighlight: true
+	var i = 2;
+
+	$('#addMore').on('click', function(e){
+		e.preventDefault();
+		var html = '<div id="row'+i+'"><hr><div class="row col-12"><div class="col-3 form-group"><label for="emp_code">Serial no.</label><input type="text" class="form-control" name="serial[]" ></div><div class="col-3 form-group"><label for="emp_code">Name</label><input type="text" name="name[]" class="form-control"></div><div class="col-3 form-group"><label for="emp_code">Model</label><input type="text" name="model[]" class="form-control"></div><div class="col-3 form-group">		<label for="emp_code">Color</label><input type="text" name="color[]" class="form-control"></div><div class="col-3 form-group"><label for="emp_code">Issue Date</label><input type="text" name="given_date[]" class="form-control datepicker"></div><div class="col-3 form-group"><label for="emp_code">Quantity</label><input type="number" min="1" name="quantity[]" class="form-control"></div><div class="col-3 form-group" align="center" style="padding-top: 10px;width="50px"><div><label for="emp_code"></label></div><button class="btn-danger btn-sm btn_remove" id="'+i+'"><span class="fa fa-lg fa-times"></span></button></div></div></div>';
+
+			$('#addRow').append(html)
+
+		i++;
+	})
+
+	$(document).on('click', '.btn_remove', function(){
+		var button_id = $(this).attr("id");
+		$('#row'+button_id+'').remove();
 	});
-
-
     
 });
 </script>
