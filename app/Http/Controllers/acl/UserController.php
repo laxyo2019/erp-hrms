@@ -101,7 +101,6 @@ class UserController extends Controller
 
             $leave_dt = $employee->join_dt !=null ?  $date  : null ;
 
-            #Active
             $deleted_at = null;
            
         }else{
@@ -115,6 +114,10 @@ class UserController extends Controller
 
             #DeActivate
             $deleted_at = $date;
+
+        }
+        // return $deleted_at;
+
 
         EmployeeMast::withTrashed('deleted_at')->where('user_id', $id)
                 ->update([
