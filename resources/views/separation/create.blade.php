@@ -120,12 +120,12 @@
 	});
 
 	$('#employeeSelect').on('change', function(){
-		var user_id	=	$(this).val();
+		var request	=	$(this).val();
 		
 		$.ajax({
 			type: 'POST',
 			url: '/separation/emp-code/',
-			data: {'user_id': user_id},
+			data: {'request': request},
 			headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			success: function(res){
 				$('#empCode').val(res.trim());

@@ -1,6 +1,6 @@
-	@extends('layouts.master')
+@extends('layouts.master')
 @push('styles')
-	{{-- <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script> 
+	{{-- <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
 	<script src='{{asset('js/select2.min.js')}}' type='text/javascript'></script>--}}
 @endpush
 @section('content')

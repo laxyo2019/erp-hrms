@@ -73,7 +73,6 @@ class EmployeesController extends Controller
     $leaves = LeaveMast::all();
 
     return view('HRD.employees.index.employee',compact('employees', 'leaves'));
-    //return 54;
   }
 
   public function save_main(Request $request,$id){

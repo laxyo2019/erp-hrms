@@ -183,6 +183,8 @@ Route::resource('issue-indent', 'issue\IssueIndentController');
 
 Route::resource('issue/my-indent', 'issue\MyIndentController');
 
+Route::post('issue/my-indent/tab/{tab}', 'issue\MyIndentController@showTab');
+
 
 ######## No-dues ########
 Route::resource('issue/no-dues-request', 'nodues\NoDuesController');
