@@ -137,7 +137,7 @@ class UserController extends Controller
         }
 
         return back()->with('success', 'Employee has been '.$status);
-    }
+    
 }
     //Add as an employee
     

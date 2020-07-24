@@ -23,13 +23,26 @@ class BirthdayWish extends Controller
    
     public function create()
     {
-        //
+        return view('birthday.create');
     }
 
     
     public function store(Request $request)
     {
-        //
+        $data = $request->validate(['name'=>'required','mobile_number'=>'required','date_of_birth'=>'required']);
+        $registration_date = date('Y-m-d',strtotime($data['date_of_birth'])) ;
+        $date1 = strtotime(date('Y').'-'.date('m-d',strtotime($data['date_of_birth'])));
+        $date2 = strtotime(date('Y-m-d'));
+                
+        if ($date2 >= $date1 ){
+            $date = date('Y', strtotime('+1 year')).'-'.date('m-d',strtotime($data['date_of_birth'])) ;
+        }   
+        else{
+            $date = date('Y').'-'.$registration_date->format('m-d') ;
+        }   
+       $data['next_date'] = $date;
+        Birthday::create($data);
+        return redirect('birthday_wish');
     }
 
     public function show($id)
@@ -48,6 +61,17 @@ class BirthdayWish extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate(['name'=>'required','mobile_number'=>'required','date_of_birth'=>'required']);
+        $registration_date = date('Y-m-d',strtotime($data['date_of_birth'])) ;
+        $date1 = strtotime(date('Y').'-'.date('m-d',strtotime($data['date_of_birth'])));
+        $date2 = strtotime(date('Y-m-d'));
+                
+        if ($date2 >= $date1 ){
+            $date = date('Y', strtotime('+1 year')).'-'.date('m-d',strtotime($data['date_of_birth'])) ;
+        }   
+        else{
+            $date = date('Y').'-'.date('m-d',strtotime($data['date_of_birth'])) ;
+        }   
+       $data['next_date'] = $date;
         Birthday::where('id',$id)->update($data);
         return redirect('birthday_wish');
     }
@@ -67,8 +91,7 @@ class BirthdayWish extends Controller
 
     public function export() 
     {
-        // return Birthday::all();
-     //   return Excel::download(new UsersExport, 'birthdayPersons.csv');
+        return Excel::download(new UsersExport, 'birthdayPersons.csv');
 
         return redirect('birthday_wish');
     }

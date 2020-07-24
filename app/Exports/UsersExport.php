@@ -24,7 +24,6 @@ class UsersExport implements FromQuery, WithMapping, WithHeadings
     public function map($data) : array
     {
     	return [
-    		$data->id,
     		$data->name,
     		$data->mobile_number,
     		date('Y-m-d',strtotime($data->date_of_birth)),
@@ -32,6 +31,6 @@ class UsersExport implements FromQuery, WithMapping, WithHeadings
     }
     public function headings() : array
     {
-    	 return ['Sr. No','Name','Mobile Number','Date Of Birth'];
+    	 return ['Name','Mobile Number','Date Of Birth'];
     }
 }

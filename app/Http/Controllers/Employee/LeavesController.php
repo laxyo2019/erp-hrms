@@ -419,8 +419,9 @@ class LeavesController extends Controller
 
     }
 
-    $role = User::where('id', $request->reports_to)->first();
+    #
 
+    $role = User::where('id', $request->reports_to)->first();
 
     $leaveapply = new LeaveApply;
     $leaveapply->user_id           = $user_id;
@@ -488,7 +489,7 @@ class LeavesController extends Controller
       
       //return $leave_app->teamlead_approval;
 
-      if($leave_app->teamlead_approval == 0){
+      if($leave_app->teamlead_approval == 0 || $leave_app->teamlead_approval == 4){
         /**Add leave balance back if leave application is deleted**/
 
         $leavesMast = LeaveMast::where('id', $leave_app->leave_type_id)
