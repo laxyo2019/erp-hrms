@@ -419,8 +419,9 @@ class LeavesController extends Controller
 
     }
 
-    $role = User::where('id', $request->reports_to)->first();
+    #
 
+    $role = User::where('id', $request->reports_to)->first();
 
     $leaveapply = new LeaveApply;
     $leaveapply->user_id           = $user_id;

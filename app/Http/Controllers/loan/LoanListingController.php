@@ -155,7 +155,7 @@ class LoanListingController extends Controller
     {
         $request = LoanRequest::where('id', $id)->first();
 
-        $emp     = EmployeeMast::where('user_id', Auth::id())->first();
+        $emp     = EmployeeMast::where('user_id', $request->user_id)->first();
 
         $types   = LoanType::all();
 

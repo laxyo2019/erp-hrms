@@ -13,6 +13,7 @@
 							</form>
 						</button>	
 						<a href="{{ route('Birthday_export_user') }}" class="btn btn-sm btn-success"  style="font-size:13px" >Export</a>
+						<a href="{{ route('birthday_wish.create') }}" class="btn btn-sm btn-success"  style="font-size:13px" >Create User</a>
 					</span>
 				</h1>
 				<hr>

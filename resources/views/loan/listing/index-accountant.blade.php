@@ -7,12 +7,6 @@
         <div class="col-md-12 col-xl-12" style="margin-top: 15px"> 
           <h1 style="font-size: 24px">Loan Listing
               <a href="{{URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-                {{-- @ability('hrms_admin', 'hrms-create|hrms-manage-staff-separation')
-             <span class="ml-2">
-                <a href="{{route('loan-request.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
-              <span class="fa fa-plus "></span>Apply</a>
-             </span>
-             @endability --}}
           </h1>
         </div>
         {{-- 
@@ -62,30 +56,6 @@
                     <strong style="color: grey;">PENDING</strong>
                   @endif
                 </td>
-                
-               {{--  <td>
-                  @if($index->hr_approval == 0)
-                    <strong style="color: grey;">PENDING</strong>
-                  @elseif($index->hr_approval == 1)
-                    <strong style="color: #0cac0c;">APPROVED</strong>
-                  @elseif($index->hr_approval == 2)
-                    <strong style="color: #3375ca;">DECLINED</strong>
-                  @elseif($index->hr_approval == 3)
-                    <strong class="dec_msg">DISBURSED</strong>
-                  @endif
-                </td>
-                <td>
-                  @if($index->subadmin_approval == 0)
-                    <strong style="color: grey;">PENDING</strong>
-                  @elseif($index->subadmin_approval == 1)
-                    <strong style="color: #0cac0c;">APPROVED</strong>
-                  @elseif($index->subadmin_approval == 2)
-                    <strong style="color: #3375ca;">DECLINED</strong>
-                  @elseif($index->subadmin_approval == 3)
-                    <strong class="dec_msg">DISBURSED</strong>
-                  @endif
-                </td> --}}
-                {{-- @ability('hrms_admin', 'hrms-edit') --}}
                 <td>
                  <span>
                     <button alt="View" class="btn btn-sm btn-info modalReq" data-id="{{$index->id}}"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></button>
