@@ -1,65 +1,72 @@
 @extends('layouts.master')
 @section('content')
-  <main class="app-content">
-      <div class="row">
-      <div class="col-md-12 col-xl-12">
-        <div class="card shadow-xs">
-          <div class="col-md-12 col-xl-12" style="margin-top: 15px"> 
-              <h1 style="font-size: 24px">Issue Indent
-                <span class="ml-2">
-                  <a href="{{route('issue-indent.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
-                  <span class="fa fa-plus "></span> Generate</a>
-                </span>
-                {{-- @endability --}}
-              </h1>
-            </div>
-          <div class="card-body table-responsive">
-            @if($message = Session::get('success'))
-              <div class="alert alert-success alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                {{$message}}
-              </div>
-            @endif
-            <table class="table table-striped table-hover" id="IndentTable">
-              <thead>
-                <tr class="text-center">
-                  <th>#</th>
-                  <th>Employee</th>
-                  <th>Details</th>
-                  <th>ACTIONS</th>
-                </tr>
-              </thead>
-              <tbody>
-            @php $count = 0; @endphp
-              @foreach($indent as $index)
-              <tr class="text-center" id="indent_{{$index->id}}">
-                <td>{{++$count}}</td>
-                <td >{{ucwords($index['employee']->emp_name)}}</td>
-                <td>
-                  <div class="row">
-                    <div class="col" align="right">
-                      <a href="{{route('issue-indent.edit',$index->user_id)}}" class="btn btn-sm btn-info">Issued Indent</a>
-                      </div>
-                        <div class="col" align="left">
-                         <a href="{{route('issue-indent.edit',$index->id)}}" class="btn btn-sm btn-info">No Dues</a>
-                        </div>
-                      </div>
-                    </td>
-                    <td><button class="btn-danger btn-sm deleteRequest" 
-                      data-id="del_{{$index->user_id}}_{{$index->id}}" >Delete</button></td>
-              </tr>
-              @endforeach
-              </tbody>
-            </table>
+<main class="app-content" id="noduesListing">
+  <div class="row">
+    <div class="col-md-12 col-xl-12">
+      <div class="card shadow-xs">
+        <div class="col-md-12 col-xl-12" style="margin-top: 15px"> 
+            <h1 style="font-size: 24px">No Dues Listing
+              {{-- @endability --}}
+            </h1>
           </div>
+        <div class="card-body table-responsive">
+          @if($message = Session::get('success'))
+            <div class="alert alert-success alert-block">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              {{$message}}
+            </div>
+          @endif
+          <table class="table table-striped table-hover" id="NoduesTable">
+            <thead>
+              <tr class="text-center">
+                <th>#</th>
+                <th>Employee</th>
+                <th>Department</th>
+                <th>Department Head</th>
+                <th>Posted</th>
+                <th>Details</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+          @php $count = 0; @endphp
+            @foreach($data as $index)
+            <tr class="text-center" id="indent_{{$index->id}}">
+              <td>{{++$count}}</td>
+              <td >{{ucwords($index['employee']->emp_code)}} : {{ucwords($index['employee']->emp_name)}}</td>
+              <td>{{strtoupper($index['department']->name)}}</td>
+              <td></td>
+              <td>{{$index->posted}}</td>
+              <td><a href="{{route('nodues.detail', $index->id)}}" data-id="{{$index->id}}" class="btn btn-info btn-sm actionView" id="{{$index->id}}">view</a></td>
+              <td><button type="button"  data-id="{{$index->id}}" class="btn btn-info btn-sm actionShow" id="{{$index->id}}">show</button>
+                <!-- Modal -->
+                <div class="modal fade" id="reqModal" role="dialog">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">No Dues Approval</h4>
+                      </div>
+                      <div class="modal-body table-responsive" id="noDuesTable" style="background: #ececec">
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div></td>
+            </tr>
+            @endforeach
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-  </main>
+  </div>
+</main>
 <script type="text/javascript">
 $(document).ready(function(){
 
-  $('#IndentTable').dataTable( {
+  $('#NoduesTable').dataTable( {
     "ordering":   true,
     order   : [[1, 'asc']],
     "columnDefs": [ 
@@ -67,25 +74,37 @@ $(document).ready(function(){
     ]
   });
 
-  $('.deleteRequest').on('click', function(){
+  /*$('.actionView').on('click', function(){
 
-      var data = $(this).data('id');
-      var arr = data.split('_');
-      
+      var request_id = $(this).data('id');
+
       $.ajax({
-        type: 'DELETE',
-        url: '/issue-indent/'+arr[2],
-        data: {'arr': arr},
+        type: 'GET',
+        url: '/noduesail')}}',
+        data: {'request_id': request_id},
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         success:function(res){
-
-          alert('Request has been deleted.');
-
-          $('#indent_'+arr[2]).hide();
+          $('#')
         }
       })
+  });*/
 
-  });
+    $('.actionShow').on('click', function(){
+
+      var request_id  = $(this).data('id');
+
+      $.ajax({
+        type: 'post',
+        url: "/no-dues/department-head/show/",
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        data: {'request_id': request_id},
+        success: function(res){
+          $('#noDuesTable').empty().html(res);
+          $('#reqModal').modal('show');
+        }
+
+      })
+  })
  
 });
 </script>

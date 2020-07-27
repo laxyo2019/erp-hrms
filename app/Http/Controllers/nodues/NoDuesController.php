@@ -28,39 +28,6 @@ class NoDuesController extends Controller
 
         $hod_approval = NoDuesApproval::with(['employee', 'department'])
                         ->get();
-        #Testing
-
-       /* $emphod = EmployeeMast::where('user_id', 10)->first();
-
-        $hod = Hod::select('user_id as user', 'depart_id as depart')->get();
-
-        $check_hod = Hod::where('user_id', 10)->first();
-
-        if($check_hod == null){
-
-            $hod_ids = [];
-
-            $i = 0;
-            foreach($hod as $index){
-
-                $hod_ids[$i]['user'] = $index->user;
-                $hod_ids[$i]['depart'] = $index->depart;
-
-                $i+=1;
-            }
-            //Preppend Employee's Hod info to global hod's array
-
-            //((Hod::where('user_id', 15)->first()) == null);
-
-            $emp_hod['user'] = $emphod->user_id;
-            $emp_hod['depart'] = $emphod->dept_id;
-
-            array_unshift($hod_ids, $emp_hod);            
-        }else{
-            $hod_ids = $hod;
-        }
-
-        return $hod_ids;*/
 
         return view('nodues.request.create', compact('hod_approval', 'emp', 'request', 'depart_hod'));
     }
@@ -73,14 +40,7 @@ class NoDuesController extends Controller
 
     public function create()
     {
-        /*$emp     = EmployeeMast::where('user_id', Auth::id())->first();
-
-        $request = NoDues::where('user_id', Auth::id())->first();
-
-        $hod_approval = NoDuesApproval::with(['employee', 'department'])
-                        ->get();
-
-        return view('nodues.request.create', compact('hod_approval', 'emp', 'request'));*/
+        
     }
 
     /**

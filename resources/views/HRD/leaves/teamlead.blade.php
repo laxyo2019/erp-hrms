@@ -6,7 +6,6 @@
 				<div class="card">
 					<div class="col-md-12 col-xl-12" style="margin-top: 15px">
 						<h1 style="font-size: 24px">LEAVE REQUESTS
-						<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Back</a>
 					</div>
 					<div class="card-body table-responsive">
 						@if($message = Session::get('success'))
@@ -15,6 +14,25 @@
 								{{$message}}
 							</div>
 						@endif
+						<div class="row col-12">
+							<div class="col-2">
+								<label for="">Status</label>
+									<select name="status" id="leaveStatus" aria-controls="ClientsTable" class="custom-select custom-select-sm form-control form-control-sm">
+									<option >Select status</option>
+									<option value="1">APPROVED</option>
+									<option value="0">PENDING</option>
+								</select>
+							</div>
+							<div class="col-2">
+								<label for="">From</label>
+								<input name="from" aria-controls="ClientsTable" class="form-control form-control-sm datepicker" id="fromDate" autocomplete="off">
+							</div>
+							<div class="col-2">
+								<label for="">To</label>
+								<input name="from" aria-controls="ClientsTable" class="form-control form-control-sm datepicker" id="toDate" autocomplete="off">
+							</div>
+						</div><br>
+						<div id="teamLeadStatus">
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
@@ -38,11 +56,11 @@
 									<td>{{ucwords($request['employee']->emp_name)}}</td>
 									<td>{{ucwords($request['leavetype']->name)}}</td>
 									<td>
-									@if($request->from && $request->to)
-										{{date('d M', strtotime($request->from))}} <strong>To</strong> {{date('d M, Y', strtotime($request->to))}}
-									@else
-										{{date('d M, Y', strtotime($request->from))}}
-									@endif
+										@if($request->from && $request->to)
+											{{date('d M', strtotime($request->from))}} <strong>To</strong> {{date('d M, Y', strtotime($request->to))}}
+										@else
+											{{date('d M, Y', strtotime($request->from))}}
+										@endif
 									</td>
 									<td>
 									@if($request->day_status == 0)
@@ -56,28 +74,27 @@
 									@endif						
 									</td>
 									<td>{{date('d M, y', strtotime($request->created_at))}}</td>
-									
-				@if($request->subadmin_approval == 0)
-					<td><strong style="color: grey;">PENDING</strong></td>
-				@elseif($request->subadmin_approval == 1)
-					<td><strong class="apprv_msg">APPROVED</strong></td>
-				@elseif($request->subadmin_approval == 2)
-					<td><strong class="dec_msg">DECLINED</strong></td>
-				@elseif($request->subadmin_approval == 3)
-					<td><strong class="rev_msg">REVERSED</strong></td>
-				@endif
+									@if($request->subadmin_approval == 0)
+										<td><strong style="color: grey;">PENDING</strong></td>
+									@elseif($request->subadmin_approval == 1)
+										<td><strong class="apprv_msg">APPROVED</strong></td>
+									@elseif($request->subadmin_approval == 2)
+										<td><strong class="dec_msg">DECLINED</strong></td>
+									@elseif($request->subadmin_approval == 3)
+										<td><strong class="rev_msg">REVERSED</strong></td>
+									@endif
 
-				@if($request->admin_approval == 0)
-					<td><strong style="color: grey;">PENDING</strong></td>
-				@elseif($request->admin_approval == 1)
-					<td><strong class="apprv_msg">APPROVED</strong></td>
-				@elseif($request->admin_approval == 2)
-					<td><strong class="dec_msg">DECLINED</strong></td>
-				@elseif($request->admin_approval == 3)
-					<td><strong class="rev_msg">REVERSED</strong></td>
-				@endif
-		</td>
-		<td>
+									@if($request->admin_approval == 0)
+										<td><strong style="color: grey;">PENDING</strong></td>
+									@elseif($request->admin_approval == 1)
+										<td><strong class="apprv_msg">APPROVED</strong></td>
+									@elseif($request->admin_approval == 2)
+										<td><strong class="dec_msg">DECLINED</strong></td>
+									@elseif($request->admin_approval == 3)
+										<td><strong class="rev_msg">REVERSED</strong></td>
+									@endif
+								</td>
+							<td>
 									<button class="btn btn-sm btn-info modalReq" data-id="{{$request->id}}">
 										<i class="fa fa-eye" style="font-size: 12px;"></i>
 									</button></td>
@@ -96,7 +113,7 @@
 									    </div>
 									</div>
 		
-<td class='d-flex' style="border-bottom:none">
+<td style="border-bottom:none; text-align: center;">
 
 	{{-- TEAM-LEAD --}}
 
@@ -142,6 +159,7 @@
 							</tbody>
 						</table>
 					</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -150,6 +168,12 @@
 <script>
 $(document).ready(function(){
 
+$('.datepicker').datepicker({
+		orientation: "auto",
+		format: "yyyy-mm-dd",
+		autoclose: true,
+		todayHighlight: true
+	});
 	//Open detail view of leave requests.
 
 	$('.modalReq').on('click', function(e){
@@ -236,6 +260,41 @@ $(document).ready(function(){
 			}
 		});
 	});
+
+	$('#leaveStatus').on('change', function(){
+		var leaveStatus = $(this).val()
+
+		var type = 1;
+		var role = 'tl';
+
+		$.ajax({
+			type: 'POST',
+			url: '{{route('leave.status')}}',
+			data: {'leaveStatus': leaveStatus, 'type': type, 'role': role},
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			success: function(res){
+
+				$('#teamLeadStatus').empty().html(res);
+			}
+		})
+	})
+
+	$('#toDate').on('changeDate', function(){
+		var fromDate = $('#fromDate').val();
+		var toDate	 = $(this).val();
+		var type 	 = 2;
+		var role 	 = 'tl';
+		$.ajax({
+			type: 'POST',
+			url: '{{route('leave.status')}}',
+			data: {'fromDate': fromDate, 'toDate': toDate, 'type': type, 'role': role},
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			success: function(res){
+				console.log(res)
+				$('#teamLeadStatus').html(res)
+			}
+		})
+	})
   });
 
 

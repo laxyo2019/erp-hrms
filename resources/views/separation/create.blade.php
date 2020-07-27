@@ -1,9 +1,4 @@
 @extends('layouts.master')
-@push('styles')
-    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" /> --}}
-{{-- <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/select2.min.css') }}">
-  <script src="{{asset('themes/vali/js/plugins/select2.min.js')}}"></script> --}}
-@endpush
 @section('content')
 <main class="app-content">
 	<div class="row">

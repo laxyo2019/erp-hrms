@@ -111,10 +111,6 @@ class IssueIndentController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        //return $request->all();
-        IssueIndent::where('user_id', $id)->delete();
-
         $i = 0;
 
         for($i=0; $i < count(($request->name)); $i++){
@@ -128,7 +124,6 @@ class IssueIndentController extends Controller
                 'quantity'   => $request->quantity[$i],
                 'color'      => $request->color[$i],
                 'issue_date' => $request->given_date[$i],
-                'user_action'=> $request->user_action[$i]
             ]);
         }
 

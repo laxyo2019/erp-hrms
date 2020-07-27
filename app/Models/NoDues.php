@@ -17,4 +17,6 @@ class NoDues extends Model
 
     	return $this->belongsTo('App\Models\Master\DeptMast', 'department_id');
     }
+
+    
 }

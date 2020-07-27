@@ -437,7 +437,7 @@ class LeavesController extends Controller
     $leaveapply->paid_count        = $paid_count;
     $leaveapply->unpaid_count      = $unpaid_count;
     $leaveapply->applicant_remark  = $request->applicant_remark;
-    $leaveapply->posted            = date('d M Y');
+    $leaveapply->posted            = date('d-m-Y');
     $leaveapply->teamlead_approval = $role->isAbleTo('hrms-superadmin') == true ? 4 : 0;
     $leaveapply->save();
       

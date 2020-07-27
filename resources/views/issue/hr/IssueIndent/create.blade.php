@@ -40,7 +40,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-6"><h5>Item Detail </h5></div>
+				<div class="col-6"><h5>Article/Assets Details </h5></div>
 				<div class="col-6">
 					<button class="btn-sm btn-primary rounded-sm" style="font-size:18px;float: right;" id="addMore" title="Add More Person"><i class="fa fa-plus"></i></button>
 				</div>
@@ -73,10 +73,6 @@
 					<label for="quantity">Quantity</label>
 					<input type="number" min="1" name="quantity[]" class="form-control">
 				</div>
-				{{-- <div class="col-3 form-group">
-					<label for="received_date">Received Date</label>
-					<input type="text" name="received_date[]" class="form-control">
-				</div> --}}
 			</div>
 			</div>
 			<div class="col-12 form-group text-center">
@@ -93,15 +89,18 @@
 
 <script type="text/javascript">
 
-$('.datepicker').datepicker({
-		orientation: "bottom",
-		format: "mm-dd-yyyy",
-		autoclose: true,
-		todayHighlight: true
-	});
-$(document).ready(function(){
 
+$(document).ready(function(){
 	
+	$('body').on('focus', '.datepicker', function(){
+	   $(this).datepicker({
+	   		orientation: "bottom",
+			format: "mm-dd-yyyy",
+			autoclose: true,
+			todayHighlight: true
+	   });
+	});
+		
 
 	$('#select2').select2({
 		placeholder: "Select employees",
@@ -135,6 +134,8 @@ $(document).ready(function(){
 		var button_id = $(this).attr("id");
 		$('#row'+button_id+'').remove();
 	});
+
+
     
 });
 </script>

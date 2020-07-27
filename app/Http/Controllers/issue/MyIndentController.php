@@ -75,7 +75,9 @@ class MyIndentController extends Controller
         
         if($btnId == 'myIndentList'){
 
-            return view('issue.employees.IndentAcceptance.myindent');
+            $indent = IssueIndent::where('user_id', Auth::id())->get();
+
+            return view('issue.employees.IndentAcceptance.myindent', compact('indent'));
 
         }else{
 

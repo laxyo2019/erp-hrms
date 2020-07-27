@@ -41,28 +41,27 @@
             @endif
 	    </div>
 		{{-- <h5>Employee Detail </h5> --}}
+			<div class="row col-12">
+				<div class="col-6 form-group">
+					<label for="">Employee Name : </label>
+					{{ strtoupper($emp->emp_name) }}
+					
+				</div>
+				<div class="col-6 form-group">
+					<label for="emp_code">Employee Code : </label> {{strtoupper($emp->emp_code)}}
+					
+				</div>
+				<div class="col-6 form-group">
+					<label for="emp_code">Department : </label> {{strtoupper($emp['department']->name)}}
+					
+				</div>
+				<div class="col-6 form-group">
+					<label for="emp_code">Indent Request : </label>
+					<button type="button" class="btn btn-success btn-sm" id="myRequests" data-id={{Auth::id()}}>Check Here</button>
 
-		<div class="row">
-			<div class="col-6 form-group">
-				<label for="">Employee Name : </label>
-				{{ strtoupper($emp->emp_name) }}
-				
+					<button type="button" class="btn btn-success btn-sm" id="myIndentList" data-id={{Auth::id()}} style="display:none">My Indent</button>
+				</div>
 			</div>
-			<div class="col-6 form-group">
-				<label for="emp_code">Employee Code : </label> {{strtoupper($emp->emp_code)}}
-				
-			</div>
-			<div class="col-6 form-group">
-				<label for="emp_code">Department : </label> {{strtoupper($emp['department']->name)}}
-				
-			</div>
-			<div class="col-6 form-group">
-				<label for="emp_code">Indent Request : </label>
-				<button type="button" class="btn btn-success btn-sm" id="myRequests" data-id={{Auth::id()}}>Check Here</button>
-
-				<button type="button" class="btn btn-success btn-sm" id="myIndentList" data-id={{Auth::id()}} style="display:none">My Indent</button>
-			</div>
-		</div>
 		<div id="myIndent">
 			@include('issue.employees.IndentAcceptance.myindent')
 		</div>

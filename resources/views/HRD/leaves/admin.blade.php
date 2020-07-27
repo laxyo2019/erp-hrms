@@ -14,7 +14,26 @@
 								<button type="button" class="close" data-dismiss="alert" >×</button>
 								{{$message}}
 							</div>
-						@endif 
+						@endif
+						<div class="row col-12">
+							<div class="col-2">
+								<label for="">Status</label>
+									<select name="status" id="leaveStatus" aria-controls="ClientsTable" class="custom-select custom-select-sm form-control form-control-sm">
+									<option >Select status</option>
+									<option value="1">APPROVED</option>
+									<option value="0">PENDING</option>
+								</select>
+							</div>
+							<div class="col-2">
+								<label for="">From</label>
+								<input name="from" aria-controls="ClientsTable" class="form-control form-control-sm datepicker" id="fromDate" autocomplete="off">
+							</div>
+							<div class="col-2">
+								<label for="">To</label>
+								<input name="from" aria-controls="ClientsTable" class="form-control form-control-sm datepicker" id="toDate" autocomplete="off">
+							</div>
+						</div><br>
+						<div id="teamLeadStatus">
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
 								<tr>
@@ -99,7 +118,7 @@
 									    </div>
 									</div>
 		
-<td class='d-flex' style="border-bottom:none">
+<td style="border-bottom:none; text-align: center;">
 
 	{{-- ADMIN --}}
 
@@ -156,6 +175,12 @@
 <script>
 $(document).ready(function(){
 
+$('.datepicker').datepicker({
+	orientation: "auto",
+	format: "yyyy-mm-dd",
+	autoclose: true,
+	todayHighlight: true
+});
 	//Open detail view of leave requests.
 
 	$('.modalReq').on('click', function(e){
@@ -236,6 +261,42 @@ $(document).ready(function(){
 			}
 		});
 	});
+
+	$('#leaveStatus').on('change', function(){
+		var leaveStatus = $(this).val()
+
+		var type = 1;
+		var role = 'admin';
+
+		$.ajax({
+			type: 'POST',
+			url: '{{route('leave.status')}}',
+			data: {'leaveStatus': leaveStatus, 'type': type, 'role': role},
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			success: function(res){
+
+				$('#teamLeadStatus').empty().html(res);
+			}
+		})
+	})
+
+	$('#toDate').on('changeDate', function(){
+		var fromDate = $('#fromDate').val();
+		var toDate	 = $(this).val();
+		var type 	 = 2;
+		var role 	 = 'admin';
+
+		$.ajax({
+			type: 'POST',
+			url: '{{route('leave.status')}}',
+			data: {'fromDate': fromDate, 'toDate': toDate, 'type': type, 'role':role},
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			success: function(res){
+				console.log(res)
+				$('#teamLeadStatus').html(res)
+			}
+		});
+	})
   });
 
 
