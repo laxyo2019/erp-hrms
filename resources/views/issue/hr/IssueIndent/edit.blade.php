@@ -5,7 +5,7 @@
 @section('content')
 <main class="app-content">
 	<div style=" padding: 1.5rem; border: 1px solid white;background: white">
-		<h1 style="font-size: 24px">Generate Issue Indent
+		<h1 style="font-size: 24px">Edit Issue Indent
 			<a href="{{ route('issue-indent.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Back</a>
 		</h1><hr>
 		<div>
@@ -42,11 +42,12 @@
 			</div>
 			<div class="row" id="addRow">
 			</div>
-
 			<div class="col-12 form-group text-center">
 				<button class="btn btn-info btn-sm" style="width: 20%">SAVE</button>
 			</div>
 		</form>
+
+		{{-- <div class="col-3 form-group"><label for="name">Name</label><input type="text" name="name[]" {{$issued[0]['user_action'] == 1 ? 'disabled="true"' : ''}} class="form-control" value="{{$issued[0]['name']}}"></div> --}}
 	</div><br>
 </main>
 <style type="text/css">
@@ -68,8 +69,6 @@ $('.datepicker').datepicker({
 // });
 
 $(document).ready(function(){
-
-	
 
 	$('#select2').select2({
 		placeholder: "Select employees",
@@ -94,16 +93,52 @@ $(document).ready(function(){
 		
 	@endphp
 
-	var html = '<div id="row'+i+'"><div class="row"><div class="col-6"><h5>Item Detail </h5></div><div class="col-6"><button class="btn-sm btn-primary rounded-sm" style="font-size:18px;float: right;" id="addMore" title="Add More Person"><i class="fa fa-plus"></i></button></div></div><hr><div class="row col-12"><div class="col-3 form-group"><label for="serial">Serial no.</label><input type="text" class="form-control" name="serial[]"  value="{{$issued[0]['serial']}}"></div><div class="col-3 form-group"><label for="name">Name</label><input type="text" name="name[]" class="form-control" value="{{$issued[0]['name']}}"></div><div class="col-3 form-group"><label for="model">Model</label><input type="text" name="model[]" class="form-control" value="{{$issued[0]['model']}}"></div><div class="col-3 form-group"><label for="color">Color</label><input type="text" name="color[]" class="form-control" value="{{$issued[0]['color']}}"></div><div class="col-3 form-group"><label for="issued">Issue Date</label><input type="text" name="given_date[]" class="form-control datepicker" value="{{$issued[0]['issue_date']}}"></div><div class="col-3 form-group"><label for="quantity">Quantity</label><input type="number" min="1" name="quantity[]" class="form-control" value="{{$issued[0]['quantity']}}"></div><div class="col-3 form-group"><label for="received_date">Received Date</label><input type="text" name="received_date[]" disabled="true" class="form-control" value="{{$issued[0]['received_date']}}"></div><div class="col-2 form-group" align="center" style="padding-top: 10px;width="50px"><div><label for=""></label></div></div></div></div><input type="hidden" name="user_action[]" value="{{$issued[0]['user_action']}}">';
+	var html = '<div id="row'+i+'"><br><div class="row col-12"><div class="col-6"><h4>Item Details </h4></div><div class="col-6"><button class="btn-sm btn-primary rounded-sm" style="font-size:18px;float: right;" id="addMore" title="Add More Person"><i class="fa fa-plus"></i></button></div><br>';
+	
+	html += '<div class="row col-12"><div class="col-3 form-group"><label for="serial">Serial no.</label><input type="text" class="form-control" name="serial[]" value="{{$issued[0]['serial']}}" {{$issued[0]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
+
+	html += '<div class="col-3 form-group"><label for="name">Name</label><input type="text" name="name[]" class="form-control" value="{{$issued[0]['name']}}" {{$issued[0]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
+
+	html += '<div class="col-3 form-group"><label for="model">Model</label><input type="text" name="model[]" class="form-control" value="{{$issued[0]['model']}}" {{$issued[0]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
+
+	html += '<div class="col-3 form-group"><label for="color">Color</label><input type="text" name="color[]" class="form-control" value="{{$issued[0]['color']}}" {{$issued[0]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
+
+	html += '<div class="col-3 form-group"><label for="issued">Issue Date</label><input type="text" name="given_date[]" class="form-control datepicker" value="{{$issued[0]['issue_date']}}" {{$issued[0]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
+
+	html += '<div class="col-3 form-group"><label for="quantity">Quantity</label><input type="number" min="1" name="quantity[]" class="form-control" value="{{$issued[0]['quantity']}}" {{$issued[0]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
+
+	html += '<div class="col-3 form-group"><label for="received_date">Received Date</label><input type="text" name="received_date[]" disabled="true" class="form-control" value="{{$issued[0]['received_date']}}" {{$issued[0]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
+
+	html += '<div class="col-3 form-group" style="text-align:center;padding-top: 40px;">';
+
+	html += @if($issued[$i]['user_action'] == 1)'<strong style="color: #0cac0c; font-weight: bold;">RECEIVED</strong>'@elseif($issued[$i]['user_action'] == 0)''@endif;
+
+	html += '</div></div></div></div><input type="hidden" name="user_action[]" value="{{$issued[0]['user_action']}}" {{$issued[0]['user_action'] == 1 ? 'disabled="true"' : ''}}>';
 
 		$('#addRow').append(html)
 
 	i++;
-	@php 
+	@php
 	$i++;
 		while($i < $count_issued){ 
 	@endphp
-		var html = '<div id="row'+i+'"><hr><div class="row col-12"><div class="col-3 form-group"><label for="serial">Serial no.</label><input type="text" class="form-control" name="serial[]" value="{{$issued[$i]['serial']}}" ></div><div class="col-3 form-group"><label for="name">Name</label><input type="text" name="name[]" class="form-control" value="{{$issued[$i]['name']}}"></div><div class="col-3 form-group"><label for="model">Model</label><input type="text" name="model[]" class="form-control" value="{{$issued[$i]['model']}}"></div><div class="col-3 form-group">		<label for="color">Color</label><input type="text" name="color[]" class="form-control" value="{{$issued[$i]['color']}}"></div><div class="col-3 form-group"><label for="given_date">Issue Date</label><input type="text" name="given_date[]" class="form-control datepicker" value="{{$issued[$i]['issue_date']}}"></div><div class="col-3 form-group"><label for="quantity">Quantity</label><input type="number" min="1" name="quantity[]"  class="form-control" value="{{$issued[$i]['quantity']}}"></div><div class="col-3 form-group"><label for="received_date">Received Date</label><input type="text" name="received_date[]" disabled="true" class="form-control" value="{{$issued[$i]['received_date']}}"></div><?php if($issued[$i]['user_action'] == 0){?><div class="col-2 form-group" align="center" style="padding-top: 18px; color: white;"><div></div><a class="btn-danger btn-sm btn_remove" id="'+i+'"><span class="fa fa-lg fa-times"></span></a></div><?php }elseif($issued[$i]['user_action'] == 1){?><strong style="color: #0cac0c; font-weight: bold;">RECEIVED</strong><?php } ?></div></div><input type="hidden" name="user_action[]" value="{{$issued[$i]['user_action']}}">';
+	var html = '<div id="row'+i+'"><hr><div class="row col-12"><div class="col-3 form-group"><label for="serial">Serial no.</label><input type="text" class="form-control" name="serial[]" value="{{$issued[$i]['serial']}}" {{$issued[$i]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
+
+		html +=	'<div class="col-3 form-group"><label for="name">Name</label><input type="text" name="name[]" class="form-control" value="{{$issued[$i]['name']}}" {{$issued[$i]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
+
+		html += '<div class="col-3 form-group"><label for="model">Model</label><input type="text" name="model[]" class="form-control" value="{{$issued[$i]['model']}}" {{$issued[$i]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
+
+		html += '<div class="col-3 form-group"><label for="color">Color</label><input type="text" name="color[]" class="form-control" value="{{$issued[$i]['color']}}" {{$issued[$i]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
+
+		html += '<div class="col-3 form-group"><label for="given_date">Issue Date</label><input type="text" name="given_date[]" class="form-control datepicker" value="{{$issued[$i]['issue_date']}}" {{$issued[$i]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
+
+		html += '<div class="col-3 form-group"><label for="quantity">Quantity</label><input type="number" min="1" name="quantity[]"  class="form-control" value="{{$issued[$i]['quantity']}}" {{$issued[$i]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
+
+		html += '<div class="col-3 form-group"><label for="received_date">Received Date</label><input type="text" name="received_date[]" disabled="true" class="form-control" value="{{$issued[$i]['received_date']}}" {{$issued[$i]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
+
+		html += @if($issued[$i]["user_action"] == 0)'<div class="col-3 form-group" align="center" style="padding-top: 40px; color: white;"><div></div><a class="btn-danger btn-sm btn_remove" id="'+i+'"><span class="fa fa-lg fa-times"></span></a></div>@elseif($issued[$i]["user_action"] == 1)<div class="col-3 form-group" style="text-align:center;padding-top: 40px;"><strong style="color: #0cac0c; font-weight: bold;">RECEIVED</strong></div>@endif</div></div>';
+
+		html += '<input type="hidden" name="user_action[]" value="{{$issued[$i]['user_action']}}" {{$issued[$i]['user_action'] == 1 ? 'disabled="true"' : ''}}>';
 
 			$('#addRow').append(html);
 	 	
@@ -116,7 +151,17 @@ $(document).ready(function(){
 
 	$('#addMore').on('click', function(e){
 		e.preventDefault();
-		var html = '<div id="row'+i+'"><hr><div class="row col-12"><div class="col-3 form-group"><label for="emp_code">Serial no.</label><input type="text" class="form-control" name="serial[]" ></div><div class="col-3 form-group"><label for="emp_code">Name</label><input type="text" name="name[]" class="form-control"></div><div class="col-3 form-group"><label for="emp_code">Model</label><input type="text" name="model[]" class="form-control"></div><div class="col-3 form-group">		<label for="emp_code">Color</label><input type="text" name="color[]" class="form-control"></div><div class="col-3 form-group"><label for="emp_code">Issue Date</label><input type="text" name="given_date[]" class="form-control datepicker"></div><div class="col-3 form-group"><label for="emp_code">Quantity</label><input type="number" min="1" name="quantity[]" class="form-control"></div><div class="col-3 form-group"><label for="emp_code">Received Date</label><input type="text" name="received_date[]" class="form-control" value=""></div><div class="col-2 form-group" align="center" style="padding-top: 18px; color:white"><div><label for="emp_code"></label></div><a class="btn-danger btn-sm btn_remove" id="'+i+'"><span class="fa fa-lg fa-times"></span></a></div></div></div>';
+		var html = '<div id="row'+i+'"><hr><div class="row col-12"><div class="col-3 form-group"><label for="serial">Serial no.</label><input type="text" class="form-control" name="serial[]" ></div>';
+		
+		html += '<div class="col-3 form-group"><label for="name">Name</label><input type="text" name="name[]" class="form-control"></div><div class="col-3 form-group"><label for="model">Model</label><input type="text" name="model[]" class="form-control"></div>';
+		
+		html += '<div class="col-3 form-group"><label for="color">Color</label><input type="text" name="color[]" class="form-control"></div>';
+
+		html += '<div class="col-3 form-group"><label for="given_date">Issue Date</label><input type="text" name="given_date[]" class="form-control datepicker"></div>';
+
+		html += '<div class="col-3 form-group"><label for="quantity">Quantity</label><input type="number" min="1" name="quantity[]" class="form-control"></div>';
+
+		html += '<div class="col-2 form-group" align="center" style="padding-top: 18px; color:white"><div><label for="close"></label></div><a class="btn-danger btn-sm btn_remove" id="'+i+'"><span class="fa fa-lg fa-times"></span></a></div></div></div>';
 
 			$('#addRow').append(html)
 
@@ -138,16 +183,14 @@ $(document).ready(function(){
 	// });
 
 });
-$(function() {
-
-  $('.datepicker').datepicker({
-		orientation: "bottom",
-		format: "mm-dd-yyyy",
-		autoclose: true,
-		todayHighlight: true
+$('body').on('focus', '.datepicker', function(){
+	   $(this).datepicker({
+	   		orientation: "bottom",
+			format: "mm-dd-yyyy",
+			autoclose: true,
+			todayHighlight: true
+	   });
 	});
-
-});
 
 </script>
 <style type="text/css">

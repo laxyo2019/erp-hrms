@@ -99,7 +99,7 @@
 									    </div>
 									</div>
 		
-<td class='d-flex' style="border-bottom:none">
+<td style="border-bottom:none; text-align: center;">
 
 	{{-- ADMIN --}}
 

@@ -75,7 +75,14 @@ $(document).ready(function(){
 	$('')
 });
 
-
+$('body').on('focus', '.datepicker', function(){
+	   $(this).datepicker({
+	   		orientation: "bottom",
+			format: "mm-dd-yyyy",
+			autoclose: true,
+			todayHighlight: true
+	   });
+	});
 </script>
 <style type="text/css">
 	.approve
