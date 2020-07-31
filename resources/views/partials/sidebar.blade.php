@@ -133,14 +133,17 @@
     
       {{-- For HR --}}
 
-      @role('hrms_hr')
-    <li class="treeview {{call_user_func_array('Request::is', (array)['issue*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-table "></i><span class="app-menu__label">Indent & No Dues</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-      <ul class="treeview-menu">
+      {{-- @role('hrms_hr') --}}
+    @permission('hrms-manage-issue-indent')
+      <li class="treeview {{call_user_func_array('Request::is', (array)['issue*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-table "></i><span class="app-menu__label">Indent & No Dues</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <ul class="treeview-menu">
           <li class={{call_user_func_array('Request::is', (array)['issue-indent*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('issue-indent.index')}}"><i class="icon fa fa-chevron-right"></i>Issue Indent</a></li>
           <li class={{call_user_func_array('Request::is', (array)['no-dues-listing*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('hr.nodues')}}"><i class="icon fa fa-chevron-right"></i>No Dues Listing</a></li>
-      </ul>
-    </li>
-    @endrole
+          <li class={{call_user_func_array('Request::is', (array)['item-request*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('item-request.index')}}"><i class="icon fa fa-chevron-right"></i>Issue Indent Requests</a></li>
+        </ul>
+      </li>
+    @endpermission
+    {{-- @endrole --}}
 
     @permission('hrms-manage-staff-separation')
       <li><a class="app-menu__item {{Request::segment(1) == 'separation' ? 'active' : ''}}" href="{{route('separation-hr.index')}}"><i class="app-menu__icon fa fa-chevron-right"></i><span class="app-menu__label">Separation (HR)</span></a></li>
@@ -255,7 +258,7 @@
 
     {{-- User's role & permissions --}} 
     
-    @if(Auth::id() == 65 || Auth::id() == 20)
+    {{-- @if(Auth::id() == 65 || Auth::id() == 20) --}}
       <li class="treeview {{call_user_func_array('Request::is', (array)['acl*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-book "></i><span class="app-menu__label">User Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           <li class={{call_user_func_array('Request::is', (array)['acl/roles*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('roles.index')}}"><i class="icon fa fa-chevron-right"></i>Roles</a></li>
@@ -263,7 +266,7 @@
           <li class={{call_user_func_array('Request::is', (array)['acl/users*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('users.index')}}"><i class="icon fa fa-chevron-right"></i>Users</a></li>
         </ul>
       </li>
-     @endif 
+     {{-- @endif --}}
 
 </aside>
 <script>

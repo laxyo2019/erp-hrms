@@ -24,7 +24,9 @@
 					@endif
 				</td>
 				<td>
-					<button type="button" class="btn btn-danger btn-sm ml-2 delete" value="2" data-id="{{$index->id}}"  id="decBtn_{{$index->id}}">DELETE</button>
+					@if($index->status == 0)
+						<button type="button" class="btn btn-danger btn-sm ml-2 delete" value="2" data-id="{{$index->id}}"  id="decBtn_{{$index->id}}">DELETE</button>
+					@endif
 				</td>
 			</tr>
 		@endforeach

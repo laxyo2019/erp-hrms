@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\issue;
 
+use Auth;
 use Illuminate\Http\Request;
+use App\Models\issue\MyIndent;
 use App\Models\issue\IssueIndent;
 use App\Models\issue\IndentRecord;
 use App\Http\Controllers\Controller;
@@ -15,6 +17,9 @@ class IssueIndentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    #0 = Pending
+    #1 = Received
+    #2 = 
     public function index()
     {
         $indent = IndentRecord::with(['employee'])->get();
@@ -74,14 +79,18 @@ class IssueIndentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource as History Issued indent.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
+        $items = IssueIndent::where('user_id', $id)
+                    ->where('user_action', 3)
+                    ->get();
 
+        return view('issue.hr.IssueIndent.history', compact('items'));
     }
 
     /**
@@ -97,7 +106,9 @@ class IssueIndentController extends Controller
                         ->first();
         $employees = EmployeeMast::all();
 
-        $issued = IssueIndent::where('user_id', $id)->get();
+        $issued = IssueIndent::where('user_id', $id)
+                    ->where('user_action', '<>', 3)
+                    ->get();
 
         return view('issue.hr.IssueIndent.edit', compact('employee', 'employees', 'issued'));
     }
@@ -145,5 +156,30 @@ class IssueIndentController extends Controller
 
         //Delete issue indent record table entry with same user_id
         IssueIndent::where('user_id', $request->arr[1])->delete();
+    }
+
+    public function indexItemRequest(){
+
+        $records = MyIndent::with(['employee'])->get();
+
+        return view('issue.hr.ItemRequest.index', compact('records'));
+    }
+
+    public function approvalItemRequest(Request $request){
+
+        MyIndent::where('id', $request->request_id)
+            ->update([
+                'status'        => $request->value,
+                'approved_by'   => Auth::id(),
+                'reason'        => $request->reason
+            ]);
+
+        if($request->value == 1){
+            $flag = 1;
+        }elseif($request->value == 2){
+            $flag = 2;
+        }
+
+        return $flag;
     }
 }

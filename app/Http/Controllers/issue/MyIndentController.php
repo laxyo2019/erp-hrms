@@ -17,11 +17,19 @@ class MyIndentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    #0 = ISSUED
+    #1 = RECEIVED
+    #2 = HANDOVER
+    #3 = ACCEPTED
+
     public function index()
     {
         $emp = EmployeeMast::where('user_id', Auth::id())->first();
 
-        $indent = IssueIndent::where('user_id', Auth::id())->get();
+        $indent = IssueIndent::where('user_id', Auth::id())
+                        ->where('user_action', '<>', 3)
+                        ->get();
 
         return view('issue.employees.IndentAcceptance.index', compact('emp', 'indent'));
     }
@@ -75,7 +83,9 @@ class MyIndentController extends Controller
         
         if($btnId == 'myIndentList'){
 
-            $indent = IssueIndent::where('user_id', Auth::id())->get();
+            $indent = IssueIndent::where('user_id', Auth::id())
+                        ->where('user_action', '<>', 3)
+                        ->get();
 
             return view('issue.employees.IndentAcceptance.myindent', compact('indent'));
 
@@ -107,13 +117,31 @@ class MyIndentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
+        $item = IssueIndent::where('id', $request->itemId)->first();
 
-        IssueIndent::where('id', $id)
+        if($item == 0 && $request->value_btn == 1){
+
+            IssueIndent::where('id', $id)
             ->update([
                 'user_action'   => 1,
                 'received_date' => $request->received_date
+            ]);    
+        }elseif($request->value_btn == 2){
+            IssueIndent::where('id', $id)
+            ->update([
+                'user_action'   => 2,
+                'handover_date' => $request->handover_date
             ]);
+        }else{
+            IssueIndent::where('id', $id)
+            ->update([
+                'user_action'   => 3,
+                'handover_approval' => $request->handover_approval
+            ]);
+        }
+
+        
     }
 
     /**
@@ -126,5 +154,14 @@ class MyIndentController extends Controller
     {
         MyIndent::where('id', $id)->delete();
 
+    }
+
+    public function history(Request $request){
+
+        $history = IssueIndent::where('user_id', Auth::id())
+                        ->where('user_action', 3)
+                        ->get();
+
+        return view('issue.employees.IndentAcceptance.history', compact('history'));
     }
 }

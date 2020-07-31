@@ -33,6 +33,7 @@ class NoDuesController extends Controller
         $items      =   IssueIndent::where('user_id', Auth::id())
                             ->where('received_date', '!=', '')
                             ->where('user_action', '<>', 0)
+                            ->where('user_action', '<>', 3)
                             ->get();
 
         return view('issue.employees.NoDues.create', compact('hod_approval', 'emp', 'request', 'depart_hod', 'items'));

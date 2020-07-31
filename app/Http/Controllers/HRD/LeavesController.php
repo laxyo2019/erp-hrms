@@ -87,7 +87,7 @@ class LeavesController extends Controller
 
     public function indexTlStaus(Request $request){
         
-        if($request->type == 1){
+        if($request->role == 'tl'){
 
             $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail', 'leave_rejected'])
                 ->orderBy('id', 'DESC')
@@ -95,7 +95,7 @@ class LeavesController extends Controller
                 ->where('reports_to', Auth::id())
                 ->get();
 
-        }elseif($request->type == 2){
+        }/*elseif($request->type == 2){
 
             $from_date = date('d-m-Y', strtotime($request->fromDate));
             $to_date   = date('d-m-Y', strtotime($request->toDate));
@@ -107,7 +107,7 @@ class LeavesController extends Controller
                 ->whereBetween('posted', [$from_date, $to_date])
                 ->where('reports_to', Auth::id())
                 ->get();
-        }
+        }*/
 
         return view('HRD.leaves.status.teamlead-status', compact('leave_request')); 
     }
@@ -130,7 +130,17 @@ class LeavesController extends Controller
 
         if($request->role == 'tl'){
 
-            if($request->type == 1){
+             $from_date = date('d-m-Y', strtotime($request->fromDate));
+                $to_date   = date('d-m-Y', strtotime($request->toDate));
+
+                $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail', 'leave_rejected'])
+                    ->orderBy('id', 'DESC')
+                    ->where('teamlead_approval', $request->leaveStatus)
+                    ->whereBetween('posted', [$from_date, $to_date])
+                    ->where('reports_to', Auth::id())
+                    ->get();
+
+            /*if($request->type == 1){
 
                 $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail', 'leave_rejected'])
                     ->orderBy('id', 'DESC')
@@ -149,13 +159,35 @@ class LeavesController extends Controller
                     ->whereBetween('posted', [$from_date, $to_date])
                     ->where('reports_to', Auth::id())
                     ->get();
-            }
+            }*/
 
             return view('HRD.leaves.status.teamlead-status', compact('leave_request'));
 
         }elseif($request->role == 'hr'){
 
-            if($request->type == 1){
+            $from_date = date('d-m-Y', strtotime($request->fromDate));
+            $to_date   = date('d-m-Y', strtotime($request->toDate));
+
+            /*if($request->leaveStatus == 5){
+
+                $request->leaveStatus = 1;
+                $action = 1;
+
+            }else{
+                $action = 0;
+            }*/
+
+            $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
+                    ->orderBy('id', 'DESC')
+                    //->where('teamlead_approval', 1)
+                    //->where('subadmin_approval', $request->leaveStatus)
+                    ->whereBetween('posted', [$from_date, $to_date])
+                    ->where('admin_approval', $request->leaveStatus)
+                    ->get();
+
+            //dd([$request->leaveStatus, $to_date, $from_date]);
+
+            /*if($request->type == 1){
 
                 $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
                     ->orderBy('id', 'DESC')
@@ -174,13 +206,24 @@ class LeavesController extends Controller
                     ->where('subadmin_approval', 1)
                     ->whereBetween('posted', [$from_date, $to_date])
                     ->get();
-            }
+            }*/
 
             return view('HRD.leaves.status.hr-status', compact('leave_request'));
 
         }elseif($request->role == 'admin'){
 
-            if($request->type == 1){
+            $from_date = date('d-m-Y', strtotime($request->fromDate));
+                $to_date   = date('d-m-Y', strtotime($request->toDate));
+
+                $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
+                    ->orderBy('id', 'DESC')
+                    //->where('teamlead_approval', 1)
+                    ->where('subadmin_approval', 1)
+                    ->where('admin_approval', $request->leaveStatus)
+                    ->whereBetween('posted', [$from_date, $to_date])
+                    ->get();
+
+            /*if($request->type == 1){
 
                 $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
                     ->orderBy('id', 'DESC')
@@ -199,7 +242,7 @@ class LeavesController extends Controller
                     ->where('admin_approval', 1)
                     ->whereBetween('posted', [$from_date, $to_date])
                     ->get();
-            }
+            }*/
 
             return view('HRD.leaves.status.admin-status', compact('leave_request'));
 

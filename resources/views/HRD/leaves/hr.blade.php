@@ -17,20 +17,20 @@
 						@endif
 						<div class="row col-12">
 							<div class="col-2">
-								<label for="">Status</label>
-									<select name="status" id="leaveStatus" aria-controls="ClientsTable" class="custom-select custom-select-sm form-control form-control-sm">
-									<option >Select status</option>
-									<option value="1">APPROVED</option>
-									<option value="0">PENDING</option>
-								</select>
-							</div>
-							<div class="col-2">
 								<label for="">From</label>
 								<input name="from" aria-controls="ClientsTable" class="form-control form-control-sm datepicker" id="fromDate" autocomplete="off">
 							</div>
 							<div class="col-2">
 								<label for="">To</label>
 								<input name="from" aria-controls="ClientsTable" class="form-control form-control-sm datepicker" id="toDate" autocomplete="off">
+							</div>
+							<div class="col-2">
+								<label for="">Status</label>
+									<select name="status" id="leaveStatus" aria-controls="ClientsTable" class="custom-select custom-select-sm form-control form-control-sm">
+									<option >Select status</option>
+									<option value="0">PENDING</option>
+									<option value="1">APPROVED</option>
+								</select>
 							</div>
 						</div><br>
 						<div id="teamLeadStatus">
@@ -236,17 +236,17 @@ $('.datepicker').datepicker({
 						$('#dec_msg_'+request_id).show();
 					}
 				}else if(res.flag == 0){
-					alert(res.msg)
+
 					location.reload();
 				}
 			}
-		})
+		});
 	});
 
 	//Reverse leaves
 	
 	$('.reverse').on('click', function(){
-		
+
 		var request_id 	= $(this).val();
 		$.ajax({
 			type: 'POST',
@@ -267,15 +267,20 @@ $('.datepicker').datepicker({
 	});
 
 	$('#leaveStatus').on('change', function(){
+
 		var leaveStatus = $(this).val()
 
-		var type = 1;
-		var role = 'hr';
+		// Date
+		var role 	 = 'hr';
+		var fromDate = $('#fromDate').val();
+		var toDate	 = $('#toDate').val();
+
+		//alert([role, fromDate, toDate])
 
 		$.ajax({
 			type: 'POST',
 			url: '{{route('leave.status')}}',
-			data: {'leaveStatus': leaveStatus, 'type': type, 'role': role},
+			data: {'leaveStatus': leaveStatus, 'role': role, 'fromDate': fromDate, 'toDate': toDate},
 			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			success: function(res){
 
@@ -284,7 +289,7 @@ $('.datepicker').datepicker({
 		})
 	})
 
-	$('#toDate').on('changeDate', function(){
+	/*$('#toDate').on('changeDate', function(){
 		var fromDate = $('#fromDate').val();
 		var toDate	 = $(this).val();
 		var type 	 = 2;
@@ -292,7 +297,7 @@ $('.datepicker').datepicker({
 
 		$.ajax({
 			type: 'POST',
-			url: '{{route('leave.status')}}',
+			
 			data: {'fromDate': fromDate, 'toDate': toDate, 'type': type, 'role': role},
 			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			success: function(res){
@@ -300,7 +305,7 @@ $('.datepicker').datepicker({
 				$('#teamLeadStatus').html(res)
 			}
 		})
-	})
+	})*/
 
   });
 

@@ -40,7 +40,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-6"><h5>Article/Assets Details </h5></div>
+				<div class="col-6"><h5>Article/Items Details </h5></div>
 				<div class="col-6">
 					<button class="btn-sm btn-primary rounded-sm" style="font-size:18px;float: right;" id="addMore" title="Add More Person"><i class="fa fa-plus"></i></button>
 				</div>
@@ -123,7 +123,7 @@ $(document).ready(function(){
 
 	$('#addMore').on('click', function(e){
 		e.preventDefault();
-		var html = '<div id="row'+i+'"><hr><div class="row col-12"><div class="col-3 form-group"><label for="emp_code">Serial no.</label><input type="text" class="form-control" name="serial[]" ></div><div class="col-3 form-group"><label for="emp_code">Name</label><input type="text" name="name[]" class="form-control"></div><div class="col-3 form-group"><label for="emp_code">Model</label><input type="text" name="model[]" class="form-control"></div><div class="col-3 form-group">		<label for="emp_code">Color</label><input type="text" name="color[]" class="form-control"></div><div class="col-3 form-group"><label for="emp_code">Issue Date</label><input type="text" name="given_date[]" class="form-control datepicker"></div><div class="col-3 form-group"><label for="emp_code">Quantity</label><input type="number" min="1" name="quantity[]" class="form-control"></div><div class="col-3 form-group" align="center" style="padding-top: 10px;width="50px"><div><label for="emp_code"></label></div><button class="btn-danger btn-sm btn_remove" id="'+i+'"><span class="fa fa-lg fa-times"></span></button></div></div></div>';
+		var html = '<div id="row'+i+'"><hr><div class="row col-12"><div class="col-3 form-group"><label for="emp_code">Serial no.</label><input type="text" class="form-control" name="serial[]" ></div><div class="col-3 form-group"><label for="emp_code">Name</label><input type="text" name="name[]" class="form-control"></div><div class="col-3 form-group"><label for="emp_code">Model</label><input type="text" name="model[]" class="form-control"></div><div class="col-3 form-group">		<label for="emp_code">Color</label><input type="text" name="color[]" class="form-control"></div><div class="col-3 form-group"><label for="emp_code">Issue Date</label><input type="text" name="given_date[]" class="form-control datepicker" autocomplete="off"></div><div class="col-3 form-group"><label for="emp_code">Quantity</label><input type="number" min="1" name="quantity[]" class="form-control"></div><div class="col-3 form-group" align="center" style="padding-top: 10px;width="50px"><div><label for="emp_code"></label></div><button class="btn-danger btn-sm btn_remove" id="'+i+'"><span class="fa fa-lg fa-times"></span></button></div></div></div>';
 
 			$('#addRow').append(html)
 

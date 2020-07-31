@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-6"><h4>Issued Article/Assets Details</h4></div>
+	<div class="col-6"><h4>Issued Article/Items Details</h4></div>
 </div>
 @foreach($indent as $index)
 	<hr>
@@ -33,13 +33,43 @@
 				<label for="received_date">Received Date</label>
 				<input type="text" name="received_date[]" id="received_{{$index->id}}" class="form-control datepicker" autocomplete="off" value="{{$index->received_date}}">
 			</div>
-			<div class="col-3 form-group" style="padding: 30px 0 0 0; text-align: center">
-				@if($index->user_action == 0)
-					<button type="button"  data-id="{{$index->id}}" class="btn btn-success btn-sm action" value="1" id="apprvBtn_{{$index->id}}">RECEIVE</button>
+			@if($index->user_action != 0 || $index->user_action == 1)
+			<div class="col-3 form-group">
+				<label for="received_date">Handover Date</label>
+				<input type="text" name="handover_date[]" id="handover_{{$index->id}}" class="form-control datepicker" autocomplete="off" value="{{$index->handover_date}}">
+			</div>
+			@endif
+		</div><br>
+		<div class="row col-12">
+			<div class="col-3 form-group" style="padding-top: 10px">
+				<label>STATUS &nbsp  - &nbsp</label>
 
-					<strong class="apprv_msg" id="apprv_msg_{{$index->id}}" style="display: none;font-weight: bold;" >RECEIVED</strong>
+					<strong id="recvMsg_{{$index->id}}" style="color: #0cac0c; font-weight: bold; display: none">RECEIVED</strong>
+					<strong id="handMsg_{{$index->id}}" style="color: #3375ca; font-weight: bold; display: none">HANDOVERED</strong>
+
+				@if($index->user_action == 0)
+					<strong id="issueMsg_{{$index->id}}" style="color: #0cac0c; font-weight: bold;">ISSUED</strong>
 				@elseif($index->user_action == 1)
-					<strong style="color: #0cac0c; font-weight: bold;">RECEIVED</strong>
+					<strong id="receiveMsg_{{$index->id}}" style="color: #0cac0c; font-weight: bold;">RECEIVED</strong>
+				@elseif($index->user_action == 2)
+					<strong id="handoverMsg_{{$index->id}}" style="color: #3375ca; font-weight: bold;">HANDOVERED</strong>
+				@elseif($index->user_action == 3)
+					<strong id="acceptance_{{$index->id}}" style="color: #3375ca; font-weight: bold;">ACCEPTED</strong>
+				@endif
+			</div>
+			<div class="col-3 form-group">
+
+				<button type="button" style="display: none" data-id="{{$index->id}}" class="btn btn-primary btn-sm action" value="2" id="handBtn_{{$index->id}}">handover</button>
+
+
+				@if($index->user_action == 0)
+
+					<button type="button"  data-id="{{$index->id}}" class="btn btn-success btn-sm action" value="1" id="recvBtn_{{$index->id}}">received</button>
+
+				@elseif($index->user_action == 1)
+
+					<button type="button"  data-id="{{$index->id}}" class="btn btn-primary btn-sm action" value="2" id="handBtnraw_{{$index->id}}">handover</button>
+
 				@endif
 			</div>
 		</div>
@@ -49,30 +79,64 @@
 $(document).ready(function(){
 
 	$('.action').on('click', function(){
+
 		var itemId	 = $(this).data('id');
 
-		var received_date = $('#received_'+itemId).val();
+		var value_btn = $(this).val();
 
-		if(received_date != ''){
-			$.ajax({
-				type: 'PATCH',
-				url: '/issue/my-indent/'+itemId,
-				headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-				data: {'received_date': received_date},
-				success: function(){
+		if(value_btn == 1){
 
-					$('#apprvBtn_'+itemId).hide();
-					$('#apprv_msg_'+itemId).show();
+			var received_date = $('#received_'+itemId).val();
 
-				}
-			});
-		}else{
+			if(received_date != ''){
+				$.ajax({
+					type: 'PATCH',
+					url: '/issue/my-indent/'+itemId,
+					headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+					data: {'received_date': received_date, 'value_btn': value_btn},
+					success: function(){
 
-			alert('Receive date can\'t be empty.');
+						if(value_btn == 1){
+
+							$('#recvBtn_'+itemId).hide();
+							$('#recvMsg_'+itemId).show();
+							$('#issueMsg_'+itemId).hide()
+							$('#handBtn_'+itemId).show()
+						}
+
+					}
+				});
+			}else{
+
+				alert('Receive date can\'t be empty.');
+			}
+
+		}else if(value_btn == 2){
+
+			var handover_date = $('#handover_'+itemId).val();
+
+			if(handover_date != ''){
+
+				$.ajax({
+					type: 'PATCH',
+					url: '/issue/my-indent/'+itemId,
+					headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+					data: {'handover_date': handover_date, 'value_btn': value_btn},
+					success: function(){
+
+						$('#handBtnraw_'+itemId).hide();
+						$('#receiveMsg_'+itemId).hide();
+						$('#handMsg_'+itemId).show()
+					}
+				});
+
+			}else{
+
+				alert('Handover date can\'t be empty.');
+			}
 		}
+		
 	})
-
-	$('')
 });
 
 $('body').on('focus', '.datepicker', function(){
