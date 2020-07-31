@@ -174,11 +174,11 @@
 
 {{-- Reverse Leave button for TeamLead --}}
 
-@elseif($request->teamlead_approval == 1 && $request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_teamlead'))
+{{-- @elseif($request->teamlead_approval == 1 && $request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_teamlead'))
 	
 	<div class="rev_msg" id="rev_msg_{{$request->id}}" style="display: none;">REVERSED</div>
 
-	<button type="button" data-id="{{$request->id}}" class="btn btn-sm reverse" value="{{$request->id}}" id="revBtn_{{$request->id}}">REVERSE</button>
+	<button type="button" data-id="{{$request->id}}" class="btn btn-sm reverse" value="{{$request->id}}" id="revBtn_{{$request->id}}">REVERSE</button> --}}
 
 {{-- Approve/Decline/Reverse message for TeamLead --}}
 
@@ -214,11 +214,11 @@
 
 {{-- Reverse Leave button for SubAdmin --}}
 
-@elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_hr'))
+{{-- @elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_hr'))
 	
 	<div class="rev_msg" id="rev_msg_{{$request->id}}" style="display: none;">REVERSED</div>
 
-	<button type="button" data-id="{{$request->id}}" class="btn btn-sm reverse" value="{{$request->id}}" id="revBtn_{{$request->id}}">REVERSE</button>
+	<button type="button" data-id="{{$request->id}}" class="btn btn-sm reverse" value="{{$request->id}}" id="revBtn_{{$request->id}}">REVERSE</button> --}}
 
 {{-- Approve/Decline/Reverse message for SubAdmin --}}
 
@@ -252,11 +252,11 @@
 
 {{-- Reverse button for ADMIN --}}
 
-@elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin'))
+{{-- @elseif($request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_admin'))
 	
 	<strong class="rev_msg" id="rev_msg_{{$request->id}}" style="display: none;" >REVERSED</strong>
 
-	<button type="button" data-id="{{$request->id}}" class="btn btn-sm reverse" value="{{$request->id}}" id="revBtn_{{$request->id}}">REVERSE</button>
+	<button type="button" data-id="{{$request->id}}" class="btn btn-sm reverse" value="{{$request->id}}" id="revBtn_{{$request->id}}">REVERSE</button> --}}
 
 {{-- Approve/Decline message for Admin --}}
 

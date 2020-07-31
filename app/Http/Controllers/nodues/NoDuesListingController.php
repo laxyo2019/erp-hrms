@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\nodues;
 
 use Auth;
-//use App\Models\NoDues;
 use App\Models\nodues\NoDues;
 use Illuminate\Http\Request;
 use App\Models\Employees\Hod;

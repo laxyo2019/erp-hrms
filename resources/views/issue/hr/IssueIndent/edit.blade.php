@@ -93,7 +93,7 @@ $(document).ready(function(){
 		
 	@endphp
 
-	var html = '<div id="row'+i+'"><br><div class="row col-12"><div class="col-6"><h4>Item Details </h4></div><div class="col-6"><button class="btn-sm btn-primary rounded-sm" style="font-size:18px;float: right;" id="addMore" title="Add More Person"><i class="fa fa-plus"></i></button></div><br>';
+	var html = '<div id="row'+i+'"><br><div class="row col-12"><div class="col-6"><h4>Article/Assets Details </h4></div><div class="col-6"><button class="btn-sm btn-primary rounded-sm" style="font-size:18px;float: right;" id="addMore" title="Add More Person"><i class="fa fa-plus"></i></button></div><br>';
 	
 	html += '<div class="row col-12"><div class="col-3 form-group"><label for="serial">Serial no.</label><input type="text" class="form-control" name="serial[]" value="{{$issued[0]['serial']}}" {{$issued[0]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
 
@@ -136,7 +136,7 @@ $(document).ready(function(){
 
 		html += '<div class="col-3 form-group"><label for="received_date">Received Date</label><input type="text" name="received_date[]" disabled="true" class="form-control" value="{{$issued[$i]['received_date']}}" {{$issued[$i]['user_action'] == 1 ? 'disabled="true"' : ''}}></div>';
 
-		html += @if($issued[$i]["user_action"] == 0)'<div class="col-3 form-group" align="center" style="padding-top: 40px; color: white;"><div></div><a class="btn-danger btn-sm btn_remove" id="'+i+'"><span class="fa fa-lg fa-times"></span></a></div>@elseif($issued[$i]["user_action"] == 1)<div class="col-3 form-group" style="text-align:center;padding-top: 40px;"><strong style="color: #0cac0c; font-weight: bold;">RECEIVED</strong></div>@endif</div></div>';
+		html += @php if($issued[$i]["user_action"] == 0) { @endphp'<div class="col-3 form-group" align="center" style="padding-top: 40px; color: white;"><div></div><a class="btn-danger btn-sm btn_remove" id="'+i+'"><span class="fa fa-lg fa-times"></span></a></div>'@php } elseif($issued[$i]["user_action"] == 1){ @endphp '<div class="col-3 form-group" style="text-align:center;padding-top: 40px;"><strong style="color: #0cac0c; font-weight: bold;">RECEIVED</strong></div>'@php  } @endphp;
 
 		html += '<input type="hidden" name="user_action[]" value="{{$issued[$i]['user_action']}}" {{$issued[$i]['user_action'] == 1 ? 'disabled="true"' : ''}}>';
 
@@ -157,7 +157,7 @@ $(document).ready(function(){
 		
 		html += '<div class="col-3 form-group"><label for="color">Color</label><input type="text" name="color[]" class="form-control"></div>';
 
-		html += '<div class="col-3 form-group"><label for="given_date">Issue Date</label><input type="text" name="given_date[]" class="form-control datepicker"></div>';
+		html += '<div class="col-3 form-group"><label for="given_date">Issue Date</label><input type="text" name="given_date[]" class="form-control datepicker" autocomplete="off"></div>';
 
 		html += '<div class="col-3 form-group"><label for="quantity">Quantity</label><input type="number" min="1" name="quantity[]" class="form-control"></div>';
 
@@ -174,13 +174,6 @@ $(document).ready(function(){
 
 		$('#row'+button_id+'').remove();
 	});
-
-	// $(document).on('keyup', '.datepicker').datepicker({
-	// 	orientation: "bottom",
-	// 	format: "mm-dd-yyyy",
-	// 	autoclose: true,
-	// 	todayHighlight: true
-	// });
 
 });
 $('body').on('focus', '.datepicker', function(){

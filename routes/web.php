@@ -25,6 +25,7 @@ Route::get('/url_test', 'HRD\LeavesController@updateLeaveBalance');
 Route::group(['middleware' => ['role:hrms_teamlead']], function() {
 
 	Route::get('leave-request/teamlead', 'HRD\LeavesController@indexTeamlead')->name('request.teamlead');
+	Route::post('leave-request/teamlead-status', 'HRD\LeavesController@leaveStatus')->name('leave.status');
 
 	route::post('leave-request/teamlead/{req_id}', 'HRD\LeavesController@tl_approval');	
 
@@ -180,6 +181,8 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr|hrms_subadmin']], functi
 
 ##### ISSUE Indent & No Dues#####
 Route::resource('issue-indent', 'issue\IssueIndentController');
+Route::get('item-requests/index', 'issue\IssueIndentController@indexItemRequest')->name('item-request.index');
+Route::post('item-request/approval', 'issue\IssueIndentController@approvalItemRequest')->name('item.approval');
 
 Route::resource('issue/my-indent', 'issue\MyIndentController');
 
@@ -187,9 +190,13 @@ Route::post('issue/my-indent/tab/{tab}', 'issue\MyIndentController@showTab');
 
 
 ######## No-dues ########
-Route::resource('issue/no-dues-request', 'nodues\NoDuesController');
-Route::resource('no-dues-listing', 'nodues\NoDuesListingController');
-Route::post('no-dues/department-head/show', 'nodues\NoDuesListingController@show')->name('hod.show');
+#Employees#
+Route::resource('issue/no-dues-request', 'issue\NoDuesController');
+#HR#
+Route::get('no-dues-listing', 'issue\NoDuesController@indexNodues')->name('hr.nodues');
+Route::post('no-dues/department-head/show', 'issue\NoDuesController@showNodues')->name('hod.show');
+Route::post('no-dues-listing/store', 'issue\NoDuesController@storeNodues')->name('no-dues-listing.store');
+Route::get('no-dues-details/{id}', 'issue\NoDuesController@noduesDetails')->name('nodues.detail');
 
 #  Staff \ Employees Separation -------------
 	
@@ -332,6 +339,8 @@ Route::get('leave-request/{id}/download', 'Employee\LeavesController@download')-
 Route::get('balance', 'Employee\LeavesController@balance');
 
 Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_designation')->name('employees.fetch_designation');
+
+Route::get('filter/leave-request', 'HRD\LeavesController@leaveFilter');
 
 /*****************************************/
 	# Recruitement Requests

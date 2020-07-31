@@ -41,8 +41,7 @@ class EmployeesController extends Controller
   }
 
   public function index()
-  {   
-    
+  {
     $employees = EmployeeMast::where('deleted_at', null)
                     ->with('company','grade','designation')
                     ->orderBy('emp_name','ASC')->get();

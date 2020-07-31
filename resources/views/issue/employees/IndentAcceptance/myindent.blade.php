@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-6"><h4>Issued Item Details</h4></div>
+	<div class="col-6"><h4>Issued Article/Assets Details</h4></div>
 </div>
 @foreach($indent as $index)
 	<hr>
@@ -31,7 +31,7 @@
 			</div>
 			<div class="col-3 form-group">
 				<label for="received_date">Received Date</label>
-				<input type="text" name="received_date[]" id="received_{{$index->id}}" class="form-control datepicker" value="{{$index->received_date}}">
+				<input type="text" name="received_date[]" id="received_{{$index->id}}" class="form-control datepicker" autocomplete="off" value="{{$index->received_date}}">
 			</div>
 			<div class="col-3 form-group" style="padding: 30px 0 0 0; text-align: center">
 				@if($index->user_action == 0)

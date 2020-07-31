@@ -37,12 +37,12 @@
                 <td >{{ucwords($index['employee']->emp_name)}}</td>
                 <td>
                   <div class="row">
-                    <div class="col" align="right">
+                    <div class="col">
                       <a href="{{route('issue-indent.edit',$index->user_id)}}" class="btn btn-sm btn-info">Issued Indent</a>
                       </div>
-                        <div class="col" align="left">
+                        {{-- <div class="col" align="left">
                          <a href="{{route('issue-indent.edit',$index->id)}}" class="btn btn-sm btn-info">No Dues</a>
-                        </div>
+                        </div> --}}
                       </div>
                     </td>
                     <td><button class="btn-danger btn-sm deleteRequest" 

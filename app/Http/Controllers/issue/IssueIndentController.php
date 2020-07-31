@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\issue;
 
+use Auth;
 use Illuminate\Http\Request;
+use App\Models\issue\MyIndent;
 use App\Models\issue\IssueIndent;
 use App\Models\issue\IndentRecord;
 use App\Http\Controllers\Controller;
@@ -111,10 +113,6 @@ class IssueIndentController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        //return $request->all();
-        IssueIndent::where('user_id', $id)->delete();
-
         $i = 0;
 
         for($i=0; $i < count(($request->name)); $i++){
@@ -128,7 +126,6 @@ class IssueIndentController extends Controller
                 'quantity'   => $request->quantity[$i],
                 'color'      => $request->color[$i],
                 'issue_date' => $request->given_date[$i],
-                'user_action'=> $request->user_action[$i]
             ]);
         }
 
@@ -150,5 +147,30 @@ class IssueIndentController extends Controller
 
         //Delete issue indent record table entry with same user_id
         IssueIndent::where('user_id', $request->arr[1])->delete();
+    }
+
+    public function indexItemRequest(){
+
+        $records = MyIndent::with(['employee.department'])->get();
+
+        return view('issue.hr.ItemRequest.index', compact('records'));
+    }
+
+    public function approvalItemRequest(Request $request){
+
+        MyIndent::where('id', $request->request_id)
+            ->update([
+                'status'        => $request->value,
+                'approved_by'   => Auth::id(),
+                'reason'        => $request->reason
+            ]);
+
+        if($request->value == 1){
+            $flag = 1;
+        }elseif($request->value == 2){
+            $flag = 2;
+        }
+
+        return $flag;
     }
 }

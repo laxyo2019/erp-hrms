@@ -40,7 +40,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-6"><h5>Item Detail </h5></div>
+				<div class="col-6"><h5>Article/Assets Details </h5></div>
 				<div class="col-6">
 					<button class="btn-sm btn-primary rounded-sm" style="font-size:18px;float: right;" id="addMore" title="Add More Person"><i class="fa fa-plus"></i></button>
 				</div>
