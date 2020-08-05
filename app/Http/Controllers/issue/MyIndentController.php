@@ -128,20 +128,21 @@ class MyIndentController extends Controller
                 'received_date' => $request->received_date
             ]);    
         }elseif($request->value_btn == 2){
+
             IssueIndent::where('id', $id)
             ->update([
                 'user_action'   => 2,
                 'handover_date' => $request->handover_date
             ]);
         }else{
+
+            //dd($request->handover_approval);
             IssueIndent::where('id', $id)
             ->update([
-                'user_action'   => 3,
+                'user_action'       => 3,
                 'handover_approval' => $request->handover_approval
             ]);
         }
-
-        
     }
 
     /**

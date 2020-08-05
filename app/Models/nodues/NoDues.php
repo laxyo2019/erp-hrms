@@ -17,4 +17,8 @@ class NoDues extends Model
 
     	return $this->belongsTo('App\Models\Master\DeptMast', 'department_id');
     }
+
+    public function hod(){
+    	return $this->belongsTo('App\Models\Employees\EmployeeMast', 'emp_hod', 'user_id');
+    }
 }

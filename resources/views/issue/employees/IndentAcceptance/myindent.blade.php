@@ -101,9 +101,8 @@ $(document).ready(function(){
 							$('#recvBtn_'+itemId).hide();
 							$('#recvMsg_'+itemId).show();
 							$('#issueMsg_'+itemId).hide()
-							$('#handBtn_'+itemId).show()
+							//$('#handBtn_'+itemId).show()
 						}
-
 					}
 				});
 			}else{
@@ -135,7 +134,6 @@ $(document).ready(function(){
 				alert('Handover date can\'t be empty.');
 			}
 		}
-		
 	})
 });
 

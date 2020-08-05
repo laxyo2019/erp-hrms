@@ -52,7 +52,7 @@ class IssueIndentController extends Controller
     {
         $this->validate($request, [
             'employees' => 'required',
-            'emp_code'  => 'required'
+            //'emp_code'  => 'required'
         ]);
 
         IndentRecord::create([

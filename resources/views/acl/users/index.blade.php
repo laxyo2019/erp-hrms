@@ -40,7 +40,7 @@
                       <td> {{++$count}}</td>
                       <td>{{ucwords($index->name)}}</td>
                       <td>{{$index->email}}</td>
-                      @ability('hrms_admin', 'hrms-edit')
+                      {{-- @ability('hrms_admin', 'hrms-edit') --}}
                         <td >
                           <div class="row">
                             
@@ -50,7 +50,7 @@
                             
                           </div>
                         </td>
-                      @endability
+                      {{-- @endability --}}
                     </tr>
                 @endforeach
             </tbody>

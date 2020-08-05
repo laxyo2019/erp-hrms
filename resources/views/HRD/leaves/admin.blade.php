@@ -112,20 +112,21 @@
 									        	<div class="modal-body table-responsive" id="detailTable" style="background: #ececec">
 									        	</div>
 									        	 <div class="modal-footer">
-									          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+									          <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Close</button>
 									        </div>
 									        </div>
 									    </div>
 									</div>
-		
+
 <td style="border-bottom:none; text-align: center;">
 
 	{{-- ADMIN --}}
 
-{{-- 		Approve/Decline button for ADMIN 		--}}
+{{-- Approve/Decline button for ADMIN --}}
 
 @if($request->subadmin_approval == 1 && auth()->user()->hasrole('hrms_admin') && $request->admin_approval == 0 )
 	<strong class="apprv_msg" id="apprv_msg_{{$request->id}}" style="display: none;">APPROVED</strong>
+	
 	<strong class="dec_msg" id="dec_msg_{{$request->id}}" style="display: none;">DECLINED</strong>
 
 	<button type="button" data-id="{{$request->id}}" class="btn btn-success btn-sm action" value="1" id="apprvBtn_{{$request->id}}">APPROVE</button>

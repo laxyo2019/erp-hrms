@@ -27,23 +27,30 @@
                 <td>{{ucwords($index['employee']->emp_name)}}</td>
                 <td>{{strtoupper($index['department']->name)}}</td>
                 <td>
-                	@if($index->action == 0)
 
-                		@if($index->hod_user_id == Auth::id())
 
-                			<strong class="apprv_msg" id="apprv_msg_{{$index->nodues_request_id}}" style="display: none;" >APPROVED</strong>
-                    		<strong class="dec_msg" id="dec_msg_{{$index->nodues_request_id}}" style="display: none;" >DECLINED</strong>
+                  	@if($index->action == 0)
 
-                			<button type="button"  data-id="{{$index->nodues_request_id}}" class="btn btn-success btn-sm action" value="1" id="apprvBtn_{{$index->nodues_request_id}}"><i class="fa fa-check" aria-hidden="true"></i></button>
-                			<button type="button" data-id="{{$index->nodues_request_id}}" class="btn btn-danger btn-sm ml-2 action decline" value="2" id="decBtn_{{$index->nodues_request_id}}"><i class="fa fa-times" aria-hidden="true"></i></button>
-                		@else
-          					<strong style="color: grey;">PENDING</strong>
-          				@endif
-        				@elseif($index->action == 1)
-        					<strong style="color: #0cac0c;">APPROVED</strong>
-        				@elseif($index->action == 2)
-        					<strong style="color: #3375ca;">DECLINED</strong>
-        				@endif
+                  		@if($index->hod_user_id == Auth::id())
+
+                        @if($item_count <= 0)
+
+                    			<strong class="apprv_msg" id="apprv_msg_{{$index->nodues_request_id}}" style="display: none;" >APPROVED</strong>
+                        		<strong class="dec_msg" id="dec_msg_{{$index->nodues_request_id}}" style="display: none;" >DECLINED</strong>
+
+                    			<button type="button"  data-id="{{$index->nodues_request_id}}" class="btn btn-success btn-sm action" value="1" id="apprvBtn_{{$index->nodues_request_id}}"><i class="fa fa-check" aria-hidden="true"></i></button>
+                    			<button type="button" data-id="{{$index->nodues_request_id}}" class="btn btn-danger btn-sm ml-2 action decline" value="2" id="decBtn_{{$index->nodues_request_id}}"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    		@else
+              					 <strong style="color: grey;">PENDING</strong>
+              				  @endif
+                      @endif
+            				@elseif($index->action == 1)
+            					<strong style="color: #0cac0c;">APPROVED</strong>
+            				@elseif($index->action == 2)
+            					<strong style="color: #3375ca;">DECLINED</strong>
+            				@endif
+
+                  
               </td>
 			</tr>
 		@endforeach

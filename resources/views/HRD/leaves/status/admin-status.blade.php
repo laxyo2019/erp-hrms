@@ -132,4 +132,103 @@
 	      { "orderable": false, "targets": 0,  }
 	    ]
 	});
+
+	$('.modalReq').on('click', function(e){
+		e.preventDefault();
+		var leave_id = $(this).data('id');
+		$.ajax({
+			type: 'GET',
+			url: '/hrd/leaves/'+leave_id,
+			success:function(res){
+				$('#detailTable').empty().html(res);
+				$('#reqModal').modal('show');
+			}
+		})
+	});
+
+	// Approve/Decline requests.
+
+	$('.action').on('click', function(){
+
+		var action 		= $(this).val();
+		var request_id 	= $(this).data('id');
+
+		//alert([action, request_id]);
+
+		if(action == 2){
+
+			var txt = prompt('Please enter reason.');
+
+			if(txt != null){
+
+				$('.decline').attr('value', txt);
+
+			}else{
+				return false;
+			}
+		}
+
+		$.ajax({
+			type: 'POST',
+			url: "/leave-request/admin/"+request_id,
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			data: {'action':action, 'text':txt},
+			success:function(res){
+
+				if(res.flag == 1){
+					$('#apprvBtn_'+request_id).hide();
+					$('#decBtn_'+request_id).hide();
+					if(res.action == 1){
+						$('#apprv_msg_'+request_id).show();
+					}else{
+						
+						$('#dec_msg_'+request_id).show();
+					}
+				}
+			}
+		})
+	});
+
+	//Reverse leaves
+	
+	$('.reverse').on('click', function(){
+		
+		var request_id 	= $(this).val();
+		$.ajax({
+			type: 'POST',
+			url: '/reverse/admin/'+request_id,
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			//data: {action:'action'},
+			success:function(res){
+
+				if(res.flag == 1){
+					$('#revBtn_'+request_id).hide();
+					$('#rev_msg_'+request_id).show();
+				}else if(res.flag ==  0){
+					alert(res.msg)
+					location.reload();
+				}
+			}
+		});
+	});
+
+	$('#leaveStatus').on('change', function(){
+		var leaveStatus = $(this).val()
+
+		// Date
+		var role 	 = 'admin';
+		var fromDate = $('#fromDate').val();
+		var toDate	 = $('#toDate').val();
+
+		$.ajax({
+			type: 'POST',
+			url: '{{route('leave.status')}}',
+			data: {'leaveStatus': leaveStatus, 'role': role, 'fromDate': fromDate, 'toDate': toDate},
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			success: function(res){
+
+				$('#teamLeadStatus').empty().html(res);
+			}
+		})
+	})
 </script>

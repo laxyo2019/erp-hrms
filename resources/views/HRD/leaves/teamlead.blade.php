@@ -107,7 +107,7 @@
 									        	<div class="modal-body table-responsive" id="detailTable" style="background: #ececec">
 									        	</div>
 									        	 <div class="modal-footer">
-									          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+									          <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Close</button>
 									        </div>
 									        </div>
 									    </div>

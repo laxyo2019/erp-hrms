@@ -6,7 +6,7 @@
 <main class="app-content">
 	<div style=" padding: 1.5rem; border: 1px solid white;background: white">
 		<h1 style="font-size: 24px">Generate No Dues Request
-			<a href="{{ route('no-dues-request.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Back</a>
+			<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Back</a>
 		</h1><hr>
 		<div>
 			@if($message = Session::get('success'))
@@ -113,6 +113,20 @@
 						<label for="given_date">Handover Date</label>
 						<input type="text" name="handover_date[]" class="form-control datepicker " autocomplete="off" required id="handover_date" value="{{$index->handover_date}}">
 					</div>
+					<div class="col-3 form-group">
+						<label for="given_date">Handover Acceptance Date</label>
+						<input type="text" name="handover_aprpoval[]" class="form-control datepicker " autocomplete="off" required id="handover_{{$index->id}}" value="{{$index->handover_approval}}">
+					</div>
+					<div class="col-3 form-group" style="padding-top: 25px">
+
+						<strong id="handoverMsg_{{$index->id}}" style="color: #3375ca; font-weight: bold;display: none">HANDOVERED APPROVED</strong>
+
+						@if($index->handover_approval == null)
+							<button type="button"  data-id="{{$index->id}}" class="btn btn-primary btn-sm action" value="3" id="handBtn_{{$index->id}}">approve handover</button>
+						@else
+							<div style="color: #3375ca; font-weight: bold;padding-top: 15px">HANDOVERED APPROVED</div>
+						@endif
+					</div>
 				</div>
 			</div>
 			@endforeach
@@ -127,13 +141,36 @@
 		todayHighlight: true
 	});
 
-	/*$('#noduesSubmit').on('click', function(e){
-		e.preventDefault();
+	$('.action').on('click', function(){
 
-		var handover = $('#handover_date').val();
+		var itemId	 = $(this).data('id');
 
-		if()
-	})*/
+		var value_btn = $(this).val();
+
+		if(value_btn == 3){
+
+			var handover_approval = $('#handover_'+itemId).val();
+
+			if(handover_date != ''){
+
+				$.ajax({
+					type: 'PATCH',
+					url: '/issue/my-indent/'+itemId,
+					headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+					data: {'handover_approval': handover_approval, 'value_btn': value_btn},
+					success: function(){
+
+						$('#handBtn_'+itemId).hide();
+						$('#handoverMsg_'+itemId).show()
+					}
+				});
+
+			}else{
+
+				alert('Handover date can\'t be empty.');
+			}
+		}
+	})
 
 </script>
 <style type="text/css">

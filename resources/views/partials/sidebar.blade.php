@@ -122,19 +122,28 @@
     
 
     {{-- For Employees --}}
-    @role('hrms_employee')
    <li class="treeview {{call_user_func_array('Request::is', (array)['issue*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-table "></i><span class="app-menu__label">Indent & No Dues</span><i class="treeview-indicator fa fa-angle-right"></i></a>
       <ul class="treeview-menu">
           <li class={{call_user_func_array('Request::is', (array)['my-indent*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('my-indent.index')}}"><i class="icon fa fa-chevron-right"></i>My Indent</a></li>
           <li class={{call_user_func_array('Request::is', (array)['no-dues-request*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('no-dues-request.index')}}"><i class="icon fa fa-chevron-right"></i>No Dues Request</a></li>
+
+          {{-- For HR --}}
+
+          @permission('hrms-manage-issue-indent')
+          <li class={{call_user_func_array('Request::is', (array)['item-request                                                                                                     *']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('item-request.index')}}"><i class="icon fa fa-chevron-right"></i>Issue Indent Requests</a></li>
+
+          <li class={{call_user_func_array('Request::is', (array)['no-dues-request*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('issue-indent.index')}}"><i class="icon fa fa-chevron-right"></i>Issue Indent</a></li>
+
+          <li class={{call_user_func_array('Request::is', (array)['issue-indent*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('hr.nodues')}}"><i class="icon fa fa-chevron-right"></i>No Dues Listing</a></li>
+
+          @endpermission
       </ul>
     </li>
-    @endrole
     
       {{-- For HR --}}
 
       {{-- @role('hrms_hr') --}}
-    @permission('hrms-manage-issue-indent')
+    {{-- @permission('hrms-manage-issue-indent')
       <li class="treeview {{call_user_func_array('Request::is', (array)['issue*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-table "></i><span class="app-menu__label">Indent & No Dues</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           <li class={{call_user_func_array('Request::is', (array)['issue-indent*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('issue-indent.index')}}"><i class="icon fa fa-chevron-right"></i>Issue Indent</a></li>
@@ -142,7 +151,7 @@
           <li class={{call_user_func_array('Request::is', (array)['item-request*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('item-request.index')}}"><i class="icon fa fa-chevron-right"></i>Issue Indent Requests</a></li>
         </ul>
       </li>
-    @endpermission
+    @endpermission --}}
     {{-- @endrole --}}
 
     @permission('hrms-manage-staff-separation')

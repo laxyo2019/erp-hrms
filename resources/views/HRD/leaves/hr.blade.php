@@ -27,7 +27,7 @@
 							<div class="col-2">
 								<label for="">Status</label>
 									<select name="status" id="leaveStatus" aria-controls="ClientsTable" class="custom-select custom-select-sm form-control form-control-sm">
-									<option >Select status</option>
+									<option value="">Select status</option>
 									<option value="0">PENDING</option>
 									<option value="1">APPROVED</option>
 								</select>
@@ -114,7 +114,7 @@
 						        	<div class="modal-body table-responsive" id="detailTable" style="background: #ececec">
 						        	</div>
 						        	 <div class="modal-footer">
-						          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+						          <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Close</button>
 						        </div>
 						        </div>
 						    </div>
@@ -274,19 +274,20 @@ $('.datepicker').datepicker({
 		var role 	 = 'hr';
 		var fromDate = $('#fromDate').val();
 		var toDate	 = $('#toDate').val();
+		// console.log('he')
+		if(leaveStatus !=''){
+			$.ajax({
+				type: 'POST',
+				url: '{{route('leave.status')}}',
+				data: {'leaveStatus': leaveStatus, 'role': role, 'fromDate': fromDate, 'toDate': toDate},
+				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				success: function(res){
+					// console.log(res)
 
-		//alert([role, fromDate, toDate])
-
-		$.ajax({
-			type: 'POST',
-			url: '{{route('leave.status')}}',
-			data: {'leaveStatus': leaveStatus, 'role': role, 'fromDate': fromDate, 'toDate': toDate},
-			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-			success: function(res){
-
-				$('#teamLeadStatus').empty().html(res);
-			}
-		})
+					 $('#teamLeadStatus').empty().html(res);
+				}
+			});
+		}
 	})
 
 	/*$('#toDate').on('changeDate', function(){
