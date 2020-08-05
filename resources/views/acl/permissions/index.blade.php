@@ -5,12 +5,12 @@
     <div class="col-md-12 col-xl-12">
       <h1 style="font-size: 24px">Permissions
         <a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-        @ability('hrms_admin', 'hrms-create')
+        {{-- @ability('hrms_admin', 'hrms-create') --}}
         <span class="ml-2">
           <a href="{{route('permissions.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
           <span class="fa fa-plus "></span> Add Permission</a>
         </span>
-        @endability
+        {{-- @endability --}}
       </h1>
       <hr>
     </div>
@@ -46,7 +46,7 @@
               @ability('hrms_admin', 'hrms-edit|hrms-delete')
                 <td >
                   <div class="row">
-                    @ability('hrms_admin', 'hrms_-edit')
+                    @ability('hrms_admin', 'hrms-edit')
                       <div class="col" align="right">
                           <a href="{{route('permissions.edit',$index->id)}}" class="btn btn-sm btn-info">EDIT</a>
                       </div>

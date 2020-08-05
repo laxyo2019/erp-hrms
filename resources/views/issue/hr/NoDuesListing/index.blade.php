@@ -24,7 +24,9 @@
                 <th>Department</th>
                 <th>Department Head</th>
                 <th>Posted</th>
-                <th>Details</th>
+                @permission('hrms-manage-nodues-request-items')
+                  <th>Details</th>
+                @endpermission
                 <th>ACTIONS</th>
               </tr>
             </thead>
@@ -35,9 +37,13 @@
               <td>{{++$count}}</td>
               <td >{{ucwords($index['employee']->emp_code)}} : {{ucwords($index['employee']->emp_name)}}</td>
               <td>{{strtoupper($index['department']->name)}}</td>
-              <td></td>
+              <td>{{strtoupper($index['hod']->emp_name)}}</td>
               <td>{{$index->posted}}</td>
-              <td><a href="{{route('nodues.detail', $index->id)}}" data-id="{{$index->id}}" class="btn btn-info btn-sm actionView" id="{{$index->id}}">view</a></td>
+              @permission('hrms-manage-nodues-request-items')
+              <td>
+                  <a href="{{route('nodues.detail', $index->id)}}" data-id="{{$index->id}}" class="btn btn-info btn-sm actionView" id="{{$index->id}}">view</a>
+              </td>
+              @endpermission
               <td><button type="button"  data-id="{{$index->id}}" class="btn btn-info btn-sm actionShow" id="{{$index->id}}">show</button>
                 <!-- Modal -->
                 <div class="modal fade" id="reqModal" role="dialog">
@@ -92,6 +98,7 @@ $(document).ready(function(){
     $('.actionShow').on('click', function(){
 
       var request_id  = $(this).data('id');
+
 
       $.ajax({
         type: 'post',

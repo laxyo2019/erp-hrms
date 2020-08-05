@@ -80,55 +80,58 @@
 			<div class="row">
 				<div class="col-6"><h5>Article/Assets Details </h5></div>
 			</div>
-			@foreach($items as $index)
-			<hr>
-			<div id="addRow">
-				<div class="row col-12">
-					<div class="col-3 form-group">
-						<label for="serial">Serial no.</label>
-						<input type="text" class="form-control" name="serial[]" value="{{$index->serial}}" readonly="true">
-					</div>
-					<input type="hidden" name="item_id[]" value="{{$index->id}}">
-					<div class="col-3 form-group">
-						<label for="name">Name</label>
-						<input type="text" name="name[]" class="form-control" value="{{$index->name}}" readonly="true">
-					</div>
-					<div class="col-3 form-group">
-						<label for="model">Model</label>
-						<input type="text" name="model[]" class="form-control" value="{{$index->model}}" readonly="true">
-					</div>
-					<div class="col-3 form-group">
-						<label for="color">Color</label>
-						<input type="text" name="color[]" class="form-control" value="{{$index->color}}" readonly="true">
-					</div>
-					<div class="col-3 form-group">
-						<label for="given_date">Issue Date</label>
-						<input type="text" name="issue_date[]" class="form-control datepicker" autocomplete="off" value="{{$index->issue_date}}" readonly="true">
-					</div>
-					<div class="col-3 form-group">
-						<label for="quantity">Quantity</label>
-						<input type="number" min="1" name="quantity[]" class="form-control"  value="{{$index->quantity}}" readonly="true">
-					</div>
-					<div class="col-3 form-group">
-						<label for="given_date">Received Date (By Employee)</label>
-						<input type="text" name="received_date[]" class="form-control datepicker " autocomplete="off" value="{{$index->received_date}}" readonly="true">
-					</div>
-					<div class="col-3 form-group">
-						<label for="given_date">Handover Date</label>
-						<input type="text" name="handover_date[]" class="form-control datepicker " autocomplete="off" required id="handover_date" value="{{$index->handover_date}}">
+			@if(!empty($items))
+				@foreach($items as $index)
+				<hr>
+				<div id="addRow">
+					<div class="row col-12">
+						<div class="col-3 form-group">
+							<label for="serial">Serial no.</label>
+							<input type="text" class="form-control" name="serial[]" value="{{$index->serial}}" readonly="true">
+						</div>
+						<input type="hidden" name="item_id[]" value="{{$index->id}}">
+						<div class="col-3 form-group">
+							<label for="name">Name</label>
+							<input type="text" name="name[]" class="form-control" value="{{$index->name}}" readonly="true">
+						</div>
+						<div class="col-3 form-group">
+							<label for="model">Model</label>
+							<input type="text" name="model[]" class="form-control" value="{{$index->model}}" readonly="true">
+						</div>
+						<div class="col-3 form-group">
+							<label for="color">Color</label>
+							<input type="text" name="color[]" class="form-control" value="{{$index->color}}" readonly="true">
+						</div>
+						<div class="col-3 form-group">
+							<label for="given_date">Issue Date</label>
+							<input type="text" name="issue_date[]" class="form-control datepicker" autocomplete="off" value="{{$index->issue_date}}" readonly="true">
+						</div>
+						<div class="col-3 form-group">
+							<label for="quantity">Quantity</label>
+							<input type="number" min="1" name="quantity[]" class="form-control"  value="{{$index->quantity}}" readonly="true">
+						</div>
+						<div class="col-3 form-group">
+							<label for="given_date">Received Date (By Employee)</label>
+							<input type="text" name="received_date[]" class="form-control datepicker " autocomplete="off" value="{{$index->received_date}}" readonly="true">
+						</div>
+						<div class="col-3 form-group">
+							<label for="given_date">Handover Date</label>
+							<input type="text" name="handover_date[]" class="form-control datepicker " autocomplete="off" id="handover_date" value="{{$index->handover_date}}">
+						</div>
 					</div>
 				</div>
-			</div>
-			@endforeach
-			{{-- @if($request == null ) --}}
+				@endforeach
+			@else
+				No Items To Show
+			@endif
+			@if($request == null )
 			<div class="col-12 form-group text-center">
 				<button class="btn btn-info btn-sm" id="noduesSubmit" style="width: 20%;">SAVE</button>
 			</div>
 		</form>
-			{{-- @endif --}}
+			@endif
 	</div><br>
 </main>
-
 <script type="text/javascript">
 	$('.datepicker').datepicker({
 		orientation: "bottom",

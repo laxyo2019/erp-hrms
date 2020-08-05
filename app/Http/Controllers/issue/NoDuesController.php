@@ -31,9 +31,9 @@ class NoDuesController extends Controller
                         ->get();
 
         $items      =   IssueIndent::where('user_id', Auth::id())
-                            ->where('received_date', '!=', '')
+                            //->where('received_date', '!=', '')
                             ->where('user_action', '<>', 0)
-                            ->where('user_action', '<>', 3)
+                            ->where('user_action', '<>', 4)
                             ->get();
 
         return view('issue.employees.NoDues.create', compact('hod_approval', 'emp', 'request', 'depart_hod', 'items'));
@@ -102,7 +102,7 @@ class NoDuesController extends Controller
                 $i+=1;
             }
 
-            //Preppend Employee's Hod info to global hod's array
+            //Prepend Employee's Hod info to global hod's array
 
             $emp_hod['user'] = $emphod->user_id;
             $emp_hod['depart'] = $emphod->dept_id;
@@ -172,7 +172,7 @@ class NoDuesController extends Controller
 
     public function indexNodues(){
 
-        $data = NoDues::with(['employee', 'department'])->get();
+        $data = NoDues::with(['employee', 'department', 'hod'])->get();
 
         return view('issue.hr..NoDuesListing.index', compact('data'));
     }
@@ -184,14 +184,17 @@ class NoDuesController extends Controller
         $nodues = NoDues::with(['employee', 'department'])
                     ->where('id', $request->request_id)->first();
 
+        $item_count = IssueIndent::where('user_id', $nodues->user_id)
+                            ->where('user_action', '<>', '3')
+                            ->count();
 
         $hod = NoDuesApproval::with(['employee', 'department'])
                ->where('nodues_request_id', $request->request_id)
                ->get();
 
-        //$hod = Hod::with(['employee', 'department'])->get();
+        //return $item_count;
 
-        return view('issue.hr.NoDuesListing.show', compact('nodues', 'hod'));
+        return view('issue.hr.NoDuesListing.show', compact('nodues', 'hod', 'item_count'));
     }
 
     public function storeNodues(Request $request){

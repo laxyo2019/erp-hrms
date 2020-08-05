@@ -216,12 +216,15 @@ $(".end").datepicker({
 			var startDate = new Date($('#start_date').val());
 			var currDate = new Date();
 			var subtractDays = currDate.setDate(currDate.getDate()-3);
-			var leaveGap = subtractDays <= startDate;
+			var leaveGap = subtractDays <= startDate; //Disabled on 4Aug, 15:00pm, bcs of chandresh sir
 
-
+<<<<<<< HEAD
 			//if(leaveGap == true){
 
 
+=======
+			if(leaveGap == true){
+>>>>>>> 6fa7c1ff7abe280045ae34d7d46f43300b865d5b
 				$.ajax({
 					type:'get',
 					url: '/balance/',
@@ -232,12 +235,12 @@ $(".end").datepicker({
 						if(btnId == 'fullBtn'){
 
 								if(parseFloat(duration) > parseFloat(res.user_bal.initial_bal)  ){
-							if(res.without_pay != 1){
-								alert('You don\'t have enough leaves.');
-								$('#start_date').val('');
-								$('#end_date').val('');
-								$('#duration').val('');
-							}
+								if(res.without_pay != 1){
+									alert('You don\'t have enough leaves.');
+									$('#start_date').val('');
+									$('#end_date').val('');
+									$('#duration').val('');
+								}
 							}	
 						}else{
 
@@ -251,9 +254,6 @@ $(".end").datepicker({
 								}
 							}
 						}
-					
-						
-
 
 					}
 				});

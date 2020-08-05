@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class EmployeeMast extends Model
 {
 	use SoftDeletes;
+
   protected $table = 'emp_mast';
 
   protected $guarded = [];
@@ -100,6 +101,7 @@ class EmployeeMast extends Model
       return $this->belongsTo('App\Models\Employees\EmployeeMast', 'approver_id','id');
   }
 
+  
 
     		
 }

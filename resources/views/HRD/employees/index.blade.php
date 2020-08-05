@@ -58,7 +58,6 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	
 
 	$('#btnFileUpload').on('click', function(){
         $('#FileUpload').trigger('click');

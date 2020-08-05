@@ -103,7 +103,6 @@ $(document).ready(function(){
 							$('#issueMsg_'+itemId).hide()
 							//$('#handBtn_'+itemId).show()
 						}
-
 					}
 				});
 			}else{
@@ -135,7 +134,6 @@ $(document).ready(function(){
 				alert('Handover date can\'t be empty.');
 			}
 		}
-		
 	})
 });
 
