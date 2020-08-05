@@ -100,7 +100,7 @@
 
   {{-- Leave Management Tab --}}
 
-    @ability('hrms_admin', 'leave-management')
+    @ability('hrms_admin|hrms_hr', 'leave-management')
 
       <li class="treeview {{call_user_func_array('Request::is', (array)['leave*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-table "></i><span class="app-menu__label">Leave Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
@@ -258,7 +258,7 @@
 
     {{-- User's role & permissions --}} 
     
-    @if(Auth::id() == 65 || Auth::id() == 20)
+    {{-- @if(Auth::id() == 65 || Auth::id() == 20) --}}
       <li class="treeview {{call_user_func_array('Request::is', (array)['acl*']) ? 'is-expanded' : ''}}" ><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-book "></i><span class="app-menu__label">User Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           <li class={{call_user_func_array('Request::is', (array)['acl/roles*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('roles.index')}}"><i class="icon fa fa-chevron-right"></i>Roles</a></li>
@@ -266,7 +266,7 @@
           <li class={{call_user_func_array('Request::is', (array)['acl/users*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('users.index')}}"><i class="icon fa fa-chevron-right"></i>Users</a></li>
         </ul>
       </li>
-     @endif 
+     {{-- @endif --}}
 
 </aside>
 <script>

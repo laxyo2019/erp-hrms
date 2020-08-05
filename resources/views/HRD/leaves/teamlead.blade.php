@@ -14,7 +14,7 @@
 								{{$message}}
 							</div>
 						@endif
-						{{-- <div class="row col-12">
+<div class="row col-12">
 							<div class="col-2">
 								<label for="">From</label>
 								<input name="from" aria-controls="ClientsTable" class="form-control form-control-sm datepicker" id="fromDate" autocomplete="off">
@@ -31,7 +31,7 @@
 									<option value="1">APPROVED</option>
 								</select>
 							</div>
-						</div><br> --}}
+						</div><br>
 						<div id="teamLeadStatus">
 						<table class="table table-stripped table-bordered" id="ClientsTable">
 							<thead>
@@ -107,7 +107,7 @@
 									        	<div class="modal-body table-responsive" id="detailTable" style="background: #ececec">
 									        	</div>
 									        	 <div class="modal-footer">
-									          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+									          <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Close</button>
 									        </div>
 									        </div>
 									    </div>

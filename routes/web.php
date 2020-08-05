@@ -181,12 +181,15 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr|hrms_subadmin']], functi
 
 ##### ISSUE Indent & No Dues#####
 Route::resource('issue-indent', 'issue\IssueIndentController');
+
 Route::get('item-requests/index', 'issue\IssueIndentController@indexItemRequest')->name('item-request.index');
 Route::post('item-request/approval', 'issue\IssueIndentController@approvalItemRequest')->name('item.approval');
 
 Route::resource('issue/my-indent', 'issue\MyIndentController');
 
 Route::post('issue/my-indent/tab/{tab}', 'issue\MyIndentController@showTab');
+
+Route::post('my-indent/history', 'issue\MyIndentController@history')->name('indent.history');
 
 
 ######## No-dues ########

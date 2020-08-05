@@ -200,7 +200,6 @@ $(".end").datepicker({
 
 		var btnId =	$('#btnId').val();
 		var leave_id = $('#leave_type').val();
-
 		
 
 		if(btnId == 'fullBtn'){
@@ -220,7 +219,7 @@ $(".end").datepicker({
 			var leaveGap = subtractDays <= startDate;
 
 
-			if(leaveGap == true){
+			//if(leaveGap == true){
 
 
 				$.ajax({
@@ -243,7 +242,7 @@ $(".end").datepicker({
 						}else{
 
 							if(0.50 > parseFloat(res.user_bal.initial_bal)  ){
-							//alert(3)
+
 								if(res.without_pay != 1){
 									alert('You don\'t have enough leaves.');
 									$('#start_date').val('');
@@ -259,13 +258,13 @@ $(".end").datepicker({
 					}
 				});
 
-			}else{
+			/*}else{
 				alert('You are not eligible for this leave.');
 				$('#start_date').val('');
 				$('#end_date').val('');
 				$('#duration').val('');
 
-			}
+			}*/
 		}
 	});
 

@@ -17,6 +17,9 @@ class IssueIndentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    #0 = Pending
+    #1 = Received
+    #2 = 
     public function index()
     {
         $indent = IndentRecord::with(['employee'])->get();
@@ -49,7 +52,7 @@ class IssueIndentController extends Controller
     {
         $this->validate($request, [
             'employees' => 'required',
-            'emp_code'  => 'required'
+            //'emp_code'  => 'required'
         ]);
 
         IndentRecord::create([
@@ -76,14 +79,18 @@ class IssueIndentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource as History Issued indent.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
+        $items = IssueIndent::where('user_id', $id)
+                    ->where('user_action', 3)
+                    ->get();
 
+        return view('issue.hr.IssueIndent.history', compact('items'));
     }
 
     /**
@@ -99,7 +106,9 @@ class IssueIndentController extends Controller
                         ->first();
         $employees = EmployeeMast::all();
 
-        $issued = IssueIndent::where('user_id', $id)->get();
+        $issued = IssueIndent::where('user_id', $id)
+                    ->where('user_action', '<>', 3)
+                    ->get();
 
         return view('issue.hr.IssueIndent.edit', compact('employee', 'employees', 'issued'));
     }
@@ -151,7 +160,7 @@ class IssueIndentController extends Controller
 
     public function indexItemRequest(){
 
-        $records = MyIndent::with(['employee.department'])->get();
+        $records = MyIndent::with(['employee'])->get();
 
         return view('issue.hr.ItemRequest.index', compact('records'));
     }

@@ -178,11 +178,10 @@ class LeavesController extends Controller
             }*/
 
             $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
-                    ->orderBy('id', 'DESC')
-                    //->where('teamlead_approval', 1)
                     //->where('subadmin_approval', $request->leaveStatus)
                     ->whereBetween('posted', [$from_date, $to_date])
-                    ->where('admin_approval', $request->leaveStatus)
+                    ->orWhere('admin_approval', $request->leaveStatus)
+                    ->whereNotIn('teamlead_approval',[0, 4])
                     ->get();
 
             //dd([$request->leaveStatus, $to_date, $from_date]);

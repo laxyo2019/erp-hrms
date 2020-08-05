@@ -13,6 +13,7 @@
                 {{-- @endability --}}
               </h1>
             </div>
+            
           <div class="card-body table-responsive">
             @if($message = Session::get('success'))
               <div class="alert alert-success alert-block">
