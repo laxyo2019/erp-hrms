@@ -211,11 +211,14 @@
 </main>
 
 <script type="text/javascript">
-	$('.datepicker').datepicker({
-		orientation: "auto",
-		format: "yyyy-mm-dd",
-		autoclose: true,
-		todayHighlight: true
+	
+	$('body').on('focus', '.datepicker', function(){
+	   $(this).datepicker({
+	   		orientation: "auto",
+			format: "mm-dd-yyyy",
+			autoclose: true,
+			todayHighlight: true
+	   });
 	});
 
 	$(document).ready(function(){

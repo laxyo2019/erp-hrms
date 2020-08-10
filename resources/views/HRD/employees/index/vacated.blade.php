@@ -6,15 +6,15 @@
 			<th>Employee Code</th>
 			<th>Grade Code</th>
 			<th>Designation</th>
-			@ability('hrms_admin', 'can-allot-leaves')
+			{{-- @ability('hrms_admin', 'can-allot-leaves') --}}
 				<th>Leaves</th>
-			@endability
-			@ability('hrms_admin', 'can-activate-employees')
+			{{-- @endability --}}
+			{{-- @ability('hrms_admin', 'can-activate-employees') --}}
 			<th>Status</th>
-			@endability
-			@ability('hrms_admin', 'hrms-view|hrms-edit|hrms-delete')
+			{{-- @endability --}}
+			{{-- @ability('hrms_admin', 'hrms-view|hrms-edit|hrms-delete') --}}
 			<th>Action</th>
-			@endability
+			{{-- @endability --}}
 		</tr>
 	</thead>
 	<tbody>
@@ -27,7 +27,7 @@
 			<td>@if($employee->grade!=null) {{ucwords($employee->grade->name)}} @endif</td>
 			<td>{{ucwords($employee['designation']['name'])}}</td>
 			@ability('hrms_admin', 'can-allot-leaves')
-			<td>
+			<td align="center" style="padding-top: 12px;">
 
 			{{-- hide allotment button if leave is not created --}}
 

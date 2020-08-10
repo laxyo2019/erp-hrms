@@ -137,7 +137,7 @@
 
 	//Open detail view of leave requests.
 
-<<<<<<< HEAD
+
 	$('.modalReq').on('click', function(e){
 		e.preventDefault();
 		var leave_id = $(this).data('id');
@@ -241,7 +241,6 @@
 			}
 		})
 	})
-=======
 	// $('.modalReq').on('click', function(e){
 	// 	e.preventDefault();
 	// 	var leave_id = $(this).data('id');

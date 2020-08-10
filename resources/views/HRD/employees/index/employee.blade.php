@@ -2,18 +2,18 @@
 	<thead>
 		<tr>
 			<th><input type="checkbox" id="checkedall"> # </th>
-			<th>Employee Name </th>
-			<th>Employee Code</th>
-			<th>Grade Code</th>
-			<th>Designation</th>
+			<th style="text-align: center;">Employee Name </th>
+			<th style="text-align: center;">Employee Code</th>
+			<th style="text-align: center;">Grade Code</th>
+			<th style="text-align: center;">Designation</th>
 			{{-- @ability('hrms_admin|hrms_hr', 'can-allot-leaves') --}}
-				<th>Leaves</th>
+				<th style="text-align: center;">Leaves</th>
 			{{-- @endability --}}
 			{{-- @ability('hrms_admin|hrms_hr', 'can-activate-employees') --}}
-			<th>Status</th>
+			<th style="text-align: center;">Status</th>
 			{{-- @endability --}}
 			{{-- @ability('hrms_admin|hrms_hr', 'hrms-view|hrms-edit|hrms-delete') --}}
-			<th>Action</th>
+			<th style="text-align: center;">Action</th>
 			{{-- @endability --}}
 		</tr>
 	</thead>
@@ -23,11 +23,12 @@
 		<tr>
 			<td ><input type="checkbox" value="{{$employee->user_id}}" class="emp" name="checked"> {{$employee->user_id}} </td>
 			<td>{{ucwords($employee->emp_name)}}</td>
-			<td>{{$employee->emp_code}}</td>
-			<td>@if($employee->grade!=null) {{ucwords($employee->grade->name)}} @endif</td>
-			<td>{{ucwords($employee['designation']['name'])}}</td>
+			<td align="center">{{$employee->emp_code}}</td>
+			<td align="center">@if($employee->grade!=null) {{ucwords($employee->grade->name)}} @endif</td>
+			<td align="center">{{ucwords($employee['designation']['name'])}}</td>
 			{{-- @ability('hrms_admin', 'can-allot-leaves') --}}
-			<td>
+
+			<td align="center" style="padding-top: 12px;">
 
 			{{-- hide allotment button if leave is not created --}}
 
@@ -35,12 +36,10 @@
 				No leaves to assign
 			@else
 				@if($employee->leave_allotted == 0)
-				<button class="btn btn-sm btn-info ml-2 modalAllot1 "  data-id="{{$employee->user_id}}">
-					<span style="font-size: 12px">Allot</span>
-				</button>
+
+				<button type="button" class="btn btn-sm btn-info modalAllot1" data-id="{{$employee->user_id}}">allot</button>
 				@else
-				<b style="color: green">Allotted</b>
-				{{-- <button class="btn btn-sm btn-info ml-2"  data-id="{{$employee->user_id}}" ></button> --}}
+					<h6 style="color: #0cac0c;padding-top: 12px;">ALLOTTED</h6>
 				@endif
 			@endif
 			</td>

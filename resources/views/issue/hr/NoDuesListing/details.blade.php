@@ -111,7 +111,7 @@
 					</div>
 					<div class="col-3 form-group">
 						<label for="given_date">Handover Date</label>
-						<input type="text" name="handover_date[]" class="form-control datepicker " autocomplete="off" required id="handover_date" value="{{$index->handover_date}}">
+						<input type="text" name="handover_date[]" class="form-control datepicker " disabled="true" required id="handover_date" value="{{$index->handover_date}}">
 					</div>
 					<div class="col-3 form-group">
 						<label for="given_date">Handover Acceptance Date</label>
@@ -147,29 +147,30 @@
 
 		var value_btn = $(this).val();
 
-		if(value_btn == 3){
+		var handover_approval = $('#handover_'+itemId).val();
 
-			var handover_approval = $('#handover_'+itemId).val();
+			if(handover_approval.length != 0){
 
-			if(handover_date != ''){
+				if(value_btn == 3){
 
-				$.ajax({
-					type: 'PATCH',
-					url: '/issue/my-indent/'+itemId,
-					headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-					data: {'handover_approval': handover_approval, 'value_btn': value_btn},
-					success: function(){
+					$.ajax({
+						type: 'PATCH',
+						url: '/issue/my-indent/'+itemId,
+						headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+						data: {'handover_approval': handover_approval, 'value_btn': value_btn},
+						success: function(){
 
-						$('#handBtn_'+itemId).hide();
-						$('#handoverMsg_'+itemId).show()
-					}
-				});
+							$('#handBtn_'+itemId).hide();
+							$('#handoverMsg_'+itemId).show()
+						}
+					});
+
+				}
 
 			}else{
 
 				alert('Handover date can\'t be empty.');
 			}
-		}
 	})
 
 </script>

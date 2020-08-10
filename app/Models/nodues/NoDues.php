@@ -21,4 +21,9 @@ class NoDues extends Model
     public function hod(){
     	return $this->belongsTo('App\Models\Employees\EmployeeMast', 'emp_hod', 'user_id');
     }
+
+    public function approval(){
+
+        return $this->hasMany('App\Models\nodues\NoDuesApproval', 'nodues_request_id');
+    }
 }

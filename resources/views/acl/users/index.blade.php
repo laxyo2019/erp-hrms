@@ -7,12 +7,12 @@
         <div class="col-md-12 col-xl-12" style="margin-top: 15px"> 
           <h1 style="font-size: 24px">Manage users
               <a href="{{ route('users.index') }}" class="btn btn-sm btn-primary pull-right"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a>
-               @ability('hrms_admin', 'hrms-create')
+               {{-- @ability('hrms_admin', 'hrms-create') --}}
               <span class="ml-2">
                 <a href="{{route('users.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
               <span class="fa fa-plus "></span> Add Users</a>
              </span>
-             @endability
+             {{-- @endability --}}
           </h1>
         </div>
         <div class="card-body table-responsive">

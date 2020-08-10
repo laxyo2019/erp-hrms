@@ -185,6 +185,8 @@ $('.datepicker').datepicker({
 
 	$('.modalReq').on('click', function(e){
 		e.preventDefault();
+
+		alert()
 		var leave_id = $(this).data('id');
 		$.ajax({
 			type: 'GET',
@@ -274,7 +276,6 @@ $('.datepicker').datepicker({
 		var role 	 = 'hr';
 		var fromDate = $('#fromDate').val();
 		var toDate	 = $('#toDate').val();
-<<<<<<< HEAD
 
 		$.ajax({
 			type: 'POST',
@@ -286,8 +287,6 @@ $('.datepicker').datepicker({
 				$('#teamLeadStatus').empty().html(res);
 			}
 		})
-=======
-		// console.log('he')
 		if(leaveStatus !=''){
 			$.ajax({
 				type: 'POST',
@@ -301,7 +300,6 @@ $('.datepicker').datepicker({
 				}
 			});
 		}
->>>>>>> 6fa7c1ff7abe280045ae34d7d46f43300b865d5b
 	})
 
 	/*$('#toDate').on('changeDate', function(){

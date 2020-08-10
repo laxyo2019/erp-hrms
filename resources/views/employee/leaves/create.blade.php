@@ -56,15 +56,15 @@
 					<input type="hidden" name="reports_to" value="{{!empty($reports_to['UserName']) ?$reports_to['UserName']->id : null}}">
 				</div>
 	    	</div>
-	    	<div class="row" style="padding-top: 1%">
+	    	<div class="row col-12" style="padding-top: 1%">
 				<div class="col-1 form-group  ml-2">
-					<button type="button" id="multiBtn" class="btn btn-primary active d-none" >Multiple</button>
+					<button type="button" id="multiBtn" class="btn btn-primary btn-sm active d-none" >Multiple</button>
 				</div>
-				<div class="col-1 form-group ml-2">
-					<button type="button" id="fullBtn" class="btn btn-primary d-none" >Full Day</button>
+				<div class="col-2 form-group ml-2" align="right">
+					<button type="button" id="fullBtn" class="btn btn-primary btn-sm d-none" >Full Day</button>
 				</div>
-				<div class="col-1 form-group ml-2">
-					<button type="button" id="halfBtn" class="btn btn-primary d-none">Half Day</button>
+				<div class="col-2 form-group ml-2">
+					<button type="button" id="halfBtn" class="btn btn-primary btn-sm d-none ml-2">Half Day</button>
 				</div>
 	    	</div>
 	    	<input type="hidden" name="btnId" id="btnId" value="">
@@ -216,15 +216,12 @@ $(".end").datepicker({
 			var startDate = new Date($('#start_date').val());
 			var currDate = new Date();
 			var subtractDays = currDate.setDate(currDate.getDate()-3);
-			var leaveGap = subtractDays <= startDate; //Disabled on 4Aug, 15:00pm, bcs of chandresh sir
+			var leaveGap = subtractDays <= startDate; 
+			//Disabled on 4Aug, 15:00pm, bcs of chandresh sir
+			//Disabled on 8Aug, 15:21pm, bcs of chandresh sir
 
-<<<<<<< HEAD
-			//if(leaveGap == true){
-
-
-=======
 			if(leaveGap == true){
->>>>>>> 6fa7c1ff7abe280045ae34d7d46f43300b865d5b
+
 				$.ajax({
 					type:'get',
 					url: '/balance/',
@@ -258,13 +255,13 @@ $(".end").datepicker({
 					}
 				});
 
-			/*}else{
+			}else{
 				alert('You are not eligible for this leave.');
 				$('#start_date').val('');
 				$('#end_date').val('');
 				$('#duration').val('');
 
-			}*/
+			}
 		}
 	});
 

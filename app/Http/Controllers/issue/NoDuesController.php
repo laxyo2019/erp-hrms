@@ -172,7 +172,7 @@ class NoDuesController extends Controller
 
     public function indexNodues(){
 
-        $data = NoDues::with(['employee', 'department', 'hod'])->get();
+        $data = NoDues::with(['employee', 'department', 'hod', 'approval'])->get();
 
         return view('issue.hr..NoDuesListing.index', compact('data'));
     }

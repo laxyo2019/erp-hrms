@@ -27,6 +27,7 @@
                 @permission('hrms-manage-nodues-request-items')
                   <th>Details</th>
                 @endpermission
+                <th>Status</th>
                 <th>ACTIONS</th>
               </tr>
             </thead>
@@ -44,6 +45,20 @@
                   <a href="{{route('nodues.detail', $index->id)}}" data-id="{{$index->id}}" class="btn btn-info btn-sm actionView" id="{{$index->id}}">view</a>
               </td>
               @endpermission
+              <td>
+                <?php $condition = []; ?>
+                @foreach($index['approval'] as $approval)
+                 
+                    <?php $condition[] = $approval->action; ?>
+                  
+                @endforeach
+
+                @if(in_array('0', $condition))
+                  PENDING
+                @else
+                  APPROVED
+                @endif
+              </td>
               <td><button type="button"  data-id="{{$index->id}}" class="btn btn-info btn-sm actionShow" id="{{$index->id}}">show</button>
                 <!-- Modal -->
                 <div class="modal fade" id="reqModal" role="dialog">

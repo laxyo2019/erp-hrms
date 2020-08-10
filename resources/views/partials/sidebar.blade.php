@@ -29,8 +29,9 @@
     {{-- For Admin --}}
 
     @role('hrms_admin')
+    
       <li>
-        <a class="app-menu__item {{Request::segment(2) == 'admin' ? 'active' : ''}} " href="{{route('request.admin')}}"><i class="app-menu__icon fa fa-envelope-open-o"></i><span class="app-menu__label">Leaves Request (Admin)</span>
+        <a class="app-menu__item {{(Request::segment(1) == 'leave-request' && Request::segment(2) == 'admin') ? 'active' : ''}} " href="{{route('request.admin')}}"><i class="app-menu__icon fa fa-envelope-open-o"></i><span class="app-menu__label">Leaves Request (Admin)</span>
         </a>
       </li>
     @endrole
@@ -39,7 +40,7 @@
     @role('hrms_hr')
     
       <li>
-        <a class="app-menu__item {{Request::segment(1) == 'leave-request' ? 'active' : ''}} " href="{{route('request.hr')}}"><i class="app-menu__icon fa fa-envelope-open-o"></i><span class="app-menu__label">Leaves Request (HR)</span>
+        <a class="app-menu__item {{Request::segment(2) == 'hr' ? 'active' : ''}} " href="{{route('request.hr')}}"><i class="app-menu__icon fa fa-envelope-open-o"></i><span class="app-menu__label">Leaves Request (HR)</span>
         </a>
       </li>
      
@@ -61,6 +62,7 @@
       @if(session('leave')['allotment'] && !empty(session('leave')['reallotment'][0]->status)?session('leave')['reallotment'][0]->status:'' == 1)
         <li><a class="app-menu__item"   href="{{url('employee/leaves')}}"><i class="app-menu__icon fa fa-pencil"></i><span class="app-menu__label">Apply Leave</span></a></li>
       @endif
+
     @endrole
 
     {{---  Recruitment   --}}
@@ -102,11 +104,11 @@
 
     @ability('hrms_admin|hrms_hr', 'leave-management')
 
-      <li class="treeview {{call_user_func_array('Request::is', (array)['leave*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-table "></i><span class="app-menu__label">Leave Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+      <li class="treeview {{call_user_func_array('Request::is', (array)['leave-management*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-table "></i><span class="app-menu__label">Leave Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
-          <li class={{call_user_func_array('Request::is', (array)['leave-management/type*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('types.index')}}"><i class="icon fa fa-chevron-right"></i>Leave Type</a></li>
-          <li class={{call_user_func_array('Request::is', (array)['leave-management/allotment*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('allotments.index')}}"><i class="icon fa fa-chevron-right"></i>Leave Allotment</a></li>
-          <li class={{call_user_func_array('Request::is', (array)['leave-management/holidays*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('holidays.index')}}"><i class="icon fa fa-chevron-right"></i>Holidays</a></li>
+          <li class={{call_user_func_array('Request::is', (array)['type*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('types.index')}}"><i class="icon fa fa-chevron-right"></i>Leave Type</a></li>
+          <li class={{call_user_func_array('Request::is', (array)['allotment*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('allotments.index')}}"><i class="icon fa fa-chevron-right"></i>Leave Allotment</a></li>
+          <li class={{call_user_func_array('Request::is', (array)['holidays*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('holidays.index')}}"><i class="icon fa fa-chevron-right"></i>Holidays</a></li>
         </ul>
       </li>
 

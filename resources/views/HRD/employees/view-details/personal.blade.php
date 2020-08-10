@@ -23,7 +23,7 @@
 					</div>
 					<div class="col-6 form-group">
 						<label for=""><b>Father's Name : </b></label>
-						{{empty($employee->emp_name)?'':strtoupper($employee->emp_name)}}
+						{{empty($employee->emp_father)?'':strtoupper($employee->emp_father)}}
 					</div>
 					<div class="col-6 form-group">
 						<label for=""><b>Date of Birth : </b></label>
@@ -41,7 +41,7 @@
 					</div>
 					<div class="col-6 form-group">
 						<label for=""><b>Marital Status : </b></label>
-						{{empty($employee->emp_name)?'':strtoupper($employee->emp_name)}}
+						{{empty($employee->marital_status)?'':strtoupper($employee->marital_status)}}
 					</div>
                 </div>
                 <div class="row mb-6">
