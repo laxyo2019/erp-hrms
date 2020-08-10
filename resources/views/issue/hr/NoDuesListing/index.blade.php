@@ -32,6 +32,7 @@
               </tr>
             </thead>
             <tbody>
+{{-- <<<<<<< HEAD
           @php $count = 0; @endphp
             @foreach($data as $index)
             <tr class="text-center" id="indent_{{$index->id}}">
@@ -71,12 +72,53 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+======= --}}
+              @php $count = 0; @endphp
+              @foreach($data as $index)
+                <tr class="text-center" id="indent_{{$index->id}}">
+                  <td>{{++$count}}</td>
+                  <td >{{ucwords($index['employee']->emp_code)}} : {{ucwords($index['employee']->emp_name)}}</td>
+                  <td>{{strtoupper($index['department']->name)}}</td>
+                  <td>{{strtoupper($index['hod']->emp_name)}}</td>
+                  <td>{{$index->posted}}</td>
+                  @permission('hrms-manage-nodues-request-items')
+                  <td>
+                      <a href="{{route('nodues.detail', $index->id)}}" data-id="{{$index->id}}" class="btn btn-info btn-sm actionView" id="{{$index->id}}">view</a>
+                  </td>
+                  @endpermission
+                  <td>
+                    <?php $condition = []; ?>
+                    @foreach($index['approval'] as $approval)
+                     
+                        <?php $condition[] = $approval->action; ?>
+                      
+                    @endforeach
+
+                    @if(in_array('0', $condition))
+                      PENDING
+                    @else
+                      APPROVED
+                    @endif
+                  </td>
+                  <td><button type="button"  data-id="{{$index->id}}" class="btn btn-info btn-sm actionShow" id="{{$index->id}}">show</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="reqModal" role="dialog">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title">No Dues Approval</h4>
+                          </div>
+                          <div class="modal-body table-responsive" id="noDuesTable" style="background: #ececec">
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+{{-- >>>>>>> ebb23edea7dcd5588ef515c6f17155c86c8116e4 --}}
                       </div>
-                    </div>
-                  </div>
-                </div></td>
-            </tr>
-            @endforeach
+                    </div></td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div>

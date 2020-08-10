@@ -255,8 +255,8 @@ $('.datepicker').datepicker({
 				if(res.flag == 1){
 					$('#revBtn_'+request_id).hide();
 					$('#rev_msg_'+request_id).show();
+					
 				}else if(res.flag ==  0){
-					alert(res.msg)
 					location.reload();
 				}
 			}

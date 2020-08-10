@@ -211,7 +211,10 @@
 </main>
 
 <script type="text/javascript">
+<<<<<<< HEAD
 	
+=======
+>>>>>>> ebb23edea7dcd5588ef515c6f17155c86c8116e4
 	$('body').on('focus', '.datepicker', function(){
 	   $(this).datepicker({
 	   		orientation: "auto",

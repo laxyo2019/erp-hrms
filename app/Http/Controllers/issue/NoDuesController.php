@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Employees\Hod;
 use App\Models\nodues\NoDues;
 use App\Models\issue\IssueIndent;
-use App\Models\nodues\NoDuesApproval;
 use App\Http\Controllers\Controller;
+use App\Models\nodues\NoDuesApproval;
 use App\Models\Employees\EmployeeMast;
 
 class NoDuesController extends Controller
@@ -76,6 +76,7 @@ class NoDuesController extends Controller
                                 'posted'        => date('m-d-Y'),
                                 'emp_hod'       => $request->depart_head_id
                             ]);
+        
         #Testing
 
         $emp = EmployeeMast::with(['department'])

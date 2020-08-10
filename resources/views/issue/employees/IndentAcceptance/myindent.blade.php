@@ -61,7 +61,6 @@
 
 				<button type="button" style="display: none" data-id="{{$index->id}}" class="btn btn-primary btn-sm action" value="2" id="handBtn_{{$index->id}}">handover</button>
 
-
 				@if($index->user_action == 0)
 
 					<button type="button"  data-id="{{$index->id}}" class="btn btn-success btn-sm action" value="1" id="recvBtn_{{$index->id}}">received</button>

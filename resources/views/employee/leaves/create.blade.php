@@ -218,7 +218,6 @@ $(".end").datepicker({
 			var subtractDays = currDate.setDate(currDate.getDate()-3);
 			var leaveGap = subtractDays <= startDate; 
 			//Disabled on 4Aug, 15:00pm, bcs of chandresh sir
-			//Disabled on 8Aug, 15:21pm, bcs of chandresh sir
 
 			if(leaveGap == true){
 

@@ -215,7 +215,7 @@
 					$('#revBtn_'+request_id).hide();
 					$('#rev_msg_'+request_id).show();
 				}else if( res.msg == 0)
-					alert(res.msg);
+					//alert(res.msg);
 					location.reload();
 			}
 		});
