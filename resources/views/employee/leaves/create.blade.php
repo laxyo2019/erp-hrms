@@ -56,15 +56,15 @@
 					<input type="hidden" name="reports_to" value="{{!empty($reports_to['UserName']) ?$reports_to['UserName']->id : null}}">
 				</div>
 	    	</div>
-	    	<div class="row" style="padding-top: 1%">
+	    	<div class="row col-12" style="padding-top: 1%">
 				<div class="col-1 form-group  ml-2">
-					<button type="button" id="multiBtn" class="btn btn-primary active d-none" >Multiple</button>
+					<button type="button" id="multiBtn" class="btn btn-primary btn-sm active d-none" >Multiple</button>
 				</div>
-				<div class="col-1 form-group ml-2">
-					<button type="button" id="fullBtn" class="btn btn-primary d-none" >Full Day</button>
+				<div class="col-2 form-group ml-2" align="right">
+					<button type="button" id="fullBtn" class="btn btn-primary btn-sm d-none" >Full Day</button>
 				</div>
-				<div class="col-1 form-group ml-2">
-					<button type="button" id="halfBtn" class="btn btn-primary d-none">Half Day</button>
+				<div class="col-2 form-group ml-2">
+					<button type="button" id="halfBtn" class="btn btn-primary btn-sm d-none ml-2">Half Day</button>
 				</div>
 	    	</div>
 	    	<input type="hidden" name="btnId" id="btnId" value="">

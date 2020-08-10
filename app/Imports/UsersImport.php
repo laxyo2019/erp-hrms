@@ -14,6 +14,13 @@ class UsersImport implements ToCollection,WithHeadingRow
 {
     public function collection(Collection $rows)
     {
+        // dd($rows);
+        $count = 0;
+        $arr = [];
+        foreach($rows as $Rows){
+               $arr[] = $Rows['emp_id']; 
+        }
+        dd($arr);
         foreach ($rows as $row) 
         {
 

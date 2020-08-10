@@ -157,18 +157,24 @@
 							</span>
 							@enderror
 						</div>
+						@php
+							$rejoin = date('Y-m-d', strtotime($employee->rejoin_date));
+						@endphp
 						<div class="col-6 form-group">
 							<label for="">Re-joinning Date</label>
-							<input type="text" class="form-control datepicker" name="rejoin_date" value="{{old('rejoin_date', date('Y-m-d', strtotime($employee->rejoin_date)))}}" autocomplete="off"/>
+							<input type="text" class="form-control datepicker" name="rejoin_date" value="{{ $employee->rejoin_date == null ? null : $rejoin  }}" autocomplete="off"/>
 							@error('rejoin_date')
 							<span class="text-danger" role="alert">
 								<strong>* {{ $message }}</strong>
 							</span>
 							@enderror
 						</div>
+						@php
+							$releave = date('Y-m-d', strtotime($employee->releave_date));
+						@endphp
 						<div class="col-6 form-group">
 							<label for="">Re-Leave Date</label>
-							<input type="text" class="form-control datepicker" name="releave_date" value="{{old('releave_date', date('Y-m-d', strtotime($employee->releave_date)))}}" autocomplete="off"/>
+							<input type="text" class="form-control datepicker" name="releave_date" value="{{$employee->releave_date == null ? null : $releave}}" autocomplete="off"/>
 							@error('releave_date')
 							<span class="text-danger" role="alert">
 								<strong>* {{ $message }}</strong>
@@ -293,11 +299,13 @@
 	</div>
 </main>
 <script type="text/javascript">
-	$('.datepicker').datepicker({
-		orientation: "auto",
-		format: "yyyy-mm-dd",
-		autoclose: true,
-		todayHighlight: true
+	$('body').on('focus', '.datepicker', function(){
+	   $(this).datepicker({
+	   		orientation: "auto",
+			format: "mm-dd-yyyy",
+			autoclose: true,
+			todayHighlight: true
+	   });
 	});
 $(document).ready(function(){
 	$('.official').addClass('active');

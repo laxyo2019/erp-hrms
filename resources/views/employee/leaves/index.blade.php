@@ -14,7 +14,7 @@
 						@endif
 					@endif
 					@endif
-						<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Go Back</a></h1>
+						<a href="{{ URL::previous() }}" class="btn btn-sm btn-primary pull-right" style="font-size:13px"  style="{background-color: #e7e7e7; color: black;}" >Back</a></h1>
 
 					<div class="row d-flex justify-content-center ">
 						@php if(!empty($balance['allotments'])){ @endphp

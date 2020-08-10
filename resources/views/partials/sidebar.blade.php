@@ -30,7 +30,7 @@
 
     @role('hrms_admin')
       <li>
-        <a class="app-menu__item {{Request::segment(2) == 'admin' ? 'active' : ''}} " href="{{route('request.admin')}}"><i class="app-menu__icon fa fa-envelope-open-o"></i><span class="app-menu__label">Leaves Request (Admin)</span>
+        <a class="app-menu__item {{Request::segment(1) == 'admin' ? 'active' : ''}} " href="{{route('request.admin')}}"><i class="app-menu__icon fa fa-envelope-open-o"></i><span class="app-menu__label">Leaves Request (Admin)</span>
         </a>
       </li>
     @endrole

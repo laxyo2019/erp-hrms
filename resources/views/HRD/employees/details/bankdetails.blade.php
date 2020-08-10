@@ -138,11 +138,14 @@
 <script>
 $(document).ready(function(){
 	$('.bankdetails').addClass('active');
-	$('.datepicker').datepicker({
-		orientation: "bottom",
-		format: "yyyy-mm-dd",
-		autoclose: true,
-		todayHighlight: true
+	
+	$('body').on('focus', '.datepicker', function(){
+	   $(this).datepicker({
+	   		orientation: "auto",
+			format: "mm-dd-yyyy",
+			autoclose: true,
+			todayHighlight: true
+	   });
 	});
 });
 </script>

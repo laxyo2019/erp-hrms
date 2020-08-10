@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\loan;
 
 use Auth;
-use Illuminate\Http\Request;
 use validator;
+use Illuminate\Http\Request;
 use App\Models\Master\LoanType;
 use App\Models\loan\LoanRequest;
 use App\Models\loan\loanHistory;
 use App\Models\loan\LoanInterest;
 use App\Http\Controllers\Controller;
 use App\Models\Employees\EmployeeMast;
+
+use DB;
+use App\User;
+use Mail;
 
 class LoanRequestController extends Controller
 {
@@ -21,6 +25,31 @@ class LoanRequestController extends Controller
      */
     public function index()
     {
+        /*Mail::send(['text' => 'mail'], ['name', 'sam'], function($message){
+                $message->to('ajaym.er.121@gmail.com')->subject('for testing');
+                $message->from('ajaymagarde.r.121@gmail.com');
+        });
+
+        $employee = EmployeeMast::select('comp_email')->get();
+        $email = [];
+
+        foreach($employee as $index){
+
+            $email[] = $index->comp_email;
+        }
+
+        return $email;*/
+
+        //$user = User::select('id', 'email')->orderBy('id', 'DESC')->first();
+
+        //$employees = EmployeeMast::select('user_id', 'comp_email')->get();
+
+        //$employee['email'] = $employees->comp_email 
+        /*foreach($employees as $index){
+
+            $emp_emails[] = $index->comp_email;
+        }*/
+
         $requests = LoanRequest::with(['loanType'])
                         ->where('user_id', Auth::id())->get();
 
