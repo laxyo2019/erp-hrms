@@ -254,6 +254,7 @@ $(document).ready(function(){
 
 		$('#row'+button_id+'').remove();
 	});
+
 });
 
 $('body').on('focus', '.datepicker', function(){

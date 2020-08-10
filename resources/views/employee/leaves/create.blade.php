@@ -200,7 +200,6 @@ $(".end").datepicker({
 
 		var btnId =	$('#btnId').val();
 		var leave_id = $('#leave_type').val();
-
 		
 
 		if(btnId == 'fullBtn'){
@@ -217,8 +216,9 @@ $(".end").datepicker({
 			var startDate = new Date($('#start_date').val());
 			var currDate = new Date();
 			var subtractDays = currDate.setDate(currDate.getDate()-3);
-			var leaveGap = subtractDays <= startDate; //Disabled on 4Aug, 15:00pm, bcs of chandresh sir
-
+			var leaveGap = subtractDays <= startDate; 
+			//Disabled on 4Aug, 15:00pm, bcs of chandresh sir
+			//Disabled on 8Aug, 15:30pm, bcs of chandresh sir
 			if(leaveGap == true){
 				$.ajax({
 					type:'get',
@@ -240,7 +240,7 @@ $(".end").datepicker({
 						}else{
 
 							if(0.50 > parseFloat(res.user_bal.initial_bal)  ){
-							//alert(3)
+
 								if(res.without_pay != 1){
 									alert('You don\'t have enough leaves.');
 									$('#start_date').val('');
@@ -253,13 +253,13 @@ $(".end").datepicker({
 					}
 				});
 
-			}else{
+			/*}else{
 				alert('You are not eligible for this leave.');
 				$('#start_date').val('');
 				$('#end_date').val('');
 				$('#duration').val('');
 
-			}
+			}*/
 		}
 	});
 

@@ -77,7 +77,7 @@
 				        	<div class="modal-body table-responsive" id="detailTable" style="background: #ececec">
 				        	</div>
 				        	 <div class="modal-footer">
-				          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				          <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Close</button>
 				        </div>
 				        </div>
 				    </div>
@@ -205,7 +205,7 @@
 					$('#revBtn_'+request_id).hide();
 					$('#rev_msg_'+request_id).show();
 				}else if(res.flag ==  0){
-					alert(res.msg)
+					//alert(res.msg)
 					location.reload();
 				}
 			}

@@ -14,7 +14,7 @@
 								{{$message}}
 							</div>
 						@endif
-						<div class="row col-12">
+<div class="row col-12">
 							<div class="col-2">
 								<label for="">From</label>
 								<input name="from" aria-controls="ClientsTable" class="form-control form-control-sm datepicker" id="fromDate" autocomplete="off">
@@ -130,11 +130,11 @@
 
 {{-- Reverse Leave button for TeamLead --}}
 
-@elseif($request->teamlead_approval == 1 && $request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_teamlead'))
+{{-- @elseif($request->teamlead_approval == 1 && $request->subadmin_approval == 1 && $request->admin_approval == 1 && auth()->user()->hasrole('hrms_teamlead'))
 	
 	<div class="rev_msg" id="rev_msg_{{$request->id}}" style="display: none;">REVERSED</div>
 
-	<button type="button" data-id="{{$request->id}}" class="btn btn-sm reverse" value="{{$request->id}}" id="revBtn_{{$request->id}}">REVERSE</button>
+	<button type="button" data-id="{{$request->id}}" class="btn btn-sm reverse" value="{{$request->id}}" id="revBtn_{{$request->id}}">REVERSE</button> --}}
 
 {{-- Approve/Decline/Reverse message for TeamLead --}}
 
@@ -229,7 +229,7 @@ $('.datepicker').datepicker({
 						$('#dec_msg_'+request_id).show();
 					}
 				}else if(res.flag == 0){
-					alert(res.msg);
+					//alert(res.msg);
 					location.reload();
 				}
 			}

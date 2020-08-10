@@ -100,7 +100,7 @@
 
   {{-- Leave Management Tab --}}
 
-    @ability('hrms_admin', 'leave-management')
+    @ability('hrms_admin|hrms_hr', 'leave-management')
 
       <li class="treeview {{call_user_func_array('Request::is', (array)['leave*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-table "></i><span class="app-menu__label">Leave Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">

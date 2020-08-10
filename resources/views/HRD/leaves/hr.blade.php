@@ -18,7 +18,7 @@
 						<div class="row col-12">
 							<div class="col-2">
 								<label for="">From</label>
-								<input name="from" aria-controls="ClientsTable" class="form-control form-control-sm datepicker" id="fromDate" autocomplete="off">
+								<input name="from" aria-controls="ClientsTable" class="form-control form-control-sm datepicker" id="fromDate" autocomplete="off" placeholder="">
 							</div>
 							<div class="col-2">
 								<label for="">To</label>
@@ -260,7 +260,7 @@ $('.datepicker').datepicker({
 					$('#revBtn_'+request_id).hide();
 					$('#rev_msg_'+request_id).show();
 				}else if( res.msg == 0)
-					alert(res.msg);
+					
 					location.reload();
 			}
 		});
@@ -274,6 +274,7 @@ $('.datepicker').datepicker({
 		var role 	 = 'hr';
 		var fromDate = $('#fromDate').val();
 		var toDate	 = $('#toDate').val();
+
 		// console.log('he')
 		if(leaveStatus !=''){
 			$.ajax({
@@ -288,6 +289,7 @@ $('.datepicker').datepicker({
 				}
 			});
 		}
+
 	})
 
 	/*$('#toDate').on('changeDate', function(){
