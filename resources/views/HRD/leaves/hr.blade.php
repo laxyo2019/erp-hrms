@@ -186,7 +186,6 @@ $('.datepicker').datepicker({
 	$('.modalReq').on('click', function(e){
 		e.preventDefault();
 
-		alert()
 		var leave_id = $(this).data('id');
 		$.ajax({
 			type: 'GET',

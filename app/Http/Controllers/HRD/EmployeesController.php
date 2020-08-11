@@ -1259,6 +1259,30 @@ class EmployeesController extends Controller
     
   }
 
+  # SEND Acknowledgement Email to all other employees
+
+  public function sendEmployeeInfo(Request $request){
+
+    return $request->user_id;
+
+    // $employee = EmployeeMast::where('user_id', $id)->first();
+
+    $lastuser = User::select('id', 'email')->orderBy('id', 'DESC')->first();
+
+    // $employees = Employee::all();
+    
+    //foreach($employees as $index){
+
+    //$email = $index->comp_email !='' ? $index->comp_email : $index->personal_email;
+
+    //Mail::to('riteshpanchal845@gmail.com')->send(new EmployeeAcknowledgementMail($lastuser));
+    
+    Mail::to('beyaci7709@mail2paste.com')->send(new EmployeeAcknowledgementMail($lastuser));
+    //}
+
+
+  }
+
   public function array_data($data){
     return $data = [
                     'id'         => $data['id'],

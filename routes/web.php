@@ -11,9 +11,9 @@
 */
 
 Route::get('/', 'HomeController@index')->name('home');
-//Route::get('login/{username}/{pass}', 'LoginController@login');
-//Route::post('/logout', 'LoginController@logout')->name('logout');
-Auth::routes(['register' => false]);
+Route::get('login/{username}/{pass}', 'LoginController@login');
+Route::post('/logout', 'LoginController@logout')->name('logout');
+//Auth::routes(['register' => false]);
 
 
 Route::resource('/information', 'InformationController');
@@ -81,8 +81,12 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr|hrms_subadmin']], functi
 
 		#Vacated Employees
 		Route::get('/employees/vacated/{id}', 'EmployeesController@vacatedIndex')->name('vacated.index');
+		
 
 	});
+
+	#Send EMail to all employees
+		Route::post('/employees/send-mail', 'HRD\EmployeesController@sendEmployeeInfo')->name('email.all');
 	Route::get('/familydetails/{id}/edit', 'HRD\EmployeesController@edit_familydetails')->name('edit.familydetails');
 	Route::post('/familydetails/{id}/update', 'HRD\EmployeesController@update_family')->name('update.familydetails');
 

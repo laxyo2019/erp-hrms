@@ -124,6 +124,12 @@
 						</div>
 					</div>
 					<br>
+					<h5>SEND EMAIL</h5><hr>
+					<div class="col-6 form-group">
+						<label for="">Send E-mail to all other employees about this employee</label>
+						<button type="button" id="{{$employee->user_id}}" class="btn btn-primary btn-sm action" id="">send</button>
+					</div>
+					<br>
 					<h5>CONTACT INFORMATION</h5><hr>
 					<div class="row">
 						<div class="col-6 form-group">
@@ -211,10 +217,6 @@
 </main>
 
 <script type="text/javascript">
-<<<<<<< HEAD
-	
-=======
->>>>>>> ebb23edea7dcd5588ef515c6f17155c86c8116e4
 	$('body').on('focus', '.datepicker', function(){
 	   $(this).datepicker({
 	   		orientation: "auto",
@@ -236,6 +238,23 @@
 		      $('#perm_addr').val('');
 		    };
 		  });
+
+	$('.action').on('click', function(){
+
+		var user_id = $(this).attr('id')
+		
+		$.ajax({
+			type: 'POST',
+			url : '{{route('email.all')}}',
+			data: {'user_id': user_id},
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			success: function(res){
+
+			}
+		})
+
+	})
+
 	});
 	function match_addr(type){
 			var curr_addr = $('#curr_addr').val();
