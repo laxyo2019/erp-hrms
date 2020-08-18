@@ -29,7 +29,7 @@ class LeaveApply extends Model
     
     public function reportsto(){
 
-        return $this->belongsTo('App\Models\Employees\EmployeeMast', 'reports_to');
+        return $this->belongsTo('App\Models\Employees\EmployeeMast', 'reports_to', 'user_id');
     }
 
     public function approvaldetail(){

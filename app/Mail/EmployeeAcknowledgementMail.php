@@ -11,14 +11,15 @@ class EmployeeAcknowledgementMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $lastuser;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($lastuser)
     {
-        //
+        $this->lastuser = $lastuser;
     }
 
     /**
@@ -28,6 +29,7 @@ class EmployeeAcknowledgementMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.employeeinfo');
+        $user = $this->lastuser;
+        return $this->view('emails.employeeinfo', compact('user'));
     }
 }

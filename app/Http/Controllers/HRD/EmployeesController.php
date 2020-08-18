@@ -19,6 +19,7 @@ use App\Models\Employees\Family;
 use App\Models\Master\Designation;
 use App\Models\Master\DocTypeMast;
 use App\Models\Master\NomineeType;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Master\MaritalStatus;
 use App\Models\Employees\CompBranch;
 use App\Models\Employees\EmpNominee;
@@ -31,6 +32,7 @@ use App\Models\Employees\EmployeeMast;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Employees\EmpBankDetail;
 use App\Models\Employees\LeaveAllotment;
+use App\Mail\EmployeeAcknowledgementMail;
 
 
 class EmployeesController extends Controller
@@ -1263,13 +1265,15 @@ class EmployeesController extends Controller
 
   public function sendEmployeeInfo(Request $request){
 
-    return $request->user_id;
-
     // $employee = EmployeeMast::where('user_id', $id)->first();
 
-    $lastuser = User::select('id', 'email')->orderBy('id', 'DESC')->first();
+    $lastuser = EmployeeMast::with('department')
+                  ->where('user_id', $request->user_id)
+                  ->first();
 
-    // $employees = Employee::all();
+                  //dd($lastuser['department']);
+
+    $employees = EmployeeMast::all();
     
     //foreach($employees as $index){
 
@@ -1277,7 +1281,7 @@ class EmployeesController extends Controller
 
     //Mail::to('riteshpanchal845@gmail.com')->send(new EmployeeAcknowledgementMail($lastuser));
     
-    Mail::to('beyaci7709@mail2paste.com')->send(new EmployeeAcknowledgementMail($lastuser));
+    Mail::to('domelev434@accordmail.net')->send(new EmployeeAcknowledgementMail($lastuser));
     //}
 
 
@@ -1321,3 +1325,5 @@ class EmployeesController extends Controller
                   ];
   }
 }
+
+

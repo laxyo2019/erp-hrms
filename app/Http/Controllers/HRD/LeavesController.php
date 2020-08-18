@@ -130,8 +130,8 @@ class LeavesController extends Controller
 
         if($request->role == 'tl'){
 
-             $from_date = date('d-m-Y', strtotime($request->fromDate));
-                $to_date   = date('d-m-Y', strtotime($request->toDate));
+             $from_date = date('d-m-Y', strtotime($request->fromDate) - 1);
+                $to_date   = date('d-m-Y', strtotime($request->toDate) + 1);
 
                 $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail', 'leave_rejected'])
                     ->orderBy('id', 'DESC')
@@ -166,8 +166,8 @@ class LeavesController extends Controller
 
         }elseif($request->role == 'hr'){
 
-            $from_date = date('Y-m-d', strtotime($request->fromDate));
-            $to_date   = date('Y-m-d', strtotime($request->toDate));
+            $from_date = date('Y-m-d', strtotime($request->fromDate) - 1);
+            $to_date   = date('Y-m-d', strtotime($request->toDate) + 1);
             // return $from_date. ' '. $to_date ;
 
             /*if($request->leaveStatus == 5){
@@ -180,11 +180,11 @@ class LeavesController extends Controller
             }*/
 
             $leave_request  = LeaveApply::with(['employee','leavetype','approve_name.UserName', 'approvaldetail'])
-                    //->where('subadmin_approval', $request->leaveStatus)
                     ->whereBetween('posted', [$from_date, $to_date])
                     ->orWhere('admin_approval', $request->leaveStatus)
-                    ->whereNotIn('teamlead_approval',[0, 4])
+                    ->whereNotIn('teamlead_approval',[0, 2, 4])
                     ->get();
+                    //->where('subadmin_approval', $request->leaveStatus)
 
 
             //dd([$request->leaveStatus, $to_date, $from_date]);
@@ -743,9 +743,10 @@ class LeavesController extends Controller
 
     public function show(Request $request, $leave_id){
 
-        $data = LeaveApply::where('id', $leave_id)
+        $data = LeaveApply::with(['reportsto'])
+                    ->where('id', $leave_id)
                     ->first();
-        
+
         return view('HRD.leaves.show', compact('data'));
     }
 
