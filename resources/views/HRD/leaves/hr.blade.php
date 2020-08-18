@@ -45,12 +45,12 @@
 <script>
 $(document).ready(function(){
 
-$('.datepicker').datepicker({
-	orientation: "auto",
-	format: "yyyy-mm-dd",
-	autoclose: true,
-	todayHighlight: true
-});
+	$('.datepicker').datepicker({
+		orientation: "auto",
+		format: "yyyy-mm-dd",
+		autoclose: true,
+		todayHighlight: true
+	});
 	//Open detail view of leave requests.
 
 	$('.modalReq').on('click', function(e){
@@ -130,11 +130,12 @@ $('.datepicker').datepicker({
 
 					$('#revBtn_'+request_id).hide();
 					$('#rev_msg_'+request_id).show();
-				}else if( res.msg == 0)
+				}else if( res.msg == 0){
 					
 					location.reload();
+				}
 			}
-		});
+		})
 	});
 
 	//Search Filter
@@ -147,16 +148,6 @@ $('.datepicker').datepicker({
 		var fromDate = $('#fromDate').val();
 		var toDate	 = $('#toDate').val();
 
-		// $.ajax({
-		// 	type: 'POST',
-		// 	url: '{{route('leave.status')}}',
-		// 	data: {'leaveStatus': leaveStatus, 'role': role, 'fromDate': fromDate, 'toDate': toDate},
-		// 	headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-		// 	success: function(res){
-
-		// 		$('#teamLeadStatus').empty().html(res);
-		// 	}
-		// })
 		if(leaveStatus != ''){
 			$.ajax({
 				type: 'POST',
@@ -170,28 +161,9 @@ $('.datepicker').datepicker({
 				}
 			});
 		}
-	})
+	});
 
-	/*$('#toDate').on('changeDate', function(){
-		var fromDate = $('#fromDate').val();
-		var toDate	 = $(this).val();
-		var type 	 = 2;
-		var role 	 = 'hr';
-
-		$.ajax({
-			type: 'POST',
-			
-			data: {'fromDate': fromDate, 'toDate': toDate, 'type': type, 'role': role},
-			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-			success: function(res){
-				console.log(res)
-				$('#teamLeadStatus').html(res)
-			}
-		})
-	})*/
-
-  });
-
+});
 
 </script>
 <style type="text/css">

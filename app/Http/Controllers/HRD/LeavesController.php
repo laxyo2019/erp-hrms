@@ -736,7 +736,6 @@ class LeavesController extends Controller
             $res['msg'] = 'Actions already taken. Click OK to refresh.';
             return $res;
         }
-
         
     }
 
@@ -747,6 +746,7 @@ class LeavesController extends Controller
             ->first();
 
         if($detail->carry_count == null){
+
             //Update leave status and carry
 
            LeaveApply::where('id', $request_id)
