@@ -44,8 +44,6 @@ class LeavesController extends Controller
                   ->latest()
                   ->first();
 
-    //return $leaves[2]['leave_rejected'];
-
     return view('employee.leaves.index', compact('leaves', 'balance'));
   }
 
@@ -429,7 +427,7 @@ class LeavesController extends Controller
     $leaveapply->leave_type_id     = $request->leave_type_id;
     $leaveapply->day_status        = $data['day_status'];
     $leaveapply->from              = $request->start_date;
-    $leaveapply->to                = $request->end_date;
+    $leaveapply->to                = $request->end_date == null ? $request->start_date : $request->end_date;
     $leaveapply->count             = $request->duration;
     $leaveapply->reason            = $request->reason;
     $leaveapply->file_path         = $path;

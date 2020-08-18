@@ -13,12 +13,10 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/mdb.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/select2.min.css') }}">
-{{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" /> --}}
 
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     
     @yield('title')
-    {{-- <link rel="stylesheet" href="{{asset('themes/vali/css/parts-selector.css')}}"> --}}
     
     <!-- Start DatePicker CDN-->
     <script type="text/javascript" src="https://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js"></script>

@@ -84,7 +84,7 @@
 										$date2 = date('M d, Y', strtotime($leaveapply->from));
 										@endphp
 
-										{{!empty($leaveapply->from && $leaveapply->to) ? $date : $date2}}
+										{{$leaveapply->day_status == 3 ? $date : $date2}}
 									</td>
 									<td>
 										{{-- {{ !empty($leaveapply->first_half || $leaveapply->second_half) ? 'Half day' : $leaveapply->count.' days'}} --}}

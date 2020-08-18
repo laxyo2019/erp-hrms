@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Leave;
 
 use Illuminate\Http\Request;
+use App\Models\Master\LeaveMast;
+use App\Models\Employees\LeaveApply;
 use App\Http\Controllers\Controller;
 use App\Models\Employees\EmployeeMast;
-use App\Models\Master\LeaveMast;
 use App\Models\Employees\LeaveAllotment;
-use App\Models\Employees\LeaveApply;
+
 
 class AllotmentController extends Controller
 {

@@ -21,10 +21,10 @@
 				<td>{{ucwords($data['employee']->emp_name)}}</td>
 				<td>{{ucwords($data['leavetype']->name)}}</td>
 				<td>
-					@if($data->from && $data->to)
-						{{date('d M', strtotime($data->from))}} <strong>To</strong> {{date('d M, Y', strtotime($data->to))}}
+					@if($request->day_status == 3)
+						{{date('d M', strtotime($request->from))}} <strong>To</strong> {{date('d M, Y', strtotime($request->to))}}
 					@else
-						{{date('d M, Y', strtotime($data->from))}}
+						{{date('d M, Y', strtotime($request->from))}}
 					@endif
 				</td>
 				<td>

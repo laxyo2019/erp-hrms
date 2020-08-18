@@ -6,8 +6,8 @@ use Auth;
 use Illuminate\Http\Request;
 use App\Models\Master\LoanType;
 use App\Models\loan\LoanRequest;
-use App\Http\Controllers\Controller;
 use App\Models\loan\LoanHistory;
+use App\Http\Controllers\Controller;
 use App\Models\Employees\EmployeeMast;
 
 class LoanListingController extends Controller
