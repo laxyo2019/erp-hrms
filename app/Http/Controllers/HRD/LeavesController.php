@@ -167,7 +167,7 @@ class LeavesController extends Controller
                     ->whereDate('to' , '>=',$to_date)
                     ->get();
 
-             $leave_request = collect($leave_request)->where('admin_approval', $request->leaveStatus)->whereNotIn('teamlead_approval',[0,2,4]);
+             $leave_request = collect($leave_request)->where('admin_approval', $request->leaveStatus)->whereNotIn('teamlead_approval',[0,2]);
 
             return view('HRD.leaves.status.hr-status', compact('leave_request'));
 
