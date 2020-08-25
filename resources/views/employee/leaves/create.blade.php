@@ -219,7 +219,7 @@ $(".end").datepicker({
 			var leaveGap = subtractDays <= startDate; 
 			//Disabled on 4Aug, 15:00pm, bcs of chandresh sir
 
-			if(leaveGap == true){
+			/*if(leaveGap == true){*/
 
 				$.ajax({
 					type:'get',
@@ -254,13 +254,13 @@ $(".end").datepicker({
 					}
 				});
 
-			}else{
+			/*}else{
 				alert('You are not eligible for this leave.');
 				$('#start_date').val('');
 				$('#end_date').val('');
 				$('#duration').val('');
 
-			}
+			}*/
 		}
 	});
 
@@ -278,7 +278,7 @@ $(".end").datepicker({
 		var subtractDays= currDate.setDate(currDate.getDate()-3);
 		var leaveGap 	= subtractDays <= endDate;
 
-		if(leaveGap == true){
+		/*if(leaveGap == true){*/
 			if(btnId == 'multiBtn'){
 				if( Date.parse(start) >= Date.parse(end) ){ 
 
@@ -349,12 +349,12 @@ $(".end").datepicker({
 
 			}
 
-		}else{
+		/*}else{
 			alert('You are not eligible for this leave.');
 			$('#start_date').val('');
 			$('#end_date').val('');
 			$('#duration').val('');
-		}
+		}*/
 
 	});
 

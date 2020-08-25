@@ -60,7 +60,6 @@ Route::group(['middleware' => ['role:hrms_admin|hrms_hr|hrms_subadmin']], functi
 	Route::resource('/hrd/employees','HRD\EmployeesController');
 
 
-
 	//Delete Employees Info
 
 	Route::get('/hrd/employees/delete_row/{db_table}/{id}', 'HRD\EmployeesController@delete_row')->name('employee.delete_row');

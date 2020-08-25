@@ -101,7 +101,7 @@ $(document).ready(function(){
 		})
 	});
 
-/*	create by kishan developer for export data using checkbox or unchecheked*/
+/*	create for export data using checkbox or unchecheked*/
 
     $("#export").click(function(){
     	var emp = [];

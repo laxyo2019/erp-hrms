@@ -1,4 +1,3 @@
-{{-- Created by kishan Developer --}}
 @extends('layouts.master')
 @push('styles')
 <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
@@ -103,6 +102,3 @@
 	});
 </script>
 @endsection
-{{-- End Created by kishan Developer --}}
-
-

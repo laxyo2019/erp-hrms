@@ -1,5 +1,3 @@
-{{-- Created by kishan developer............ --}}
-
 @extends('layouts.master')
 @section('content')
 	<main class="app-content">
