@@ -148,6 +148,8 @@ $(document).ready(function(){
 		var fromDate = $('#fromDate').val();
 		var toDate	 = $('#toDate').val();
 
+		alert([fromDate, toDate])
+
 		if(leaveStatus != ''){
 			$.ajax({
 				type: 'POST',

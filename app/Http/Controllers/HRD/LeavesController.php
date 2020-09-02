@@ -216,7 +216,7 @@ class LeavesController extends Controller
             //Update leave aaplication status and approver' id.
 
             $leaveApp  = LeaveApply::find($request_id);
-            $leaveApp->reason = $request->reason;
+            //$leaveApp->reason = $request->reason;
             $leaveApp->save();
 
             //Check if ID 1(APPROVE)
@@ -296,7 +296,7 @@ class LeavesController extends Controller
             //Update leave aaplication status and approver' id.
 
             $leaveApp  = LeaveApply::find($request_id);
-            $leaveApp->reason = $request->reason;
+            //$leaveApp->reason = $request->reason;
             $leaveApp->save();
 
             //Check if ID 1(APPROVE)
@@ -393,7 +393,7 @@ class LeavesController extends Controller
             //Update leave aaplication status and approver' id.
 
             $leaveApp  = LeaveApply::find($request_id);
-            $leaveApp->reason = $request->reason;
+            //$leaveApp->reason = $request->reason;
             $leaveApp->save();
 
             //Check if ID 1(APPROVE)
@@ -481,7 +481,7 @@ class LeavesController extends Controller
         //Update leave aaplication status and approver' id.
 
         $leaveApp  = LeaveApply::find($request_id);
-        $leaveApp->reason = $request->reason;
+        //$leaveApp->reason = $request->reason;
         $leaveApp->save();
 
         //Check if ID 1(APPROVE)
