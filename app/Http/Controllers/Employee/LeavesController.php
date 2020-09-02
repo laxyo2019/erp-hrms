@@ -290,10 +290,6 @@ class LeavesController extends Controller
 
         $data['day_status'] = 3;
 
-
-          /*if(){
-
-          }*/
           $paid_count   = 0.0;
 
           $unpaid_count = $request->duration;
